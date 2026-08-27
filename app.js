@@ -1,5 +1,5 @@
 /**
- * IRON COACH ELITE - Пошаговый тренировочный движок, Визуализация упражнений, Авто-прогрессия и Голосовой таймер
+ * IRON COACH ELITE - Честная система прогресса, реальные рекорды, 3x2 меню прогресса и голосовой таймер
  */
 
 const Sound = {
@@ -358,7 +358,6 @@ function getInitialAccount() {
     protDaysCount: 0,
     waterDaysCount: 0,
     voiceAnnounce: true,
-    lastDailyBonusDate: null,
     weightProgression: {
       "Жим гантелей на наклонной скамье 30°": 22.0,
       "Жим гантелей на горизонтальной скамье": 24.0,
@@ -366,12 +365,12 @@ function getInitialAccount() {
       "Тяга горизонтального блока к поясу (нейтральный хват)": 45.0
     },
     personalRecords: {
-      "Жим гантелей на наклонной скамье 30°": { weight: 22, reps: 10, oneRM: 29, date: "2026-08-25" },
-      "Жим гантелей на горизонтальной скамье": { weight: 24, reps: 10, oneRM: 32, date: "2026-08-25" },
-      "Жим ногами под углом 45° в тренажере": { weight: 90, reps: 12, oneRM: 126, date: "2026-08-25" },
-      "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, oneRM: 63, date: "2026-08-25" },
-      "Сведения рук в тренажере бабочка": { weight: 25, reps: 12, oneRM: 35, date: "2026-08-23" },
-      "Румынская тяга с гантелями": { weight: 22, reps: 12, oneRM: 31, date: "2026-08-23" }
+      "Жим гантелей на наклонной скамье 30°": { weight: 22, reps: 10, date: "2026-08-25" },
+      "Жим гантелей на горизонтальной скамье": { weight: 24, reps: 10, date: "2026-08-25" },
+      "Жим ногами под углом 45° в тренажере": { weight: 90, reps: 12, date: "2026-08-25" },
+      "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, date: "2026-08-25" },
+      "Сведения рук в тренажере бабочка": { weight: 25, reps: 12, date: "2026-08-23" },
+      "Румынская тяга с гантелями": { weight: 22, reps: 12, date: "2026-08-23" }
     },
     currentMetrics: { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 },
     metrics: [
@@ -453,7 +452,6 @@ function loadState() {
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
   fetchLeaderboard();
-  updateDailyBonusUI();
   updateVoiceUI();
 }
 
@@ -489,7 +487,7 @@ function renderXP() {
 }
 
 // ========================================================
-// ГОЛОСОВЫЕ ОПОВЕЩЕНИЯ (FEATURE 3 & 10)
+// ГОЛОСОВЫЕ ОПОВЕЩЕНИЯ
 // ========================================================
 function toggleVoiceAnnounce() {
   appState.voiceAnnounce = !appState.voiceAnnounce;
@@ -511,57 +509,14 @@ function updateVoiceUI() {
 }
 
 // ========================================================
-// ТАПАНИЕ ОПЫТА И ЕЖЕДНЕВНЫЕ КВЕСТЫ (XP TAPPER)
+// ЧИСТЫЙ ТРЕКЕР ВОДЫ (БЕЗ ФАРМА ОПЫТА)
 // ========================================================
-function updateDailyBonusUI() {
-  const today = new Date().toISOString().split("T")[0];
-  const btn = document.getElementById("btn-daily-xp");
-  const status = document.getElementById("daily-claim-status");
-
-  if (appState.lastDailyBonusDate === today) {
-    if (btn) btn.className = "p-2.5 bg-slate-900 border border-white/5 rounded-xl text-left opacity-60 cursor-not-allowed";
-    if (status) {
-      status.textContent = "✓ Забрано";
-      status.className = "text-[10px] text-slate-400 font-bold bg-slate-900 px-2 py-0.5 rounded-lg border border-white/10";
-    }
-  } else {
-    if (btn) btn.className = "p-2.5 bg-gradient-to-br from-cyan-500/20 to-blue-600/30 hover:from-cyan-500/30 hover:to-blue-600/40 border border-cyan-400/40 rounded-xl text-left active:scale-95 transition-all";
-    if (status) {
-      status.textContent = "⚡ Доступно!";
-      status.className = "text-[10px] text-cyan-400 font-bold bg-cyan-950 px-2 py-0.5 rounded-lg border border-cyan-800";
-    }
-  }
-}
-
-function claimDailyXPBonus() {
-  const today = new Date().toISOString().split("T")[0];
-  if (appState.lastDailyBonusDate === today) {
-    alert("Ежедневный бонус уже получен! Возвращайся завтра.");
-    return;
-  }
-  appState.lastDailyBonusDate = today;
-  addXP(50);
-  Sound.record();
-  Haptic.success();
-  updateDailyBonusUI();
-  speakVoice("Пятьдесят очков опыта начислено");
-  alert("🎉 +50 очков опыта получено за вход в приложение!");
-}
-
-function claimQuickQuestXP(key, xp, questName) {
-  addXP(xp);
-  Sound.success();
-  Haptic.impact('medium');
-  alert(`⚡ +${xp} очков XP начислено за: «${questName}»!`);
-}
-
 function addWater(ml) {
   if (!appState.nutrition) appState.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
   appState.nutrition.waterMl = (appState.nutrition.waterMl || 0) + ml;
   if (appState.nutrition.waterMl >= 2600) {
     appState.waterDaysCount = (appState.waterDaysCount || 0) + 1;
   }
-  addXP(10);
   saveState();
   renderNutrition();
   Sound.beep(750, 0.08);
@@ -569,7 +524,7 @@ function addWater(ml) {
 }
 
 // ========================================================
-// ПОДСКАЗКА «В ПРОШЛЫЙ РАЗ БЫЛО» (FEATURE 2: GHOST SETS)
+// ПОДСКАЗКА «В ПРОШЛЫЙ РАЗ БЫЛО» (GHOST SETS)
 // ========================================================
 function getLastExercisePerformance(exName) {
   const hist = appState.history || [];
@@ -585,21 +540,21 @@ function getLastExercisePerformance(exName) {
 }
 
 // ========================================================
-// 👑 ЗАЛ ЛИЧНЫХ РЕКОРДОВ (PERSONAL RECORDS)
+// 👑 ЗАЛ РЕАЛЬНЫХ ЛИЧНЫХ РЕКОРДОВ (РЕАЛЬНЫЙ ВЕС И ПОВТОРЫ)
 // ========================================================
 function checkAndSavePersonalRecord(exName, weight, reps) {
   if (!appState.personalRecords) appState.personalRecords = {};
-  const currentPR = appState.personalRecords[exName] || { weight: 0, reps: 0, oneRM: 0 };
+  const currentPR = appState.personalRecords[exName] || { weight: 0, reps: 0 };
 
-  const oneRM = Math.round(weight * (1 + reps / 30.0));
-  if (oneRM > (currentPR.oneRM || 0) || (weight > currentPR.weight && reps >= currentPR.reps)) {
+  const isNewRecord = (weight > currentPR.weight) || (weight === currentPR.weight && reps > currentPR.reps);
+
+  if (isNewRecord) {
     appState.personalRecords[exName] = {
       weight: weight,
       reps: reps,
-      oneRM: oneRM,
       date: new Date().toISOString().split("T")[0]
     };
-    addXP(75);
+    addXP(50);
     Sound.record();
     Haptic.success();
     renderPersonalRecords();
@@ -621,7 +576,7 @@ function renderPersonalRecords() {
       <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1">
         <span class="text-2xl block">👑</span>
         <p class="text-xs font-bold text-slate-300">Рекордов пока нет</p>
-        <p class="text-[11px] text-slate-500">Завершай тренировки — максимальные веса будут автоматически заноситься сюда!</p>
+        <p class="text-[11px] text-slate-500">Завершай тренировки — твои максимальные веса и повторения будут заноситься сюда!</p>
       </div>
     `;
     return;
@@ -640,13 +595,13 @@ function renderPersonalRecords() {
           <span class="text-base">${medal}</span>
           <h4 class="font-bold text-white text-xs font-sans">${exName}</h4>
         </div>
-        <span class="px-2 py-0.5 bg-amber-950 text-amber-300 border border-amber-800 rounded-lg text-[10px] font-bold">
-          1ПМ: ~${r.oneRM} кг
+        <span class="px-2.5 py-0.5 bg-amber-950 text-amber-300 border border-amber-800 rounded-lg text-xs font-bold font-mono">
+          ${r.weight} кг × ${r.reps} раз
         </span>
       </div>
-      <div class="flex justify-between items-center text-xs pt-1 border-t border-white/[0.04]">
-        <span class="text-slate-400">Лучший подход: <b class="text-emerald-400">${r.weight} кг × ${r.reps} повт</b></span>
-        <span class="text-[10px] text-slate-500">${r.date}</span>
+      <div class="flex justify-between items-center text-xs pt-1 border-t border-white/[0.04] font-mono">
+        <span class="text-slate-400">Дата фиксации:</span>
+        <span class="text-[11px] text-slate-300">${r.date}</span>
       </div>
     `;
 
@@ -655,7 +610,7 @@ function renderPersonalRecords() {
 }
 
 // ========================================================
-// НЕДЕЛЬНЫЙ ОБЪЕМ ПО ГРУППАМ МЫШЦ (FEATURE 7)
+// НЕДЕЛЬНЫЙ ОБЪЕМ ПО ГРУППАМ МЫШЦ
 // ========================================================
 function renderMuscleVolumeBreakdown() {
   const container = document.getElementById("muscle-volume-container");
@@ -669,7 +624,6 @@ function renderMuscleVolumeBreakdown() {
     { group: "Руки & Кор", optimal: 10, current: 6, color: "from-rose-400 to-pink-500" }
   ];
 
-  // Динамический подсчет по истории текущей недели
   const hist = appState.history || [];
   const currentWeekLogs = hist.slice(0, 3);
   let chestSets = 0, backSets = 0, legSets = 0, shoulderSets = 0, armSets = 0;
@@ -713,15 +667,9 @@ function renderMuscleVolumeBreakdown() {
 }
 
 // ========================================================
-// 🏆 ТАБЛИЦА ЛИДЕРОВ И УЧАСТНИКОВ (LEADERBOARD)
+// 🏆 РЕАЛЬНАЯ ТАБЛИЦА ЛИДЕРОВ (БЕЗ ДЕМО/БОТОВ)
 // ========================================================
-let cachedLeaderboard = [
-  { rank: 1, name: "Роман (Вы)", xp: 0, tonnage: 0, streak: 0, lastActive: "Сегодня", isMe: true },
-  { rank: 2, name: "Александр В.", xp: 2450, tonnage: 86400, streak: 12, lastActive: "Вчера", isMe: false },
-  { rank: 3, name: "Дмитрий К.", xp: 1800, tonnage: 62000, streak: 8, lastActive: "25 авг", isMe: false },
-  { rank: 4, name: "Максим С.", xp: 1250, tonnage: 45200, streak: 5, lastActive: "24 авг", isMe: false },
-  { rank: 5, name: "Илья П.", xp: 950, tonnage: 31000, streak: 3, lastActive: "22 авг", isMe: false }
-];
+let cachedLeaderboard = [];
 
 async function syncUserToLeaderboard() {
   try {
@@ -752,27 +700,31 @@ async function fetchLeaderboard() {
   const myXP = appState.xp || 0;
   const myStreak = appState.streak || 0;
 
-  cachedLeaderboard.forEach(u => {
-    if (u.isMe) {
-      u.name = `${appState.name} (Вы)`;
-      u.xp = myXP;
-      u.tonnage = myTonnage;
-      u.streak = myStreak;
-    }
-  });
+  // Инициализируем текущего пользователя
+  let list = [
+    { id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true }
+  ];
 
   try {
     const res = await fetch('/api/leaderboard');
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
-        cachedLeaderboard = data;
+        list = data.map(u => ({
+          ...u,
+          isMe: (u.id === appState.tgId)
+        }));
+        // Убедимся, что текущий пользователь всегда присутствует
+        if (!list.some(u => u.isMe)) {
+          list.push({ id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true });
+        }
       }
     }
   } catch(e) {}
 
-  cachedLeaderboard.sort((a, b) => (b.xp || 0) - (a.xp || 0));
-  cachedLeaderboard.forEach((u, i) => u.rank = i + 1);
+  list.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  list.forEach((u, i) => u.rank = i + 1);
+  cachedLeaderboard = list;
 
   renderLeaderboard();
 }
@@ -781,6 +733,17 @@ function renderLeaderboard() {
   const container = document.getElementById("leaderboard-container");
   if (!container) return;
   container.innerHTML = "";
+
+  if (cachedLeaderboard.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1">
+        <span class="text-2xl block">🏆</span>
+        <p class="text-xs font-bold text-slate-300">Таблица формируется</p>
+        <p class="text-[11px] text-slate-500">Участники клуба будут появляться здесь по мере тренировок.</p>
+      </div>
+    `;
+    return;
+  }
 
   cachedLeaderboard.forEach(u => {
     const card = document.createElement("div");
@@ -798,7 +761,7 @@ function renderLeaderboard() {
           <div>
             <div class="flex items-center space-x-1.5">
               <span class="font-bold text-xs ${isMe ? 'text-cyan-300' : 'text-white'} font-sans">${u.name}</span>
-              ${isMe ? '<span class="text-[9px] font-mono px-1 py-0.2 bg-cyan-400 text-slate-950 font-black rounded">ВЫ</span>' : ''}
+              ${isMe ? '<span class="text-[9px] font-mono px-1.5 py-0.2 bg-cyan-400 text-slate-950 font-black rounded">ВЫ</span>' : ''}
             </div>
             <span class="text-[10px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${(u.tonnage / 1000).toFixed(1)} т</b> • 🔥${u.streak} дн</span>
           </div>
@@ -1363,7 +1326,7 @@ function renderActiveWorkoutUI() {
       </div>
     `;
 
-    // ТЕЛО УПРАЖНЕНИЯ С ВИЗУАЛЬНОЙ СХЕМОЙ И ФАЗАМИ
+    // ТЕЛО УПРАЖНЕНИЯ
     let bodyHtml = "";
     if (isExpanded) {
       const setsRows = ex.sets.map((s, sIdx) => `
@@ -1486,7 +1449,6 @@ function toggleSet(exIdx, sIdx, done) {
 
     const allSetsClosed = ex.sets.every(setObj => setObj.done);
     if (allSetsClosed) {
-      // Проверка на смарт-прогрессию весов (Feature 1)
       const allMaxClosed = ex.sets.every(setObj => setObj.reps >= ex.max);
       if (allMaxClosed) {
         if (!appState.weightProgression) appState.weightProgression = {};
@@ -2307,7 +2269,6 @@ function addProtein(p, cal) {
   if (appState.nutrition.protein >= 150) {
     appState.protDaysCount = (appState.protDaysCount || 0) + 1;
   }
-  addXP(10);
   saveState();
   renderNutrition();
   Sound.beep(700, 0.08);
@@ -2343,7 +2304,7 @@ function renderNutrition() {
 }
 
 // ========================================================
-// АРХИВ ТРЕНИРОВОК С ВРЕМЕНЕМ И ДЛИТЕЛЬНОСТЬЮ
+// АРХИВ ТРЕНИРОВОК
 // ========================================================
 function renderHistory() {
   const container = document.getElementById("history-container");
@@ -2542,7 +2503,7 @@ function copyCoachSummary() {
   let prsText = "";
   const prKeys = Object.keys(prs);
   if (prKeys.length > 0) {
-    prsText = prKeys.map(k => `  • ${k}: ${prs[k].weight} кг × ${prs[k].reps} (1ПМ: ~${prs[k].oneRM} кг, дата: ${prs[k].date})`).join("\n");
+    prsText = prKeys.map(k => `  • ${k}: ${prs[k].weight} кг × ${prs[k].reps} раз (зафиксировано: ${prs[k].date})`).join("\n");
   } else {
     prsText = "  • Рекорды пока формируются.";
   }
@@ -2576,7 +2537,7 @@ function copyCoachSummary() {
 • Бедро (нога): ${m.thigh || 59} см
 • Шея: ${m.neck || 39.5} см
 
-👑 3. ЗАЛ ЛИЧНЫХ РЕКОРДОВ (1ПМ):
+👑 3. ЗАЛ ЛИЧНЫХ РЕКОРДОВ (РЕАЛЬНЫЕ ВЕСА И ПОВТОРЕНИЯ):
 ${prsText}
 
 📋 4. ПОСЛЕДНИЕ ТРЕНИРОВКИ (С ХРОНОМЕТРАЖЕМ И ВЕСАМИ):
@@ -2642,6 +2603,7 @@ function switchTab(tabId) {
   }
 }
 
+// 3x2 СЕТКА ПОДВКЛАДОК ПРОГРЕССА
 function switchProgressSubtab(subtabId) {
   Sound.beep(550, 0.05);
   Haptic.impact('light');
@@ -2651,10 +2613,14 @@ function switchProgressSubtab(subtabId) {
     const btn = document.getElementById("btn-sub-" + st);
     if (st === subtabId) {
       if (pane) pane.classList.remove("hidden");
-      if (btn) btn.className = "px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm whitespace-nowrap";
+      if (btn) {
+        btn.className = "py-2.5 px-1 rounded-xl bg-cyan-400 text-slate-950 font-black transition-all text-center flex items-center justify-center space-x-1 shadow-sm";
+      }
     } else {
       if (pane) pane.classList.add("hidden");
-      if (btn) btn.className = "px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap";
+      if (btn) {
+        btn.className = "py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1";
+      }
     }
   });
 

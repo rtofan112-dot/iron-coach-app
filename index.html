@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <!-- ПОЛОСА ОПЫТА -->
+    <!-- ПОЛОСА ОПЫТА (ТОЛЬКО РЕАЛЬНЫЙ ТРЕНИРОВОЧНЫЙ ПРОГРЕСС) -->
     <div class="max-w-md mx-auto mt-2 space-y-1">
       <div class="flex justify-between text-[10px] font-mono text-slate-400">
         <span>Опыт: <b id="xp-text" class="text-cyan-400 font-bold">0</b> очков</span>
@@ -115,39 +115,6 @@
           <div class="pt-2">
             <button onclick="promptReadinessBeforeWorkout('a')" class="w-full py-4 bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:opacity-95 text-slate-950 font-black text-sm uppercase tracking-wider rounded-2xl active:scale-98 transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center space-x-2 font-mono">
               <span class="text-base">▶️</span><span>НАЧАТЬ ТРЕНИРОВКУ</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- ВИДЖЕТ ТАПАНИЯ ОПЫТА (DAILY XP TAPPER & QUESTS) -->
-        <div class="p-4 rounded-2xl bg-gradient-to-r from-indigo-950/50 via-[#0e1422] to-cyan-950/40 border border-indigo-500/30 space-y-2.5">
-          <div class="flex justify-between items-center font-mono">
-            <div class="flex items-center space-x-2">
-              <span class="text-lg">⚡</span>
-              <h3 class="font-black text-xs text-white uppercase">Фарм опыта (XP):</h3>
-            </div>
-            <span id="daily-claim-status" class="text-[10px] text-cyan-400 font-bold bg-slate-900 px-2 py-0.5 rounded-lg border border-white/10">Доступно!</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2 font-mono text-xs">
-            <button onclick="claimDailyXPBonus()" id="btn-daily-xp" class="p-2.5 bg-gradient-to-br from-cyan-500/20 to-blue-600/30 hover:from-cyan-500/30 hover:to-blue-600/40 border border-cyan-400/40 rounded-xl text-left active:scale-95 transition-all">
-              <b class="text-cyan-300 block text-xs">🎁 Ежедневный бонус</b>
-              <span class="text-[10px] text-emerald-400 font-bold">+50 очков XP</span>
-            </button>
-
-            <button onclick="claimQuickQuestXP('warmup', 25, 'Разминка перед тренировкой')" class="p-2.5 bg-slate-950 hover:bg-slate-900 border border-white/[0.08] rounded-xl text-left active:scale-95 transition-all">
-              <b class="text-white block text-xs">🤸 Разминка</b>
-              <span class="text-[10px] text-amber-400 font-bold">+25 очков XP</span>
-            </button>
-
-            <button onclick="claimQuickQuestXP('stretch', 25, 'Растяжка шеи и лопаток')" class="p-2.5 bg-slate-950 hover:bg-slate-900 border border-white/[0.08] rounded-xl text-left active:scale-95 transition-all">
-              <b class="text-white block text-xs">🧘 Растяжка шеи</b>
-              <span class="text-[10px] text-violet-400 font-bold">+25 очков XP</span>
-            </button>
-
-            <button onclick="claimQuickQuestXP('steps', 40, '10 000 шагов за день')" class="p-2.5 bg-slate-950 hover:bg-slate-900 border border-white/[0.08] rounded-xl text-left active:scale-95 transition-all">
-              <b class="text-white block text-xs">🚶 10 000 шагов</b>
-              <span class="text-[10px] text-emerald-400 font-bold">+40 очков XP</span>
             </button>
           </div>
         </div>
@@ -257,18 +224,30 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- ВКЛАДКА 2: 📈 ПРОГРЕСС -->
+    <!-- ВКЛАДКА 2: 📈 ПРОГРЕСС (КОМПАКТНАЯ СЕТКА 3x2 БЕЗ СКРОЛЛА) -->
     <!-- ======================================================== -->
     <section id="tab-progress" class="tab-pane space-y-4">
       
-      <!-- ПОДВКЛАДКИ С ЛИДЕРБОРДОМ И РЕКОРДАМИ -->
-      <div class="flex p-1 bg-[#0e1422] rounded-2xl border border-white/[0.08] text-xs font-mono overflow-x-auto space-x-1">
-        <button onclick="switchProgressSubtab('calendar')" id="btn-sub-calendar" class="px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm whitespace-nowrap">Календарь</button>
-        <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap">Замеры</button>
-        <button onclick="switchProgressSubtab('records')" id="btn-sub-records" class="px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap">👑 Рекорды</button>
-        <button onclick="switchProgressSubtab('leaderboard')" id="btn-sub-leaderboard" class="px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap">🏆 Лидеры</button>
-        <button onclick="switchProgressSubtab('achievements')" id="btn-sub-achievements" class="px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap">Ачивки</button>
-        <button onclick="switchProgressSubtab('archive')" id="btn-sub-archive" class="px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap">Архив</button>
+      <!-- УДОБНОЕ МЕНЮ 3x2 (ПОЛНОСТЬЮ ПОМЕЩАЕТСЯ НА ЭКРАНЕ БЕЗ ПРОКРУТКИ) -->
+      <div class="grid grid-cols-3 gap-1.5 p-1.5 bg-[#0e1422] rounded-2xl border border-white/[0.08] text-xs font-mono">
+        <button onclick="switchProgressSubtab('calendar')" id="btn-sub-calendar" class="py-2.5 px-1 rounded-xl bg-cyan-400 text-slate-950 font-black transition-all text-center flex items-center justify-center space-x-1 shadow-sm">
+          <span>📅</span><span>Календарь</span>
+        </button>
+        <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1">
+          <span>📐</span><span>Замеры</span>
+        </button>
+        <button onclick="switchProgressSubtab('records')" id="btn-sub-records" class="py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1">
+          <span>👑</span><span>Рекорды</span>
+        </button>
+        <button onclick="switchProgressSubtab('leaderboard')" id="btn-sub-leaderboard" class="py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1">
+          <span>🏆</span><span>Лидеры</span>
+        </button>
+        <button onclick="switchProgressSubtab('achievements')" id="btn-sub-achievements" class="py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1">
+          <span>🎖️</span><span>Ачивки</span>
+        </button>
+        <button onclick="switchProgressSubtab('archive')" id="btn-sub-archive" class="py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1">
+          <span>📋</span><span>Архив</span>
+        </button>
       </div>
 
       <!-- ПОДВКЛАДКА 1: КАЛЕНДАРЬ МЕСЯЦА И ГОДОВОЙ ОБЗОР -->
@@ -317,7 +296,7 @@
           <div id="cal-insp-actions" class="pt-1"></div>
         </div>
 
-        <!-- НЕДЕЛЬНЫЙ ОБЪЕМ ПО ГРУППАМ МЫШЦ (FEATURE 7) -->
+        <!-- НЕДЕЛЬНЫЙ ОБЪЕМ ПО ГРУППАМ МЫШЦ -->
         <div class="p-5 rounded-3xl bg-[#0e1422] border border-white/[0.08] space-y-3 font-mono">
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -422,7 +401,7 @@
         </div>
       </div>
 
-      <!-- ПОДВКЛАДКА 3: 👑 ЛИЧНЫЕ РЕКОРДЫ ПО УПРАЖНЕНИЯМ -->
+      <!-- ПОДВКЛАДКА 3: 👑 ЛИЧНЫЕ РЕКОРДЫ ПО УПРАЖНЕНИЯМ (РЕАЛЬНЫЙ ВЕС И ПОВТОРЫ) -->
       <div id="subtab-records" class="hidden space-y-3">
         <div class="p-4 rounded-2xl bg-[#0e1422] border border-amber-500/30 space-y-2">
           <div class="flex justify-between items-center font-mono">
@@ -430,17 +409,17 @@
               <span class="text-lg">👑</span>
               <h3 class="font-black text-xs text-white uppercase">Зал личных рекордов</h3>
             </div>
-            <span class="text-[10px] text-amber-400 font-bold bg-amber-950 px-2 py-0.5 rounded border border-amber-800">Авто-обновление</span>
+            <span class="text-[10px] text-amber-400 font-bold bg-amber-950 px-2 py-0.5 rounded border border-amber-800">Авто-фиксация</span>
           </div>
           <p class="text-xs text-slate-300">
-            Лучшие силовые показатели во всех упражнениях с расчетом абсолютного максимума (1ПМ).
+            Твои максимальные рабочие веса и повторения во всех упражнениях, зафиксированные на тренировках.
           </p>
         </div>
 
         <div id="personal-records-container" class="space-y-2 font-mono"></div>
       </div>
 
-      <!-- ПОДВКЛАДКА 4: 🏆 ТАБЛИЦА ЛИДЕРОВ И УЧАСТНИКОВ -->
+      <!-- ПОДВКЛАДКА 4: 🏆 ТАБЛИЦА ЛИДЕРОВ (РЕАЛЬНЫЕ УЧАСТНИКИ) -->
       <div id="subtab-leaderboard" class="hidden space-y-3">
         <div class="p-4 rounded-2xl bg-[#0e1422] border border-cyan-500/30 space-y-2">
           <div class="flex justify-between items-center font-mono">
@@ -453,7 +432,7 @@
             </button>
           </div>
           <p class="text-xs text-slate-300">
-            Рейтинг всех участников по уровню опыта (XP), суммарному тоннажу и активности.
+            Рейтинг реальных участников клуба по уровню опыта (XP), суммарному тоннажу и активности.
           </p>
         </div>
 
@@ -541,15 +520,15 @@
           <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
             <button onclick="addWater(250)" class="p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-500/30 rounded-xl active:scale-95 transition-all">
               <span class="text-cyan-300 font-bold block text-xs">🥤 250 мл</span>
-              <span class="text-[9px] text-cyan-400">Стакан</span>
+              <span class="text-[9px] text-slate-400">Стакан</span>
             </button>
             <button onclick="addWater(500)" class="p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-500/40 rounded-xl active:scale-95 transition-all">
               <span class="text-cyan-300 font-bold block text-xs">💧 500 мл</span>
-              <span class="text-[9px] text-cyan-400">Бутылка</span>
+              <span class="text-[9px] text-slate-400">Бутылка</span>
             </button>
             <button onclick="addWater(1000)" class="p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-500/40 rounded-xl active:scale-95 transition-all">
               <span class="text-cyan-300 font-bold block text-xs">🫙 1.0 л</span>
-              <span class="text-[9px] text-cyan-400">Шейкер</span>
+              <span class="text-[9px] text-slate-400">Шейкер</span>
             </button>
           </div>
 
@@ -666,7 +645,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- МОДАЛКА: ДОБАВЛЕНИЕ СВОЕГО УПРАЖНЕНИЯ (FEATURE 6) -->
+  <!-- МОДАЛКА: ДОБАВЛЕНИЕ СВОЕГО УПРАЖНЕНИЯ -->
   <!-- ======================================================== -->
   <div id="modal-add-custom-exercise" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-3 bg-[#0e1422] rounded-3xl border border-cyan-500/40 shadow-2xl font-mono text-xs">

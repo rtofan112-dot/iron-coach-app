@@ -2,13 +2,8 @@ const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
 const API_URL = "https://api.telegram.org/bot" + BOT_TOKEN;
 const B64_APP = "__B64_APP_PLACEHOLDER__";
 
-// Глобальный лидерборд участников
-let globalLeaderboard = [
-  { id: "u_alx", name: "Александр В.", xp: 2450, tonnage: 86400, streak: 12, lastActive: "Вчера" },
-  { id: "u_dmt", name: "Дмитрий К.", xp: 1800, tonnage: 62000, streak: 8, lastActive: "25 авг" },
-  { id: "u_max", name: "Максим С.", xp: 1250, tonnage: 45200, streak: 5, lastActive: "24 авг" },
-  { id: "u_ily", name: "Илья П.", xp: 950, tonnage: 31000, streak: 3, lastActive: "22 авг" }
-];
+// Реальная таблица лидеров (только зарегистрированные атлеты)
+let globalLeaderboard = [];
 
 export default {
   async fetch(request, env) {
@@ -22,7 +17,7 @@ export default {
       });
     }
 
-    // Синхронизация прогресса участника в таблицу лидеров
+    // Синхронизация прогресса реального участника
     if (url.pathname === "/api/sync-leaderboard" && request.method === "POST") {
       try {
         const body = await request.json();
