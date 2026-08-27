@@ -144,7 +144,7 @@
           </button>
         </div>
 
-        <!-- АВТОМАТИЧЕСКИЙ СТАТУС ПЕРИОДИЗАЦИИ (БЕЗ РУЧНОГО ПРОКЛИКИВАНИЯ) -->
+        <!-- АВТОМАТИЧЕСКИЙ СТАТУС ПЕРИОДИЗАЦИИ -->
         <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.08] space-y-2">
           <div class="flex justify-between items-center text-xs font-mono">
             <span class="text-slate-200 font-bold flex items-center gap-1.5">
@@ -383,7 +383,7 @@
         </div>
       </div>
 
-      <!-- ПОДВКЛАДКА 2: ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК (НОВОЕ) -->
+      <!-- ПОДВКЛАДКА 2: ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК -->
       <div id="subtab-analytics" class="hidden space-y-4">
         
         <!-- СТАТУС ВОССТАНОВЛЕНИЯ И БИОМЕТРИЯ -->
@@ -415,7 +415,7 @@
             </div>
           </div>
 
-          <!-- ПЕРСОНАЛЬНЫЕ РЕКОМЕНДАЦИИ ПО ЗДОРОВЬЮ И ТРЕНИНГУ -->
+          <!-- ПЕРСОНАЛЬНЫЕ РЕКОМЕНДАЦИИ -->
           <div class="space-y-2 pt-1 font-sans text-xs" id="ai-recommendations-container"></div>
         </div>
 
@@ -436,7 +436,7 @@
         </div>
       </div>
 
-      <!-- ПОДВКЛАДКА 3: ЗАЛ ЛИЧНЫХ РЕКОРДОВ (АВТОМАТИЧЕСКАЯ ФИКСАЦИЯ ПРОРЫВОВ) -->
+      <!-- ПОДВКЛАДКА 3: ЗАЛ ЛИЧНЫХ РЕКОРДОВ -->
       <div id="subtab-records" class="hidden space-y-3">
         <div class="p-4 rounded-2xl bg-[#12141c] border border-white/10 space-y-2">
           <div class="flex justify-between items-center font-mono">
@@ -501,7 +501,7 @@
         </div>
       </div>
 
-      <!-- ПОДВКЛАДКА 5: АЧИВКИ (ОЧИЩЕНО ОТ ВОДЫ И ЕДЫ) -->
+      <!-- ПОДВКЛАДКА 5: АЧИВКИ -->
       <div id="subtab-achievements" class="hidden space-y-3">
         <div class="flex justify-between items-center font-mono text-xs px-1">
           <span class="text-slate-400">Открыто достижений:</span>
@@ -533,53 +533,93 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- ВКЛАДКА 3: ЗДОРОВЬЕ (СПРАВОЧНИК КБЖУ, КЛИНИЧЕСКИЕ ВИТАМИНЫ И 1-ТАП ВАКУУМ) -->
+    <!-- ВКЛАДКА 3: ЗДОРОВЬЕ (ДИНАМИЧЕСКИЙ РАСЧЕТ ЦЕЛИ, БАЛАНС ККАЛ И ВИТАМИНЫ) -->
     <!-- ======================================================== -->
     <section id="tab-nutrition" class="tab-pane space-y-4">
 
-      <!-- СУТОЧНАЯ НОРМА КБЖУ (ЭТАЛОННЫЙ СПРАВОЧНИК) -->
-      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
+      <!-- БЛОК ВЫБОРА ЦЕЛИ -->
+      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-3">
         <div class="flex justify-between items-center font-mono">
           <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Суточная норма КБЖУ и Воды</h3>
-            <span class="text-[10px] text-slate-400 font-sans">Рекомпозиция при 83 кг / дефицит -300 ккал</span>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Стратегия и Цель атлета</h3>
+            <span class="text-[10px] text-slate-400">Влияет на суточный калораж, БЖУ и витаминный стек:</span>
           </div>
-          <span class="text-xs font-bold text-[#c8a97e]">2000 ккал</span>
+          <span id="active-goal-badge" class="px-2 py-0.5 rounded-lg bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 text-[10px] font-bold font-mono">Рекомпозиция</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-1.5 pt-1">
+          <button onclick="setHealthGoal('recomp')" id="goal-chip-recomp" class="goal-chip active">
+            Рекомпозиция (Сушка+Тонус)
+          </button>
+          <button onclick="setHealthGoal('fatloss')" id="goal-chip-fatloss" class="goal-chip">
+            Сушка / Сброс жира
+          </button>
+          <button onclick="setHealthGoal('hypertrophy')" id="goal-chip-hypertrophy" class="goal-chip">
+            Набор мышечной массы
+          </button>
+          <button onclick="setHealthGoal('maintenance')" id="goal-chip-maintenance" class="goal-chip">
+            Сила & Поддержание
+          </button>
+        </div>
+      </div>
+
+      <!-- ЭНЕРГЕТИЧЕСКИЙ БАЛАНС: РАСХОД, ДЕФИЦИТ И ЦЕЛЕВАЯ НОРМА -->
+      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
+        <div class="flex justify-between items-center font-mono">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Энергетический баланс (ккал/сутки)</h3>
+          <span id="health-target-calories" class="text-base font-bold text-[#c8a97e]">2050 ккал</span>
+        </div>
+
+        <!-- ТРЕХСТУПЕНЧАТАЯ ТЕЛЕМЕТРИЯ БАЛАНСА -->
+        <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs">
+          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+            <span class="text-[9px] text-slate-400 block uppercase">Расход (TDEE)</span>
+            <b id="health-tdee-val" class="text-sm font-bold text-white">2410</b>
+            <span class="text-[9px] text-slate-400 block">ккал/день</span>
+          </div>
+          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+            <span class="text-[9px] text-slate-400 block uppercase" id="health-diff-label">Дефицит</span>
+            <b id="health-diff-val" class="text-sm font-bold text-emerald-400">-360</b>
+            <span class="text-[9px] text-slate-400 block">ккал</span>
+          </div>
+          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+            <span class="text-[9px] text-slate-400 block uppercase">Целевой прием</span>
+            <b id="health-target-val" class="text-sm font-bold text-[#c8a97e]">2050</b>
+            <span class="text-[9px] text-slate-400 block">ккал/день</span>
+          </div>
         </div>
 
         <!-- КАРТОЧКИ МАКРОНУТРИЕНТОВ -->
         <div class="grid grid-cols-4 gap-2 text-center font-mono text-xs">
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Белки</span>
-            <b class="text-sm font-bold text-white">150 г</b>
-            <span class="text-[9px] text-emerald-400 block">1.8 г/кг</span>
+            <b id="macro-prot-val" class="text-sm font-bold text-white">155 г</b>
+            <span id="macro-prot-sub" class="text-[9px] text-emerald-400 block">1.85 г/кг</span>
           </div>
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Жиры</span>
-            <b class="text-sm font-bold text-white">65 г</b>
-            <span class="text-[9px] text-amber-400 block">0.8 г/кг</span>
+            <b id="macro-fat-val" class="text-sm font-bold text-white">65 г</b>
+            <span id="macro-fat-sub" class="text-[9px] text-amber-400 block">0.8 г/кг</span>
           </div>
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Углеводы</span>
-            <b class="text-sm font-bold text-white">200 г</b>
-            <span class="text-[9px] text-slate-300 block">2.4 г/кг</span>
+            <b id="macro-carb-val" class="text-sm font-bold text-white">210 г</b>
+            <span id="macro-carb-sub" class="text-[9px] text-slate-300 block">2.5 г/кг</span>
           </div>
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Вода</span>
-            <b class="text-sm font-bold text-cyan-300">2.6 л</b>
-            <span class="text-[9px] text-slate-400 block">30 мл/кг</span>
+            <b id="macro-water-val" class="text-sm font-bold text-cyan-300">2.6 л</b>
+            <span class="text-[9px] text-slate-400 block">чистая</span>
           </div>
         </div>
 
-        <!-- РЕЖИМ ПИТАНИЯ -->
-        <div class="p-3 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1.5 text-xs">
-          <span class="text-[10px] font-mono text-slate-400 uppercase block font-bold">Оптимальный тайминг приемов пищи:</span>
-          <p class="text-slate-300 leading-relaxed font-sans text-[11px]">
-            • <b>Завтрак:</b> 35г белка (яйца / творог / овсянка)<br>
-            • <b>Обед:</b> 45г белка + сложные углеводы (гречка, рис, филе индейки/курицы)<br>
-            • <b>Предтрен (за 1.5ч):</b> Легкие углеводы (банан / рисовые хлебцы)<br>
-            • <b>Ужин:</b> 40г белка + клетчатка (рыба / нежирная говядина + свежие овощи)
-          </p>
+        <!-- СОВЕТЫ: НА ЧЕМ СРЕЗАТЬ КАЛОРИИ БЕЗ ЧУВСТВА ГОЛОДА -->
+        <div class="p-4 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-2.5 text-xs">
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span id="diet-tips-title" class="font-mono font-bold text-white uppercase text-[11px]">На чем комфортно срезать калории (без голода):</span>
+          </div>
+          <div id="diet-tips-container" class="space-y-2 text-slate-300 font-sans leading-relaxed text-[11px]"></div>
         </div>
       </div>
 
@@ -596,7 +636,7 @@
         <div id="personalized-vitamins-container" class="space-y-2"></div>
       </div>
 
-      <!-- УТРЕННИЙ ВАКУУМ (1-ТАП ОТМЕТКА) -->
+      <!-- УТРЕННИЙ ВАКУУМ (ЧИСТЫЙ 1-ТАП БЕЗ ДВОЙНЫХ ЗНАЧКОВ) -->
       <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-3">
         <div class="flex justify-between items-center font-mono">
           <div>
@@ -611,9 +651,9 @@
             💡 <b>Протокол:</b> 3–5 подходов по 15–20 секунд удержания втянутого живота после полного выдоха. Делается утром натощак стоя или с легким наклоном.
           </p>
 
-          <button id="btn-vac-checkin" onclick="checkinMorningVacuum()" class="w-full py-3 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl active:scale-98 transition-all font-mono flex items-center justify-center space-x-2 shadow-sm">
+          <button id="btn-vac-checkin" onclick="checkinMorningVacuum()" class="w-full py-3.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl active:scale-98 transition-all font-mono flex items-center justify-center space-x-2 shadow-sm">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            <span id="vac-checkin-text">✓ Выполнил утренний вакуум (+30 XP)</span>
+            <span id="vac-checkin-text">Выполнил утренний вакуум (+30 XP)</span>
           </button>
         </div>
       </div>
@@ -668,12 +708,11 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- МОДАЛКА: КАТАЛОГ БАЗЫ УПРАЖНЕНИЙ (EXERCISE DATABASE) -->
+  <!-- МОДАЛКА: КАТАЛОГ БАЗЫ УПРАЖНЕНИЙ -->
   <!-- ======================================================== -->
   <div id="modal-exercise-database" class="fixed inset-0 z-50 modal-backdrop hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="max-w-md w-full bg-[#12141c] rounded-t-3xl sm:rounded-3xl border border-white/10 shadow-2xl max-h-[85vh] flex flex-col font-mono text-xs">
       
-      <!-- ШАПКА КАТАЛОГА -->
       <div class="p-4 border-b border-white/[0.08] flex justify-between items-center">
         <div class="flex items-center space-x-2.5">
           <div class="w-7 h-7 rounded-lg bg-[#181b26] border border-white/10 flex items-center justify-center text-[#c8a97e]">
@@ -687,7 +726,6 @@
         <button onclick="closeModal('modal-exercise-database')" class="text-slate-400 hover:text-white font-bold px-2 py-1">✕</button>
       </div>
 
-      <!-- ПОИСК И ФИЛЬТРЫ КАТЕГОРИЙ -->
       <div class="p-3 space-y-2 border-b border-white/[0.06] bg-[#0c0d14]">
         <input type="text" id="ex-catalog-search" oninput="filterExerciseDatabase()" placeholder="Поиск по названию или мышцам..." class="w-full bg-[#181b26] border border-white/10 px-3 py-2 rounded-xl text-white font-sans text-xs outline-none">
         
@@ -703,10 +741,8 @@
         </div>
       </div>
 
-      <!-- СПИСОК УПРАЖНЕНИЙ КАТАЛОГА -->
       <div id="exercise-catalog-list" class="p-3 space-y-2 overflow-y-auto flex-1 font-sans"></div>
 
-      <!-- ФУТЕР С КНОПКОЙ СОЗДАНИЯ -->
       <div class="p-3 border-t border-white/[0.08] bg-[#12141c]">
         <button onclick="closeModal('modal-exercise-database'); openModal('modal-add-custom-exercise')" class="w-full py-2.5 bg-[#181b26] hover:bg-[#202432] text-slate-300 border border-dashed border-white/15 rounded-xl font-mono text-xs font-bold active:scale-98 transition-all">
           + Создать свое упражнение вручную
@@ -908,8 +944,8 @@
           <label class="text-[10px] text-slate-400 block mb-1 uppercase">Главная цель:</label>
           <select id="onboard-goal" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans text-xs">
             <option value="Рекомпозиция (Сушка жира + Мышечный тонус)">Рекомпозиция (Сушка жира + Мышечный тонус)</option>
-            <option value="Набор мышечной массы">Набор мышечной массы</option>
             <option value="Сушка и сброс веса">Сушка и сброс веса</option>
+            <option value="Набор мышечной массы">Набор мышечной массы</option>
             <option value="Сила и Здоровая осанка">Сила и Здоровая осанка</option>
           </select>
         </div>

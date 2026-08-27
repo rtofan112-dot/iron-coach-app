@@ -4,7 +4,7 @@
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   
-  /* VELVET GRAPHITE & TITANIUM PALETTE (CALM, EYE-FRIENDLY, CLINICAL LUXURY) */
+  /* VELVET GRAPHITE & TITANIUM PALETTE */
   --bg-main: #0a0b10;
   --bg-card: #12141c;
   --bg-card-elevated: #181b26;
@@ -110,7 +110,7 @@ body {
   border-color: var(--gold-accent);
 }
 
-/* ЛАКОНИЧНЫЙ ЧЕКБОКС */
+/* ЧЕКБОКС */
 .custom-checkbox {
   appearance: none;
   width: 2rem;
@@ -234,6 +234,33 @@ body {
 .cal-day-cell.empty {
   visibility: hidden;
   pointer-events: none;
+}
+
+/* ЧИПСЫ ВЫБОРА ЦЕЛИ */
+.goal-chip {
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.85rem;
+  background: #181b26;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.goal-chip:active {
+  transform: scale(0.96);
+}
+
+.goal-chip.active {
+  background: var(--gold-accent);
+  color: #0a0b10;
+  font-weight: 800;
+  border-color: var(--gold-accent);
+  box-shadow: 0 2px 8px rgba(200, 169, 126, 0.25);
 }
 
 /* 12 МЕСЯЦЕВ ГОДОВОГО ОБЗОРА */

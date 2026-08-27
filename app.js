@@ -109,25 +109,16 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
   if (n.includes("наклонн") || n.includes("30°")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Скамья угол 30 градусов -->
         <line x1="30" y1="75" x2="150" y2="35" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
         <line x1="65" y1="63" x2="65" y2="82" stroke="#334155" stroke-width="3"/>
         <line x1="130" y1="42" x2="130" y2="82" stroke="#334155" stroke-width="3"/>
         <line x1="20" y1="82" x2="160" y2="82" stroke="#1e293b" stroke-width="2"/>
-        
-        <!-- Атлет (Анатомическая линия) -->
         <circle cx="140" cy="26" r="7" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="135" y1="32" x2="75" y2="56" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        
-        <!-- Активный верхний пучок грудных мышц (Clavicular Head) -->
         <path d="M120 37 L100 44" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <!-- Фаза движения гантелей: Вектор выжима строго вверх -->
         <polyline points="115,39 105,24 100,10" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="100" cy="10" r="5" fill="#c8a97e"/>
         <line x1="105" y1="26" x2="101" y2="12" stroke="#c8a97e" stroke-width="2" stroke-dasharray="2 2"/>
-        
-        <!-- Анатомические маркеры -->
         <text x="175" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ВЕРХ ГРУДИ</text>
         <text x="175" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Угол скамьи: 30°</text>
         <text x="175" y="56" fill="#64748b" font-size="8" font-family="monospace">Локти: 65° к телу</text>
@@ -136,27 +127,19 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
     `;
   }
   
-  // ГОРИЗОНТАЛЬНЫЙ ЖИМ / БАБОЧКА / БРУСЬЯ
+  // ГОРИЗОНТАЛЬНЫЙ ЖИМ / БАБОЧКА
   if (n.includes("жим лежа") || n.includes("горизонтал") || n.includes("бабочк") || n.includes("брусь") || n.includes("хаммер")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Горизонтальная скамья -->
         <line x1="30" y1="58" x2="150" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
         <line x1="45" y1="58" x2="45" y2="82" stroke="#334155" stroke-width="3"/>
         <line x1="135" y1="58" x2="135" y2="82" stroke="#334155" stroke-width="3"/>
         <line x1="20" y1="82" x2="160" y2="82" stroke="#1e293b" stroke-width="2"/>
-        
-        <!-- Атлет -->
         <circle cx="140" cy="48" r="7" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="134" y1="53" x2="65" y2="53" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        
-        <!-- Сведение лопаток и подсветка груди -->
         <path d="M120 53 L95 53" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <!-- Руки и вертикальный жим -->
         <polyline points="112,53 108,32 108,12" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="108" cy="12" r="5" fill="#c8a97e"/>
-        
         <text x="175" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ГРУДНЫЕ МЫШЦЫ</text>
         <text x="175" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Лопатки сведены</text>
         <text x="175" y="56" fill="#64748b" font-size="8" font-family="monospace">Пауза внизу: 1с</text>
@@ -165,25 +148,19 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
     `;
   }
 
-  // ТЯГА К ЛИЦУ (FACE PULL — РАЗГРУЗКА ШЕИ И ЛОПАТКИ)
+  // ТЯГА К ЛИЦУ (FACE PULL)
   if (n.includes("лицу") || n.includes("face pull") || n.includes("ше") || n.includes("лопатк")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Блочная рама -->
         <line x1="25" y1="10" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
         <circle cx="25" cy="30" r="3.5" fill="#c8a97e"/>
         <line x1="25" y1="30" x2="85" y2="30" stroke="#64748b" stroke-width="2" stroke-dasharray="3 3"/>
-        
-        <!-- Атлет стоя -->
         <circle cx="125" cy="24" r="7" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="125" y1="31" x2="125" y2="65" stroke="#f1f5f9" stroke-width="4"/>
         <polyline points="125,65 115,82" stroke="#94a3b8" stroke-width="2.5"/>
         <polyline points="125,65 135,82" stroke="#94a3b8" stroke-width="2.5"/>
-        
-        <!-- Вектор тяги каната к глазам, локти назад и наружу -->
         <polyline points="125,35 110,26 85,30" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="120" cy="34" r="4.5" fill="#c8a97e"/>
-        
         <text x="160" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГРУЗКА ШЕИ</text>
         <text x="160" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Траектория: к глазам</text>
         <text x="160" y="56" fill="#64748b" font-size="8" font-family="monospace">Локти выше кистей</text>
@@ -192,23 +169,17 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
     `;
   }
 
-  // ТЯГИ СПИНЫ (ГОРИЗОНТАЛЬНЫЙ / ВЕРТИКАЛЬНЫЙ БЛОК)
+  // ТЯГИ СПИНЫ
   if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Тренажер тяги -->
         <line x1="25" y1="15" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
         <line x1="25" y1="46" x2="75" y2="46" stroke="#64748b" stroke-width="2" stroke-dasharray="2 2"/>
-        
-        <!-- Атлет сидя -->
         <circle cx="120" cy="26" r="7" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="120" y1="33" x2="115" y2="60" stroke="#f1f5f9" stroke-width="4"/>
         <line x1="115" y1="60" x2="80" y2="60" stroke="#94a3b8" stroke-width="3"/>
-        
-        <!-- Активная широчайшая мышца (Latissimus Dorsi) -->
         <path d="M118 36 L116 54" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
         <polyline points="118,36 100,43 75,46" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        
         <text x="160" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ШИРОЧАЙШИЕ СПИНЫ</text>
         <text x="160" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Тяга локтями назад</text>
         <text x="160" y="56" fill="#64748b" font-size="8" font-family="monospace">Грудь раскрыта</text>
@@ -217,21 +188,15 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
     `;
   }
 
-  // НОГИ (ЖИМ 45°, ПРИСЕД, РУМЫНКА)
+  // НОГИ
   if (n.includes("ног") || n.includes("присед") || n.includes("румын") || n.includes("икр")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Платформа 45 градусов -->
         <line x1="35" y1="25" x2="95" y2="75" stroke="#475569" stroke-width="4"/>
         <rect x="30" y="20" width="18" height="8" rx="2" fill="#c8a97e" transform="rotate(-35 30 20)"/>
-        
-        <!-- Атлет в кресле тренажера -->
         <circle cx="140" cy="40" r="7" stroke="#cbd5e1" stroke-width="2"/>
         <polyline points="135,45 110,62 70,52 45,35" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        
-        <!-- Подсветка квадрицепса -->
         <path d="M110 62 L70 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
         <text x="165" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КВАДРИЦЕПС / НОГИ</text>
         <text x="165" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Упор в пятки</text>
         <text x="165" y="56" fill="#64748b" font-size="8" font-family="monospace">Угол в коленях: 90°</text>
@@ -240,7 +205,7 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
     `;
   }
 
-  // ПЛЕЧИ И РАЗВЕДЕНИЯ
+  // ПЛЕЧИ
   if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,14 +213,11 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <line x1="115" y1="27" x2="115" y2="65" stroke="#f1f5f9" stroke-width="4"/>
         <polyline points="115,65 105,82" stroke="#94a3b8" stroke-width="2.5"/>
         <polyline points="115,65 125,82" stroke="#94a3b8" stroke-width="2.5"/>
-        
-        <!-- Разведение гантелей -->
         <polyline points="65,35 90,30 115,30 140,30 165,35" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="65" cy="35" r="4" fill="#c8a97e"/>
         <circle cx="165" cy="35" r="4" fill="#c8a97e"/>
         <circle cx="95" cy="30" r="4.5" fill="#c8a97e"/>
         <circle cx="135" cy="30" r="4.5" fill="#c8a97e"/>
-        
         <text x="175" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СРЕДНЯЯ ДЕЛЬТА</text>
         <text x="175" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Подъем локтями</text>
         <text x="175" y="56" fill="#64748b" font-size="8" font-family="monospace">Кисти ниже локтей</text>
@@ -280,7 +242,179 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
 }
 
 // ========================================================
-// БАЗА УПРАЖНЕНИЙ (EXERCISE DATABASE)
+// ДИНАМИЧЕСКИЙ РАСЧЕТ ЦЕЛИ, TDEE, ДЕФИЦИТА И СОВЕТОВ
+// ========================================================
+const GOAL_CONFIGS = {
+  recomp: {
+    title: "Рекомпозиция (Сушка жира + Мышечный тонус)",
+    shortName: "Рекомпозиция",
+    deficitDelta: -360,
+    protPerKg: 1.85,
+    fatPerKg: 0.80,
+    carbsPerKg: 2.50,
+    waterPerKg: 31,
+    tipTitle: "На чем комфортно срезать калории (без чувства голода):",
+    tips: [
+      "🥤 <b>Убрать жидкие калории и скрытые сахара:</b> Соки, капучино с сиропами и сладкие напитки не дают сытости, но несут 200–300 пустых ккал. Замени на воду с лимоном, американо или зеленый чай (<b>экономия: ~250 ккал/день</b>).",
+      "🍳 <b>Контролировать масло при жарке:</b> 1 столовая ложка масла — это 120–140 ккал чистого жира. Используй кулинарный антипригарный спрей или запекание в духовке (<b>экономия: ~150 ккал/день</b>).",
+      "🥗 <b>Заменить соусы:</b> Майонезные и сырные заправки замени на 2% греческий йогурт с чесноком, горчицей и свежей зеленью (<b>экономия: ~100 ккал/день</b>).",
+      "🥦 <b>Добавить 300–400г зеленых овощей:</b> Огурцы, кабачки, брокколи содержат клетчатку и воду, физически заполняя желудок и продлевая насыщение на 3–4 часа."
+    ]
+  },
+  fatloss: {
+    title: "Сушка и активный сброс веса",
+    shortName: "Сушка",
+    deficitDelta: -550,
+    protPerKg: 2.00,
+    fatPerKg: 0.65,
+    carbsPerKg: 2.10,
+    waterPerKg: 34,
+    tipTitle: "Стратегия глубокого дефицита при сушке:",
+    tips: [
+      "🥩 <b>Повышенный белок (2.0г/кг):</b> Высокий уровень белка защищает твои рабочие мышцы от катаболизма во время сушки и усиливает термогенный эффект.",
+      "🚶‍♂️ <b>Бытовая активность (NEAT):</b> Добавь 15-20 минут ходьбы в горку на дорожке (уклон 8-10%, скорость 5.5 км/ч) после тренировки для сжигания еще 150-200 ккал.",
+      "🧂 <b>Контроль соли и калия:</b> Умеренное потребление соли снижает задержку воды под кожей, делая рельеф мышц более сухим и выразительным.",
+      "💧 <b>Пить за 20 мин до еды:</b> Стакан теплой воды перед приемом пищи снижает разовую порцию на 15-20% без волевых усилий."
+    ]
+  },
+  hypertrophy: {
+    title: "Набор чистой мышечной массы",
+    shortName: "Набор массы",
+    deficitDelta: +250,
+    protPerKg: 1.80,
+    fatPerKg: 0.90,
+    carbsPerKg: 4.10,
+    waterPerKg: 33,
+    tipTitle: "Как чисто добирать качественный профицит калорий:",
+    tips: [
+      "🍚 <b>Медленные углеводы:</b> Гречка, бурый рис, овсянка и макароны из твердых сортов пшеницы создадут стабильный запас мышечного гликогена без набора лишнего жира.",
+      "🥑 <b>Качественные мононенасыщенные жиры:</b> Авокадо, орехи (миндаль, грецкий), льняное масло поддерживают выработку тестостерона и здоровье суставов.",
+      "⏱️ <b>Углеводное окно:</b> 40-50г углеводов + 30г белка в течение 60 минут после силовой тренировки ускоряют синтез мышечного белка на 25%."
+    ]
+  },
+  maintenance: {
+    title: "Сила, Здоровая осанка и Поддержание",
+    shortName: "Поддержание",
+    deficitDelta: 0,
+    protPerKg: 1.70,
+    fatPerKg: 0.85,
+    carbsPerKg: 3.60,
+    waterPerKg: 30,
+    tipTitle: "Режим энергетического баланса и здоровья:",
+    tips: [
+      "⚖️ <b>Баланс 1:1:</b> Потребление калорий равно суточному расходу. Отличный режим для закрепления результатов и разгрузки нервной системы.",
+      "💤 <b>Фокус на сне:</b> Сон не менее 7.5–8 часов обеспечивает естественное восстановление ЦНС и связочного аппарата.",
+      "🛡️ <b>Суставная гимнастика:</b> Поддержание подвижности плечевых и тазобедренных суставов."
+    ]
+  }
+};
+
+function getActiveGoalKey() {
+  const g = (appState.goal || "").toLowerCase();
+  if (g.includes("сушка и сброс") || g.includes("сброс веса")) return 'fatloss';
+  if (g.includes("набор")) return 'hypertrophy';
+  if (g.includes("поддержание") || g.includes("осанка")) return 'maintenance';
+  return 'recomp';
+}
+
+function setHealthGoal(goalKey) {
+  const cfg = GOAL_CONFIGS[goalKey] || GOAL_CONFIGS.recomp;
+  appState.goal = cfg.title;
+  saveState();
+  Sound.beep(650, 0.08);
+  Haptic.impact('medium');
+  renderHealthTabCalculations();
+  renderPersonalizedAIAnalytics();
+  updateProfileDisplay();
+}
+
+function renderHealthTabCalculations() {
+  const goalKey = getActiveGoalKey();
+  const cfg = GOAL_CONFIGS[goalKey] || GOAL_CONFIGS.recomp;
+
+  // Обновляем чипсы цели
+  ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
+    const chip = document.getElementById("goal-chip-" + k);
+    if (chip) {
+      if (k === goalKey) chip.className = "goal-chip active";
+      else chip.className = "goal-chip";
+    }
+  });
+
+  const badge = document.getElementById("active-goal-badge");
+  if (badge) badge.textContent = cfg.shortName;
+
+  // Расчет BMR (Mifflin-St Jeor) и TDEE для Роман (32 г, 83 кг, 178 см)
+  const weight = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83.0;
+  const height = appState.height || 178;
+  const age = appState.age || 32;
+
+  const bmr = Math.round((10 * weight) + (6.25 * height) - (5 * age) + 5);
+  // Коэффициент активности 1.35 (силовые 2-3 раза в неделю + бытовая активность)
+  const tdee = Math.round(bmr * 1.35);
+
+  const targetCal = tdee + cfg.deficitDelta;
+
+  const protGrams = Math.round(weight * cfg.protPerKg);
+  const fatGrams = Math.round(weight * cfg.fatPerKg);
+  const carbGrams = Math.round(weight * cfg.carbsPerKg);
+  const waterLiters = ((weight * cfg.waterPerKg) / 1000).toFixed(1);
+
+  // Вывод в UI
+  const headerTargetCal = document.getElementById("health-target-calories");
+  const tdeeVal = document.getElementById("health-tdee-val");
+  const diffLabel = document.getElementById("health-diff-label");
+  const diffVal = document.getElementById("health-diff-val");
+  const targetVal = document.getElementById("health-target-val");
+
+  if (headerTargetCal) headerTargetCal.textContent = `${targetCal} ккал`;
+  if (tdeeVal) tdeeVal.textContent = `${tdee}`;
+  if (targetVal) targetVal.textContent = `${targetCal}`;
+
+  if (diffLabel && diffVal) {
+    if (cfg.deficitDelta < 0) {
+      diffLabel.textContent = "Дефицит";
+      diffVal.textContent = `${cfg.deficitDelta}`;
+      diffVal.className = "text-sm font-bold text-emerald-400";
+    } else if (cfg.deficitDelta > 0) {
+      diffLabel.textContent = "Профицит";
+      diffVal.textContent = `+${cfg.deficitDelta}`;
+      diffVal.className = "text-sm font-bold text-[#c8a97e]";
+    } else {
+      diffLabel.textContent = "Баланс";
+      diffVal.textContent = "0";
+      diffVal.className = "text-sm font-bold text-white";
+    }
+  }
+
+  // Макросы
+  const elProt = document.getElementById("macro-prot-val");
+  const elProtSub = document.getElementById("macro-prot-sub");
+  const elFat = document.getElementById("macro-fat-val");
+  const elFatSub = document.getElementById("macro-fat-sub");
+  const elCarb = document.getElementById("macro-carb-val");
+  const elCarbSub = document.getElementById("macro-carb-sub");
+  const elWater = document.getElementById("macro-water-val");
+
+  if (elProt) elProt.textContent = `${protGrams} г`;
+  if (elProtSub) elProtSub.textContent = `${cfg.protPerKg} г/кг`;
+  if (elFat) elFat.textContent = `${fatGrams} г`;
+  if (elFatSub) elFatSub.textContent = `${cfg.fatPerKg} г/кг`;
+  if (elCarb) elCarb.textContent = `${carbGrams} г`;
+  if (elCarbSub) elCarbSub.textContent = `${cfg.carbsPerKg} г/кг`;
+  if (elWater) elWater.textContent = `${waterLiters} л`;
+
+  // Советы
+  const tipsTitle = document.getElementById("diet-tips-title");
+  const tipsContainer = document.getElementById("diet-tips-container");
+  if (tipsTitle) tipsTitle.textContent = cfg.tipTitle;
+  if (tipsContainer) {
+    tipsContainer.innerHTML = cfg.tips.map(t => `<div>• ${t}</div>`).join("");
+  }
+}
+
+// ========================================================
+// БАЗА УПРАЖНЕНИЙ (EXERCISE DATABASE - 30+ УПРАЖНЕНИЙ)
 // ========================================================
 const EXERCISE_DATABASE = [
   // ГРУДЬ
@@ -388,7 +522,6 @@ function getInitialAccount() {
       "Жим ногами под углом 45° в тренажере": 90.0,
       "Тяга горизонтального блока к поясу (нейтральный хват)": 45.0
     },
-    // Только реальные подтвержденные рекорды (Core Benchmark Lifts)
     personalRecords: {
       "Жим гантелей на наклонной скамье 30°": { weight: 22, reps: 10, date: "2026-08-25" },
       "Жим гантелей на горизонтальной скамье": { weight: 24, reps: 10, date: "2026-08-25" },
@@ -466,13 +599,13 @@ function loadState() {
   saveState();
   checkAchievements();
   renderPersonalizedVitamins();
+  renderHealthTabCalculations();
   updateProfileDisplay();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
   renderPersonalizedAIAnalytics();
-  fetchLeaderboard();
   updateSoundUI();
   updateVacuumBadge();
 }
@@ -509,11 +642,10 @@ function renderXP() {
 }
 
 // ========================================================
-// АВТОМАТИЧЕСКАЯ ПЕРИОДИЗАЦИЯ (РАСЧЕТ БЕЗ РУЧНОГО КЛИКАНИЯ)
+// АВТОМАТИЧЕСКАЯ ПЕРИОДИЗАЦИЯ
 // ========================================================
 function calculateAutoMesocycle() {
   const totalSessions = (appState.history || []).length;
-  // 1 неделя = каждые 2-3 завершенные тренировочные сессии
   let calculatedWeek = Math.floor(totalSessions / 2) + 1;
   if (calculatedWeek > 8) {
     calculatedWeek = ((calculatedWeek - 1) % 8) + 1;
@@ -544,7 +676,7 @@ function renderMesocycleBanner() {
 }
 
 // ========================================================
-// ИНТЕЛЛЕКТУАЛЬНЫЙ АВТО-ДЕТЕКТОР РЕКОРДОВ (PR BREAKTHROUGH)
+// ИНТЕЛЛЕКТУАЛЬНЫЙ АВТО-ДЕТЕКТОР РЕКОРДОВ
 // ========================================================
 function checkAndTriggerIntelligentPR(exName, weight, reps) {
   if (!weight || weight <= 0 || !reps || reps <= 0) return false;
@@ -552,10 +684,8 @@ function checkAndTriggerIntelligentPR(exName, weight, reps) {
   if (!appState.personalRecords) appState.personalRecords = {};
   const currentPR = appState.personalRecords[exName];
 
-  // Рекорд регистрируется ТОЛЬКО если превзойден вес или повторы при том же максимальном весе
   let isBreakthrough = false;
   if (!currentPR) {
-    // Первичное появление упражнения в базе рекордов
     isBreakthrough = true;
   } else if (weight > currentPR.weight) {
     isBreakthrough = true;
@@ -622,23 +752,20 @@ function renderPersonalRecords() {
 }
 
 // ========================================================
-// ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК (BIO-ANALYTICS)
+// ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК
 // ========================================================
 function renderPersonalizedAIAnalytics() {
   const container = document.getElementById("ai-recommendations-container");
-  const recovBadge = document.getElementById("ai-recovery-badge");
   const pushPullEl = document.getElementById("ai-pushpull-ratio");
   const neckSafetyEl = document.getElementById("ai-neck-safety");
   const weekTonEl = document.getElementById("ai-week-tonnage");
   if (!container) return;
 
   const hist = appState.history || [];
-  const totalTonnage = getTotalTonnage(appState);
   const weekTonnage = hist.slice(0, 3).reduce((sum, h) => sum + (h.tonnage || 0), 0);
 
   if (weekTonEl) weekTonEl.textContent = `${weekTonnage.toLocaleString()} кг`;
 
-  // Расчет соотношения жимов и тяг (Push/Pull)
   let pushSets = 0, pullSets = 0;
   hist.slice(0, 4).forEach(h => {
     (h.exercises || []).forEach(e => {
@@ -662,7 +789,6 @@ function renderPersonalizedAIAnalytics() {
     }
   }
 
-  // Персональные рекомендации на основе биометрии
   const tips = [
     {
       title: "🫁 Контроль дыхания при резекции легкого",
@@ -674,7 +800,7 @@ function renderPersonalizedAIAnalytics() {
     },
     {
       title: "⚖️ Дефицит калорий при талии 91.5 см (WHtR: 51%)",
-      desc: "Оптимальный суточный дефицит составляет -300 ккал (норма: 2000 ккал/день). Это обеспечивает сушку висцерального жира со скоростью 400-500г в неделю без потери мышечной массы."
+      desc: "Оптимальный суточный дефицит составляет -360 ккал (целевой прием: ~2050 ккал/день). Это обеспечивает сушку висцерального жира со скоростью 400-500г в неделю без потери мышечной массы."
     }
   ];
 
@@ -744,7 +870,7 @@ function renderMuscleVolumeBreakdown() {
 }
 
 // ========================================================
-// КЛИНИЧЕСКИЙ ВИТАМИННЫЙ СТЕК С НАУЧНЫМИ ДОЗИРОВКАМИ
+// КЛИНИЧЕСКИЙ ВИТАМИННЫЙ СТЕК
 // ========================================================
 function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
@@ -802,7 +928,7 @@ function renderPersonalizedVitamins() {
 }
 
 // ========================================================
-// ЧИСТЫЕ СИЛОВЫЕ И ДИСЦИПЛИНАРНЫЕ АЧИВКИ (БЕЗ ЕДЫ И ВОДЫ)
+// ЧИСТЫЕ СИЛОВЫЕ И ДИСЦИПЛИНАРНЫЕ АЧИВКИ
 // ========================================================
 const ACHIEVEMENTS = [
   { id: "ach_first", cat: "strength", title: "Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
@@ -900,7 +1026,7 @@ function renderAchievementsList() {
 }
 
 // ========================================================
-// 1-ТАП УТРЕННИЙ ВАКУУМ
+// 1-ТАП УТРЕННИЙ ВАКУУМ (ЧИСТЫЙ ОДИНАРНЫЙ ЧЕК)
 // ========================================================
 function checkinMorningVacuum() {
   appState.vacDaysCount = (appState.vacDaysCount || 0) + 1;
@@ -909,6 +1035,9 @@ function checkinMorningVacuum() {
   Haptic.success();
   updateVacuumBadge();
   checkAchievements();
+  
+  const txt = document.getElementById("vac-checkin-text");
+  if (txt) txt.textContent = `Выполнено сегодня (Серия: ${appState.vacDaysCount} дн)`;
   alert("✓ Утренний вакуум зафиксирован! (+30 XP к прогрессу)");
 }
 
@@ -1178,12 +1307,10 @@ function renderActiveWorkoutUI() {
       bodyHtml = `
         <div class="pt-3 space-y-3 border-t border-white/[0.06] mt-3">
           
-          <!-- ВЕКТОРНАЯ АНАТОМИЧЕСКАЯ ИЛЛЮСТРАЦИЯ -->
           <div class="ex-diagram-container">
             ${diagramSvg}
           </div>
 
-          <!-- ОПИСАНИЕ И ФАЗЫ -->
           <div class="p-3 bg-[#0c0d14] rounded-2xl border border-white/[0.05] space-y-2">
             <div class="flex justify-between items-center text-[10px] font-mono">
               <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
@@ -1749,6 +1876,7 @@ function onTileInputChanged() {
   appState.currentMetrics = cur;
   updateWHtRBadge(cur.waist, appState.height || 178);
   saveState();
+  renderHealthTabCalculations();
   renderPersonalizedVitamins();
   renderPersonalizedAIAnalytics();
 }
@@ -2086,6 +2214,7 @@ function saveOnboardingProfile(e) {
   Haptic.success();
 
   renderMetrics();
+  renderHealthTabCalculations();
   renderPersonalizedVitamins();
   renderMonthlyCalendar();
   renderPersonalRecords();
@@ -2501,7 +2630,7 @@ function copyCoachSummary() {
 • Ограничения/травмы: ${appState.injuries || 'Нет'}
 • Уровень: ${currentLvl} | Всего опыта: ${appState.xp.toLocaleString()} XP
 • Текущая серия: ${appState.streak || 0} дней без срывов
-• Авто-периодизация: Неделя ${appState.mesocycleWeek || 1} из 8 (Фаза ${appState.mesocycleWeek <= 3 ? '1: Накопление (+2.5кг)' : appState.mesocycleWeek <= 6 ? '2: Интенсификация (8-10 повт)' : '3: Пик'})
+• Авто-периодизация: Неделя ${appState.mesocycleWeek || 1} из 8
 
 2. АНТРОПОМЕТРИЯ И ЗАМЕРЫ ТЕЛА:
 • Вес тела: ${m.weight || 83} кг
@@ -2551,31 +2680,7 @@ async function sendCoachReportToTelegram(reportHtml) {
   } catch(e) {}
 }
 
-// ========================================================
-// ТАБЛИЦА ЛИДЕРОВ
-// ========================================================
-async function syncUserToLeaderboard() {
-  try {
-    const myTonnage = getTotalTonnage(appState);
-    const myXP = appState.xp || 0;
-    const myStreak = appState.streak || 0;
-
-    await fetch('/api/sync-leaderboard', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tgId: appState.tgId,
-        name: appState.name,
-        xp: myXP,
-        tonnage: myTonnage,
-        streak: myStreak,
-        lastActive: "Сегодня"
-      })
-    });
-  } catch(e) {}
-}
-
-async function fetchLeaderboard() {}
+async function syncUserToLeaderboard() {}
 
 function switchTab(tabId) {
   Sound.beep(500, 0.05);
@@ -2594,6 +2699,7 @@ function switchTab(tabId) {
     switchProgressSubtab('calendar');
   }
   if (tabId === "nutrition") {
+    renderHealthTabCalculations();
     renderPersonalizedVitamins();
     updateVacuumBadge();
   }
@@ -2687,6 +2793,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderXP();
   renderMesocycleBanner();
   renderMetrics();
+  renderHealthTabCalculations();
   renderPersonalizedVitamins();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
