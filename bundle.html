@@ -549,11 +549,6 @@ html, body {
 </head>
 <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">
 
-  <!-- ПЛАВАЮЩИЙ ИНДИКАТОР ВЕРСИИ В УГЛУ ЭКРАНА -->
-  <div class="fixed top-3 right-3 z-50 pointer-events-none opacity-90">
-    <span class="px-2 py-0.5 rounded-full bg-[#141724]/90 text-[#c8a97e] border border-[#c8a97e]/40 font-mono text-[9px] font-bold shadow-lg backdrop-blur-md">v2.5.0 PRO</span>
-  </div>
-
   <!-- ======================================================== -->
   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->
   <!-- ======================================================== -->
@@ -824,20 +819,39 @@ html, body {
       <div id="subtab-calendar" class="space-y-3.5">
         <div class="p-4 glass-panel space-y-3 font-mono">
           <div class="flex justify-between items-center">
-            <button onclick="navigateMonth(-1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-slate-300 active:scale-90 transition-transform">‹</button>
-            <h3 id="cal-month-title" class="font-bold text-sm text-white uppercase tracking-wider">Сентябрь 2026</h3>
-            <button onclick="navigateMonth(1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-slate-300 active:scale-90 transition-transform">›</button>
+            <button onclick="changeCalendarMonth(-1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-slate-300 active:scale-90 transition-transform">‹</button>
+            <div class="text-center">
+              <h3 id="cal-month-name" class="font-bold text-sm text-white uppercase tracking-wider">Сентябрь 2026</h3>
+              <span id="cal-month-summary-tag" class="text-[10px] text-[#c8a97e] font-bold">100% дисциплина</span>
+            </div>
+            <button onclick="changeCalendarMonth(1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-slate-300 active:scale-90 transition-transform">›</button>
           </div>
 
           <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-slate-500 font-bold">
             <div>ПН</div><div>ВТ</div><div>СР</div><div>ЧТ</div><div>ПТ</div><div>СБ</div><div class="text-[#c8a97e]">ВС</div>
           </div>
 
-          <div id="calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+          <div id="cal-days-grid" class="grid grid-cols-7 gap-1.5"></div>
         </div>
 
         <!-- ИНСПЕКТОР ВЫБРАННОГО ДНЯ -->
-        <div id="calendar-day-detail" class="p-4 glass-panel space-y-2.5 font-mono text-xs hidden"></div>
+        <div class="p-4 glass-panel space-y-2.5 font-mono text-xs">
+          <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
+            <span id="cal-insp-date" class="font-bold text-white text-xs">Четверг, 27 августа 2026 г.</span>
+            <span id="cal-insp-badge" class="px-2.5 py-0.5 rounded-lg text-xs font-bold font-mono bg-white/5 text-slate-300">ПЛАН</span>
+          </div>
+          <div id="cal-insp-content" class="text-slate-300 text-xs"></div>
+          <div id="cal-insp-actions" class="pt-1"></div>
+        </div>
+
+        <!-- ГОДОВОЙ ОБЗОР 12 МЕСЯЦЕВ -->
+        <div class="p-4 glass-panel space-y-3 font-mono">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Годовой обзор 2026</h3>
+            <span id="year-stat-compliance" class="text-[10px] text-[#c8a97e] font-bold">100% норма</span>
+          </div>
+          <div id="annual-months-grid" class="grid grid-cols-4 gap-1.5 text-center text-[10px]"></div>
+        </div>
       </div>
 
       <!-- ПОДВКЛАДКА 2: АНАЛИТИКА -->
@@ -1346,6 +1360,46 @@ html, body {
           Добавить в тренировку
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- МОДАЛКА: ВЫБОР ТРЕНИРОВКИ ДЛЯ ДАТЫ В КАЛЕНДАРЕ -->
+  <div id="modal-date-workout-picker" class="fixed inset-0 z-50 modal-backdrop hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="max-w-md w-full glass-panel-elevated rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 shadow-2xl font-mono text-xs">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <h3 id="picker-modal-title" class="font-bold text-white uppercase">Выбор тренировки на дату</h3>
+        <button onclick="closeModal('modal-date-workout-picker')" class="text-slate-400 font-bold px-2 py-1">✕</button>
+      </div>
+      <div class="space-y-2">
+        <button onclick="launchWorkoutOnSelectedDate('a')" class="w-full p-3 glass-panel hover:bg-white/10 text-left rounded-xl flex justify-between items-center">
+          <div>
+            <b class="text-white block">Программа А (База Верх + Ноги)</b>
+            <span class="text-[10px] text-slate-400">Наклонный жим, Жим ногами, Спина</span>
+          </div>
+          <span class="text-[#c8a97e] font-bold">Выбрать →</span>
+        </button>
+        <button onclick="launchWorkoutOnSelectedDate('b')" class="w-full p-3 glass-panel hover:bg-white/10 text-left rounded-xl flex justify-between items-center">
+          <div>
+            <b class="text-white block">Программа Б (Бабочка + Брусья)</b>
+            <span class="text-[10px] text-slate-400">Сведения, Хаммер, Румынка</span>
+          </div>
+          <span class="text-[#c8a97e] font-bold">Выбрать →</span>
+        </button>
+        <button onclick="launchWorkoutOnSelectedDate('c')" class="w-full p-3 glass-panel hover:bg-white/10 text-left rounded-xl flex justify-between items-center">
+          <div>
+            <b class="text-white block">Программа В (Разгрузка шеи + Руки)</b>
+            <span class="text-[10px] text-slate-400">Тяга каната, Пампинг, Кардио</span>
+          </div>
+          <span class="text-[#c8a97e] font-bold">Выбрать →</span>
+        </button>
+        <button onclick="launchWorkoutOnSelectedDate('free')" class="w-full p-3 bg-[#c8a97e]/15 hover:bg-[#c8a97e]/25 text-left rounded-xl border border-[#c8a97e]/40 flex justify-between items-center">
+          <div>
+            <b class="text-[#c8a97e] block">Свободная тренировка (Любые упр.)</b>
+            <span class="text-[10px] text-slate-300">Каталог 30+ упражнений</span>
+          </div>
+          <span class="text-[#c8a97e] font-bold">Выбрать →</span>
+        </button>
+      </div>
     </div>
   </div>
 
