@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ASU-TP Iron Coach PRO</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { green: '#10b981', cyan: '#06b6d4', violet: '#8b5cf6', amber: '#f59e0b', rose: '#f43f5e', dark: '#060911', card: '#0f172a' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="selection:bg-emerald-500/30">
+
+  <!-- TOP STATUS BAR (XP / STREAK / LEVEL) -->
+  <header class="sticky top-0 z-40 glass border-b border-slate-800/80 px-4 py-2.5">
+    <div class="max-w-md mx-auto space-y-2">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 via-cyan-400 to-violet-500 p-0.5 shadow-md">
+            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-sm">🦾</div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h1 class="font-extrabold text-xs text-white uppercase tracking-wider">IRON COACH <span class="text-[9px] font-mono px-1 py-0.2 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded">S-TIER</span></h1>
+              <span id="level-badge" class="text-[10px] font-mono font-bold px-1.5 py-0.2 bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-md">УРОВЕНЬ 1</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-mono">178 см • 83 кг • Фуллбоди S-Класса</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <button onclick="copyCoachSummary()" title="Скопировать сводку для тренера" class="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg text-cyan-300 text-xs font-mono font-bold touch-press flex items-center space-x-1">
+            <span>📋</span><span>Сводка</span>
+          </button>
+          <div class="flex items-center space-x-1 px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-amber-400 text-xs font-mono font-bold">
+            <span>🔥</span><span id="streak-count">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- XP PROGRESS BAR -->
+      <div class="space-y-0.5">
+        <div class="flex justify-between text-[9px] font-mono text-slate-400">
+          <span>⚡ Опыт: <b id="xp-text" class="text-emerald-400">0</b> XP</span>
+          <span>До Level 2: <b id="xp-next" class="text-slate-300">500 XP</b></span>
+        </div>
+        <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+          <div id="xp-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-md mx-auto p-4 space-y-4">
+    
+    <!-- ======================================================== -->
+    <!-- TAB 1: WORKOUTS PRO (S-TIER FULL BODY) -->
+    <!-- ======================================================== -->
+    <section id="tab-workouts" class="tab-pane active space-y-4">
+      
+      <!-- QUICK UTILITIES TOOLBAR -->
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="openModal('modal-1rm')" class="p-2.5 glass hover:border-violet-500/50 rounded-xl flex items-center space-x-2 touch-press">
+          <span class="text-base">⚡</span>
+          <div class="text-left">
+            <span class="text-[11px] font-bold text-white block">Калькулятор 1ПМ</span>
+            <span class="text-[9px] text-violet-400 font-mono">Максимальная сила</span>
+          </div>
+        </button>
+        <button onclick="openModal('modal-burn-info')" class="p-2.5 glass hover:border-amber-500/50 rounded-xl flex items-center space-x-2 touch-press">
+          <span class="text-base">🔥</span>
+          <div class="text-left">
+            <span class="text-[11px] font-bold text-white block">Расход ккал (MET)</span>
+            <span class="text-[9px] text-amber-400 font-mono">Формула EPOC 83кг</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- WORKOUT PLAN SELECTION -->
+      <div id="workout-selector" class="space-y-3">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Выбери тренировочный день:</h2>
+          <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">2 Основы + 1 Бонус</span>
+        </div>
+
+        <!-- FULL BODY A (TUESDAY) -->
+        <div onclick="startWorkout('a')" class="glass hover:border-emerald-500/50 p-4 rounded-2xl cursor-pointer touch-press space-y-2 border-l-4 border-l-emerald-500">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-emerald-400 font-mono uppercase tracking-wider">ВТОРНИК • ОСНОВА (ДЕНЬ А)</span>
+              <h3 class="font-extrabold text-base text-white">Full Body A (Верх груди + Жим лежа + Квадры + Спина)</h3>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 text-xs font-mono font-bold">~430 ккал</span>
+          </div>
+          <p class="text-xs text-slate-400">Наклонный жим 30°, Жим гантелей лежа, Жим ногами, Тяга горизонтального блока, Сгибания ног, Махи в стороны, Трицепс канат, Скручивания на блоке («Молитва»).</p>
+        </div>
+
+        <!-- FULL BODY B (THURSDAY) -->
+        <div onclick="startWorkout('b')" class="glass hover:border-cyan-500/50 p-4 rounded-2xl cursor-pointer touch-press space-y-2 border-l-4 border-l-cyan-500">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-cyan-400 font-mono uppercase tracking-wider">ЧЕТВЕРГ • ОСНОВА (ДЕНЬ Б)</span>
+              <h3 class="font-extrabold text-base text-white">Full Body B (Бабочка + Брусья + Румынка + Тяга блока)</h3>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 text-xs font-mono font-bold">~450 ккал</span>
+          </div>
+          <p class="text-xs text-slate-400">Сведения в бабочке/кроссовере, Брусья/Хаммер, Румынская тяга, Тяга верхнего блока нейтрально (V-хват), Гакк-приседания, Жим гантелей сидя, Бицепс, Подъем ног в висе.</p>
+        </div>
+
+        <!-- FULL BODY C (SUNDAY - OPTIONAL RECHARGE) -->
+        <div onclick="startWorkout('c')" class="glass hover:border-violet-500/50 p-4 rounded-2xl cursor-pointer touch-press space-y-2 border-l-4 border-l-violet-500 bg-slate-900/40">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-violet-400 font-mono uppercase tracking-wider">ВОСКРЕСЕНЬЕ • ОПЦИОНАЛЬНО (БОНУС)</span>
+              <h3 class="font-extrabold text-base text-white">Recharge & Памп (Осанка + Шея/Лопатка + Руки + Кардио)</h3>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-violet-950 text-violet-300 text-xs font-mono font-bold">По желанию</span>
+          </div>
+          <p class="text-xs text-slate-400">Face Pulls (шея и ротаторы), Легкий памп груди, Суперсет на руки, Икры стоя, Ходьба в горку на дорожке (Зона 2).</p>
+        </div>
+      </div>
+
+      <!-- ACTIVE WORKOUT VIEW -->
+      <div id="workout-active" class="hidden space-y-4">
+        <div class="glass p-4 rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 space-y-2">
+          <div class="flex justify-between items-center">
+            <div>
+              <span id="wo-active-tag" class="text-[10px] font-bold text-emerald-400 font-mono uppercase tracking-wider">День А</span>
+              <h2 id="wo-active-title" class="text-base font-extrabold text-white">Full Body A</h2>
+            </div>
+            <div class="flex items-center space-x-3 text-right">
+              <div>
+                <span id="wo-live-tonnage" class="text-sm font-extrabold font-mono text-emerald-400 block">0 кг</span>
+                <span class="text-[9px] text-slate-400 font-mono">тоннаж</span>
+              </div>
+              <div class="border-l border-slate-800 pl-3">
+                <span id="wo-live-calories" class="text-sm font-extrabold font-mono text-amber-400 block">0 ккал</span>
+                <span class="text-[9px] text-slate-400 font-mono">сожжено 🔥</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXERCISES CONTAINER -->
+        <div id="active-exercises-container" class="space-y-4"></div>
+
+        <!-- FINISH / CANCEL BUTTONS -->
+        <div class="space-y-2 pt-2">
+          <button onclick="finishActiveWorkout()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 font-black text-sm uppercase tracking-wider touch-press shadow-xl shadow-emerald-500/25 flex items-center justify-center space-x-2">
+            <span>✓</span><span>Завершить тренировку и сохранить в архив</span>
+          </button>
+          <button onclick="cancelWorkout()" class="w-full py-2.5 text-xs text-rose-400 font-bold hover:text-rose-300">
+            Отменить тренировку
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: METRICS (ПРЯМОЙ ВВОД И РЕДАКТИРОВАНИЕ) -->
+    <!-- ======================================================== -->
+    <section id="tab-metrics" class="tab-pane space-y-4">
+      
+      <!-- DIRECT EDITABLE MEASUREMENT TILES -->
+      <div class="glass p-4 rounded-2xl space-y-3 glass-accent">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-extrabold text-sm text-white">📐 Твои текущие замеры</h3>
+            <p class="text-[11px] text-slate-400">Нажимай прямо на цифры ниже, чтобы изменить:</p>
+          </div>
+          <span id="whtr-status-badge" class="px-2 py-0.5 text-xs font-mono font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800">
+            🟢 Готов
+          </span>
+        </div>
+
+        <!-- 6 INTERACTIVE EDITABLE TILES -->
+        <div class="grid grid-cols-3 gap-2 text-center pt-1">
+          
+          <!-- WEIGHT -->
+          <div class="bg-slate-950/90 p-2 rounded-xl border border-slate-800 focus-within:border-emerald-500 transition-colors">
+            <span class="text-[10px] text-slate-400 block font-medium">⚖️ Вес (кг)</span>
+            <input type="number" step="0.1" inputmode="decimal" id="tile-weight" placeholder="83.0" onclick="this.select()" onfocus="this.select()" oninput="onTileInputChanged()"
+              class="w-full bg-transparent text-center text-lg font-black text-white font-mono outline-none py-0.5">
+          </div>
+
+          <!-- WAIST -->
+          <div class="bg-slate-950/90 p-2 rounded-xl border border-slate-800 focus-within:border-cyan-500 transition-colors">
+            <span class="text-[10px] text-slate-400 block font-medium">📏 Талия (см)</span>
+            <input type="number" step="0.5" inputmode="decimal" id="tile-waist" placeholder="91.5" onclick="this.select()" onfocus="this.select()" oninput="onTileInputChanged()"
+              class="w-full bg-transparent text-center text-lg font-black text-cyan-400 font-mono outline-none py-0.5">
+          </div>
+
+          <!-- BICEPS -->
+          <div class="bg-slate-950/90 p-2 rounded-xl border border-slate-800 focus-within:border-violet-500 transition-colors">
+            <span class="text-[10px] text-slate-400 block font-medium">💪 Бицепс (см)</span>
+            <input type="number" step="0.2" inputmode="decimal" id="tile-biceps" placeholder="38.5" onclick="this.select()" onfocus="this.select()" oninput="onTileInputChanged()"
+              class="w-full bg-transparent text-center text-lg font-black text-emerald-400 font-mono outline-none py-0.5">
+          </div>
+
+          <!-- CHEST -->
+          <div class="bg-slate-950/90 p-2 rounded-xl border border-slate-800 focus-within:border-violet-500 transition-colors">
+            <span class="text-[10px] text-slate-400 block font-medium">📐 Грудь (см)</span>
+            <input type="number" step="0.5" inputmode="decimal" id="tile-chest" placeholder="104.0" onclick="this.select()" onfocus="this.select()" oninput="onTileInputChanged()"
+              class="w-full bg-transparent text-center text-lg font-black text-violet-400 font-mono outline-none py-0.5">
+          </div>
+
+          <!-- THIGH -->
+          <div class="bg-slate-950/90 p-2 rounded-xl border border-slate-800 focus-within:border-amber-500 transition-colors">
+            <span class="text-[10px] text-slate-400 block font-medium">🍗 Бедро (см)</span>
+            <input type="number" step="0.5" inputmode="decimal" id="tile-thigh" placeholder="59.0" onclick="this.select()" onfocus="this.select()" oninput="onTileInputChanged()"
+              class="w-full bg-transparent text-center text-lg font-black text-amber-400 font-mono outline-none py-0.5">
+          </div>
+
+          <!-- NECK -->
+          <div class="bg-slate-950/90 p-2 rounded-xl border border-slate-800 focus-within:border-rose-500 transition-colors">
+            <span class="text-[10px] text-slate-400 block font-medium">👔 Шея (см)</span>
+            <input type="number" step="0.5" inputmode="decimal" id="tile-neck" placeholder="39.5" onclick="this.select()" onfocus="this.select()" oninput="onTileInputChanged()"
+              class="w-full bg-transparent text-center text-lg font-black text-slate-200 font-mono outline-none py-0.5">
+          </div>
+        </div>
+
+        <!-- SAVE BUTTON -->
+        <button onclick="saveCurrentTilesAsMeasurement()" class="w-full py-3 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl touch-press shadow-md shadow-emerald-500/20">
+          💾 Зафиксировать эти замеры в историю (+40 XP)
+        </button>
+      </div>
+
+      <!-- INTERACTIVE DYNAMIC TREND GRAPH -->
+      <div class="glass p-4 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="font-extrabold text-xs text-white uppercase tracking-wider">📈 График динамики:</h3>
+          <div class="flex space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
+            <button onclick="setChartFilter('all')" id="btn-chart-all" class="px-2 py-0.5 text-[10px] font-bold rounded-lg bg-emerald-500 text-slate-950">Все</button>
+            <button onclick="setChartFilter('weight')" id="btn-chart-weight" class="px-2 py-0.5 text-[10px] font-bold rounded-lg text-slate-400">Вес</button>
+            <button onclick="setChartFilter('waist')" id="btn-chart-waist" class="px-2 py-0.5 text-[10px] font-bold rounded-lg text-slate-400">Талия</button>
+            <button onclick="setChartFilter('biceps')" id="btn-chart-biceps" class="px-2 py-0.5 text-[10px] font-bold rounded-lg text-slate-400">Бицепс</button>
+          </div>
+        </div>
+
+        <div class="w-full bg-slate-950/90 rounded-xl p-2 border border-slate-800">
+          <canvas id="chart-canvas" class="w-full" style="height: 180px;"></canvas>
+        </div>
+
+        <div class="flex justify-around text-[10px] font-mono">
+          <span class="text-emerald-400">● Вес (кг)</span>
+          <span class="text-cyan-400">● Талия (см)</span>
+          <span class="text-violet-400">● Бицепс (см)</span>
+          <span class="text-amber-400">● Грудь (см)</span>
+        </div>
+      </div>
+
+      <!-- MEASUREMENTS LOG HISTORY TABLE -->
+      <div class="glass p-4 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="font-extrabold text-sm text-white">📋 История замеров тела</h3>
+          <span class="text-[10px] text-slate-400 font-mono">по датам</span>
+        </div>
+        <div id="metrics-log-container" class="space-y-2"></div>
+      </div>
+
+      <!-- 3-PHASE INTERACTIVE VACUUM TRAINER (PRO EDITION) -->
+      <div class="glass p-4 rounded-2xl border border-cyan-500/30 space-y-3.5 glass-cyan">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-extrabold text-sm text-cyan-300">🌬️ Тренажер Утреннего Вакуума</h3>
+            <p class="text-[11px] text-slate-400">Укрепление поперечной мышцы живота натощак</p>
+          </div>
+          <div class="flex items-center space-x-1 font-mono text-[11px] text-cyan-300 bg-cyan-950/80 px-2.5 py-1 rounded-lg border border-cyan-800">
+            <span>Подход: </span><b id="vac-set-counter">1/5</b>
+          </div>
+        </div>
+
+        <!-- DURATION PRESETS (15s, 20s, 25s) -->
+        <div class="flex justify-between items-center bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
+          <span class="text-[10px] text-slate-400 font-medium pl-2">Длительность вакуума:</span>
+          <div class="flex space-x-1">
+            <button onclick="setVacuumDuration(15)" id="btn-vac-15" class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-cyan-500 text-slate-950">15с</button>
+            <button onclick="setVacuumDuration(20)" id="btn-vac-20" class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg text-slate-400">20с</button>
+            <button onclick="setVacuumDuration(25)" id="btn-vac-25" class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg text-slate-400">25с</button>
+          </div>
+        </div>
+
+        <!-- MAIN INTERACTIVE DISPLAY -->
+        <div class="flex flex-col items-center justify-center p-4 bg-slate-950/95 rounded-2xl border border-slate-800 space-y-3 text-center">
+          <div id="vac-circle" class="w-24 h-24 rounded-full bg-cyan-950/40 border-4 border-cyan-400 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/20 transition-all duration-300">
+            <span id="vac-timer-text" class="text-3xl font-black text-white font-mono">15</span>
+            <span id="vac-sec-label" class="text-[9px] text-cyan-400 font-mono font-bold uppercase">сек</span>
+          </div>
+
+          <div class="space-y-0.5">
+            <h4 id="vac-phase" class="text-sm font-black text-cyan-300 uppercase tracking-wider">Готов к старту</h4>
+            <p id="vac-instruction" class="text-xs text-slate-300">Нажми «Старт», сделай вдох грудью, полный выдох и втяни живот.</p>
+          </div>
+
+          <div class="flex space-x-2 w-full pt-1">
+            <button id="btn-vac-start" onclick="toggleVacuumSession()" class="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl touch-press shadow-md">
+              ▶️ Старт подхода
+            </button>
+            <button id="btn-vac-reset" onclick="resetVacuumSession()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl touch-press border border-slate-700">
+              ↺ Сброс
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSTURE RELIEF -->
+      <div class="glass p-4 rounded-2xl space-y-3 border border-violet-500/30">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <span class="text-lg">🧑‍💻</span>
+            <div>
+              <h3 class="font-bold text-sm text-white">Разминка лопатки и шеи АСУ ТП</h3>
+              <p class="text-[11px] text-slate-400">Снятие спазма m. levator scapulae</p>
+            </div>
+          </div>
+          <button onclick="togglePostureGuide()" class="text-xs font-bold text-violet-400 px-2 py-1 bg-violet-950 rounded-lg border border-violet-800">
+            Инструкция
+          </button>
+        </div>
+        <div id="posture-guide-content" class="hidden space-y-2 pt-1 text-xs text-slate-300 bg-slate-900/60 p-3 rounded-xl">
+          <p>• <b>Депрессия лопаток:</b> Опусти плечи вниз, сдвинь лопатки к позвоночнику (10 повторений с удержанием 3 сек).</p>
+          <p>• <b>Растяжка шеи:</b> Наклони голову вправо, левое плечо тяни вниз к полу (20 сек на сторону).</p>
+          <p>• <b>Chin Tuck:</b> Задвинь подбородок назад, вытягивая макушку вверх (12 повторов).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: NUTRITION & MACROS -->
+    <!-- ======================================================== -->
+    <section id="tab-nutrition" class="tab-pane space-y-4">
+      
+      <div class="glass p-4 rounded-2xl space-y-3.5 glass-accent">
+        <div class="flex justify-between items-center">
+          <h3 class="font-extrabold text-sm text-white">🥩 БЖУ Рекомпозиции</h3>
+          <span class="text-xs font-mono font-bold text-emerald-400">Цель: 2000 ккал</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 text-center font-mono">
+          <div>
+            <span class="text-[10px] text-slate-400 block">Потреблено:</span>
+            <span id="nut-cal-eaten" class="text-sm font-black text-white">0 ккал</span>
+          </div>
+          <div class="border-l border-slate-800">
+            <span class="text-[10px] text-slate-400 block">Сожжено тренингом:</span>
+            <span id="nut-cal-burned" class="text-sm font-black text-amber-400">0 ккал 🔥</span>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-emerald-400">Белок</span>
+              <span id="nut-p-val" class="font-mono text-white font-bold">0 / 150 г</span>
+            </div>
+            <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+              <div id="nut-p-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-semibold">
+              <span class="text-cyan-400">Вода</span>
+              <span id="nut-w-val" class="font-mono text-white font-bold">0.0 / 2.5 л</span>
+            </div>
+            <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+              <div id="nut-w-bar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-400 transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass p-4 rounded-2xl space-y-3">
+        <div class="flex justify-between items-center">
+          <h4 class="font-bold text-xs text-slate-300 uppercase tracking-wider">Быстрое добавление в 1 тап:</h4>
+          <button onclick="resetDailyNutrition()" class="text-[10px] text-rose-400 font-bold px-2 py-1 bg-slate-900 rounded-lg border border-slate-800">
+            ↺ Сбросить день
+          </button>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="addProtein(19, 210)" class="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left touch-press">
+            <span class="text-xs font-bold text-white block">🥚 3 Вареных яйца</span>
+            <span class="text-[10px] text-emerald-400 font-mono">+19 г белка • 210 ккал</span>
+          </button>
+          <button onclick="addProtein(42, 230)" class="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left touch-press">
+            <span class="text-xs font-bold text-white block">🍗 180г Куриная грудка</span>
+            <span class="text-[10px] text-emerald-400 font-mono">+42 г белка • 230 ккал</span>
+          </button>
+          <button onclick="addProtein(32, 220)" class="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left touch-press">
+            <span class="text-xs font-bold text-white block">🥛 180г Творог 5%</span>
+            <span class="text-[10px] text-emerald-400 font-mono">+32 г белка • 220 ккал</span>
+          </button>
+          <button onclick="addProtein(38, 250)" class="p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left touch-press">
+            <span class="text-xs font-bold text-white block">🐟 200г Белая рыба</span>
+            <span class="text-[10px] text-emerald-400 font-mono">+38 г белка • 250 ккал</span>
+          </button>
+          <button onclick="addProtein(25, 120)" class="col-span-2 p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl flex justify-between items-center touch-press">
+            <div>
+              <span class="text-xs font-bold text-white block">🥤 Порция протеина</span>
+              <span class="text-[10px] text-emerald-400 font-mono">+25 г чистого белка • 120 ккал</span>
+            </div>
+            <span class="px-2.5 py-1 bg-emerald-950 text-emerald-300 font-mono font-bold text-xs rounded-lg border border-emerald-800">+25г</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="glass p-4 rounded-2xl flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <span class="text-2xl">💧</span>
+          <div>
+            <h4 class="text-xs font-bold text-white">Стакан воды</h4>
+            <span class="text-[10px] text-slate-400">+250 мл</span>
+          </div>
+        </div>
+        <button onclick="addWater(250)" class="px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl touch-press shadow-md">
+          +250 мл
+        </button>
+      </div>
+
+      <div class="glass p-4 rounded-2xl space-y-2.5">
+        <h4 class="font-bold text-xs text-slate-300 uppercase tracking-wider">Дневной чек-лист дисциплины:</h4>
+        <div class="space-y-1.5">
+          <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
+            <input type="checkbox" id="chk-vac" class="custom-checkbox" onchange="toggleChecklist('vac', this.checked)">
+            <span class="text-xs text-slate-200">🌬️ Утренний вакуум (4–5 подходов натощак)</span>
+          </label>
+          <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
+            <input type="checkbox" id="chk-steps" class="custom-checkbox" onchange="toggleChecklist('steps', this.checked)">
+            <span class="text-xs text-slate-200">🚶 8 000–10 000 шагов за день</span>
+          </label>
+          <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
+            <input type="checkbox" id="chk-prot" class="custom-checkbox" onchange="toggleChecklist('prot', this.checked)">
+            <span class="text-xs text-slate-200">🥩 Закрыть норму 150г белка</span>
+          </label>
+          <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
+            <input type="checkbox" id="chk-water" class="custom-checkbox" onchange="toggleChecklist('water', this.checked)">
+            <span class="text-xs text-slate-200">💧 Выпить 2.5 литра воды</span>
+          </label>
+          <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
+            <input type="checkbox" id="chk-sleep" class="custom-checkbox" onchange="toggleChecklist('sleep', this.checked)">
+            <span class="text-xs text-slate-200">😴 7.5–8 часов сна для восстановления</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: ARCHIVE & CRUD (РЕДАКТИРОВАНИЕ И СБРОС) -->
+    <!-- ======================================================== -->
+    <section id="tab-history" class="tab-pane space-y-4">
+      
+      <!-- CONTROLS & MANUAL ADD -->
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="font-extrabold text-base text-white">📊 Архив тренировок</h3>
+          <p class="text-[11px] text-slate-400">Просмотр, редактирование и экспорт для тренера</p>
+        </div>
+        <div class="flex space-x-1.5">
+          <button onclick="copyCoachSummary()" class="px-2.5 py-1.5 bg-cyan-950 text-cyan-300 border border-cyan-800 font-bold text-xs rounded-xl touch-press flex items-center space-x-1">
+            <span>📤</span><span>Экспорт</span>
+          </button>
+          <button onclick="openAddManualWorkoutModal()" class="px-3 py-1.5 bg-emerald-500 text-slate-950 font-black text-xs rounded-xl touch-press">
+            ➕ Добавить
+          </button>
+        </div>
+      </div>
+
+      <!-- WORKOUT HISTORY LIST -->
+      <div id="history-container" class="space-y-3"></div>
+
+      <!-- MASTER SYSTEM RESET CARD -->
+      <div class="glass p-4 rounded-2xl border border-rose-900/50 space-y-2 bg-rose-950/10">
+        <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+          <span>⚠️</span> Управление данными и Сброс
+        </h4>
+        <p class="text-[11px] text-slate-400">Если хочешь начать все тренировки, уровень и опыт с абсолютного нуля:</p>
+        <button onclick="resetAllAppProgress()" class="w-full py-2.5 bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 font-bold text-xs rounded-xl touch-press">
+          ↺ Полный сброс опыта и истории (Старт с Уровня 1)
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- FLOATING REST TIMER HUD -->
+  <!-- ======================================================== -->
+  <div id="timer-bar" class="fixed bottom-20 left-4 right-4 max-w-md mx-auto hidden z-50">
+    <div class="glass border-2 border-emerald-500 p-3 rounded-2xl shadow-2xl flex items-center justify-between timer-glow bg-slate-950/95">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-500 flex items-center justify-center text-lg">
+          ⏳
+        </div>
+        <div>
+          <span class="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">Отдых между подходами</span>
+          <span id="timer-text" class="text-2xl font-black text-white font-mono">01:30</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-1.5">
+        <button onclick="addTimer(30)" class="px-2.5 py-1.5 bg-slate-800 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 touch-press">+30с</button>
+        <button onclick="stopTimer()" class="px-3 py-1.5 bg-rose-950 text-rose-300 text-xs font-bold rounded-lg border border-rose-800 touch-press">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CALORIE BURN MET INFO -->
+  <!-- ======================================================== -->
+  <div id="modal-burn-info" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="glass max-w-sm w-full p-5 rounded-3xl space-y-4 border border-amber-500/40 bg-slate-950">
+      <div class="flex justify-between items-center">
+        <h3 class="font-extrabold text-sm text-white">🔥 Расчет калорий тренировки</h3>
+        <button onclick="closeModal('modal-burn-info')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+      <div class="space-y-2.5 text-xs text-slate-300">
+        <p>Калории рассчитываются автоматически в реальном времени по научной модели **MET + Механическая работа + EPOC** (дожиг жира после тренировки):</p>
+        <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-1 font-mono text-[11px]">
+          <p>• <b>Базовый вес:</b> 83 кг</p>
+          <p>• <b>Тяжелые базы (ноги/спина):</b> ~12-15 ккал/подход</p>
+          <p>• <b>Жимы/вертикали:</b> ~8-10 ккал/подход</p>
+          <p>• <b>Изоляция (руки/плечи):</b> ~5-6 ккал/подход</p>
+          <p>• <b>Зона 2 кардио:</b> ~7.5 ккал/минуту</p>
+        </div>
+        <p class="text-[10px] text-amber-400 font-mono">✓ Калории суммируются прямо во время выполнения подходов!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: 1RM CALCULATOR -->
+  <!-- ======================================================== -->
+  <div id="modal-1rm" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="glass max-w-sm w-full p-5 rounded-3xl space-y-4 border border-violet-500/40 bg-slate-950">
+      <div class="flex justify-between items-center">
+        <h3 class="font-extrabold text-sm text-white">⚡ Калькулятор 1ПМ (1 Rep Max)</h3>
+        <button onclick="closeModal('modal-1rm')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Вес (кг)</label>
+            <input type="number" step="0.5" inputmode="decimal" id="rm-calc-weight" value="20" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white font-mono font-bold outline-none" oninput="calculate1RM()">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Повторы (раз)</label>
+            <input type="number" inputmode="numeric" id="rm-calc-reps" value="10" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white font-mono font-bold outline-none" oninput="calculate1RM()">
+          </div>
+        </div>
+        <div id="rm-calc-result" class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-xs text-slate-200 font-mono space-y-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: EDIT WORKOUT HISTORY ENTRY -->
+  <!-- ======================================================== -->
+  <div id="modal-edit-history" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="glass max-w-sm w-full p-5 rounded-3xl space-y-4 border border-cyan-500/40 bg-slate-950 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h3 class="font-extrabold text-sm text-white">✏️ Редактирование тренировки</h3>
+        <button onclick="closeModal('modal-edit-history')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Название тренировки:</label>
+          <input type="text" id="edit-h-name" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white font-bold outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Дата (ГГГГ-ММ-ДД):</label>
+          <input type="date" id="edit-h-date" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white font-mono outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Тоннаж (кг):</label>
+            <input type="number" inputmode="decimal" id="edit-h-tonnage" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-emerald-400 font-mono font-bold outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Ккал сожжено:</label>
+            <input type="number" inputmode="numeric" id="edit-h-calories" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-amber-400 font-mono font-bold outline-none">
+          </div>
+        </div>
+        <div id="edit-h-exercises" class="space-y-2 pt-2 border-t border-slate-800">
+          <!-- Dynamic Exercise Fields -->
+        </div>
+      </div>
+      <div class="flex space-x-2 pt-2">
+        <button onclick="saveEditedHistoryItem()" class="flex-1 py-3 bg-emerald-500 text-slate-950 font-black text-xs uppercase rounded-xl touch-press">
+          Сохранить
+        </button>
+        <button onclick="deleteCurrentEditingHistoryItem()" class="px-4 py-3 bg-rose-950 text-rose-300 border border-rose-800 font-bold text-xs rounded-xl touch-press">
+          Удалить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- BOTTOM NAVIGATION DOCK -->
+  <!-- ======================================================== -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 glass border-t border-slate-800/80 pb-[env(safe-area-inset-bottom)] bg-slate-950/95">
+    <div class="max-w-md mx-auto grid grid-cols-4 h-16">
+      <button id="nav-workouts" onclick="switchTab('workouts')" class="flex flex-col items-center justify-center text-emerald-400 touch-press">
+        <span class="text-lg">🏋️</span><span class="text-[10px] font-bold mt-0.5 uppercase tracking-wider">Тренинг</span>
+      </button>
+      <button id="nav-metrics" onclick="switchTab('metrics')" class="flex flex-col items-center justify-center text-slate-400 touch-press">
+        <span class="text-lg">📐</span><span class="text-[10px] font-bold mt-0.5 uppercase tracking-wider">Замеры</span>
+      </button>
+      <button id="nav-nutrition" onclick="switchTab('nutrition')" class="flex flex-col items-center justify-center text-slate-400 touch-press">
+        <span class="text-lg">🥩</span><span class="text-[10px] font-bold mt-0.5 uppercase tracking-wider">БЖУ</span>
+      </button>
+      <button id="nav-history" onclick="switchTab('history')" class="flex flex-col items-center justify-center text-slate-400 touch-press">
+        <span class="text-lg">📊</span><span class="text-[10px] font-bold mt-0.5 uppercase tracking-wider">Архив</span>
+      </button>
+    </div>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
