@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.21 PRO",
+  version: "v2.8.22 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -3740,7 +3740,7 @@ function syncActiveRestTimer() {
     if (barTxt) barTxt.textContent = "ПОРА! ⚡";
     if (hudTxt) hudTxt.textContent = "ПОРА! ⚡";
     if (modalTxt) modalTxt.textContent = "ПОРА! ⚡";
-    if (reasonTxt) reasonTxt.textContent = "Готов к следующему сету! 🦾";
+    if (reasonTxt) reasonTxt.textContent = "Готов к следующему сету";
 
     if (bar) bar.classList.add("ring-2", "ring-[#c8a97e]", "animate-pulse");
     if (floatingHud) floatingHud.classList.add("ring-2", "ring-[#c8a97e]", "animate-pulse");
