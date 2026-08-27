@@ -1,5 +1,5 @@
 /**
- * ASU-TP Iron Coach PRO - S-Tier Hypertrophy Full-Body Engine
+ * ASU-TP Iron Coach PRO - Multi-Profile & S-Tier Hypertrophy Engine
  */
 
 const Sound = {
@@ -56,61 +56,8 @@ const Haptic = {
   }
 };
 
-function copyCoachSummary() {
-  const m = appState.currentMetrics || {};
-  const hist = appState.history || [];
-  const nut = appState.nutrition || {};
-
-  let lastWosText = "";
-  if (hist.length === 0) {
-    lastWosText = "Тренировок в архиве пока нет.";
-  } else {
-    lastWosText = hist.slice(0, 3).map((h, i) => 
-      `${i + 1}) ${h.date} — ${h.name} (Тоннаж: ${h.tonnage}кг, Сожжено: ~${h.calories || 350}ккал)`
-    ).join("\n");
-  }
-
-  const summary = `📊 [АСУ ТП IRON COACH — СВОДКА ДЛЯ ТРЕНЕРА]:
-• Рост: 178 см | Возраст: 32 года | Инженер АСУ ТП 5/2
-• Травма/Ограничение: операция на левое легкое >10 лет назад, спазм m. levator scapulae
-• Текущий вес: ${m.weight || 83} кг
-• Талия по пупку: ${m.waist || 91.5} см (WHtR: ${((m.waist || 91.5) / 178.0).toFixed(2)})
-• Бицепс: ${m.biceps || 38.5} см | Грудь: ${m.chest || 104} см | Бедро: ${m.thigh || 59} см | Шея: ${m.neck || 39.5} см
-• Сегодня съедено белка: ${nut.protein || 0}/150г | Вода: ${((nut.waterMl || 0)/1000).toFixed(2)}/2.5л
-• Последние тренировки:
-${lastWosText}`;
-
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(summary).then(() => {
-      Sound.success();
-      Haptic.success();
-      alert("✓ Сводка профиля скопирована в буфер обмена!\n\nПросто вставь (Ctrl+V или долгое нажатие) в наш чат с тренером для разбора.");
-    }).catch(() => {
-      prompt("Скопируй текст сводки вручную:", summary);
-    });
-  } else {
-    prompt("Скопируй текст сводки вручную:", summary);
-  }
-
-  sendCoachReportToTelegram(`<pre>${summary}</pre>`);
-}
-
-async function sendCoachReportToTelegram(reportHtml) {
-  try {
-    const user = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
-    const chatId = user ? user.id : null;
-    if (!chatId) return;
-
-    await fetch('/api/sync-report', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chatId, text: reportHtml })
-    });
-  } catch(e) {}
-}
-
 // ========================================================
-// S-TIER FULL-BODY SYSTEM (2 CORE DAYS + 1 OPTIONAL BONUS)
+// S-TIER FULL-BODY EXERCISE PROGRAMS (GOLD STANDARD)
 // ========================================================
 const DEFAULT_PROGRAMS = {
   a: {
@@ -151,12 +98,21 @@ const DEFAULT_PROGRAMS = {
   }
 };
 
-function getInitialState() {
+// ========================================================
+// MULTI-PROFILE STORAGE & STORE MANAGEMENT
+// ========================================================
+function createDefaultProfile(id = "prof_roman", name = "Роман", age = 32, height = 178, weight = 83.0, injuries = "Перенес операцию на левое легкое >10 лет назад, спазм m. levator scapulae", goal = "Рекомпозиция (Сушка + Тонус)") {
   return {
+    id: id,
+    name: name,
+    age: age,
+    height: height,
+    injuries: injuries,
+    goal: goal,
     xp: 0,
     streak: 0,
     currentMetrics: {
-      weight: 83.0,
+      weight: weight,
       waist: 91.5,
       biceps: 38.5,
       chest: 104.0,
@@ -165,9 +121,9 @@ function getInitialState() {
     },
     metrics: [
       {
-        id: "m_init",
+        id: "m_init_" + Date.now(),
         date: new Date().toISOString().split("T")[0],
-        weight: 83.0,
+        weight: weight,
         waist: 91.5,
         biceps: 38.5,
         chest: 104.0,
@@ -188,33 +144,101 @@ function getInitialState() {
   };
 }
 
-let appState = getInitialState();
-let currentEditingHistoryIndex = null;
-let currentChartFilter = 'all';
+let multiStore = {
+  activeProfileId: "prof_roman",
+  profiles: [
+    createDefaultProfile()
+  ]
+};
+
+function getActiveProfile() {
+  let p = multiStore.profiles.find(x => x.id === multiStore.activeProfileId);
+  if (!p) {
+    p = multiStore.profiles[0];
+    if (!p) {
+      p = createDefaultProfile();
+      multiStore.profiles = [p];
+    }
+    multiStore.activeProfileId = p.id;
+  }
+  return p;
+}
 
 function loadState() {
-  const raw = localStorage.getItem("asutp_iron_coach_pro_v14");
+  const raw = localStorage.getItem("asutp_iron_coach_multiprofiles_v1");
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-      Object.assign(appState, parsed);
+      if (parsed.profiles && Array.isArray(parsed.profiles) && parsed.profiles.length > 0) {
+        multiStore = parsed;
+      }
     } catch(e) {}
   }
+
+  // Check if opened inside Telegram WebApp with specific user identity
+  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+    const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+    const tgId = "tg_" + tgUser.id;
+    const tgName = tgUser.first_name || (tgUser.username ? `@${tgUser.username}` : "Атлет");
+
+    let existing = multiStore.profiles.find(p => p.id === tgId);
+    if (!existing) {
+      // If we only have the default template, rename it to user's Telegram profile
+      if (multiStore.profiles.length === 1 && multiStore.profiles[0].id === "prof_roman") {
+        multiStore.profiles[0].id = tgId;
+        multiStore.profiles[0].name = tgName;
+        multiStore.activeProfileId = tgId;
+      } else {
+        const newProf = createDefaultProfile(tgId, tgName);
+        multiStore.profiles.push(newProf);
+        multiStore.activeProfileId = tgId;
+      }
+    } else {
+      multiStore.activeProfileId = tgId;
+    }
+  }
+
+  saveState();
 }
 
 function saveState() {
-  localStorage.setItem("asutp_iron_coach_pro_v14", JSON.stringify(appState));
+  localStorage.setItem("asutp_iron_coach_multiprofiles_v1", JSON.stringify(multiStore));
+  renderHeaderProfileInfo();
   renderXP();
 }
 
+function renderHeaderProfileInfo() {
+  const p = getActiveProfile();
+  const nameEl = document.getElementById("header-profile-name");
+  const subEl = document.getElementById("header-profile-sub");
+  const avatarInit = document.getElementById("header-avatar-initials");
+  const weightLabel = document.getElementById("btn-calc-weight-label");
+  const modalWeight = document.getElementById("modal-calc-user-weight");
+
+  const weight = (p.currentMetrics && p.currentMetrics.weight) ? p.currentMetrics.weight : 83;
+  const height = p.height || 178;
+
+  if (nameEl) nameEl.textContent = p.name;
+  if (subEl) subEl.textContent = `${height} см • ${weight} кг`;
+  if (avatarInit) {
+    const initials = p.name.trim().split(" ").map(w => w[0]).join("").toUpperCase().substring(0, 2) || "🦾";
+    avatarInit.textContent = initials;
+  }
+  if (weightLabel) weightLabel.textContent = `${weight}кг`;
+  if (modalWeight) modalWeight.textContent = `${weight} кг`;
+}
+
 function addXP(amount) {
-  appState.xp += amount;
+  const p = getActiveProfile();
+  p.xp = (p.xp || 0) + amount;
   saveState();
 }
 
 function renderXP() {
-  const currentLvl = Math.floor(appState.xp / 500) + 1;
-  const xpInLvl = appState.xp % 500;
+  const p = getActiveProfile();
+  const xp = p.xp || 0;
+  const currentLvl = Math.floor(xp / 500) + 1;
+  const xpInLvl = xp % 500;
   const xpToNext = 500 - xpInLvl;
 
   const lvlEl = document.getElementById("level-badge");
@@ -223,20 +247,248 @@ function renderXP() {
   const xpBar = document.getElementById("xp-bar");
   const strkEl = document.getElementById("streak-count");
 
-  if (lvlEl) lvlEl.textContent = `УРОВЕНЬ ${currentLvl}`;
-  if (xpTxt) xpTxt.textContent = appState.xp;
+  if (lvlEl) lvlEl.textContent = `LVL ${currentLvl}`;
+  if (xpTxt) xpTxt.textContent = xp;
   if (xpNxt) xpNxt.textContent = `${xpToNext} XP`;
   if (xpBar) xpBar.style.width = `${(xpInLvl / 500) * 100}%`;
-  if (strkEl) strkEl.textContent = appState.streak;
+  if (strkEl) strkEl.textContent = p.streak || 0;
+}
+
+// ========================================================
+// PROFILE SWITCHER & MANAGEMENT MODAL
+// ========================================================
+function renderProfilesModal() {
+  const container = document.getElementById("profiles-list-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  multiStore.profiles.forEach(p => {
+    const isActive = p.id === multiStore.activeProfileId;
+    const curW = p.currentMetrics ? p.currentMetrics.weight : 83;
+    const curWaist = p.currentMetrics ? p.currentMetrics.waist : 91.5;
+    const initials = p.name.trim().split(" ").map(w => w[0]).join("").toUpperCase().substring(0, 2) || "👤";
+
+    const card = document.createElement("div");
+    card.className = `p-3 rounded-2xl border transition-all ${isActive ? 'bg-emerald-950/40 border-emerald-500 shadow-md shadow-emerald-500/10' : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'}`;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3 cursor-pointer flex-1" onclick="switchActiveProfile('${p.id}')">
+          <div class="w-10 h-10 rounded-xl ${isActive ? 'bg-gradient-to-br from-emerald-400 to-cyan-500' : 'bg-slate-800'} p-0.5 shadow">
+            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-bold text-xs ${isActive ? 'text-emerald-300' : 'text-slate-300'}">
+              ${initials}
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h4 class="font-extrabold text-sm text-white">${p.name}</h4>
+              ${isActive ? '<span class="px-1.5 py-0.2 bg-emerald-500 text-slate-950 text-[9px] font-black uppercase rounded">АКТИВЕН</span>' : ''}
+            </div>
+            <p class="text-[10px] text-slate-400 font-mono">${p.height || 178} см • ${curW} кг • Талия ${curWaist} см • LVL ${Math.floor((p.xp||0)/500)+1}</p>
+            <p class="text-[10px] text-cyan-400/90 font-medium truncate max-w-[200px]">${p.goal || 'Рекомпозиция'}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1 pl-2">
+          <button onclick="openEditProfileModal('${p.id}')" title="Редактировать" class="p-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs rounded-xl border border-slate-700 touch-press">
+            ✏️
+          </button>
+          ${multiStore.profiles.length > 1 ? `
+            <button onclick="deleteProfile('${p.id}')" title="Удалить профиль" class="p-2 bg-rose-950/60 hover:bg-rose-900 text-rose-400 text-xs rounded-xl border border-rose-900 touch-press">
+              🗑️
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function switchActiveProfile(profId) {
+  if (multiStore.activeProfileId === profId) {
+    closeModal('modal-profiles');
+    return;
+  }
+
+  multiStore.activeProfileId = profId;
+  saveState();
+  closeModal('modal-profiles');
+  Sound.success();
+  Haptic.success();
+
+  // Refresh active tab views
+  renderHeaderProfileInfo();
+  renderXP();
+  renderMetrics();
+  renderNutrition();
+  renderHistory();
+}
+
+function openCreateProfileModal() {
+  closeModal('modal-profiles');
+  document.getElementById("profile-modal-title").textContent = "➕ Создать новый профиль";
+  document.getElementById("prof-form-id").value = "";
+  document.getElementById("prof-form-name").value = "";
+  document.getElementById("prof-form-age").value = "30";
+  document.getElementById("prof-form-height").value = "178";
+  document.getElementById("prof-form-weight").value = "80.0";
+  document.getElementById("prof-form-goal").value = "Рекомпозиция (Сушка + Тонус)";
+  document.getElementById("prof-form-injuries").value = "";
+
+  openModal('modal-create-profile');
+}
+
+function openEditProfileModal(profId) {
+  closeModal('modal-profiles');
+  const p = multiStore.profiles.find(x => x.id === profId);
+  if (!p) return;
+
+  document.getElementById("profile-modal-title").textContent = "✏️ Редактировать профиль";
+  document.getElementById("prof-form-id").value = p.id;
+  document.getElementById("prof-form-name").value = p.name;
+  document.getElementById("prof-form-age").value = p.age || 30;
+  document.getElementById("prof-form-height").value = p.height || 178;
+  document.getElementById("prof-form-weight").value = p.currentMetrics ? p.currentMetrics.weight : 80;
+  document.getElementById("prof-form-goal").value = p.goal || "Рекомпозиция (Сушка + Тонус)";
+  document.getElementById("prof-form-injuries").value = p.injuries || "";
+
+  openModal('modal-create-profile');
+}
+
+function saveProfileForm(e) {
+  e.preventDefault();
+  const id = document.getElementById("prof-form-id").value;
+  const name = document.getElementById("prof-form-name").value.trim();
+  const age = parseInt(document.getElementById("prof-form-age").value) || 30;
+  const height = parseInt(document.getElementById("prof-form-height").value) || 178;
+  const weight = parseFloat(document.getElementById("prof-form-weight").value) || 80.0;
+  const goal = document.getElementById("prof-form-goal").value;
+  const injuries = document.getElementById("prof-form-injuries").value.trim();
+
+  if (id) {
+    // Edit existing
+    const p = multiStore.profiles.find(x => x.id === id);
+    if (p) {
+      p.name = name;
+      p.age = age;
+      p.height = height;
+      p.goal = goal;
+      p.injuries = injuries;
+      if (!p.currentMetrics) p.currentMetrics = { weight, waist: 90, biceps: 38, chest: 100, thigh: 58, neck: 39 };
+      p.currentMetrics.weight = weight;
+    }
+  } else {
+    // Create new
+    const newId = "prof_" + Date.now();
+    const newProf = createDefaultProfile(newId, name, age, height, weight, injuries, goal);
+    multiStore.profiles.push(newProf);
+    multiStore.activeProfileId = newId;
+  }
+
+  saveState();
+  closeModal('modal-create-profile');
+  Sound.success();
+  Haptic.success();
+
+  renderHeaderProfileInfo();
+  renderXP();
+  renderMetrics();
+  renderNutrition();
+  renderHistory();
+}
+
+function deleteProfile(profId) {
+  if (multiStore.profiles.length <= 1) {
+    alert("Нельзя удалить единственный профиль!");
+    return;
+  }
+
+  const p = multiStore.profiles.find(x => x.id === profId);
+  if (confirm(`Точно удалить профиль «${p ? p.name : ''}» со всей его историей?`)) {
+    multiStore.profiles = multiStore.profiles.filter(x => x.id !== profId);
+    if (multiStore.activeProfileId === profId) {
+      multiStore.activeProfileId = multiStore.profiles[0].id;
+    }
+    saveState();
+    renderProfilesModal();
+    renderHeaderProfileInfo();
+    renderXP();
+    renderMetrics();
+    renderNutrition();
+    renderHistory();
+    Sound.beep(400, 0.1);
+  }
+}
+
+function copyCoachSummary() {
+  const p = getActiveProfile();
+  const m = p.currentMetrics || {};
+  const hist = p.history || [];
+  const nut = p.nutrition || {};
+
+  let lastWosText = "";
+  if (hist.length === 0) {
+    lastWosText = "Тренировок в архиве пока нет.";
+  } else {
+    lastWosText = hist.slice(0, 3).map((h, i) => 
+      `${i + 1}) ${h.date} — ${h.name} (Тоннаж: ${h.tonnage}кг, Сожжено: ~${h.calories || 350}ккал)`
+    ).join("\n");
+  }
+
+  const summary = `📊 [АСУ ТП IRON COACH — СВОДКА АТЛЕТА]:
+• Атлет: ${p.name} | Возраст: ${p.age || 32} | Рост: ${p.height || 178} см
+• Цель: ${p.goal || 'Рекомпозиция'}
+• Особенности/Ограничения: ${p.injuries || 'Нет'}
+• Текущий вес: ${m.weight || 83} кг
+• Талия по пупку: ${m.waist || 91.5} см (WHtR: ${((m.waist || 91.5) / (p.height || 178)).toFixed(2)})
+• Бицепс: ${m.biceps || 38.5} см | Грудь: ${m.chest || 104} см | Бедро: ${m.thigh || 59} см | Шея: ${m.neck || 39.5} см
+• Сегодня съедено белка: ${nut.protein || 0}г | Вода: ${((nut.waterMl || 0)/1000).toFixed(2)}л
+• Последние тренировки:
+${lastWosText}`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(summary).then(() => {
+      Sound.success();
+      Haptic.success();
+      alert(`✓ Сводка атлета «${p.name}» скопирована в буфер обмена!\n\nПросто вставь (Ctrl+V) в чат с тренером.`);
+    }).catch(() => {
+      prompt("Скопируй текст сводки вручную:", summary);
+    });
+  } else {
+    prompt("Скопируй текст сводки вручную:", summary);
+  }
+
+  sendCoachReportToTelegram(`<pre>${summary}</pre>`);
+}
+
+async function sendCoachReportToTelegram(reportHtml) {
+  try {
+    const user = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
+    const chatId = user ? user.id : null;
+    if (!chatId) return;
+
+    await fetch('/api/sync-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chatId, text: reportHtml })
+    });
+  } catch(e) {}
 }
 
 function resetAllAppProgress() {
-  const confirmed = confirm("⚠️ ВНИМАНИЕ: Сбросить весь опыт, уровень (до Уровня 1), историю тренировок и замеры?");
+  const p = getActiveProfile();
+  const confirmed = confirm(`⚠️ ВНИМАНИЕ: Сбросить весь опыт, уровень (до Уровня 1), историю тренировок и замеры для профиля «${p.name}»?`);
   if (confirmed) {
-    appState = getInitialState();
-    localStorage.clear();
+    p.xp = 0;
+    p.streak = 0;
+    p.history = [];
+    p.activeWorkout = null;
     saveState();
-    location.reload();
+    renderXP();
+    renderHistory();
+    alert(`✓ Прогресс профиля «${p.name}» сброшен до Уровня 1.`);
   }
 }
 
@@ -274,6 +526,7 @@ function openModal(modalId) {
   Haptic.impact('light');
   document.getElementById(modalId).classList.remove("hidden");
   if (modalId === "modal-1rm") calculate1RM();
+  if (modalId === "modal-profiles") renderProfilesModal();
 }
 function closeModal(modalId) {
   document.getElementById(modalId).classList.add("hidden");
@@ -310,8 +563,9 @@ function startWorkout(planKey) {
   Sound.beep(600, 0.1);
   Haptic.impact('medium');
   const plan = DEFAULT_PROGRAMS[planKey];
+  const p = getActiveProfile();
 
-  appState.activeWorkout = {
+  p.activeWorkout = {
     key: planKey,
     name: plan.name,
     exercises: plan.exercises.map(e => ({
@@ -336,10 +590,13 @@ function startWorkout(planKey) {
 }
 
 function renderActiveWorkoutUI() {
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+
   document.getElementById("workout-selector").classList.add("hidden");
   document.getElementById("workout-active").classList.remove("hidden");
 
-  const wo = appState.activeWorkout;
+  const wo = p.activeWorkout;
   document.getElementById("wo-active-tag").textContent = wo.key.toUpperCase();
   document.getElementById("wo-active-title").textContent = wo.name;
 
@@ -411,16 +668,20 @@ function renderActiveWorkoutUI() {
 }
 
 function updateSet(exIdx, sIdx, field, val) {
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
   const num = parseFloat(val);
-  appState.activeWorkout.exercises[exIdx].sets[sIdx][field] = isNaN(num) ? 0 : num;
+  p.activeWorkout.exercises[exIdx].sets[sIdx][field] = isNaN(num) ? 0 : num;
   saveState();
   updateLiveWorkoutStats();
 }
 
 function stepWeight(exIdx, sIdx, delta) {
-  const current = appState.activeWorkout.exercises[exIdx].sets[sIdx].weight || 0;
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  const current = p.activeWorkout.exercises[exIdx].sets[sIdx].weight || 0;
   const next = Math.max(0, current + delta);
-  appState.activeWorkout.exercises[exIdx].sets[sIdx].weight = next;
+  p.activeWorkout.exercises[exIdx].sets[sIdx].weight = next;
   saveState();
   renderActiveWorkoutUI();
   Sound.beep(600, 0.05);
@@ -428,9 +689,11 @@ function stepWeight(exIdx, sIdx, delta) {
 }
 
 function stepReps(exIdx, sIdx, delta) {
-  const current = appState.activeWorkout.exercises[exIdx].sets[sIdx].reps || 0;
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  const current = p.activeWorkout.exercises[exIdx].sets[sIdx].reps || 0;
   const next = Math.max(0, current + delta);
-  appState.activeWorkout.exercises[exIdx].sets[sIdx].reps = next;
+  p.activeWorkout.exercises[exIdx].sets[sIdx].reps = next;
   saveState();
   renderActiveWorkoutUI();
   Sound.beep(600, 0.05);
@@ -438,7 +701,9 @@ function stepReps(exIdx, sIdx, delta) {
 }
 
 function toggleSet(exIdx, sIdx, done) {
-  appState.activeWorkout.exercises[exIdx].sets[sIdx].done = done;
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  p.activeWorkout.exercises[exIdx].sets[sIdx].done = done;
   saveState();
   updateLiveWorkoutStats();
 
@@ -451,7 +716,9 @@ function toggleSet(exIdx, sIdx, done) {
 }
 
 function resetExerciseSets(exIdx) {
-  const ex = appState.activeWorkout.exercises[exIdx];
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  const ex = p.activeWorkout.exercises[exIdx];
   ex.sets.forEach(s => {
     s.done = false;
     s.weight = ex.defaultWeight;
@@ -463,7 +730,9 @@ function resetExerciseSets(exIdx) {
 }
 
 function addSetToExercise(exIdx) {
-  const ex = appState.activeWorkout.exercises[exIdx];
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  const ex = p.activeWorkout.exercises[exIdx];
   const lastSet = ex.sets[ex.sets.length - 1];
   ex.sets.push({
     set: ex.sets.length + 1,
@@ -476,7 +745,9 @@ function addSetToExercise(exIdx) {
 }
 
 function removeSetFromExercise(exIdx) {
-  const ex = appState.activeWorkout.exercises[exIdx];
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  const ex = p.activeWorkout.exercises[exIdx];
   if (ex.sets.length > 1) {
     ex.sets.pop();
     saveState();
@@ -485,18 +756,22 @@ function removeSetFromExercise(exIdx) {
 }
 
 function calculateCurrentCaloriesBurned() {
-  if (!appState.activeWorkout) return 0;
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return 0;
+  const userWeight = (p.currentMetrics && p.currentMetrics.weight) ? p.currentMetrics.weight : 83;
+  const weightFactor = userWeight / 83.0;
+
   let calories = 0;
-  appState.activeWorkout.exercises.forEach(e => {
+  p.activeWorkout.exercises.forEach(e => {
     const doneSets = e.sets.filter(s => s.done);
     if (e.isTime) {
       doneSets.forEach(s => {
-        calories += (s.reps * (e.calRate / 30.0));
+        calories += (s.reps * (e.calRate / 30.0)) * weightFactor;
       });
     } else {
       doneSets.forEach(s => {
         const tonnageSet = (s.weight * s.reps);
-        calories += (e.calRate || 10) + (tonnageSet * 0.008);
+        calories += ((e.calRate || 10) + (tonnageSet * 0.008)) * weightFactor;
       });
     }
   });
@@ -504,9 +779,10 @@ function calculateCurrentCaloriesBurned() {
 }
 
 function updateLiveWorkoutStats() {
-  if (!appState.activeWorkout) return;
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
   let ton = 0;
-  appState.activeWorkout.exercises.forEach(e => {
+  p.activeWorkout.exercises.forEach(e => {
     e.sets.filter(s => s.done).forEach(s => {
       ton += (s.weight * s.reps);
     });
@@ -521,7 +797,9 @@ function updateLiveWorkoutStats() {
 }
 
 function swapExercisePrompt(exIdx) {
-  const ex = appState.activeWorkout.exercises[exIdx];
+  const p = getActiveProfile();
+  if (!p.activeWorkout) return;
+  const ex = p.activeWorkout.exercises[exIdx];
   if (!ex.substitutes || ex.substitutes.length === 0) return;
   const choice = confirm(`Заменить «${ex.name}» на «${ex.substitutes[0]}»?`);
   if (choice) {
@@ -572,7 +850,10 @@ function stopTimer() {
 }
 
 function finishActiveWorkout() {
-  const wo = appState.activeWorkout;
+  const p = getActiveProfile();
+  const wo = p.activeWorkout;
+  if (!wo) return;
+
   let tonnage = 0;
   const exSummaries = [];
 
@@ -589,7 +870,8 @@ function finishActiveWorkout() {
 
   const caloriesBurned = calculateCurrentCaloriesBurned();
 
-  appState.history.unshift({
+  if (!p.history) p.history = [];
+  p.history.unshift({
     id: "wo_" + Date.now(),
     date: new Date().toISOString().split("T")[0],
     name: wo.name,
@@ -598,18 +880,19 @@ function finishActiveWorkout() {
     exercises: exSummaries
   });
 
-  if (!appState.nutrition.caloriesBurned) appState.nutrition.caloriesBurned = 0;
-  appState.nutrition.caloriesBurned += caloriesBurned;
+  if (!p.nutrition) p.nutrition = {};
+  if (!p.nutrition.caloriesBurned) p.nutrition.caloriesBurned = 0;
+  p.nutrition.caloriesBurned += caloriesBurned;
 
   addXP(150);
-  appState.streak += 1;
-  appState.activeWorkout = null;
+  p.streak = (p.streak || 0) + 1;
+  p.activeWorkout = null;
   saveState();
 
   Sound.finish();
   Haptic.success();
 
-  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено калорий: ~${caloriesBurned} ккал 🔥\nПолучено +150 XP!\nЗапись сохранена в архив.`);
+  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nАтлет: ${p.name}\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено калорий: ~${caloriesBurned} ккал 🔥\nПолучено +150 XP!\nЗапись сохранена в архив.`);
   document.getElementById("workout-active").classList.add("hidden");
   document.getElementById("workout-selector").classList.remove("hidden");
   switchTab("history");
@@ -617,7 +900,8 @@ function finishActiveWorkout() {
 
 function cancelWorkout() {
   if (confirm("Отменить текущую тренировку?")) {
-    appState.activeWorkout = null;
+    const p = getActiveProfile();
+    p.activeWorkout = null;
     saveState();
     document.getElementById("workout-active").classList.add("hidden");
     document.getElementById("workout-selector").classList.remove("hidden");
@@ -627,12 +911,15 @@ function cancelWorkout() {
 // ========================================================
 // DIRECT EDITABLE BODY TILES & GRAPH
 // ========================================================
+let currentChartFilter = 'all';
+
 function renderMetrics() {
-  if (!appState.currentMetrics) {
-    appState.currentMetrics = { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 };
+  const p = getActiveProfile();
+  if (!p.currentMetrics) {
+    p.currentMetrics = { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 };
   }
 
-  const cur = appState.currentMetrics;
+  const cur = p.currentMetrics;
   setInputValue("tile-weight", cur.weight);
   setInputValue("tile-waist", cur.waist);
   setInputValue("tile-biceps", cur.biceps);
@@ -640,7 +927,7 @@ function renderMetrics() {
   setInputValue("tile-thigh", cur.thigh);
   setInputValue("tile-neck", cur.neck);
 
-  updateWHtRBadge(cur.waist);
+  updateWHtRBadge(cur.waist, p.height || 178);
   renderMetricsLogList();
   drawTrendChart();
 }
@@ -651,7 +938,8 @@ function setInputValue(id, val) {
 }
 
 function onTileInputChanged() {
-  const cur = appState.currentMetrics || {};
+  const p = getActiveProfile();
+  const cur = p.currentMetrics || {};
   cur.weight = parseFloat(document.getElementById("tile-weight").value) || 0;
   cur.waist = parseFloat(document.getElementById("tile-waist").value) || 0;
   cur.biceps = parseFloat(document.getElementById("tile-biceps").value) || 0;
@@ -659,19 +947,20 @@ function onTileInputChanged() {
   cur.thigh = parseFloat(document.getElementById("tile-thigh").value) || 0;
   cur.neck = parseFloat(document.getElementById("tile-neck").value) || 0;
 
-  appState.currentMetrics = cur;
-  updateWHtRBadge(cur.waist);
+  p.currentMetrics = cur;
+  updateWHtRBadge(cur.waist, p.height || 178);
   saveState();
+  renderHeaderProfileInfo();
 }
 
-function updateWHtRBadge(waist) {
+function updateWHtRBadge(waist, height = 178) {
   const badge = document.getElementById("whtr-status-badge");
   if (!badge) return;
   if (!waist) {
     badge.textContent = "—";
     return;
   }
-  const whtr = (waist / 178.0).toFixed(2);
+  const whtr = (waist / height).toFixed(2);
   if (whtr < 0.49) {
     badge.textContent = `🟢 Норма (${whtr})`;
     badge.className = "px-2 py-0.5 text-xs font-mono font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800";
@@ -686,7 +975,8 @@ function updateWHtRBadge(waist) {
 
 function saveCurrentTilesAsMeasurement() {
   onTileInputChanged();
-  const cur = appState.currentMetrics;
+  const p = getActiveProfile();
+  const cur = p.currentMetrics;
 
   if (!cur.weight && !cur.waist) {
     alert("Пожалуйста, введи хотя бы вес или талию в ячейках выше!");
@@ -694,7 +984,7 @@ function saveCurrentTilesAsMeasurement() {
   }
 
   const today = new Date().toISOString().split("T")[0];
-  const existingIdx = (appState.metrics || []).findIndex(m => m.date === today);
+  const existingIdx = (p.metrics || []).findIndex(m => m.date === today);
 
   const entry = {
     id: "m_" + Date.now(),
@@ -708,10 +998,10 @@ function saveCurrentTilesAsMeasurement() {
   };
 
   if (existingIdx >= 0) {
-    appState.metrics[existingIdx] = entry;
+    p.metrics[existingIdx] = entry;
   } else {
-    if (!appState.metrics) appState.metrics = [];
-    appState.metrics.push(entry);
+    if (!p.metrics) p.metrics = [];
+    p.metrics.push(entry);
   }
 
   addXP(40);
@@ -721,22 +1011,23 @@ function saveCurrentTilesAsMeasurement() {
 
   Sound.success();
   Haptic.success();
-  alert(`✓ Замеры за ${today} успешно сохранены в историю! (+40 XP)`);
+  alert(`✓ Замеры атлета «${p.name}» за ${today} сохранены! (+40 XP)`);
 }
 
 function renderMetricsLogList() {
+  const p = getActiveProfile();
   const container = document.getElementById("metrics-log-container");
   if (!container) return;
   container.innerHTML = "";
 
-  const logs = [...(appState.metrics || [])].reverse();
+  const logs = [...(p.metrics || [])].reverse();
   if (logs.length === 0) {
     container.innerHTML = `<p class="text-xs text-slate-500">Замеров пока нет. Нажми кнопку выше, чтобы сохранить замер за сегодня.</p>`;
     return;
   }
 
   logs.forEach((l, idx) => {
-    const actualIdx = appState.metrics.length - 1 - idx;
+    const actualIdx = p.metrics.length - 1 - idx;
     const card = document.createElement("div");
     card.className = "p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1.5";
 
@@ -760,8 +1051,9 @@ function renderMetricsLogList() {
 }
 
 function deleteMetricLog(idx) {
+  const p = getActiveProfile();
   if (confirm("Удалить эту запись замеров?")) {
-    appState.metrics.splice(idx, 1);
+    p.metrics.splice(idx, 1);
     saveState();
     renderMetrics();
     Sound.beep(400, 0.1);
@@ -784,6 +1076,7 @@ function setChartFilter(filter) {
 }
 
 function drawTrendChart() {
+  const p = getActiveProfile();
   const canvas = document.getElementById("chart-canvas");
   if (!canvas) return;
 
@@ -794,7 +1087,7 @@ function drawTrendChart() {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, w, h);
 
-  const logs = (appState.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
+  const logs = (p.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
   if (logs.length < 2) {
     ctx.fillStyle = "#64748b";
     ctx.font = "12px Inter, sans-serif";
@@ -1030,8 +1323,10 @@ function startVacuumPhase(phase) {
 
 // Nutrition & Macros
 function addProtein(p, cal) {
-  appState.nutrition.protein += p;
-  appState.nutrition.calories += (cal || p * 4);
+  const prof = getActiveProfile();
+  if (!prof.nutrition) prof.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
+  prof.nutrition.protein = (prof.nutrition.protein || 0) + p;
+  prof.nutrition.calories = (prof.nutrition.calories || 0) + (cal || p * 4);
   addXP(10);
   saveState();
   renderNutrition();
@@ -1040,7 +1335,9 @@ function addProtein(p, cal) {
 }
 
 function addWater(ml) {
-  appState.nutrition.waterMl += ml;
+  const prof = getActiveProfile();
+  if (!prof.nutrition) prof.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
+  prof.nutrition.waterMl = (prof.nutrition.waterMl || 0) + ml;
   addXP(5);
   saveState();
   renderNutrition();
@@ -1049,21 +1346,27 @@ function addWater(ml) {
 }
 
 function resetDailyNutrition() {
-  if (confirm("Сбросить съеденный белок и выпитую воду за сегодня?")) {
-    appState.nutrition.protein = 0;
-    appState.nutrition.waterMl = 0;
-    appState.nutrition.calories = 0;
-    appState.nutrition.caloriesBurned = 0;
+  const prof = getActiveProfile();
+  if (confirm(`Сбросить съеденный белок и выпитую воду за сегодня для «${prof.name}»?`)) {
+    prof.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0, date: new Date().toISOString().split("T")[0] };
     saveState();
     renderNutrition();
   }
 }
 
 function renderNutrition() {
-  const p = appState.nutrition.protein;
-  const w = appState.nutrition.waterMl;
-  const calEaten = appState.nutrition.calories || 0;
-  const calBurned = appState.nutrition.caloriesBurned || 0;
+  const prof = getActiveProfile();
+  const nut = prof.nutrition || {};
+  const weight = prof.currentMetrics ? prof.currentMetrics.weight : 83;
+
+  const targetProtein = Math.round(weight * 1.8);
+  const targetWater = (weight * 0.032).toFixed(1);
+  const targetCals = Math.round(weight * 24 * 1.15);
+
+  const p = nut.protein || 0;
+  const w = nut.waterMl || 0;
+  const calEaten = nut.calories || 0;
+  const calBurned = nut.caloriesBurned || 0;
 
   const pVal = document.getElementById("nut-p-val");
   const pBar = document.getElementById("nut-p-bar");
@@ -1071,25 +1374,28 @@ function renderNutrition() {
   const wBar = document.getElementById("nut-w-bar");
   const elEaten = document.getElementById("nut-cal-eaten");
   const elBurned = document.getElementById("nut-cal-burned");
+  const elGoalCals = document.getElementById("nut-goal-calories-text");
 
-  if (pVal) pVal.textContent = `${p} / 150 г`;
-  if (pBar) pBar.style.width = `${Math.min(100, (p / 150) * 100)}%`;
+  if (elGoalCals) elGoalCals.textContent = `Цель: ${targetCals} ккал`;
+  if (pVal) pVal.textContent = `${p} / ${targetProtein} г`;
+  if (pBar) pBar.style.width = `${Math.min(100, (p / targetProtein) * 100)}%`;
 
-  if (wVal) wVal.textContent = `${(w / 1000).toFixed(2)} / 2.5 л`;
-  if (wBar) wBar.style.width = `${Math.min(100, (w / 2500) * 100)}%`;
+  if (wVal) wVal.textContent = `${(w / 1000).toFixed(2)} / ${targetWater} л`;
+  if (wBar) wBar.style.width = `${Math.min(100, (w / (targetWater * 1000)) * 100)}%`;
 
   if (elEaten) elEaten.textContent = `${calEaten} ккал`;
   if (elBurned) elBurned.textContent = `${calBurned} ккал 🔥`;
 
-  Object.keys(appState.checklist || {}).forEach(k => {
+  Object.keys(prof.checklist || {}).forEach(k => {
     const chk = document.getElementById("chk-" + k);
-    if (chk) chk.checked = !!appState.checklist[k];
+    if (chk) chk.checked = !!prof.checklist[k];
   });
 }
 
 function toggleChecklist(item, checked) {
-  if (!appState.checklist) appState.checklist = {};
-  appState.checklist[item] = checked;
+  const prof = getActiveProfile();
+  if (!prof.checklist) prof.checklist = {};
+  prof.checklist[item] = checked;
   if (checked) {
     addXP(15);
     Sound.success();
@@ -1100,22 +1406,24 @@ function toggleChecklist(item, checked) {
 
 // Archive
 function renderHistory() {
+  const prof = getActiveProfile();
   const container = document.getElementById("history-container");
   if (!container) return;
   container.innerHTML = "";
 
-  if (appState.history.length === 0) {
+  const hist = prof.history || [];
+  if (hist.length === 0) {
     container.innerHTML = `
       <div class="glass p-6 rounded-2xl text-center text-slate-400 space-y-2 border border-slate-800">
         <span class="text-3xl block">📋</span>
         <p class="text-sm font-bold text-slate-200">Архив тренировок пуст</p>
-        <p class="text-xs text-slate-400">Начни тренировку во вкладке «Тренинг» или нажми «➕ Добавить» выше, чтобы записать вручную.</p>
+        <p class="text-xs text-slate-400">У атлета «${prof.name}» пока нет завершенных тренировок. Начни тренировку во вкладке «Тренинг» или нажми «➕ Добавить» выше.</p>
       </div>
     `;
     return;
   }
 
-  appState.history.forEach((h, idx) => {
+  hist.forEach((h, idx) => {
     const card = document.createElement("div");
     card.className = "glass p-4 rounded-2xl space-y-2.5 border border-slate-800 relative";
 
@@ -1161,9 +1469,12 @@ function renderHistory() {
   });
 }
 
+let currentEditingHistoryIndex = null;
+
 function openEditHistoryModal(idx) {
+  const prof = getActiveProfile();
   currentEditingHistoryIndex = idx;
-  const h = appState.history[idx];
+  const h = prof.history[idx];
 
   document.getElementById("edit-h-name").value = h.name;
   document.getElementById("edit-h-date").value = h.date;
@@ -1188,7 +1499,8 @@ function openEditHistoryModal(idx) {
 
 function saveEditedHistoryItem() {
   if (currentEditingHistoryIndex === null) return;
-  const h = appState.history[currentEditingHistoryIndex];
+  const prof = getActiveProfile();
+  const h = prof.history[currentEditingHistoryIndex];
 
   h.name = document.getElementById("edit-h-name").value;
   h.date = document.getElementById("edit-h-date").value;
@@ -1211,8 +1523,9 @@ function saveEditedHistoryItem() {
 
 function deleteCurrentEditingHistoryItem() {
   if (currentEditingHistoryIndex === null) return;
+  const prof = getActiveProfile();
   if (confirm("Точно удалить эту запись из архива?")) {
-    appState.history.splice(currentEditingHistoryIndex, 1);
+    prof.history.splice(currentEditingHistoryIndex, 1);
     saveState();
     closeModal("modal-edit-history");
     renderHistory();
@@ -1221,8 +1534,9 @@ function deleteCurrentEditingHistoryItem() {
 }
 
 function deleteHistoryItemDirect(idx) {
+  const prof = getActiveProfile();
   if (confirm("Удалить эту тренировку из архива?")) {
-    appState.history.splice(idx, 1);
+    prof.history.splice(idx, 1);
     saveState();
     renderHistory();
     Sound.beep(400, 0.1);
@@ -1230,12 +1544,14 @@ function deleteHistoryItemDirect(idx) {
 }
 
 function openAddManualWorkoutModal() {
+  const prof = getActiveProfile();
   const name = prompt("Название тренировки (например: Вторник: Full Body A):", "Вторник: Full Body A");
   if (!name) return;
   const tonnage = prompt("Общий тоннаж за тренировку (кг):", "4000");
   const cals = prompt("Сожжено калорий (ккал):", "380");
 
-  appState.history.unshift({
+  if (!prof.history) prof.history = [];
+  prof.history.unshift({
     id: "wo_" + Date.now(),
     date: new Date().toISOString().split("T")[0],
     name: name,
@@ -1259,6 +1575,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.Telegram.WebApp.expand();
   }
   loadState();
+  renderHeaderProfileInfo();
   renderXP();
   renderMetrics();
   renderNutrition();

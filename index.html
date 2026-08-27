@@ -22,28 +22,32 @@
 </head>
 <body class="selection:bg-emerald-500/30">
 
-  <!-- TOP STATUS BAR (XP / STREAK / LEVEL) -->
+  <!-- TOP STATUS BAR WITH MULTI-PROFILE SELECTOR -->
   <header class="sticky top-0 z-40 glass border-b border-slate-800/80 px-4 py-2.5">
     <div class="max-w-md mx-auto space-y-2">
       <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2.5">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 via-cyan-400 to-violet-500 p-0.5 shadow-md">
-            <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-sm">🦾</div>
+        
+        <!-- PROFILE DROPDOWN TRIGGER -->
+        <button onclick="openModal('modal-profiles')" class="flex items-center space-x-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-2.5 py-1.5 rounded-xl text-left touch-press transition-colors">
+          <div id="header-avatar-badge" class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 p-0.5 shadow-md">
+            <div id="header-avatar-initials" class="w-full h-full bg-slate-950 rounded-[6px] flex items-center justify-center text-xs font-black text-emerald-300 uppercase">РТ</div>
           </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <h1 class="font-extrabold text-xs text-white uppercase tracking-wider">IRON COACH <span class="text-[9px] font-mono px-1 py-0.2 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded">S-TIER</span></h1>
-              <span id="level-badge" class="text-[10px] font-mono font-bold px-1.5 py-0.2 bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-md">УРОВЕНЬ 1</span>
+          <div class="leading-tight">
+            <div class="flex items-center gap-1">
+              <span id="header-profile-name" class="text-xs font-extrabold text-white block truncate max-w-[110px]">Роман</span>
+              <span id="level-badge" class="text-[9px] font-mono font-bold px-1 py-0.1 bg-emerald-950 text-emerald-300 border border-emerald-800 rounded">LVL 1</span>
             </div>
-            <p class="text-[10px] text-slate-400 font-mono">178 см • 83 кг • Фуллбоди S-Класса</p>
+            <span id="header-profile-sub" class="text-[9px] text-slate-400 font-mono block">178 см • 83 кг</span>
           </div>
-        </div>
+          <span class="text-slate-400 text-[10px] pl-0.5">▼</span>
+        </button>
 
-        <div class="flex items-center space-x-2">
-          <button onclick="copyCoachSummary()" title="Скопировать сводку для тренера" class="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg text-cyan-300 text-xs font-mono font-bold touch-press flex items-center space-x-1">
+        <!-- HEADER ACTIONS: SUMMARY EXPORT & STREAK -->
+        <div class="flex items-center space-x-1.5">
+          <button onclick="copyCoachSummary()" title="Скопировать сводку для тренера" class="px-2 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-cyan-300 text-xs font-mono font-bold touch-press flex items-center space-x-1">
             <span>📋</span><span>Сводка</span>
           </button>
-          <div class="flex items-center space-x-1 px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-amber-400 text-xs font-mono font-bold">
+          <div class="flex items-center space-x-1 px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-amber-400 text-xs font-mono font-bold">
             <span>🔥</span><span id="streak-count">0</span>
           </div>
         </div>
@@ -83,7 +87,7 @@
           <span class="text-base">🔥</span>
           <div class="text-left">
             <span class="text-[11px] font-bold text-white block">Расход ккал (MET)</span>
-            <span class="text-[9px] text-amber-400 font-mono">Формула EPOC 83кг</span>
+            <span class="text-[9px] text-amber-400 font-mono">Формула EPOC <span id="btn-calc-weight-label">83кг</span></span>
           </div>
         </button>
       </div>
@@ -345,7 +349,7 @@
       <div class="glass p-4 rounded-2xl space-y-3.5 glass-accent">
         <div class="flex justify-between items-center">
           <h3 class="font-extrabold text-sm text-white">🥩 БЖУ Рекомпозиции</h3>
-          <span class="text-xs font-mono font-bold text-emerald-400">Цель: 2000 ккал</span>
+          <span id="nut-goal-calories-text" class="text-xs font-mono font-bold text-emerald-400">Цель: 2000 ккал</span>
         </div>
 
         <div class="grid grid-cols-2 gap-2 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 text-center font-mono">
@@ -442,7 +446,7 @@
           </label>
           <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
             <input type="checkbox" id="chk-prot" class="custom-checkbox" onchange="toggleChecklist('prot', this.checked)">
-            <span class="text-xs text-slate-200">🥩 Закрыть норму 150г белка</span>
+            <span class="text-xs text-slate-200">🥩 Закрыть норму белка</span>
           </label>
           <label class="flex items-center space-x-3 p-2 bg-slate-900/60 rounded-xl cursor-pointer">
             <input type="checkbox" id="chk-water" class="custom-checkbox" onchange="toggleChecklist('water', this.checked)">
@@ -485,13 +489,99 @@
         <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
           <span>⚠️</span> Управление данными и Сброс
         </h4>
-        <p class="text-[11px] text-slate-400">Если хочешь начать все тренировки, уровень и опыт с абсолютного нуля:</p>
+        <p class="text-[11px] text-slate-400">Сбросить опыт и историю текущего активного профиля:</p>
         <button onclick="resetAllAppProgress()" class="w-full py-2.5 bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 font-bold text-xs rounded-xl touch-press">
-          ↺ Полный сброс опыта и истории (Старт с Уровня 1)
+          ↺ Сброс прогресса профиля (Старт с Уровня 1)
         </button>
       </div>
     </section>
   </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: PROFILES MANAGER (ВЫБОР И УПРАВЛЕНИЕ ПРОФИЛЯМИ) -->
+  <!-- ======================================================== -->
+  <div id="modal-profiles" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="glass max-w-sm w-full p-5 rounded-3xl space-y-4 border border-emerald-500/40 bg-slate-950 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">👥</span>
+          <div>
+            <h3 class="font-extrabold text-sm text-white">Выбор профиля атлета</h3>
+            <p class="text-[10px] text-slate-400">У каждого свои замеры, история и цели</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-profiles')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <!-- PROFILES LIST -->
+      <div id="profiles-list-container" class="space-y-2"></div>
+
+      <!-- ADD NEW PROFILE BUTTON -->
+      <button onclick="openCreateProfileModal()" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl touch-press shadow-md flex items-center justify-center space-x-1.5">
+        <span>➕</span><span>Создать новый профиль</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CREATE / EDIT ATHLETE PROFILE -->
+  <!-- ======================================================== -->
+  <div id="modal-create-profile" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="glass max-w-sm w-full p-5 rounded-3xl space-y-4 border border-cyan-500/40 bg-slate-950 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h3 id="profile-modal-title" class="font-extrabold text-sm text-white">👤 Профиль атлета</h3>
+        <button onclick="closeModal('modal-create-profile')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <form id="form-profile" onsubmit="saveProfileForm(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="prof-form-id">
+
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Имя / Никнейм:</label>
+          <input type="text" id="prof-form-name" required placeholder="Например: Роман" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white font-bold outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Возраст:</label>
+            <input type="number" id="prof-form-age" required placeholder="32" class="w-full bg-slate-900 border border-slate-700 px-2.5 py-2 rounded-xl text-white font-mono font-bold outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Рост (см):</label>
+            <input type="number" id="prof-form-height" required placeholder="178" class="w-full bg-slate-900 border border-slate-700 px-2.5 py-2 rounded-xl text-white font-mono font-bold outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Вес (кг):</label>
+            <input type="number" step="0.1" id="prof-form-weight" required placeholder="83.0" class="w-full bg-slate-900 border border-slate-700 px-2.5 py-2 rounded-xl text-emerald-400 font-mono font-bold outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Основная цель:</label>
+          <select id="prof-form-goal" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white font-bold outline-none">
+            <option value="Рекомпозиция (Сушка + Тонус)">Рекомпозиция (Сушка жира + Мышечный тонус)</option>
+            <option value="Набор мышечной массы">Набор чистой мышечной массы</option>
+            <option value="Сушка и сброс веса">Интенсивное похудение и сушка</option>
+            <option value="Сила и Осанка">Силовой прогресс + Осанка</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Травмы / Ограничения / Особенности:</label>
+          <textarea id="prof-form-injuries" rows="2" placeholder="Например: задета широчайшая, спазм шеи..." class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-white text-xs outline-none focus:border-cyan-500"></textarea>
+        </div>
+
+        <div class="flex space-x-2 pt-2">
+          <button type="submit" class="flex-1 py-3 bg-emerald-500 text-slate-950 font-black text-xs uppercase rounded-xl touch-press">
+            Сохранить профиль
+          </button>
+          <button type="button" onclick="closeModal('modal-create-profile')" class="px-4 py-3 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl touch-press">
+            Отмена
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- ======================================================== -->
   <!-- FLOATING REST TIMER HUD -->
@@ -524,12 +614,12 @@
         <button onclick="closeModal('modal-burn-info')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
       </div>
       <div class="space-y-2.5 text-xs text-slate-300">
-        <p>Калории рассчитываются автоматически в реальном времени по научной модели **MET + Механическая работа + EPOC** (дожиг жира после тренировки):</p>
+        <p>Калории рассчитываются автоматически в реальном времени под вес текущего атлета по научной модели **MET + Механическая работа + EPOC**:</p>
         <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-1 font-mono text-[11px]">
-          <p>• <b>Базовый вес:</b> 83 кг</p>
-          <p>• <b>Тяжелые базы (ноги/спина):</b> ~12-15 ккал/подход</p>
-          <p>• <b>Жимы/вертикали:</b> ~8-10 ккал/подход</p>
-          <p>• <b>Изоляция (руки/плечи):</b> ~5-6 ккал/подход</p>
+          <p>• <b>Текущий вес атлета:</b> <span id="modal-calc-user-weight" class="text-emerald-400 font-bold">83 кг</span></p>
+          <p>• <b>Тяжелые базы (ноги/спина):</b> ~12-16 ккал/подход</p>
+          <p>• <b>Жимы/вертикали:</b> ~8-12 ккал/подход</p>
+          <p>• <b>Изоляция (руки/плечи):</b> ~5-7 ккал/подход</p>
           <p>• <b>Зона 2 кардио:</b> ~7.5 ккал/минуту</p>
         </div>
         <p class="text-[10px] text-amber-400 font-mono">✓ Калории суммируются прямо во время выполнения подходов!</p>
