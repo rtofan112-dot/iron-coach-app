@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.19 PRO",
+  version: "v2.8.20 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -4000,6 +4000,54 @@ function stopTimer() {
   if (modal) modal.classList.add("hidden");
 }
 
+let pendingWorkoutSummary = null;
+let selectedWorkoutRating = 4;
+let selectedWorkoutRatingEmoji = '⚡';
+let selectedWorkoutRatingLabel = 'Рабочий темп / В яблочко';
+let selectedWorkoutRPE = 'RPE 8-8.5';
+
+function selectWorkoutRating(stars, emoji, label, rpe) {
+  selectedWorkoutRating = stars;
+  selectedWorkoutRatingEmoji = emoji;
+  selectedWorkoutRatingLabel = label;
+  selectedWorkoutRPE = rpe;
+
+  [1, 2, 3, 4, 5].forEach(val => {
+    const btn = document.getElementById(`btn-rating-${val}`);
+    if (btn) {
+      if (val === stars) {
+        btn.className = "p-2 rounded-xl bg-[#c8a97e]/20 border-2 border-[#c8a97e] text-[#c8a97e] flex flex-col items-center justify-center space-y-1 shadow-md shadow-[#c8a97e]/10 transition-all text-center scale-105";
+      } else {
+        btn.className = "p-2 rounded-xl bg-[#181b26] border border-white/5 text-slate-400 flex flex-col items-center justify-center space-y-1 hover:border-white/20 transition-all text-center opacity-70";
+      }
+    }
+  });
+
+  const badge = document.getElementById("summary-rating-badge");
+  const desc = document.getElementById("summary-rating-desc");
+  if (badge) badge.textContent = `${emoji} ${stars}/5 • ${label}`;
+  
+  if (desc) {
+    if (stars === 5) desc.textContent = "🔥 Идеальное восстановление и энергия. Тренировка зашла на одном дыхании!";
+    else if (stars === 4) desc.textContent = "⚡ Оптимальный рабочий стимул для мышечного роста без перетренированности.";
+    else if (stars === 3) desc.textContent = "💪 Высокая плотность нагрузки. Обязательно закрой белково-углеводное окно и выспись.";
+    else if (stars === 2) desc.textContent = "🛑 Тяжелое состояние / Недосып. Рекомендуется дать организму 48ч отдыха.";
+    else if (stars === 1) desc.textContent = "⚠️ Боль или дискомфорт в связках. Зафиксируй в заметках, снизим нагрузку на следующем цикле.";
+  }
+
+  Sound.beep(550, 0.04);
+  Haptic.impact('light');
+}
+
+function appendSummaryTag(tagText) {
+  const noteInput = document.getElementById("summary-workout-note");
+  if (!noteInput) return;
+  if (noteInput.value.includes(tagText)) return;
+  noteInput.value = noteInput.value ? `${noteInput.value} | ${tagText}` : tagText;
+  Sound.beep(600, 0.03);
+  Haptic.impact('light');
+}
+
 function finishActiveWorkout() {
   const wo = appState.activeWorkout;
   if (!wo) return;
@@ -4032,19 +4080,80 @@ function finishActiveWorkout() {
   const caloriesBurned = calculateCurrentCaloriesBurned();
   const dateStr = wo.targetDate || now.toISOString().split("T")[0];
 
-  if (!appState.history) appState.history = [];
-  appState.history.unshift({
-    id: "wo_" + Date.now(),
-    date: dateStr,
+  pendingWorkoutSummary = {
+    woName: wo.name,
+    dateStr: dateStr,
     startTimeStr: wo.startTimeStr || "18:00",
     endTimeStr: endTimeStr,
     durationMin: durationMin,
-    name: wo.name,
     readiness: wo.readiness || 90,
     tonnage: Math.round(tonnage),
     calories: caloriesBurned,
     exercises: exSummaries
-  });
+  };
+
+  // Заполняем модалку итогового отчета
+  const subEl = document.getElementById("summary-workout-subtitle");
+  const tonEl = document.getElementById("summary-stat-tonnage");
+  const durEl = document.getElementById("summary-stat-duration");
+  const calEl = document.getElementById("summary-stat-calories");
+  const exListEl = document.getElementById("summary-exercises-list");
+  const noteInput = document.getElementById("summary-workout-note");
+
+  if (subEl) subEl.textContent = `«${wo.name}» • ${wo.startTimeStr || '18:00'} – ${endTimeStr}`;
+  if (tonEl) tonEl.textContent = `${Math.round(tonnage).toLocaleString()} кг`;
+  if (durEl) durEl.textContent = `${durationMin} мин`;
+  if (calEl) calEl.textContent = `~${caloriesBurned} ккал`;
+  if (noteInput) noteInput.value = "";
+
+  if (exListEl) {
+    exListEl.innerHTML = exSummaries.map(e => `
+      <div class="p-2 bg-[#121522] rounded-xl border border-white/[0.04] flex justify-between items-center text-[11px] font-sans">
+        <span class="text-slate-300 font-medium">${e.name}</span>
+        <div class="text-right font-mono">
+          <span class="text-white font-bold block">${e.sets}</span>
+          <span class="text-[10px] text-[#c8a97e]">${e.prog || ''}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  selectWorkoutRating(4, '⚡', 'Рабочий темп / В яблочко', 'RPE 8-8.5');
+
+  Sound.finish();
+  Haptic.success();
+  openModal('modal-workout-completion-rating');
+}
+
+function confirmAndSaveWorkoutSummary() {
+  if (!pendingWorkoutSummary) {
+    closeModal('modal-workout-completion-rating');
+    return;
+  }
+
+  const noteInput = document.getElementById("summary-workout-note");
+  const userNote = noteInput ? noteInput.value.trim() : "";
+
+  const histItem = {
+    id: "wo_" + Date.now(),
+    date: pendingWorkoutSummary.dateStr,
+    startTimeStr: pendingWorkoutSummary.startTimeStr,
+    endTimeStr: pendingWorkoutSummary.endTimeStr,
+    durationMin: pendingWorkoutSummary.durationMin,
+    name: pendingWorkoutSummary.woName,
+    readiness: pendingWorkoutSummary.readiness,
+    tonnage: pendingWorkoutSummary.tonnage,
+    calories: pendingWorkoutSummary.calories,
+    exercises: pendingWorkoutSummary.exercises,
+    rating: selectedWorkoutRating,
+    ratingEmoji: selectedWorkoutRatingEmoji,
+    ratingLabel: selectedWorkoutRatingLabel,
+    rpe: selectedWorkoutRPE,
+    note: userNote
+  };
+
+  if (!appState.history) appState.history = [];
+  appState.history.unshift(histItem);
 
   addXP(150);
   appState.streak = (appState.streak || 0) + 1;
@@ -4053,15 +4162,17 @@ function finishActiveWorkout() {
   updateActiveWorkoutTopPill();
   saveState();
 
-  // Отправка персонального пуш-отчета в Telegram
+  // Отправка персонального пуш-отчета в Telegram с оценкой и самочувствием
   if (appState.pushSettings && appState.pushSettings.enabled && appState.pushSettings.reports) {
     const pushChatId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ? window.Telegram.WebApp.initDataUnsafe.user.id : appState.tgId;
+    const noteLine = userNote ? `\n💬 Заметка: <i>«${userNote}»</i>` : '';
     const woText = `🏆 <b>ТРЕНИРОВКА ЗАВЕРШЕНА!</b>\n\n` +
       `Атлет: <b>${appState.name}</b>\n` +
-      `Программа: <b>${wo.name}</b>\n` +
-      `Тоннаж: <b>${Math.round(tonnage).toLocaleString()} кг</b> | Длительность: <b>${durationMin} мин</b>\n` +
-      `Калории: <b>~${caloriesBurned} ккал</b>\n` +
-      `Награда: <b>+150 XP</b> (Всего: ${appState.xp} XP)\n\n` +
+      `Программа: <b>${pendingWorkoutSummary.woName}</b>\n` +
+      `Самочувствие: <b>${selectedWorkoutRatingEmoji} ${selectedWorkoutRating}/5 (${selectedWorkoutRatingLabel})</b>\n` +
+      `Тоннаж: <b>${pendingWorkoutSummary.tonnage.toLocaleString()} кг</b> | Длительность: <b>${pendingWorkoutSummary.durationMin} мин</b>\n` +
+      `Калории: <b>~${pendingWorkoutSummary.calories} ккал</b>\n` +
+      `Награда: <b>+150 XP</b> (Всего: ${appState.xp} XP)${noteLine}\n\n` +
       `💪 <i>Отличная работа! Отдыхай и восстанавливайся.</i>`;
 
     fetch("/api/send-push", {
@@ -4075,16 +4186,23 @@ function finishActiveWorkout() {
     }).catch(()=>{});
   }
 
-  Sound.finish();
-  Haptic.success();
+  closeModal('modal-workout-completion-rating');
+  pendingWorkoutSummary = null;
 
-  alert(`ТРЕНИРОВКА ЗАВЕРШЕНА\n\nВремя: ${wo.startTimeStr} – ${endTimeStr} (${durationMin} мин)\nТоннаж: ${Math.round(tonnage)} кг\nРасход: ~${caloriesBurned} ккал\n+150 XP начислено`);
   document.getElementById("workout-active").classList.add("hidden");
   document.getElementById("workout-selector").classList.remove("hidden");
+  renderHistory();
   renderMuscleVolumeBreakdown();
   renderPersonalizedAIAnalytics();
   switchTab("progress");
   switchProgressSubtab("archive");
+
+  Sound.beep(800, 0.1);
+  Haptic.success();
+}
+
+function skipAndSaveWorkoutSummary() {
+  confirmAndSaveWorkoutSummary();
 }
 
 function cancelWorkout() {
@@ -5153,10 +5271,28 @@ function renderHistory() {
       </div>
     `).join("");
 
+    const ratingBadge = h.rating ? `
+      <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#c8a97e]/15 border border-[#c8a97e]/30 text-[10px] text-[#c8a97e] font-sans font-bold">
+        <span>${h.ratingEmoji || '⚡'}</span>
+        <span>${h.rating}/5</span>
+        <span class="text-slate-400 font-normal">• ${h.ratingLabel || ''}</span>
+      </div>
+    ` : '';
+
+    const noteBlock = h.note ? `
+      <div class="p-2 bg-[#0c0e18] rounded-xl border border-white/[0.04] text-[11px] text-slate-300 italic font-sans flex items-start gap-1.5">
+        <span class="text-[#c8a97e]">💬</span>
+        <span>${h.note}</span>
+      </div>
+    ` : '';
+
     card.innerHTML = `
       <div class="flex justify-between items-start pb-2 border-b border-white/[0.08]">
         <div>
-          <h4 class="font-bold text-white text-xs font-sans">${h.name}</h4>
+          <div class="flex items-center gap-2">
+            <h4 class="font-bold text-white text-xs font-sans">${h.name}</h4>
+            ${ratingBadge}
+          </div>
           <span class="text-[10px] text-slate-400">${h.date} • ${timeString}</span>
         </div>
         <div class="flex items-center space-x-2 text-right">
@@ -5171,6 +5307,7 @@ function renderHistory() {
         </div>
       </div>
       <div class="space-y-0.5 pt-1">${exList}</div>
+      ${noteBlock}
       <div class="flex justify-end space-x-2 pt-2 border-t border-white/[0.08] text-[10px]">
         <button onclick="openEditHistoryModal(${idx})" class="px-2.5 py-1 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Редактировать</button>
         <button onclick="deleteHistoryItemDirect(${idx})" class="px-2.5 py-1 bg-rose-950/60 text-rose-300 rounded-lg border border-rose-900">Удалить</button>
@@ -5193,6 +5330,11 @@ function openEditHistoryModal(idx) {
   document.getElementById("edit-h-endtime").value = h.endTimeStr || "19:00";
   document.getElementById("edit-h-tonnage").value = h.tonnage;
   document.getElementById("edit-h-calories").value = h.calories || 350;
+  
+  const ratingSel = document.getElementById("edit-h-rating");
+  const noteInput = document.getElementById("edit-h-note");
+  if (ratingSel) ratingSel.value = h.rating ? String(h.rating) : "4";
+  if (noteInput) noteInput.value = h.note || "";
 
   const exContainer = document.getElementById("edit-h-exercises");
   exContainer.innerHTML = '<span class="text-[10px] text-slate-400 block mb-1 uppercase">Упражнения:</span>';
@@ -5220,6 +5362,21 @@ function saveEditedHistoryItem() {
   h.endTimeStr = document.getElementById("edit-h-endtime").value || "19:00";
   h.tonnage = parseFloat(document.getElementById("edit-h-tonnage").value) || 0;
   h.calories = parseFloat(document.getElementById("edit-h-calories").value) || 350;
+
+  const ratingSel = document.getElementById("edit-h-rating");
+  const noteInput = document.getElementById("edit-h-note");
+  if (ratingSel) {
+    const rVal = parseInt(ratingSel.value) || 4;
+    h.rating = rVal;
+    if (rVal === 5) { h.ratingEmoji = '🔥'; h.ratingLabel = 'Отлично / Полон сил'; h.rpe = 'RPE 7-8'; }
+    else if (rVal === 4) { h.ratingEmoji = '⚡'; h.ratingLabel = 'Рабочий темп / В яблочко'; h.rpe = 'RPE 8-8.5'; }
+    else if (rVal === 3) { h.ratingEmoji = '💪'; h.ratingLabel = 'Было тяжело / На пределе'; h.rpe = 'RPE 9-9.5'; }
+    else if (rVal === 2) { h.ratingEmoji = '🛑'; h.ratingLabel = 'Перегруз / Усталость'; h.rpe = 'RPE 10'; }
+    else { h.ratingEmoji = '⚠️'; h.ratingLabel = 'Дискомфорт / Боль в связках'; h.rpe = 'Риск'; }
+  }
+  if (noteInput) {
+    h.note = noteInput.value.trim();
+  }
 
   (h.exercises || []).forEach((e, eIdx) => {
     const nameInput = document.getElementById(`edit-ex-name-${eIdx}`);
