@@ -1905,22 +1905,37 @@ function renderActiveWorkoutUI() {
             ${diagramSvg}
           </div>
 
-          <div class="p-3 bg-[#0c0d14] rounded-2xl border border-white/[0.05] space-y-2">
+          <!-- БЛОК ГЛУБОКИХ РЕКОМЕНДАЦИЙ И БИОМЕХАНИКИ -->
+          <div class="p-3.5 bg-[#0c0d14] rounded-2xl border border-white/[0.06] space-y-2.5">
             <div class="flex justify-between items-center text-[10px] font-mono">
               <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
-              <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase">${ex.muscleGroup || 'Группа'}</span>
+              <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold">${ex.muscleGroup || 'Группа'}</span>
             </div>
-            <div class="flex flex-wrap gap-1.5 pt-0.5">${phasesBadges}</div>
-            <p class="text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/[0.04]">
-              <b>Техника:</b> ${ex.tip}
-            </p>
+            
+            <div class="flex flex-wrap gap-1.5">${phasesBadges}</div>
+            
+            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/[0.05]">
+              <div>
+                <b class="text-white">💡 Техника:</b> ${ex.tip}
+              </div>
+              <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[10px] text-slate-300">
+                <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
+                  <span class="text-slate-400 block uppercase">🫁 Дыхание:</span>
+                  <span class="text-white">Вдох 2–3с на спуске, выдох на мощном выжиме (без задержек).</span>
+                </div>
+                <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
+                  <span class="text-slate-400 block uppercase">⏱️ Темп & RIR:</span>
+                  <span class="text-[#c8a97e] font-bold">Темп: 3-1-1-0</span> • <span class="text-slate-300">Запас: 1–2 повт (RIR 1-2)</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="flex justify-between items-center text-xs font-mono text-slate-400">
             <span>Сеты и веса:</span>
             <div class="flex space-x-1.5">
-              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Сброс</button>
-              ${ex.substitutes && ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Замена</button>` : ''}
+              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10 active:scale-95">Сброс</button>
+              ${ex.substitutes && ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10 active:scale-95">Замена</button>` : ''}
             </div>
           </div>
 
@@ -2083,6 +2098,53 @@ function updateLiveWorkoutStats() {
 
   if (elTon) elTon.textContent = `${Math.round(ton)} кг`;
   if (elCal) elCal.textContent = `${calories} ккал`;
+
+  updateActiveWorkoutTopPill();
+}
+
+function updateActiveWorkoutTopPill() {
+  const pill = document.getElementById("active-workout-header-pill");
+  if (!pill) return;
+  if (!appState.activeWorkout) {
+    pill.classList.add("hidden");
+    return;
+  }
+  pill.classList.remove("hidden");
+  const wo = appState.activeWorkout;
+  const nameEl = document.getElementById("pill-top-name");
+  const setsEl = document.getElementById("pill-top-sets");
+  const tonEl = document.getElementById("pill-top-tonnage");
+  const timerEl = document.getElementById("pill-top-timer");
+
+  let doneSets = 0, totalSets = 0, ton = 0;
+  wo.exercises.forEach(e => {
+    totalSets += e.sets.length;
+    e.sets.filter(s => s.done).forEach(s => {
+      doneSets++;
+      ton += (s.weight * s.reps);
+    });
+  });
+
+  const m = Math.floor(liveWorkoutSeconds / 60);
+  const s = liveWorkoutSeconds % 60;
+  const timerStr = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+  if (nameEl) nameEl.textContent = wo.name;
+  if (setsEl) setsEl.textContent = `${doneSets}/${totalSets} сетов`;
+  if (tonEl) tonEl.textContent = `${Math.round(ton)} кг`;
+  if (timerEl) timerEl.textContent = timerStr;
+}
+
+function jumpToActiveWorkout() {
+  Sound.beep(650, 0.08);
+  Haptic.impact('medium');
+  switchTab('workouts');
+  setTimeout(() => {
+    const activeEl = document.getElementById(`ex-card-${activeExpandedExerciseIndex}`) || document.getElementById('workout-active');
+    if (activeEl) {
+      activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 100);
 }
 
 function swapExercisePrompt(exIdx) {
@@ -2187,6 +2249,7 @@ function finishActiveWorkout() {
   appState.streak = (appState.streak || 0) + 1;
   appState.activeWorkout = null;
   calculateAutoMesocycle();
+  updateActiveWorkoutTopPill();
   saveState();
 
   Sound.finish();
@@ -2205,6 +2268,7 @@ function cancelWorkout() {
   if (confirm("Отменить текущую тренировку?")) {
     clearInterval(liveWorkoutTimerInterval);
     appState.activeWorkout = null;
+    updateActiveWorkoutTopPill();
     saveState();
     document.getElementById("workout-active").classList.add("hidden");
     document.getElementById("workout-selector").classList.remove("hidden");
@@ -2937,6 +3001,7 @@ function startWorkout(planKey, readinessPct = 90, targetDate = null) {
 function startWorkoutTimer() {
   clearInterval(liveWorkoutTimerInterval);
   liveWorkoutSeconds = 0;
+  updateActiveWorkoutTopPill();
   liveWorkoutTimerInterval = setInterval(() => {
     liveWorkoutSeconds++;
     const m = Math.floor(liveWorkoutSeconds / 60);
@@ -2945,6 +3010,7 @@ function startWorkoutTimer() {
     if (timerEl) {
       timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
+    updateActiveWorkoutTopPill();
   }, 1000);
 }
 
@@ -3280,6 +3346,9 @@ function switchTab(tabId) {
   Sound.beep(500, 0.05);
   Haptic.impact('light');
 
+  const currentPane = document.querySelector(".tab-pane.active");
+  const isSameTab = currentPane && currentPane.id === ("tab-" + tabId);
+
   document.querySelectorAll(".tab-pane").forEach(el => el.classList.remove("active"));
   document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
 
@@ -3289,6 +3358,20 @@ function switchTab(tabId) {
   if (targetPane) targetPane.classList.add("active");
   if (targetNav) targetNav.classList.add("active");
 
+  if (tabId === "workouts") {
+    if (appState.activeWorkout) {
+      document.getElementById("workout-selector").classList.add("hidden");
+      document.getElementById("workout-active").classList.remove("hidden");
+    } else {
+      document.getElementById("workout-selector").classList.remove("hidden");
+      document.getElementById("workout-active").classList.add("hidden");
+    }
+  }
+
+  if (isSameTab) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   if (tabId === "progress") {
     switchProgressSubtab('calendar');
   }
@@ -3297,6 +3380,8 @@ function switchTab(tabId) {
     renderPersonalizedVitamins();
     updateVacuumBadge();
   }
+
+  updateActiveWorkoutTopPill();
 }
 
 function switchProgressSubtab(subtabId) {
@@ -3395,4 +3480,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMuscleVolumeBreakdown();
   renderPersonalizedAIAnalytics();
   updateVacuumBadge();
+  updateActiveWorkoutTopPill();
 });
