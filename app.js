@@ -957,19 +957,17 @@ function renderHealthTabCalculations() {
     }
   }
 
-  if (summaryEl) {
-    summaryEl.textContent = cfg.summary;
-  }
-
   // Макросы
-  const elProt = document.getElementById("macro-prot-val");
-  const elProtSub = document.getElementById("macro-prot-sub");
-  const elFat = document.getElementById("macro-fat-val");
-  const elFatSub = document.getElementById("macro-fat-sub");
-  const elCarb = document.getElementById("macro-carb-val");
-  const elCarbSub = document.getElementById("macro-carb-sub");
-  const elWater = document.getElementById("macro-water-val");
+  const elProt = document.getElementById("health-prot-val") || document.getElementById("macro-prot-val");
+  const elProtSub = document.getElementById("health-prot-sub") || document.getElementById("macro-prot-sub");
+  const elFat = document.getElementById("health-fat-val") || document.getElementById("macro-fat-val");
+  const elFatSub = document.getElementById("health-fat-sub") || document.getElementById("macro-fat-sub");
+  const elCarb = document.getElementById("health-carb-val") || document.getElementById("macro-carb-val");
+  const elCarbSub = document.getElementById("health-carb-sub") || document.getElementById("macro-carb-sub");
+  const elWater = document.getElementById("health-water-val") || document.getElementById("macro-water-val");
+  const summaryEl = document.getElementById("health-strategy-summary") || document.getElementById("diet-hero-summary");
 
+  if (summaryEl) summaryEl.textContent = cfg.summary;
   if (elProt) elProt.textContent = `${protGrams} г`;
   if (elProtSub) elProtSub.textContent = `${cfg.protPerKg} г/кг`;
   if (elFat) elFat.textContent = `${fatGrams} г`;
@@ -1408,41 +1406,33 @@ function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
   if (!container) return;
 
-  const iconSun = `<svg class="w-3 h-3 inline-block mr-0.5 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
-  const iconMoon = `<svg class="w-3 h-3 inline-block mr-0.5 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-  const iconBolt = `<svg class="w-3 h-3 inline-block mr-0.5 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
-
   const stack = [
     {
-      icon: iconSun,
-      timing: "УТРО (с едой)",
+      timing: "УТРО • С ЕДОЙ",
       timingBadge: "bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30",
       name: "Витамин D3 + K2 (MK-7)",
       dose: "4000 МЕ + 100 мкг",
       reason: "Стимулирует синтез тестостерона, укрепляет костный матрикс и направляет кальций в кости, предотвращая кальцификацию сосудов."
     },
     {
-      icon: iconSun,
-      timing: "УТРО / ОБЕД",
+      timing: "ДЕНЬ • В ОБЕД",
       timingBadge: "bg-emerald-950/80 text-emerald-400 border border-emerald-800/60",
       name: "Омега-3 (EPA / DHA)",
       dose: "2000 мг (EPA > 800 мг)",
       reason: "Снижает системное воспаление, защищает суставные сумки плечевого пояса и улучшает липидный профиль крови."
     },
     {
-      icon: iconMoon,
-      timing: "ВЕЧЕР (за 40 мин до сна)",
+      timing: "ВЕЧЕР • ДО СНА",
       timingBadge: "bg-sky-950/80 text-sky-400 border border-sky-800/60",
       name: "Магний Бисглицинат / Хелат",
       dose: "400 мг чистого Mg",
       reason: "Хелатная форма с аминокислотой глицин. Снимает остаточный спазм с мышцы шеи и лопатки, ускоряет засыпание и углубляет фазу NREM-сна."
     },
     {
-      icon: iconBolt,
-      timing: "В ДНИ ТРЕНИРОВОК",
+      timing: "ТРЕНИНГ • ДО/ПОСЛЕ",
       timingBadge: "bg-purple-950/80 text-purple-300 border border-purple-800/60",
       name: "Креатин Моногидрат",
-      dose: "5 г утром или после зала",
+      dose: "5 г",
       reason: "Насыщает запасы фосфокреатина в мышечных волокнах, повышает взрывную силу на 10–15% в базовых жимах и тягах."
     }
   ];
@@ -1450,7 +1440,7 @@ function renderPersonalizedVitamins() {
   container.innerHTML = stack.map(item => `
     <div class="p-3.5 glass-panel-elevated rounded-2xl space-y-2">
       <div class="flex justify-between items-center font-mono">
-        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md ${item.timingBadge}">${item.icon}${item.timing}</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md tracking-wider ${item.timingBadge}">${item.timing}</span>
         <span class="text-white font-bold text-xs">${item.dose}</span>
       </div>
       <div>
@@ -2329,6 +2319,13 @@ function cancelWorkout() {
     document.getElementById("workout-active").classList.add("hidden");
     document.getElementById("workout-selector").classList.remove("hidden");
   }
+}
+
+function calculateAutoMesocycle() {
+  const count = (appState.history || []).length;
+  appState.mesocycleWeek = ((count % 8) + 1);
+  const badge = document.getElementById("meso-header-badge");
+  if (badge) badge.textContent = `Неделя ${appState.mesocycleWeek} из 8`;
 }
 
 // ========================================================
@@ -3488,29 +3485,25 @@ function closeModal(modalId) {
 }
 
 function calculate1RM() {
-  const w = parseFloat(document.getElementById("rm-calc-weight").value) || 0;
-  const r = parseInt(document.getElementById("rm-calc-reps").value) || 1;
-  const resEl = document.getElementById("rm-calc-result");
+  const wEl = document.getElementById("calc-1rm-weight") || document.getElementById("rm-calc-weight");
+  const rEl = document.getElementById("calc-1rm-reps") || document.getElementById("rm-calc-reps");
+  const resEl = document.getElementById("calc-1rm-result") || document.getElementById("rm-calc-result");
 
+  const w = parseFloat(wEl ? wEl.value : 0) || 0;
+  const r = parseInt(rEl ? rEl.value : 1) || 1;
+
+  if (!resEl) return;
   if (w <= 0 || r <= 0) {
-    resEl.innerHTML = `<span>Введи корректные данные</span>`;
+    resEl.textContent = "0 кг";
     return;
   }
 
   const oneRM = Math.round(w * (1 + r / 30.0));
-  const eightyPct = Math.round(oneRM * 0.80);
-  const seventyPct = Math.round(oneRM * 0.70);
+  resEl.textContent = `${oneRM} кг`;
+}
 
-  resEl.innerHTML = `
-    <div class="flex justify-between items-center pb-1 border-b border-white/[0.08]">
-      <span class="text-slate-400 uppercase">Максимум на 1 раз (1ПМ):</span>
-      <span class="text-sm font-bold text-[#c8a97e] font-mono">${oneRM} кг</span>
-    </div>
-    <div class="flex justify-between text-[11px] pt-1 font-mono">
-      <span>80% (Рабочий на 8-10): <b>${eightyPct} кг</b></span>
-      <span>70% (Памп на 12-15): <b>${seventyPct} кг</b></span>
-    </div>
-  `;
+function compute1RMModal() {
+  calculate1RM();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
