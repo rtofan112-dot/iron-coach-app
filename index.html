@@ -27,12 +27,12 @@
 <body>
 
   <!-- SLEEK TOP HEADER -->
-  <header class="sticky top-0 z-40 bg-slate-950/80 border-b border-white/[0.08] px-4 py-3 backdrop-blur-xl">
+  <header class="sticky top-0 z-40 bg-slate-950/85 border-b border-white/[0.08] px-4 py-3 backdrop-blur-xl">
     <div class="max-w-md mx-auto space-y-2">
       <div class="flex items-center justify-between">
         
-        <!-- USER AUTH IDENTITY -->
-        <div class="flex items-center space-x-2.5">
+        <!-- USER AUTH IDENTITY & ONBOARDING TRIGGER -->
+        <div onclick="openOnboardingModal()" class="flex items-center space-x-2.5 cursor-pointer touch-press">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 p-0.5 shadow-md shadow-emerald-500/20">
             <div id="tg-user-avatar" class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-xs font-black text-emerald-300 uppercase font-mono">РТ</div>
           </div>
@@ -49,10 +49,10 @@
           </div>
         </div>
 
-        <!-- STREAK & EXPORT SUMMARY BUTTON -->
+        <!-- AI COACH TRIGGER & STREAK -->
         <div class="flex items-center space-x-2 font-mono">
-          <button onclick="copyCoachSummary()" class="px-2.5 py-1.5 bg-slate-900/90 hover:bg-slate-800 border border-white/10 rounded-xl text-cyan-300 text-xs font-bold touch-press flex items-center space-x-1.5 shadow-sm">
-            <span>📋</span><span>Сводка</span>
+          <button onclick="openAICoachModal()" class="px-2.5 py-1.5 bg-gradient-to-r from-violet-600/30 to-cyan-600/30 hover:border-violet-500/50 border border-violet-500/40 rounded-xl text-violet-300 text-xs font-bold touch-press flex items-center space-x-1 shadow-sm">
+            <span>🤖</span><span>ИИ-Тренер</span>
           </button>
           <div class="flex items-center space-x-1 px-2.5 py-1.5 bg-slate-900/90 border border-white/10 rounded-xl text-amber-400 text-xs font-bold shadow-sm">
             <span>🔥</span><span id="streak-count">0</span>
@@ -92,7 +92,7 @@
           </button>
         </div>
         <p id="meso-desc-text" class="text-xs text-slate-300 leading-relaxed font-sans">
-          Фаза 1: Линейная прогрессия рабочих весов (+2.5 кг в базе). Оптимальный синтез белка при частоте 2 раза в неделю.
+          Фаза 1: Линейная прогрессия рабочих весов (+2.5 кг в базе). 48 часов отдыха между Full-Body днями.
         </p>
       </div>
 
@@ -586,8 +586,160 @@
       </div>
 
       <div id="history-container" class="space-y-3"></div>
+
+      <!-- SAFE RESET CARD (WITH 15-SEC CONFIRMATION COUNTDOWN) -->
+      <div class="card-premium p-4 border border-rose-500/30 space-y-2 bg-rose-950/10 font-mono text-xs">
+        <div class="flex items-center space-x-2 text-rose-400">
+          <span class="text-base">⚠️</span>
+          <h4 class="font-bold uppercase text-[11px]">Сброс данных и перенастройка</h4>
+        </div>
+        <p class="text-[10px] text-slate-400 font-sans leading-normal">
+          Если ты хочешь перенастроить профиль (цель, травмы, замеры) и начать тренировки с чистого листа:
+        </p>
+        <button onclick="openSafeResetModal()" class="w-full py-2.5 bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 font-bold text-xs rounded-xl touch-press">
+          ↺ Сбросить профиль и пройти настройку заново
+        </button>
+      </div>
     </section>
   </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: SAFE RESET (15 SECONDS COUNTDOWN PROTECTION) -->
+  <!-- ======================================================== -->
+  <div id="modal-safe-reset" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="card-premium max-w-sm w-full p-5 space-y-4 border border-rose-500/50 bg-slate-950">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
+        <div class="flex items-center space-x-2 text-rose-400">
+          <span class="text-xl">⚠️</span>
+          <h3 class="font-black text-xs uppercase font-mono tracking-wider">Подтверждение сброса</h3>
+        </div>
+        <button onclick="closeModal('modal-safe-reset')" class="text-slate-400 hover:text-white font-mono font-bold">✕</button>
+      </div>
+
+      <div class="space-y-2.5 text-xs text-slate-300 font-sans">
+        <p class="leading-relaxed">
+          Будет полностью очищена история тренировок, опыт и замеры текущего аккаунта для настройки параметров заново.
+        </p>
+        <div class="p-3 bg-slate-900 rounded-xl border border-white/[0.06] text-center font-mono space-y-1">
+          <span class="text-[10px] text-slate-400 block uppercase">Защита от случайного нажатия:</span>
+          <span id="reset-countdown-text" class="text-lg font-black text-rose-400">Подождите 15 сек...</span>
+        </div>
+      </div>
+
+      <div class="flex space-x-2 pt-1 font-mono text-xs">
+        <button id="btn-confirm-safe-reset" disabled onclick="executeSafeResetAndReOnboard()" class="flex-1 py-3 bg-slate-800 text-slate-500 font-black uppercase rounded-xl touch-press cursor-not-allowed transition-all">
+          Сбросить (15с)
+        </button>
+        <button onclick="closeModal('modal-safe-reset')" class="px-4 py-3 bg-slate-900 text-slate-300 font-bold rounded-xl border border-white/10 touch-press">
+          Отмена
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ONBOARDING / SETUP WIZARD FOR ANY ATHLETE -->
+  <!-- ======================================================== -->
+  <div id="modal-onboarding" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="card-premium max-w-sm w-full p-5 space-y-4 border border-emerald-500/40 bg-slate-950 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🦾</span>
+          <div>
+            <h3 class="font-extrabold text-xs text-white font-mono uppercase">Мастер настройки атлета</h3>
+            <p class="text-[10px] text-slate-400">ИИ адаптирует программу под твои данные</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-onboarding')" class="text-slate-400 hover:text-white font-mono font-bold">✕</button>
+      </div>
+
+      <form id="form-onboarding" onsubmit="saveOnboardingProfile(event)" class="space-y-3 font-mono text-xs">
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Имя атлета:</label>
+          <input type="text" id="onboard-name" required placeholder="Например: Роман" class="w-full bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none focus:border-emerald-500 font-sans">
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Возраст:</label>
+            <input type="number" id="onboard-age" required placeholder="32" class="w-full bg-slate-900 border border-white/10 px-2.5 py-2 rounded-xl text-white font-bold outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Рост (см):</label>
+            <input type="number" id="onboard-height" required placeholder="178" class="w-full bg-slate-900 border border-white/10 px-2.5 py-2 rounded-xl text-white font-bold outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-400 block mb-1">Вес (кг):</label>
+            <input type="number" step="0.1" id="onboard-weight" required placeholder="83.0" class="w-full bg-slate-900 border border-white/10 px-2.5 py-2 rounded-xl text-emerald-400 font-bold outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Талия по уровню пупка (см):</label>
+          <input type="number" step="0.5" id="onboard-waist" required placeholder="91.5" class="w-full bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-cyan-400 font-bold outline-none">
+        </div>
+
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Главная цель:</label>
+          <select id="onboard-goal" class="w-full bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans text-xs">
+            <option value="Рекомпозиция (Сушка жира + Мышечный тонус)">Рекомпозиция (Сушка жира + Мышечный тонус)</option>
+            <option value="Набор мышечной массы">Набор чистой мышечной массы</option>
+            <option value="Сушка и сброс веса">Интенсивная сушка / сброс веса</option>
+            <option value="Сила и Здоровая осанка">Силовой прогресс + Здоровая осанка</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Травмы / Ограничения / Особенности:</label>
+          <textarea id="onboard-injuries" rows="2" placeholder="Например: резекция легкого, спазм шеи, сидячая работа..." class="w-full bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none focus:border-cyan-500 font-sans"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl touch-press shadow-md glow-emerald mt-2">
+          🤖 Сформировать программу и запустить
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: AI COACH AUDIT & ADVISOR -->
+  <!-- ======================================================== -->
+  <div id="modal-ai-coach" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="card-premium max-w-sm w-full p-5 space-y-4 border border-violet-500/40 bg-slate-950 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🤖</span>
+          <div>
+            <h3 class="font-extrabold text-xs text-white font-mono uppercase">ИИ-Тренер (Спортивный Аудит)</h3>
+            <p class="text-[10px] text-slate-400">Персональный разбор метрик и адаптация</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-ai-coach')" class="text-slate-400 hover:text-white font-mono font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 font-sans text-xs">
+        <button onclick="runAICoachFullAudit()" class="w-full py-2.5 bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-black text-xs uppercase rounded-xl touch-press font-mono shadow-md">
+          ⚡ Запустить ИИ-Аудит Прогресса
+        </button>
+
+        <!-- AI AUDIT REPORT CARD -->
+        <div id="ai-audit-output" class="p-3.5 bg-slate-950 rounded-xl border border-violet-500/30 space-y-2 leading-relaxed text-slate-300">
+          <p class="text-slate-400 text-[11px]">Нажми кнопку выше для автоматического анализа твоих тренировок, тоннажа, готовности RPE и здоровья.</p>
+        </div>
+
+        <!-- ASK AI QUESTION BOX -->
+        <div class="space-y-1.5 pt-2 border-t border-white/[0.08]">
+          <span class="text-[10px] text-slate-400 font-mono font-bold uppercase block">Задать вопрос ИИ-тренеру:</span>
+          <div class="flex space-x-1.5 font-mono">
+            <input type="text" id="ai-user-question" placeholder="Например: чем заменить брусья?" class="flex-1 bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none focus:border-violet-500 font-sans">
+            <button onclick="askAICoachQuestion()" class="px-3 py-2 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-xl touch-press text-xs">
+              ➤
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ======================================================== -->
   <!-- MODAL: PRE-WORKOUT READINESS CHECK-IN -->
@@ -673,7 +825,7 @@
         <button onclick="closeModal('modal-burn-info')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
       <div class="space-y-2 text-slate-300 font-sans text-[11px]">
-        <p>Модель **MET + Механическая работа + EPOC** рассчитывает расход на основе веса 83 кг:</p>
+        <p>Модель **MET + Механическая работа + EPOC** рассчитывает расход на основе веса атлета:</p>
         <div class="bg-slate-900 p-2.5 rounded-xl border border-white/[0.06] space-y-1 font-mono text-[10px]">
           <p>• Тяжелые базы: ~12-16 ккал/подход</p>
           <p>• Жимы грудных/вертикали: ~8-12 ккал/подход</p>

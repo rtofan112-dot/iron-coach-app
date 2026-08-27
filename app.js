@@ -1,5 +1,5 @@
 /**
- * IRON COACH PRO - High-Performance Hypertrophy & Compliance Engine
+ * IRON COACH PRO - High-Performance Hypertrophy, AI Coach & Compliance Engine
  */
 
 const Sound = {
@@ -207,6 +207,226 @@ function renderXP() {
   if (xpNxt) xpNxt.textContent = `${xpToNext} XP`;
   if (xpBar) xpBar.style.width = `${(xpInLvl / 500) * 100}%`;
   if (strkEl) strkEl.textContent = appState.streak;
+}
+
+// ========================================================
+// ONBOARDING WIZARD & 15-SECOND SAFE ACCOUNT RESET
+// ========================================================
+let resetTimerInterval = null;
+let resetSecondsLeft = 15;
+
+function openSafeResetModal() {
+  resetSecondsLeft = 15;
+  clearInterval(resetTimerInterval);
+
+  const btn = document.getElementById("btn-confirm-safe-reset");
+  const txt = document.getElementById("reset-countdown-text");
+
+  btn.disabled = true;
+  btn.className = "flex-1 py-3 bg-slate-800 text-slate-500 font-black uppercase rounded-xl touch-press cursor-not-allowed transition-all";
+  btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+  txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+
+  openModal('modal-safe-reset');
+
+  resetTimerInterval = setInterval(() => {
+    resetSecondsLeft--;
+    if (resetSecondsLeft > 0) {
+      btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+      txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+    } else {
+      clearInterval(resetTimerInterval);
+      btn.disabled = false;
+      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-black uppercase rounded-xl touch-press cursor-pointer glow-rose transition-all";
+      btn.textContent = "🗑️ Подтвердить полный сброс";
+      txt.textContent = "✓ Защита снята: можно выполнить сброс";
+      txt.className = "text-sm font-black text-rose-400 font-mono";
+      Sound.beep(880, 0.2);
+      Haptic.impact('heavy');
+    }
+  }, 1000);
+}
+
+function executeSafeResetAndReOnboard() {
+  clearInterval(resetTimerInterval);
+  closeModal('modal-safe-reset');
+
+  // Reset all account data
+  const currentTgId = appState.tgId;
+  const currentName = appState.name;
+
+  appState = getInitialAccount();
+  appState.tgId = currentTgId;
+  appState.name = currentName;
+
+  saveState();
+  Sound.finish();
+  Haptic.success();
+
+  alert("✓ Профиль успешно сброшен! Запускаем мастер стартовой настройки.");
+  openOnboardingModal();
+}
+
+function openOnboardingModal() {
+  document.getElementById("onboard-name").value = appState.name || "Роман";
+  document.getElementById("onboard-age").value = appState.age || 32;
+  document.getElementById("onboard-height").value = appState.height || 178;
+  document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
+  document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
+  document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
+  document.getElementById("onboard-injuries").value = appState.injuries || "";
+
+  openModal('modal-onboarding');
+}
+
+function saveOnboardingProfile(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("onboard-name").value.trim();
+  const age = parseInt(document.getElementById("onboard-age").value) || 32;
+  const height = parseInt(document.getElementById("onboard-height").value) || 178;
+  const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
+  const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
+  const goal = document.getElementById("onboard-goal").value;
+  const injuries = document.getElementById("onboard-injuries").value.trim();
+
+  appState.name = name;
+  appState.age = age;
+  appState.height = height;
+  appState.goal = goal;
+  appState.injuries = injuries;
+
+  if (!appState.currentMetrics) {
+    appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
+  } else {
+    appState.currentMetrics.weight = weight;
+    appState.currentMetrics.waist = waist;
+  }
+
+  // Update initial metric
+  const today = new Date().toISOString().split("T")[0];
+  appState.metrics = [
+    { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
+  ];
+
+  // Update header badge
+  const elName = document.getElementById("tg-user-name");
+  const elAvatar = document.getElementById("tg-user-avatar");
+  if (elName) elName.textContent = name;
+  if (elAvatar) elAvatar.textContent = (name[0] || "Р").toUpperCase();
+
+  saveState();
+  closeModal('modal-onboarding');
+  Sound.finish();
+  Haptic.success();
+
+  renderMetrics();
+  renderNutrition();
+  calculateScheduleCompliance();
+
+  alert(`🎉 Профиль атлета «${name}» успешно настроен!\n\nИИ адаптировал целевые калории (${Math.round(weight*24*1.15)} ккал), норму белка (${Math.round(weight*1.8)}г) и программу.`);
+}
+
+// ========================================================
+// BUILT-IN AI COACH AUDIT & INTELLIGENCE ENGINE
+// ========================================================
+function openAICoachModal() {
+  openModal('modal-ai-coach');
+  runAICoachFullAudit();
+}
+
+function runAICoachFullAudit() {
+  const output = document.getElementById("ai-audit-output");
+  if (!output) return;
+
+  Sound.beep(750, 0.1);
+  Haptic.impact('medium');
+
+  const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
+  const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
+  const height = appState.height || 178;
+  const age = appState.age || 32;
+  const whtr = (waist / height).toFixed(2);
+  const totalTonnage = getTotalTonnage(appState);
+  const workoutsCount = (appState.history || []).length;
+  const injuries = appState.injuries || "Нет";
+
+  let cardioAdvice = "";
+  if (whtr >= 0.50) {
+    cardioAdvice = `⚠️ <b>Висцеральный жир:</b> Индекс WHtR = <b>${whtr}</b> (выше нормы 0.49). Рекомендовано обязательное кардио в Зоне 2 (пульс 115-128 уд/мин, 25-30 мин) после тренировок.`;
+  } else {
+    cardioAdvice = `🟢 <b>Композиция тела:</b> Индекс WHtR = <b>${whtr}</b> в норме. Фокус на силовую гипертрофию.`;
+  }
+
+  let biomechanicsAdvice = "";
+  if (injuries.toLowerCase().includes("легк") || injuries.toLowerCase().includes("лопатк") || injuries.toLowerCase().includes("ше")) {
+    biomechanicsAdvice = `🩺 <b>Защита шеи и лопатки:</b> Учитывая травму/спазм <i>m. levator scapulae</i> — строго исключены жимы из-за головы и тяги за спину. В жимах гантелей держи угол локтей 60–70°, делай депрессию лопаток вниз перед каждым повторением.`;
+  } else {
+    biomechanicsAdvice = `🦾 <b>Биомеханика:</b> Работай в полную амплитуду с контролем негативной фазы 2-3 секунды.`;
+  }
+
+  output.innerHTML = `
+    <div class="space-y-2 text-xs">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-1.5 font-mono">
+        <span class="text-violet-300 font-bold">📋 ОТЧЕТ ИИ-АУДИТА</span>
+        <span class="text-emerald-400 font-bold">${appState.name} (${age} года)</span>
+      </div>
+
+      <p>${cardioAdvice}</p>
+      <p>${biomechanicsAdvice}</p>
+
+      <div class="p-2 bg-slate-900 rounded-lg border border-white/[0.06] font-mono text-[10px] space-y-0.5">
+        <p>• Закрыто тренировок: <b>${workoutsCount}</b></p>
+        <p>• Суммарный тоннаж: <b>${Math.round(totalTonnage).toLocaleString()} кг</b></p>
+        <p>• Фаза мезоцикла: <b>Неделя ${appState.mesocycleWeek || 1} из 8</b></p>
+        <p>• Целевой белок: <b>${Math.round(weight * 1.8)} г / день</b></p>
+      </div>
+
+      <p class="text-[11px] text-cyan-300">
+        🎯 <b>Фокус на неделю:</b> Линейная прогрессия +2.5 кг в наклонном жиме и горизонтальной тяге блока.
+      </p>
+    </div>
+  `;
+}
+
+function askAICoachQuestion() {
+  const input = document.getElementById("ai-user-question");
+  const output = document.getElementById("ai-audit-output");
+  if (!input || !output) return;
+
+  const q = input.value.trim();
+  if (!q) return;
+
+  Sound.beep(650, 0.08);
+  Haptic.impact('light');
+
+  const qLower = q.toLowerCase();
+  let ans = "";
+
+  if (qLower.includes("брусь") || qLower.includes("замен")) {
+    ans = `💡 <b>Замена брусьев:</b> Если брусья перегружают плечо, делай <b>Жим в Хаммере с упором</b> или <b>Жим гантелей на скамье с обратным наклоном (-15°)</b> с тем же объемом (4 × 8–10).`;
+  } else if (qLower.includes("плеч") || qLower.includes("бол")) {
+    ans = `⚠️ <b>Защита плечевого сустава:</b> При дискомфорте в жимах уменьши наклон скамьи до 20-30°, сведи лопатки и прижимай локти ближе к ребрам (угол 60° вместо 90°). Добавь Face Pulls (4×20) перед тренировкой.`;
+  } else if (qLower.includes("креатин") || qLower.includes("добавк")) {
+    ans = `💊 <b>Прием креатина:</b> Принимай 5 г креатина моногидрата ежедневно утром или после тренировки с водой/углеводами. Фаза загрузки не требуется.`;
+  } else if (qLower.includes("кардио") || qLower.includes("жир")) {
+    ans = `🏃 <b>Протокол Зоны 2:</b> 25–30 минут ходьбы в горку (уклон 8–10%, скорость 5.5 км/ч) при пульсе 115–128 уд/мин. Делать после силовой или в воскресенье.`;
+  } else if (qLower.includes("сон") || qLower.includes("устал") || qLower.includes("восстанов")) {
+    ans = `😴 <b>Восстановление:</b> Прими 400 мг магния глицината за 40 мин до сна. Снизь интенсивность следующей тренировки на 10%, если индекс готовности < 65%.`;
+  } else {
+    ans = `🤖 <b>Рекомендация ИИ:</b> При твоем весе ${appState.currentMetrics ? appState.currentMetrics.weight : 83} кг и цели «${appState.goal}» ключевой фактор роста — это прогрессивная перегрузка в диапазоне 8-12 повторений с паузой 1 сек в растяжении и закрытие 150г белка.`;
+  }
+
+  output.innerHTML = `
+    <div class="space-y-2 text-xs">
+      <div class="p-2 bg-slate-900 rounded-lg text-slate-400 font-mono text-[10px]">
+        ❓ <i>"${q}"</i>
+      </div>
+      <p class="leading-relaxed text-slate-200">${ans}</p>
+    </div>
+  `;
+
+  input.value = "";
 }
 
 // ========================================================
@@ -666,11 +886,9 @@ function calculateScheduleCompliance() {
   let doneCount = 0;
   let missedCount = 0;
 
-  // We analyze the current month (August 2026 / 31 days)
-  // Scheduled days: Tuesdays (Day 2 of week) and Thursdays (Day 4 of week)
   for (let d = 1; d <= 31; d++) {
-    const dateObj = new Date(2026, 7, d); // August 2026
-    const dayOfWeek = dateObj.getDay(); // 0 = Sun, 2 = Tue, 4 = Thu
+    const dateObj = new Date(2026, 7, d);
+    const dayOfWeek = dateObj.getDay();
     const isScheduledDay = (dayOfWeek === 2 || dayOfWeek === 4);
     const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
 
@@ -679,7 +897,6 @@ function calculateScheduleCompliance() {
         if (histDates.has(dStr)) {
           doneCount++;
         } else {
-          // If it was in the past and no workout recorded -> MISSED!
           if (d < currentDayOfMonth) {
             missedCount++;
           } else {
@@ -690,7 +907,6 @@ function calculateScheduleCompliance() {
         plannedCount++;
       }
     } else if (histDates.has(dStr)) {
-      // Completed optional/bonus day (e.g. Sunday)
       doneCount++;
     }
   }
@@ -718,8 +934,7 @@ function renderMonthMatrix() {
   container.innerHTML = "";
 
   const histDates = new Set((appState.history || []).map(h => h.date));
-  const today = new Date();
-  const currentDay = 27; // Aug 27, 2026
+  const currentDay = 27;
 
   for (let d = 1; d <= 31; d++) {
     const dateObj = new Date(2026, 7, d);
@@ -761,7 +976,6 @@ function renderYearHeatmap() {
   const hist = appState.history || [];
   if (totalEl) totalEl.textContent = `${hist.length} тренировок за год`;
 
-  // Render 52 weeks (26 cols x 7 rows = 182 cells)
   for (let i = 0; i < 182; i++) {
     const cell = document.createElement("div");
     let level = "heatmap-cell";
@@ -1355,11 +1569,12 @@ function copyCoachSummary() {
 
   const summary = `📊 [IRON COACH — СВОДКА АТЛЕТА]:
 • Атлет: ${appState.name} | Возраст: ${appState.age || 32} | Рост: ${appState.height || 178} см
+• Цель: ${appState.goal || 'Рекомпозиция'}
 • Фаза мезоцикла: Неделя ${appState.mesocycleWeek || 1} из 8
 • Текущий вес: ${m.weight || 83} кг
 • Талия по пупку: ${m.waist || 91.5} см (WHtR: ${((m.waist || 91.5) / (appState.height || 178)).toFixed(2)})
 • Бицепс: ${m.biceps || 38.5} см | Грудь: ${m.chest || 104} см | Бедро: ${m.thigh || 59} см | Шея: ${m.neck || 39.5} см
-• Стрик тренировок: 🔥${appState.streak || 0} | Общий тоннаж: ${getTotalTonnage(appState).toLocaleString()} кг
+• Стрик: 🔥${appState.streak || 0} | Общий тоннаж: ${getTotalTonnage(appState).toLocaleString()} кг
 • Последние тренировки:
 ${lastWosText}`;
 
