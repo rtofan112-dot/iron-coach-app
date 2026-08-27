@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.5 PRO",
+  version: "v2.8.6 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -37,13 +37,46 @@ const Sound = {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = type;
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + dur);
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+      gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + dur);
+    } catch(e) {}
+  },
+  chimeTone(freq, dur = 0.9, gainVal = 0.22, type = 'triangle') {
+    if (appState.soundMode !== 'sound') return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') this.ctx.resume();
+      
+      const now = this.ctx.currentTime;
+      // Основной фундаментальный тон (Triangle для мягкого басового удара)
+      const osc1 = this.ctx.createOscillator();
+      const gain1 = this.ctx.createGain();
+      osc1.type = type;
+      osc1.frequency.setValueAtTime(freq, now);
+      gain1.gain.setValueAtTime(gainVal, now);
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      osc1.connect(gain1);
+      gain1.connect(this.ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + dur);
+
+      // Кристальный обертон колокола (Sine 2.01x для глубокого акустического звона)
+      const osc2 = this.ctx.createOscillator();
+      const gain2 = this.ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(freq * 2.01, now);
+      gain2.gain.setValueAtTime(gainVal * 0.55, now);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.85);
+      osc2.connect(gain2);
+      gain2.connect(this.ctx.destination);
+      osc2.start(now);
+      osc2.stop(now + dur * 0.85);
     } catch(e) {}
   },
   success() {
@@ -56,28 +89,61 @@ const Sound = {
     setTimeout(() => this.beep(783.99, 0.15), 180);
   },
   finish() {
-    this.beep(523.25, 0.1);
-    setTimeout(() => this.beep(659.25, 0.1), 100);
-    setTimeout(() => this.beep(783.99, 0.1), 200);
-    setTimeout(() => this.beep(1046.50, 0.25), 300);
+    this.restFinish();
+  },
+  restFinish() {
+    if (appState.soundMode !== 'sound') return;
+    // МОЩНЫЙ 3-СТУПЕНЧАТЫЙ БОКСЕРСКИЙ ГОНГ ОКОНЧАНИЯ ОТДЫХА (~2.8 СЕКУНДЫ)
+    // 1-й аккорд: Низкий басовый колокол готовности (C4 261.6Hz + G4 392Hz)
+    this.chimeTone(261.63, 0.9, 0.26, 'triangle');
+    this.chimeTone(392.00, 0.9, 0.18, 'sine');
+    
+    // 2-й аккорд (через 0.5с): Повышающий мотивирующий аккорд (E4 329.6Hz + G4 392Hz + B4 493.8Hz)
+    setTimeout(() => {
+      this.chimeTone(329.63, 1.0, 0.28, 'triangle');
+      this.chimeTone(493.88, 1.0, 0.20, 'sine');
+      this.chimeTone(659.25, 1.0, 0.15, 'sine');
+    }, 500);
+
+    // 3-й аккорд (через 1.05с): Триумфальный глубокий гонг (C4 + G4 + C5 + E5 + G5 + C6) с затуханием 1.8с
+    setTimeout(() => {
+      this.chimeTone(261.63, 1.6, 0.30, 'triangle');
+      this.chimeTone(523.25, 1.6, 0.24, 'sine');
+      this.chimeTone(659.25, 1.6, 0.20, 'sine');
+      this.chimeTone(783.99, 1.7, 0.18, 'sine');
+      this.chimeTone(1046.50, 1.8, 0.15, 'sine');
+    }, 1050);
   }
 };
 
 const Haptic = {
   impact(style = 'medium') {
-    if (appState.soundMode === 'silent') return;
+    if (appState.soundMode === 'silent' || appState.hapticLevel === 'off') return;
+    const effStyle = appState.hapticLevel === 'heavy' ? 'heavy' : appState.hapticLevel === 'light' ? 'light' : style;
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-      window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
+      window.Telegram.WebApp.HapticFeedback.impactOccurred(effStyle);
     } else if (navigator.vibrate) {
       navigator.vibrate(35);
     }
   },
   success() {
-    if (appState.soundMode === 'silent') return;
+    if (appState.soundMode === 'silent' || appState.hapticLevel === 'off') return;
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
       window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
     } else if (navigator.vibrate) {
       navigator.vibrate([35, 50, 70]);
+    }
+  },
+  restFinish() {
+    if (appState.soundMode === 'silent' || appState.hapticLevel === 'off') return;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+      const hf = window.Telegram.WebApp.HapticFeedback;
+      hf.notificationOccurred('success');
+      setTimeout(() => hf.impactOccurred('heavy'), 500);
+      setTimeout(() => hf.impactOccurred('heavy'), 1050);
+      setTimeout(() => hf.notificationOccurred('success'), 1500);
+    } else if (navigator.vibrate) {
+      navigator.vibrate([180, 100, 180, 100, 350]);
     }
   }
 };
@@ -2130,6 +2196,7 @@ function startFreeWorkout(targetDate = null) {
     ]
   };
 
+  saveState();
   startWorkoutTimer();
   renderActiveWorkoutUI();
   switchTab("workouts");
@@ -2834,33 +2901,70 @@ function executeSwapExercise(targetDbId) {
 }
 
 let timerInt = null, timerLeft = 0;
+
 function startRestTimer(sec) {
   clearInterval(timerInt);
-  timerLeft = sec;
+  appState.activeRestTimer = {
+    targetTs: Date.now() + sec * 1000,
+    totalSec: sec
+  };
+  saveState();
+
   const bar = document.getElementById("timer-bar");
   const floatingHud = document.getElementById("floating-rest-hud");
   if (bar) bar.classList.remove("hidden");
   if (floatingHud) floatingHud.classList.remove("hidden");
+
+  syncActiveRestTimer();
+  timerInt = setInterval(syncActiveRestTimer, 1000);
+}
+
+function syncActiveRestTimer() {
+  if (!appState.activeRestTimer || !appState.activeRestTimer.targetTs) {
+    clearInterval(timerInt);
+    return;
+  }
+  const now = Date.now();
+  const remainingSec = Math.max(0, Math.ceil((appState.activeRestTimer.targetTs - now) / 1000));
+  timerLeft = remainingSec;
   updateTimerHUD();
 
-  timerInt = setInterval(() => {
-    if (timerLeft > 0) {
-      timerLeft--;
-      updateTimerHUD();
-      if (timerLeft <= 3 && timerLeft > 0) {
-        Sound.beep(700, 0.06);
-        Haptic.impact('light');
-      } else if (timerLeft === 0) {
-        Sound.finish();
-        Haptic.impact('heavy');
-        clearInterval(timerInt);
-        setTimeout(() => {
-          if (bar) bar.classList.add("hidden");
-          if (floatingHud) floatingHud.classList.add("hidden");
-        }, 2000);
+  const bar = document.getElementById("timer-bar");
+  const floatingHud = document.getElementById("floating-rest-hud");
+
+  if (remainingSec <= 3 && remainingSec > 0) {
+    Sound.beep(700, 0.06);
+    Haptic.impact('light');
+  } else if (remainingSec === 0) {
+    appState.activeRestTimer = null;
+    saveState();
+    clearInterval(timerInt);
+
+    Sound.restFinish();
+    Haptic.restFinish();
+
+    const barTxt = document.getElementById("timer-text");
+    const hudTxt = document.getElementById("hud-rest-timer-display");
+    const modalTxt = document.getElementById("rest-timer-display");
+    
+    if (barTxt) barTxt.textContent = "ПОРА! ⚡";
+    if (hudTxt) hudTxt.textContent = "ПОРА! ⚡";
+    if (modalTxt) modalTxt.textContent = "ПОРА! ⚡";
+
+    if (bar) bar.classList.add("ring-2", "ring-[#c8a97e]", "animate-pulse");
+    if (floatingHud) floatingHud.classList.add("ring-2", "ring-[#c8a97e]", "animate-pulse");
+
+    setTimeout(() => {
+      if (bar) {
+        bar.classList.remove("ring-2", "ring-[#c8a97e]", "animate-pulse");
+        bar.classList.add("hidden");
       }
-    }
-  }, 1000);
+      if (floatingHud) {
+        floatingHud.classList.remove("ring-2", "ring-[#c8a97e]", "animate-pulse");
+        floatingHud.classList.add("hidden");
+      }
+    }, 2800);
+  }
 }
 
 function updateTimerHUD() {
@@ -2873,6 +2977,18 @@ function updateTimerHUD() {
   if (barTxt) barTxt.textContent = str;
   if (hudTxt) hudTxt.textContent = str;
   if (modalTxt) modalTxt.textContent = str;
+}
+
+function stopTimer() {
+  clearInterval(timerInt);
+  appState.activeRestTimer = null;
+  saveState();
+  const bar = document.getElementById("timer-bar");
+  const floatingHud = document.getElementById("floating-rest-hud");
+  const modal = document.getElementById("modal-rest-timer");
+  if (bar) bar.classList.add("hidden");
+  if (floatingHud) floatingHud.classList.add("hidden");
+  if (modal) modal.classList.add("hidden");
 }
 
 function drawTrendChart(scrubX = null) {
@@ -3117,6 +3233,11 @@ function addTimer(sec = 30) {
 }
 
 function addRestTime(sec = 30) {
+  if (appState.activeRestTimer) {
+    appState.activeRestTimer.targetTs += sec * 1000;
+    appState.activeRestTimer.totalSec += sec;
+    saveState();
+  }
   timerLeft += sec;
   updateTimerHUD();
   Sound.beep(750, 0.05);
@@ -3125,6 +3246,8 @@ function addRestTime(sec = 30) {
 
 function stopTimer() {
   clearInterval(timerInt);
+  appState.activeRestTimer = null;
+  saveState();
   const bar = document.getElementById("timer-bar");
   const floatingHud = document.getElementById("floating-rest-hud");
   const modal = document.getElementById("modal-rest-timer");
@@ -4090,6 +4213,7 @@ function startWorkout(planKey, readinessPct = 90, targetDate = null) {
     })
   };
 
+  saveState();
   startWorkoutTimer();
   renderActiveWorkoutUI();
   switchTab("workouts");
@@ -4097,18 +4221,47 @@ function startWorkout(planKey, readinessPct = 90, targetDate = null) {
 
 function startWorkoutTimer() {
   clearInterval(liveWorkoutTimerInterval);
-  liveWorkoutSeconds = 0;
+  syncLiveWorkoutTimer();
+  liveWorkoutTimerInterval = setInterval(syncLiveWorkoutTimer, 1000);
+}
+
+function syncLiveWorkoutTimer() {
+  if (!appState.activeWorkout) {
+    clearInterval(liveWorkoutTimerInterval);
+    return;
+  }
+  if (!appState.activeWorkout.startTimestamp) {
+    appState.activeWorkout.startTimestamp = Date.now();
+    saveState();
+  }
+  const elapsedSec = Math.max(0, Math.floor((Date.now() - appState.activeWorkout.startTimestamp) / 1000));
+  liveWorkoutSeconds = elapsedSec;
+  const m = Math.floor(elapsedSec / 60);
+  const s = elapsedSec % 60;
+  const timerEl = document.getElementById("wo-live-timer");
+  if (timerEl) {
+    timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
   updateActiveWorkoutTopPill();
-  liveWorkoutTimerInterval = setInterval(() => {
-    liveWorkoutSeconds++;
-    const m = Math.floor(liveWorkoutSeconds / 60);
-    const s = liveWorkoutSeconds % 60;
-    const timerEl = document.getElementById("wo-live-timer");
-    if (timerEl) {
-      timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
+}
+
+function restoreActiveWorkoutIfAny() {
+  if (appState.activeWorkout && appState.activeWorkout.exercises && appState.activeWorkout.exercises.length > 0) {
+    const selectorEl = document.getElementById("workout-selector");
+    const activeEl = document.getElementById("workout-active");
+    if (selectorEl) selectorEl.classList.add("hidden");
+    if (activeEl) activeEl.classList.remove("hidden");
+    
+    renderActiveWorkoutUI();
+    startWorkoutTimer();
     updateActiveWorkoutTopPill();
-  }, 1000);
+    syncActiveRestTimer();
+  }
+}
+
+function testRestGongSound() {
+  Sound.restFinish();
+  Haptic.restFinish();
 }
 
 function toggleExerciseAccordion(exIdx) {
@@ -4577,6 +4730,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.Telegram.WebApp.expand();
   }
   loadState();
+  restoreActiveWorkoutIfAny();
   initPushSettings();
   renderXP();
   renderMetrics();
@@ -4590,6 +4744,25 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPersonalizedAIAnalytics();
   updateVacuumBadge();
   updateActiveWorkoutTopPill();
+
+  // Lifecycle listeners to preserve session when minimizing or locking phone
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      syncLiveWorkoutTimer();
+      syncActiveRestTimer();
+      restoreActiveWorkoutIfAny();
+    }
+  });
+
+  window.addEventListener("pageshow", () => {
+    syncLiveWorkoutTimer();
+    syncActiveRestTimer();
+    restoreActiveWorkoutIfAny();
+  });
+
+  window.addEventListener("beforeunload", () => {
+    saveState();
+  });
 
   // Уведомление в Telegram-чат о выходе новой версии
   const lastVersionSeen = localStorage.getItem("asutp_last_version_seen");
