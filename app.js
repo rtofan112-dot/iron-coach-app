@@ -3404,42 +3404,51 @@ async function sendTestPushNotification() {
 }
 
 let resetTimerInterval = null;
-let resetSecondsLeft = 15;
+let resetSecondsLeft = 3;
 
 function openSafeResetModal() {
   closeModal('modal-profile-drawer');
-  resetSecondsLeft = 15;
+  resetSecondsLeft = 3;
   clearInterval(resetTimerInterval);
 
   const btn = document.getElementById("btn-confirm-safe-reset");
   const txt = document.getElementById("reset-countdown-text");
 
-  btn.disabled = true;
-  btn.className = "flex-1 py-3 bg-[#181b26] text-slate-500 font-bold uppercase rounded-xl cursor-not-allowed transition-all";
-  btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
-  txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+  if (btn) {
+    btn.disabled = true;
+    btn.className = "flex-1 py-3 bg-[#181b26] text-slate-500 font-bold uppercase rounded-xl cursor-not-allowed transition-all";
+    btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+  }
+  if (txt) {
+    txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+    txt.className = "text-sm font-bold text-slate-400 font-mono";
+  }
 
   openModal('modal-safe-reset');
 
   resetTimerInterval = setInterval(() => {
     resetSecondsLeft--;
     if (resetSecondsLeft > 0) {
-      btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
-      txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+      if (btn) btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+      if (txt) txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
     } else {
       clearInterval(resetTimerInterval);
-      btn.disabled = false;
-      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase rounded-xl cursor-pointer transition-all";
-      btn.textContent = "Подтвердить полный сброс";
-      txt.textContent = "Защита снята: можно выполнить сброс";
-      txt.className = "text-sm font-bold text-rose-400 font-mono";
-      Sound.beep(880, 0.2);
+      if (btn) {
+        btn.disabled = false;
+        btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase rounded-xl cursor-pointer transition-all";
+        btn.textContent = "Подтвердить сброс";
+      }
+      if (txt) {
+        txt.textContent = "Защита снята: нажмите для сброса";
+        txt.className = "text-sm font-bold text-rose-400 font-mono";
+      }
+      Sound.beep(880, 0.15);
       Haptic.impact('heavy');
     }
   }, 1000);
 }
 
-function executeSafeResetAndReOnboard() {
+function executeFullReset() {
   clearInterval(resetTimerInterval);
   closeModal('modal-safe-reset');
 
@@ -3454,8 +3463,12 @@ function executeSafeResetAndReOnboard() {
   Sound.finish();
   Haptic.success();
 
-  alert("Профиль успешно сброшен!");
+  alert("✅ Профиль и история успешно сброшены!");
   openOnboardingModal();
+}
+
+function executeSafeResetAndReOnboard() {
+  executeFullReset();
 }
 
 function openOnboardingModal() {
@@ -3961,14 +3974,24 @@ ${lastWosText}
 
 async function sendCoachReportToTelegram(reportHtml) {
   try {
-    const user = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
-    const chatId = user ? user.id : null;
+    let chatId = null;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+      chatId = window.Telegram.WebApp.initDataUnsafe.user.id;
+    }
+    if (!chatId && appState.tgId) {
+      const m = String(appState.tgId).match(/\d+/);
+      if (m) chatId = m[0];
+    }
     if (!chatId) return;
 
-    await fetch('/api/sync-report', {
+    await fetch('/api/send-push', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chatId, text: reportHtml })
+      body: JSON.stringify({
+        chatId: chatId,
+        text: `📊 <b>АНАЛИТИЧЕСКИЙ ОТЧЕТ АТЛЕТА</b>\n\n` + reportHtml,
+        withButton: true
+      })
     });
   } catch(e) {}
 }

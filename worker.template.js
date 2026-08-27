@@ -50,26 +50,47 @@ export default {
       }
     }
 
-    // Отправка персонального пуш-уведомления
-    if (url.pathname === "/api/send-push" && request.method === "POST") {
+    // Отправка персонального пуш-уведомления и отчетов в чат Telegram
+    if ((url.pathname === "/api/send-push" || url.pathname === "/api/sync-report") && request.method === "POST") {
       try {
         const body = await request.json();
-        const chatId = body.chatId || body.userId;
+        let chatId = body.chatId || body.userId;
+        if (!chatId && body.tgId) {
+          const m = String(body.tgId).match(/\d+/);
+          if (m) chatId = m[0];
+        }
+
         if (chatId && body.text) {
-          await fetch(API_URL + "/sendMessage", {
+          const payload = {
+            chat_id: chatId,
+            text: body.text,
+            parse_mode: "HTML",
+            reply_markup: body.withButton ? {
+              inline_keyboard: [
+                [{ text: "⚡ ОТКРЫТЬ IRON COACH ⚡", web_app: { url: `${url.origin}/?v=${Date.now()}` } }]
+              ]
+            } : undefined
+          };
+
+          const tgRes = await fetch(API_URL + "/sendMessage", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: chatId,
-              text: body.text,
-              parse_mode: "HTML",
-              reply_markup: body.withButton ? {
-                inline_keyboard: [
-                  [{ text: "⚡ ОТКРЫТЬ IRON COACH ⚡", web_app: { url: `${url.origin}/?v=${Date.now()}` } }]
-                ]
-              } : undefined
-            })
+            body: JSON.stringify(payload)
           });
+
+          // Если парсер HTML Telegram вернул ошибку, отправляем очищенный plain text
+          if (!tgRes.ok) {
+            const plainText = body.text.replace(/<[^>]*>/g, '');
+            await fetch(API_URL + "/sendMessage", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: plainText,
+                reply_markup: payload.reply_markup
+              })
+            });
+          }
         }
         return new Response(JSON.stringify({ ok: true }), {
           status: 200,
