@@ -1408,30 +1408,38 @@ function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
   if (!container) return;
 
+  const iconSun = `<svg class="w-3 h-3 inline-block mr-0.5 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+  const iconMoon = `<svg class="w-3 h-3 inline-block mr-0.5 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+  const iconBolt = `<svg class="w-3 h-3 inline-block mr-0.5 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+
   const stack = [
     {
-      timing: "☀️ УТРО (с едой)",
+      icon: iconSun,
+      timing: "УТРО (с едой)",
       timingBadge: "bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30",
       name: "Витамин D3 + K2 (MK-7)",
       dose: "4000 МЕ + 100 мкг",
       reason: "Стимулирует синтез тестостерона, укрепляет костный матрикс и направляет кальций в кости, предотвращая кальцификацию сосудов."
     },
     {
-      timing: "☀️ УТРО / ОБЕД",
+      icon: iconSun,
+      timing: "УТРО / ОБЕД",
       timingBadge: "bg-emerald-950/80 text-emerald-400 border border-emerald-800/60",
       name: "Омега-3 (EPA / DHA)",
       dose: "2000 мг (EPA > 800 мг)",
       reason: "Снижает системное воспаление, защищает суставные сумки плечевого пояса и улучшает липидный профиль крови."
     },
     {
-      timing: "🌙 ВЕЧЕР (за 40 мин до сна)",
+      icon: iconMoon,
+      timing: "ВЕЧЕР (за 40 мин до сна)",
       timingBadge: "bg-sky-950/80 text-sky-400 border border-sky-800/60",
       name: "Магний Бисглицинат / Хелат",
       dose: "400 мг чистого Mg",
       reason: "Хелатная форма с аминокислотой глицин. Снимает остаточный спазм с мышцы шеи и лопатки, ускоряет засыпание и углубляет фазу NREM-сна."
     },
     {
-      timing: "⚡ В ДНИ ТРЕНИРОВОК",
+      icon: iconBolt,
+      timing: "В ДНИ ТРЕНИРОВОК",
       timingBadge: "bg-purple-950/80 text-purple-300 border border-purple-800/60",
       name: "Креатин Моногидрат",
       dose: "5 г утром или после зала",
@@ -1442,7 +1450,7 @@ function renderPersonalizedVitamins() {
   container.innerHTML = stack.map(item => `
     <div class="p-3.5 glass-panel-elevated rounded-2xl space-y-2">
       <div class="flex justify-between items-center font-mono">
-        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md ${item.timingBadge}">${item.timing}</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md ${item.timingBadge}">${item.icon}${item.timing}</span>
         <span class="text-white font-bold text-xs">${item.dose}</span>
       </div>
       <div>
@@ -1564,7 +1572,7 @@ function checkinMorningVacuum() {
   
   const txt = document.getElementById("vac-checkin-text");
   if (txt) txt.textContent = `Выполнено сегодня (Серия: ${appState.vacDaysCount} дн)`;
-  alert("✓ Утренний вакуум зафиксирован! (+30 XP к прогрессу)");
+  alert("Утренний вакуум зафиксирован! (+30 XP к прогрессу)");
 }
 
 function updateVacuumBadge() {
@@ -1774,7 +1782,7 @@ function renderActiveWorkoutUI() {
       <div class="flex justify-between items-center select-none">
         <div onclick="toggleExerciseAccordion(${exIdx})" class="flex items-center space-x-2.5 cursor-pointer flex-1">
           <span class="w-6 h-6 rounded-lg ${isAllDone ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800' : isExpanded ? 'bg-white/10 text-white border border-white/20' : 'bg-[#181b26] text-slate-400'} flex items-center justify-center font-mono font-bold text-xs">
-            ${isAllDone ? '✓' : exIdx + 1}
+            ${isAllDone ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : exIdx + 1}
           </span>
           <div>
             <h3 class="font-bold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
@@ -1848,15 +1856,15 @@ function renderActiveWorkoutUI() {
             
             <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/[0.05]">
               <div>
-                <b class="text-white">💡 Техника:</b> ${ex.tip}
+                <b class="text-white">ТЕХНИКА:</b> ${ex.tip}
               </div>
               <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[10px] text-slate-300">
                 <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
-                  <span class="text-slate-400 block uppercase">🫁 Дыхание:</span>
+                  <span class="text-slate-400 block uppercase">ДЫХАНИЕ:</span>
                   <span class="text-white">Вдох 2–3с на спуске, выдох на мощном выжиме (без задержек).</span>
                 </div>
                 <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
-                  <span class="text-slate-400 block uppercase">⏱️ Темп & RIR:</span>
+                  <span class="text-slate-400 block uppercase">ТЕМП & RIR:</span>
                   <span class="text-[#c8a97e] font-bold">Темп: 3-1-1-0</span> • <span class="text-slate-300">Запас: 1–2 повт (RIR 1-2)</span>
                 </div>
               </div>
@@ -2643,7 +2651,7 @@ function saveCurrentTilesAsMeasurement() {
 
   Sound.success();
   Haptic.success();
-  alert(`✓ Замеры за ${today} сохранены! (+40 XP)`);
+  alert(`Замеры за ${today} сохранены! (+40 XP)`);
 }
 
 function setChartFilter(filter) {
@@ -2840,7 +2848,7 @@ function openSafeResetModal() {
       btn.disabled = false;
       btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase rounded-xl cursor-pointer transition-all";
       btn.textContent = "Подтвердить полный сброс";
-      txt.textContent = "✓ Защита снята: можно выполнить сброс";
+      txt.textContent = "Защита снята: можно выполнить сброс";
       txt.className = "text-sm font-bold text-rose-400 font-mono";
       Sound.beep(880, 0.2);
       Haptic.impact('heavy');
@@ -2863,7 +2871,7 @@ function executeSafeResetAndReOnboard() {
   Sound.finish();
   Haptic.success();
 
-  alert("✓ Профиль успешно сброшен!");
+  alert("Профиль успешно сброшен!");
   openOnboardingModal();
 }
 
@@ -3357,7 +3365,7 @@ ${lastWosText}
     navigator.clipboard.writeText(summary).then(() => {
       Sound.success();
       Haptic.success();
-      alert(`✓ Полное аналитическое досье атлета «${appState.name}» скопировано в буфер обмена!\n\nВставь (Ctrl+V) в чат с тренером или ИИ.`);
+      alert(`Полное аналитическое досье атлета «${appState.name}» скопировано в буфер обмена!\n\nВставь (Ctrl+V) в чат с тренером или ИИ.`);
     }).catch(() => {
       prompt("Скопируй текст досье вручную:", summary);
     });

@@ -714,9 +714,9 @@
 
       <!-- ВКЛАДКИ РЕЖИМА ЗАМЕНЫ -->
       <div class="p-2.5 border-b border-white/[0.06] bg-[#070910] flex space-x-1 text-[10px]">
-        <button onclick="filterSwapMode('recommended')" id="swap-tab-recommended" class="flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center">🎯 Рекомендуемые</button>
-        <button onclick="filterSwapMode('musclegroup')" id="swap-tab-musclegroup" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">🏷️ Та же группа</button>
-        <button onclick="filterSwapMode('all')" id="swap-tab-all" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">📚 Весь каталог</button>
+        <button onclick="filterSwapMode('recommended')" id="swap-tab-recommended" class="flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center flex items-center justify-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Рекомендуемые</button>
+        <button onclick="filterSwapMode('musclegroup')" id="swap-tab-musclegroup" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center flex items-center justify-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Та же группа</button>
+        <button onclick="filterSwapMode('all')" id="swap-tab-all" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center flex items-center justify-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg> Весь каталог</button>
       </div>
 
       <div id="swap-candidates-list" class="p-3 space-y-2 overflow-y-auto flex-1 max-h-[50vh]"></div>
