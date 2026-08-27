@@ -1,0 +1,12 @@
+﻿{
+  "name": "iron-coach-app",
+  "version": "1.0.0",
+  "description": "ASU-TP Iron Coach Telegram WebApp",
+  "main": "worker.js",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.72.0"
+  }
+}
