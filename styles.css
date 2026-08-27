@@ -39,15 +39,35 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-main);
+  background: radial-gradient(circle at 50% -20%, rgba(200, 169, 126, 0.12) 0%, #08090e 35%, #050609 100%);
+  background-attachment: fixed;
   color: var(--text-primary);
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   min-height: 100vh;
-  padding-bottom: 5.5rem;
+  padding-bottom: 6rem;
   overflow-x: hidden;
   letter-spacing: -0.01em;
   line-height: 1.5;
+}
+
+/* ЗОЛОТЫЕ КНОПКИ ДЕЙСТВИЯ */
+.btn-gold {
+  background: linear-gradient(135deg, #dfc299 0%, #c8a97e 50%, #b28e62 100%);
+  color: #07080c !important;
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px -2px rgba(200, 169, 126, 0.35);
+  transition: all 0.15s ease;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #ebd4b5 0%, #d4b58a 50%, #be9a6e 100%);
+  box-shadow: 0 6px 20px -2px rgba(200, 169, 126, 0.45);
+}
+
+.btn-gold:active {
+  transform: scale(0.97);
 }
 
 /* ПЛАВНОСТЬ ВКЛАДОК */
