@@ -1,5 +1,5 @@
 /**
- * IRON COACH ELITE - Пошаговый тренировочный движок и мобильный календарь
+ * IRON COACH ELITE - Пошаговый тренировочный движок, гибкий календарь и точный хронометраж
  */
 
 const Sound = {
@@ -57,11 +57,11 @@ const Haptic = {
 };
 
 // ========================================================
-// ПРОТОКОЛЫ ТРЕНИРОВОК (ПОЛНОСТЬЮ НА РУССКОМ)
+// ПРОТОКОЛЫ ТРЕНИРОВОК
 // ========================================================
 const DEFAULT_PROGRAMS = {
   a: {
-    name: "Вторник: Тренировка А (Верх базы + Жим + Квадрицепс + Спина)",
+    name: "Тренировка А (Верх базы + Жим + Квадрицепс + Спина)",
     exercises: [
       { id: "ex1", name: "Жим гантелей на наклонной скамье 30°", sets: 4, min: 8, max: 10, w: 22, calRate: 12, tip: "Локти 60–70° к телу, лопатки сведены и опущены вниз для защиты шеи.", substitutes: ["Жим штанги на наклонной 30°", "Жим в наклонном Хаммере"] },
       { id: "ex2", name: "Жим гантелей на горизонтальной скамье", sets: 4, min: 8, max: 10, w: 24, calRate: 12, tip: "Мощный подконтрольный выжим, пауза 1 сек в нижней точке растяжения груди.", substitutes: ["Жим штанги лежа", "Жим в тренажере на грудь"] },
@@ -74,7 +74,7 @@ const DEFAULT_PROGRAMS = {
     ]
   },
   b: {
-    name: "Четверг: Тренировка Б (Бабочка + Брусья/Хаммер + Румынка + Тяга к груди)",
+    name: "Тренировка Б (Бабочка + Брусья/Хаммер + Румынка + Тяга к груди)",
     exercises: [
       { id: "ex1", name: "Сведения рук в тренажере бабочка", sets: 4, min: 10, max: 12, w: 25, calRate: 9, tip: "Глубокая растяжка грудных при опускании и фиксация 2 сек в сведении.", substitutes: ["Разводка гантелей на скамье"] },
       { id: "ex2", name: "Отжимания на брусьях (наклон) или жим в Хаммере", sets: 4, min: 8, max: 10, w: 0, calRate: 11, tip: "Корпус наклонен вперед под 30°, локти под 45° к корпусу.", substitutes: ["Жим гантелей с наклоном вниз"] },
@@ -87,7 +87,7 @@ const DEFAULT_PROGRAMS = {
     ]
   },
   c: {
-    name: "Воскресенье: День В [ОПЦИЯ] (Разгрузка шеи + Руки + Кардио Зона 2)",
+    name: "Тренировка В (Разгрузка шеи + Руки суперсет + Кардио)",
     exercises: [
       { id: "ex1", name: "Тяга каната к лицу (разгрузка шеи и лопатки)", sets: 4, min: 15, max: 20, w: 15, calRate: 8, tip: "Канат к глазам, локти разводи назад, пауза 2 сек (снимает спазм мышцы шеи).", substitutes: ["Разводка на заднюю дельту"] },
       { id: "ex2", name: "Жим гантелей на наклонной скамье (легкий пампинг)", sets: 3, min: 12, max: 15, w: 16, calRate: 8, tip: "Работа на наполнение мышц кровью, с запасом 3-4 повтора.", substitutes: ["Сведения в кроссовере"] },
@@ -161,10 +161,15 @@ function getInitialAccount() {
 
 let appState = getInitialAccount();
 let pendingWorkoutPlanKey = 'a';
+let pendingTargetWorkoutDate = null;
 let currentAchFilter = 'all';
 
 // Аккордеон тренировки: индекс открытого упражнения
 let activeExpandedExerciseIndex = 0;
+
+// Таймер длительности активной тренировки
+let liveWorkoutTimerInterval = null;
+let liveWorkoutSeconds = 0;
 
 // Календарь
 let calYear = 2026;
@@ -205,7 +210,7 @@ function loadState() {
     appState.name = tgName;
   }
 
-  // Автоматическая очистка старых латинских названий из сохраненного профиля
+  // Очистка старых латинских терминов
   if (appState.injuries && (appState.injuries.includes("levator") || appState.injuries.includes("scapulae"))) {
     appState.injuries = "Резекция левого легкого, спазм мышцы шеи и лопатки";
   }
@@ -593,10 +598,11 @@ function advanceMesocycleWeek() {
 }
 
 // ========================================================
-// САМОЧУВСТВИЕ И ГОТОВНОСТЬ ПЕРЕД СТАРТОМ
+// САМОЧУВСТВИЕ И АВТОРЕГУЛЯЦИЯ НАГРУЗОК
 // ========================================================
-function promptReadinessBeforeWorkout(planKey) {
+function promptReadinessBeforeWorkout(planKey, targetDate = null) {
   pendingWorkoutPlanKey = planKey;
+  pendingTargetWorkoutDate = targetDate;
   updateReadinessScore();
   openModal('modal-readiness');
 }
@@ -616,13 +622,13 @@ function updateReadinessScore() {
   const badge = document.getElementById("readiness-total-badge");
 
   if (scorePct >= 85) {
-    badge.textContent = `${scorePct}% • Высокая готовность (100% веса)`;
+    badge.textContent = `${scorePct}% • 100% рабочих весов (Полная нагрузка)`;
     badge.className = "text-sm font-black text-emerald-400 font-mono";
   } else if (scorePct >= 65) {
-    badge.textContent = `${scorePct}% • Умеренная готовность (запас 1-2 повт)`;
+    badge.textContent = `${scorePct}% • Умеренная нагрузка (запас 1-2 повт)`;
     badge.className = "text-sm font-black text-amber-400 font-mono";
   } else {
-    badge.textContent = `${scorePct}% • Усталость (снизь веса на 10%)`;
+    badge.textContent = `${scorePct}% • Авто-снижение весов на 10% (Защита шеи)`;
     badge.className = "text-sm font-black text-rose-400 font-mono";
   }
 }
@@ -634,41 +640,72 @@ function confirmReadinessAndStart() {
   const soreness = parseInt(document.getElementById("readiness-range-soreness").value) || 1;
   const scorePct = Math.round(((energy + sleep + (6 - soreness)) / 15) * 100);
 
-  startWorkout(pendingWorkoutPlanKey, scorePct);
+  startWorkout(pendingWorkoutPlanKey, scorePct, pendingTargetWorkoutDate);
+}
+
+function skipReadinessAndStart() {
+  closeModal('modal-readiness');
+  startWorkout(pendingWorkoutPlanKey, 90, pendingTargetWorkoutDate);
 }
 
 // ========================================================
-// ПОШАГОВЫЙ РЕЖИМ ТРЕНИРОВКИ (АККОРДЕОН)
+// ПОШАГОВЫЙ РЕЖИМ ТРЕНИРОВКИ С ТОЧНЫМ ВРЕМЕНЕМ
 // ========================================================
-function startWorkout(planKey, readinessPct = 90) {
+function startWorkout(planKey, readinessPct = 90, targetDate = null) {
   Sound.beep(600, 0.1);
   Haptic.impact('medium');
   const plan = DEFAULT_PROGRAMS[planKey];
-  activeExpandedExerciseIndex = 0; // Открыто только первое упражнение
+  activeExpandedExerciseIndex = 0;
+
+  // Авторегуляция: если самочувствие <65%, снижаем стартовые веса на 10%
+  const weightMultiplier = (readinessPct < 65) ? 0.9 : 1.0;
+
+  const now = new Date();
+  const startTimeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 
   appState.activeWorkout = {
     key: planKey,
     name: plan.name,
+    targetDate: targetDate || now.toISOString().split("T")[0],
+    startTimestamp: now.getTime(),
+    startTimeStr: startTimeStr,
     readiness: readinessPct,
-    exercises: plan.exercises.map(e => ({
-      name: e.name,
-      min: e.min,
-      max: e.max,
-      defaultWeight: e.w,
-      calRate: e.calRate || 10,
-      isTime: !!e.isTime,
-      tip: e.tip,
-      substitutes: e.substitutes || [],
-      sets: Array.from({ length: e.sets }, (_, i) => ({
-        set: i + 1,
-        weight: e.w,
-        reps: e.min,
-        done: false
-      }))
-    }))
+    exercises: plan.exercises.map(e => {
+      const scaledWeight = (e.w > 0) ? Math.round((e.w * weightMultiplier) * 2) / 2 : 0;
+      return {
+        name: e.name,
+        min: e.min,
+        max: e.max,
+        defaultWeight: scaledWeight,
+        calRate: e.calRate || 10,
+        isTime: !!e.isTime,
+        tip: e.tip,
+        substitutes: e.substitutes || [],
+        sets: Array.from({ length: e.sets }, (_, i) => ({
+          set: i + 1,
+          weight: scaledWeight,
+          reps: e.min,
+          done: false
+        }))
+      };
+    })
   };
 
+  // Запуск живого таймера тренировки
+  clearInterval(liveWorkoutTimerInterval);
+  liveWorkoutSeconds = 0;
+  liveWorkoutTimerInterval = setInterval(() => {
+    liveWorkoutSeconds++;
+    const m = Math.floor(liveWorkoutSeconds / 60);
+    const s = liveWorkoutSeconds % 60;
+    const timerEl = document.getElementById("wo-live-timer");
+    if (timerEl) {
+      timerEl.textContent = `⏱️ ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+  }, 1000);
+
   renderActiveWorkoutUI();
+  switchTab("workouts");
 }
 
 function toggleExerciseAccordion(exIdx) {
@@ -702,7 +739,7 @@ function renderActiveWorkoutUI() {
     card.id = `ex-card-${exIdx}`;
     card.className = `ex-card-accordion p-4 rounded-2xl border transition-all ${isExpanded ? 'active-focus' : isAllDone ? 'done-all' : 'bg-[#0e1422] border-white/[0.08]'}`;
 
-    // ШАПКА АККОРДЕОНА (КЛИКАБЕЛЬНАЯ)
+    // ШАПКА АККОРДЕОНА
     const headerHtml = `
       <div onclick="toggleExerciseAccordion(${exIdx})" class="flex justify-between items-center cursor-pointer select-none">
         <div class="flex items-center space-x-2.5">
@@ -725,7 +762,7 @@ function renderActiveWorkoutUI() {
       </div>
     `;
 
-    // ТЕЛО УПРАЖНЕНИЯ (ОТОБРАЖАЕТСЯ ТОЛЬКО ПРИ РАЗВОРОТЕ)
+    // ТЕЛО УПРАЖНЕНИЯ
     let bodyHtml = "";
     if (isExpanded) {
       const setsRows = ex.sets.map((s, sIdx) => `
@@ -823,10 +860,8 @@ function toggleSet(exIdx, sIdx, done) {
     addXP(25);
     startRestTimer(90);
 
-    // Проверяем, закрыты ли ВСЕ подходы текущего упражнения
     const allSetsClosed = ex.sets.every(s => s.done);
     if (allSetsClosed && exIdx < appState.activeWorkout.exercises.length - 1) {
-      // Автоматически переключаем аккордеон на следующее упражнение
       setTimeout(() => {
         activeExpandedExerciseIndex = exIdx + 1;
         renderActiveWorkoutUI();
@@ -972,6 +1007,12 @@ function finishActiveWorkout() {
   const wo = appState.activeWorkout;
   if (!wo) return;
 
+  clearInterval(liveWorkoutTimerInterval);
+  const now = new Date();
+  const endTimeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  const startTs = wo.startTimestamp || (now.getTime() - 45 * 60000);
+  const durationMin = Math.max(1, Math.round((now.getTime() - startTs) / 60000));
+
   let tonnage = 0;
   const exSummaries = [];
 
@@ -987,13 +1028,15 @@ function finishActiveWorkout() {
   });
 
   const caloriesBurned = calculateCurrentCaloriesBurned();
-  const nowStr = new Date().toLocaleString('ru-RU', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const dateStr = wo.targetDate || now.toISOString().split("T")[0];
 
   if (!appState.history) appState.history = [];
   appState.history.unshift({
     id: "wo_" + Date.now(),
-    date: new Date().toISOString().split("T")[0],
-    timeStr: nowStr,
+    date: dateStr,
+    startTimeStr: wo.startTimeStr || "18:00",
+    endTimeStr: endTimeStr,
+    durationMin: durationMin,
     name: wo.name,
     readiness: wo.readiness || 90,
     tonnage: Math.round(tonnage),
@@ -1013,7 +1056,7 @@ function finishActiveWorkout() {
   Sound.finish();
   Haptic.success();
 
-  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено: ~${caloriesBurned} ккал 🔥\n+150 очков получено!`);
+  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\n⏱️ Время: ${wo.startTimeStr} – ${endTimeStr} (${durationMin} мин)\n🏋️ Тоннаж: ${Math.round(tonnage)} кг\n🔥 Сожжено: ~${caloriesBurned} ккал\n+150 очков получено!`);
   document.getElementById("workout-active").classList.add("hidden");
   document.getElementById("workout-selector").classList.remove("hidden");
   switchTab("progress");
@@ -1022,6 +1065,7 @@ function finishActiveWorkout() {
 
 function cancelWorkout() {
   if (confirm("Отменить текущую тренировку?")) {
+    clearInterval(liveWorkoutTimerInterval);
     appState.activeWorkout = null;
     saveState();
     document.getElementById("workout-active").classList.add("hidden");
@@ -1030,7 +1074,7 @@ function cancelWorkout() {
 }
 
 // ========================================================
-// МОБИЛЬНЫЙ КАЛЕНДАРЬ МЕСЯЦА
+// МОБИЛЬНЫЙ КАЛЕНДАРЬ МЕСЯЦА И ВЫБОР ДАТЫ
 // ========================================================
 function changeCalendarMonth(delta) {
   calMonth += delta;
@@ -1055,6 +1099,20 @@ function jumpToMonth(mIndex) {
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openDateWorkoutPickerModal(dateStr) {
+  selectedCalDateStr = dateStr;
+  const dateObj = new Date(dateStr);
+  const formatted = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+  const title = document.getElementById("picker-modal-title");
+  if (title) title.textContent = `📅 Тренировка на ${formatted}`;
+  openModal('modal-date-workout-picker');
+}
+
+function launchWorkoutOnSelectedDate(planKey) {
+  closeModal('modal-date-workout-picker');
+  promptReadinessBeforeWorkout(planKey, selectedCalDateStr);
 }
 
 function renderMonthlyCalendar() {
@@ -1136,6 +1194,7 @@ function selectCalendarDay(dateStr, status, woData) {
   const inspDate = document.getElementById("cal-insp-date");
   const inspBadge = document.getElementById("cal-insp-badge");
   const inspContent = document.getElementById("cal-insp-content");
+  const inspActions = document.getElementById("cal-insp-actions");
   if (!inspDate || !inspBadge || !inspContent) return;
 
   const dateObj = new Date(dateStr);
@@ -1145,22 +1204,45 @@ function selectCalendarDay(dateStr, status, woData) {
   if (status === 'done' && woData) {
     inspBadge.textContent = "✅ ВЫПОЛНЕНО";
     inspBadge.className = "px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold font-mono";
+    const timeInfo = woData.startTimeStr ? `⏱️ ${woData.startTimeStr} – ${woData.endTimeStr || '...'} (${woData.durationMin || 45} мин)` : `⏱️ ~45 мин`;
     inspContent.innerHTML = `
       <p><b>${woData.name}</b></p>
-      <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> • Сожжено: <b class="text-amber-400">~${woData.calories || 350} ккал</b> • Готовность: <b>${woData.readiness || 90}%</b></p>
+      <p class="text-[11px] text-slate-300 font-mono">${timeInfo} • Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> • <b class="text-amber-400">~${woData.calories || 350} ккал</b></p>
     `;
+    if (inspActions) inspActions.innerHTML = "";
   } else if (status === 'missed') {
     inspBadge.textContent = "❌ ПРОПУСК";
     inspBadge.className = "px-2.5 py-0.5 bg-rose-950 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка была пропущена.</p>`;
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка была пропущена. Ты можешь восполнить ее в любой день!</p>`;
+    if (inspActions) {
+      inspActions.innerHTML = `
+        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-md">
+          ▶️ Записать тренировку на ${dateStr}
+        </button>
+      `;
+    }
   } else if (status === 'plan') {
     inspBadge.textContent = "⏳ ПЛАН";
     inspBadge.className = "px-2.5 py-0.5 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику (Вторник/Четверг).</p>`;
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику. Готовься к прогрессии весов!</p>`;
+    if (inspActions) {
+      inspActions.innerHTML = `
+        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-md">
+          ▶️ Начать тренировку на эту дату
+        </button>
+      `;
+    }
   } else {
     inspBadge.textContent = "⚪ ОТДЫХ";
     inspBadge.className = "px-2.5 py-0.5 bg-slate-900 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Восстановление нервной системы, отдых мышц, утренний вакуум и сон 8 часов.</p>`;
+    inspContent.innerHTML = `<p class="text-slate-300">День отдыха. Пришел в зал вне графика? Никаких проблем — жми кнопку ниже:</p>`;
+    if (inspActions) {
+      inspActions.innerHTML = `
+        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 font-bold text-xs uppercase rounded-xl border border-cyan-500/40 font-mono active:scale-98 transition-all">
+          ➕ Провести тренировку в этот день
+        </button>
+      `;
+    }
   }
 }
 
@@ -1211,7 +1293,7 @@ function render12MonthsAnnualBreakdown() {
 }
 
 // ========================================================
-// ЗАМЕРЫ ТЕЛА
+// ЗАМЕРЫ ТЕЛА И ГРАФИК
 // ========================================================
 let currentChartFilter = 'all';
 
@@ -1313,7 +1395,7 @@ function saveCurrentTilesAsMeasurement() {
 
 function setChartFilter(filter) {
   currentChartFilter = filter;
-  ['all', 'weight', 'waist'].forEach(f => {
+  ['all', 'weight', 'waist', 'duration'].forEach(f => {
     const btn = document.getElementById("btn-chart-" + f);
     if (btn) {
       if (f === filter) {
@@ -1337,6 +1419,60 @@ function drawTrendChart() {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, w, h);
 
+  if (currentChartFilter === 'duration') {
+    // График времени тренировок
+    const hist = (appState.history || []).slice().reverse().filter(item => (item.durationMin || 45) > 0);
+    if (hist.length < 2) {
+      ctx.fillStyle = "#64748b";
+      ctx.font = "11px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Добавь минимум 2 тренировки для графика времени", w / 2, h / 2);
+      return;
+    }
+    const durations = hist.map(item => item.durationMin || 45);
+    const min = Math.max(0, Math.min(...durations) - 5);
+    const max = Math.max(...durations) + 10;
+
+    function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 40); }
+    function getX(i) { return 35 + (i / (hist.length - 1)) * (w - 55); }
+
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 3; i++) {
+      const y = 20 + (i / 3) * (h - 40);
+      ctx.beginPath();
+      ctx.moveTo(35, y);
+      ctx.lineTo(w - 20, y);
+      ctx.stroke();
+
+      const val = (max - (i / 3) * (max - min)).toFixed(0) + "м";
+      ctx.fillStyle = "#475569";
+      ctx.font = "10px monospace";
+      ctx.textAlign = "right";
+      ctx.fillText(val, 30, y + 3);
+    }
+
+    ctx.strokeStyle = "#00f0ff";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    durations.forEach((v, i) => {
+      const x = getX(i), y = getY(v);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    durations.forEach((v, i) => {
+      const x = getX(i), y = getY(v);
+      ctx.fillStyle = "#00f0ff";
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    return;
+  }
+
+  // График замеров тела
   const logs = (appState.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
   if (logs.length < 2) {
     ctx.fillStyle = "#64748b";
@@ -1566,7 +1702,7 @@ function renderNutrition() {
 }
 
 // ========================================================
-// АРХИВ ТРЕНИРОВОК
+// АРХИВ ТРЕНИРОВОК С ВРЕМЕНЕМ И ДЛИТЕЛЬНОСТЬЮ
 // ========================================================
 function renderHistory() {
   const container = document.getElementById("history-container");
@@ -1589,6 +1725,8 @@ function renderHistory() {
     const card = document.createElement("div");
     card.className = "p-4 bg-[#0e1422] rounded-2xl border border-white/[0.08] space-y-2.5 font-mono text-xs";
 
+    const timeString = h.startTimeStr ? `⏱️ ${h.startTimeStr} – ${h.endTimeStr || '...'} (${h.durationMin || 45} мин)` : `⏱️ ${h.timeStr || h.date}`;
+
     const exList = (h.exercises || []).map(e => `
       <div class="flex justify-between items-center text-[11px] py-1 border-b border-white/[0.04] last:border-0 font-sans">
         <span class="text-slate-300 font-medium">${e.name}</span>
@@ -1603,7 +1741,7 @@ function renderHistory() {
       <div class="flex justify-between items-start pb-2 border-b border-white/[0.08]">
         <div>
           <h4 class="font-bold text-white text-xs font-sans">${h.name}</h4>
-          <span class="text-[10px] text-slate-400">${h.timeStr || h.date} • Готовность ${h.readiness || 90}%</span>
+          <span class="text-[10px] text-slate-400">${h.date} • ${timeString}</span>
         </div>
         <div class="flex items-center space-x-2 text-right">
           <div>
@@ -1635,6 +1773,8 @@ function openEditHistoryModal(idx) {
 
   document.getElementById("edit-h-name").value = h.name;
   document.getElementById("edit-h-date").value = h.date;
+  document.getElementById("edit-h-starttime").value = h.startTimeStr || "18:00";
+  document.getElementById("edit-h-endtime").value = h.endTimeStr || "19:00";
   document.getElementById("edit-h-tonnage").value = h.tonnage;
   document.getElementById("edit-h-calories").value = h.calories || 350;
 
@@ -1660,6 +1800,8 @@ function saveEditedHistoryItem() {
 
   h.name = document.getElementById("edit-h-name").value;
   h.date = document.getElementById("edit-h-date").value;
+  h.startTimeStr = document.getElementById("edit-h-starttime").value;
+  h.endTimeStr = document.getElementById("edit-h-endtime").value;
   h.tonnage = parseFloat(document.getElementById("edit-h-tonnage").value) || 0;
   h.calories = parseFloat(document.getElementById("edit-h-calories").value) || 350;
 
@@ -1675,6 +1817,7 @@ function saveEditedHistoryItem() {
   renderHistory();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
+  drawTrendChart();
   Sound.success();
   Haptic.success();
 }
@@ -1688,6 +1831,7 @@ function deleteCurrentEditingHistoryItem() {
     renderHistory();
     renderMonthlyCalendar();
     render12MonthsAnnualBreakdown();
+    drawTrendChart();
     Sound.beep(400, 0.1);
   }
 }
@@ -1699,21 +1843,28 @@ function deleteHistoryItemDirect(idx) {
     renderHistory();
     renderMonthlyCalendar();
     render12MonthsAnnualBreakdown();
+    drawTrendChart();
     Sound.beep(400, 0.1);
   }
 }
 
 function openAddManualWorkoutModal() {
-  const name = prompt("Название тренировки:", "Вторник: Тренировка А");
+  const name = prompt("Название тренировки:", "Тренировка А");
   if (!name) return;
   const tonnage = prompt("Общий тоннаж (кг):", "4000");
   const cals = prompt("Сожжено калорий (ккал):", "380");
 
+  const now = new Date();
+  const startTimeStr = "18:00";
+  const endTimeStr = "18:50";
+
   if (!appState.history) appState.history = [];
   appState.history.unshift({
     id: "wo_" + Date.now(),
-    date: new Date().toISOString().split("T")[0],
-    timeStr: new Date().toLocaleString('ru-RU', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }),
+    date: selectedCalDateStr || now.toISOString().split("T")[0],
+    startTimeStr: startTimeStr,
+    endTimeStr: endTimeStr,
+    durationMin: 50,
     name: name,
     readiness: 90,
     tonnage: parseFloat(tonnage) || 0,
@@ -1729,6 +1880,7 @@ function openAddManualWorkoutModal() {
   renderHistory();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
+  drawTrendChart();
   Sound.success();
 }
 
@@ -1741,7 +1893,7 @@ function copyCoachSummary() {
     lastWosText = "Тренировок в архиве пока нет.";
   } else {
     lastWosText = hist.slice(0, 3).map((h, i) => 
-      `${i + 1}) ${h.timeStr || h.date} — ${h.name} (Тоннаж: ${h.tonnage}кг, Сожжено: ~${h.calories || 350}ккал)`
+      `${i + 1}) ${h.date} (${h.startTimeStr || '18:00'}–${h.endTimeStr || '19:00'}) — ${h.name} (Тоннаж: ${h.tonnage}кг, Сожжено: ~${h.calories || 350}ккал)`
     ).join("\n");
   }
 

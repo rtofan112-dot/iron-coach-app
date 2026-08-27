@@ -99,8 +99,8 @@
         <div class="p-5 rounded-3xl bg-gradient-to-br from-[#101b33] via-[#0e1422] to-[#080b11] border border-cyan-500/30 shadow-xl space-y-3 relative overflow-hidden">
           <div class="flex justify-between items-start">
             <div>
-              <span class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Сегодня по плану:</span>
-              <h2 id="hero-today-title" class="text-lg font-black text-white mt-0.5">Вторник: Тренировка А (Все тело)</h2>
+              <span class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Рекомендуемая программа:</span>
+              <h2 id="hero-today-title" class="text-lg font-black text-white mt-0.5">Тренировка А (Все тело)</h2>
             </div>
             <span class="px-2.5 py-1 bg-emerald-950/80 border border-emerald-800 text-emerald-400 text-xs font-mono font-bold rounded-lg">~430 ккал</span>
           </div>
@@ -131,14 +131,27 @@
           </p>
         </div>
 
-        <!-- СПИСОК ВСЕХ ПРОГРАММ -->
+        <!-- СПИСОК ВСЕХ ПРОГРАММ (СВОБОДНЫЙ ВЫБОР В ЛЮБОЙ ДЕНЬ) -->
         <div class="space-y-2.5">
-          <h3 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider px-1">Все программы:</h3>
+          <div class="flex justify-between items-center px-1">
+            <h3 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Выбор любой программы:</h3>
+            <span class="text-[10px] text-cyan-400 font-mono">Свободный график 🔓</span>
+          </div>
+
+          <!-- ТРЕНИРОВКА А -->
+          <div onclick="promptReadinessBeforeWorkout('a')" class="p-4 rounded-2xl bg-[#0e1422] hover:bg-[#141c30] border border-white/[0.08] cursor-pointer active:scale-98 transition-all space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono font-bold text-emerald-400">ПРОГРАММА А (БАЗА ВЕРХ + НОГИ)</span>
+              <span class="text-xs font-mono text-slate-400">~430 ккал</span>
+            </div>
+            <h4 class="text-sm font-bold text-white">Тренировка А (Наклонный жим + Жим лежа + Жим ногами + Спина)</h4>
+            <p class="text-xs text-slate-400">8 упражнений • Акцент на верх грудных и общую силу.</p>
+          </div>
 
           <!-- ТРЕНИРОВКА Б -->
           <div onclick="promptReadinessBeforeWorkout('b')" class="p-4 rounded-2xl bg-[#0e1422] hover:bg-[#141c30] border border-white/[0.08] cursor-pointer active:scale-98 transition-all space-y-1.5">
             <div class="flex justify-between items-center">
-              <span class="text-xs font-mono font-bold text-cyan-400">ЧЕТВЕРГ • ОСНОВА (ДЕНЬ Б)</span>
+              <span class="text-xs font-mono font-bold text-cyan-400">ПРОГРАММА Б (БАБОЧКА + БРУСЬЯ + СПИНА)</span>
               <span class="text-xs font-mono text-slate-400">~450 ккал</span>
             </div>
             <h4 class="text-sm font-bold text-white">Тренировка Б (Бабочка + Брусья/Хаммер + Румынка + Тяга к груди)</h4>
@@ -148,7 +161,7 @@
           <!-- ТРЕНИРОВКА В (БОНУС) -->
           <div onclick="promptReadinessBeforeWorkout('c')" class="p-4 rounded-2xl bg-[#0e1422] hover:bg-[#141c30] border border-white/[0.08] cursor-pointer active:scale-98 transition-all space-y-1.5">
             <div class="flex justify-between items-center">
-              <span class="text-xs font-mono font-bold text-violet-400">ВОСКРЕСЕНЬЕ • ОПЦИЯ (ДЕНЬ В)</span>
+              <span class="text-xs font-mono font-bold text-violet-400">ПРОГРАММА В (РАЗГРУЗКА ШЕИ + КАРДИО)</span>
               <span class="text-xs font-mono text-slate-400">Факультатив</span>
             </div>
             <h4 class="text-sm font-bold text-white">Восстановление и Пампинг (Разгрузка шеи + Руки + Кардио)</h4>
@@ -169,8 +182,11 @@
         <!-- ПАНЕЛЬ ЖИВОЙ СТАТИСТИКИ -->
         <div class="p-4 rounded-2xl bg-[#0e1422] border border-cyan-500/40 flex justify-between items-center">
           <div>
-            <span id="wo-active-tag" class="text-[10px] font-mono font-bold text-cyan-400 uppercase">День А</span>
-            <h2 id="wo-active-title" class="text-base font-black text-white">Тренировка А</h2>
+            <div class="flex items-center space-x-2">
+              <span id="wo-active-tag" class="text-[10px] font-mono font-bold text-cyan-400 uppercase">День А</span>
+              <span id="wo-live-timer" class="text-[10px] font-mono text-slate-300 bg-slate-900 px-1.5 py-0.5 rounded border border-white/10">⏱️ 00:00</span>
+            </div>
+            <h2 id="wo-active-title" class="text-base font-black text-white mt-0.5">Тренировка А</h2>
           </div>
           <div class="flex items-center space-x-3 text-right font-mono">
             <div>
@@ -245,16 +261,17 @@
           </div>
         </div>
 
-        <!-- КАРТОЧКА ИНСПЕКТОРА ВЫБРАННОГО ДНЯ -->
-        <div id="cal-day-inspector-card" class="p-4 rounded-2xl bg-gradient-to-r from-[#101b33] to-[#0e1422] border border-cyan-500/30 space-y-2">
+        <!-- КАРТОЧКА ИНСПЕКТОРА ВЫБРАННОГО ДНЯ С ВОЗМОЖНОСТЬЮ ЗАПУСКА НА ЭТУ ДАТУ -->
+        <div id="cal-day-inspector-card" class="p-4 rounded-2xl bg-gradient-to-r from-[#101b33] to-[#0e1422] border border-cyan-500/30 space-y-3">
           <div class="flex justify-between items-center font-mono">
-            <span id="cal-insp-date" class="text-xs font-black text-white">27 августа 2026 (Сегодня)</span>
+            <span id="cal-insp-date" class="text-xs font-black text-white">27 августа 2026</span>
             <span id="cal-insp-badge" class="px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold">✅ ВЫПОЛНЕНО</span>
           </div>
           <div id="cal-insp-content" class="text-xs text-slate-300 font-sans space-y-1">
             <p><b>Вторник: Тренировка А</b></p>
             <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">4 200 кг</b> • Сожжено: <b class="text-amber-400">~430 ккал</b></p>
           </div>
+          <div id="cal-insp-actions" class="pt-1"></div>
         </div>
 
         <!-- ГОДОВОЙ ОБЗОР (12 МЕСЯЦЕВ) -->
@@ -335,11 +352,12 @@
 
         <div class="p-4 rounded-2xl bg-[#0e1422] border border-white/[0.08] space-y-3 font-mono">
           <div class="flex justify-between items-center">
-            <h3 class="text-xs font-bold text-white uppercase">📈 Динамика:</h3>
+            <h3 class="text-xs font-bold text-white uppercase">📈 График динамики:</h3>
             <div class="flex space-x-1 bg-slate-900 p-0.5 rounded-lg border border-white/10 text-[10px]">
               <button onclick="setChartFilter('all')" id="btn-chart-all" class="px-2 py-0.5 font-bold rounded-md bg-cyan-400 text-slate-950">Все</button>
               <button onclick="setChartFilter('weight')" id="btn-chart-weight" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Вес</button>
               <button onclick="setChartFilter('waist')" id="btn-chart-waist" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Талия</button>
+              <button onclick="setChartFilter('duration')" id="btn-chart-duration" class="px-2 py-0.5 font-bold rounded-md text-slate-400">⏱️ Время</button>
             </div>
           </div>
           <div class="w-full bg-slate-950 rounded-xl p-2 border border-white/[0.06]">
@@ -367,7 +385,7 @@
         <div id="achievements-list" class="space-y-2"></div>
       </div>
 
-      <!-- ПОДВКЛАДКА 4: АРХИВ -->
+      <!-- ПОДВКЛАДКА 4: АРХИВ ТРЕНИРОВОК -->
       <div id="subtab-archive" class="hidden space-y-3">
         <div class="flex justify-between items-center font-mono text-xs px-1">
           <span class="text-slate-400 font-bold uppercase">Журнал тренировок:</span>
@@ -559,6 +577,35 @@
   </div>
 
   <!-- ======================================================== -->
+  <!-- МОДАЛКА: ВЫБОР ТРЕНИРОВКИ ДЛЯ КАЛЕНДАРНОЙ ДАТЫ -->
+  <!-- ======================================================== -->
+  <div id="modal-date-workout-picker" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="max-w-sm w-full p-5 space-y-4 bg-[#0e1422] rounded-3xl border border-cyan-500/40 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 font-mono">
+        <h3 class="font-extrabold text-xs text-white uppercase" id="picker-modal-title">📅 Тренировка на дату</h3>
+        <button onclick="closeModal('modal-date-workout-picker')" class="text-slate-400 hover:text-white font-bold">✕</button>
+      </div>
+      <p class="text-xs text-slate-300">
+        Выбери программу, которую хочешь провести или записать на эту дату:
+      </p>
+      <div class="space-y-2 font-mono text-xs">
+        <button onclick="launchWorkoutOnSelectedDate('a')" class="w-full p-3 bg-slate-950 hover:bg-slate-900 border border-emerald-500/40 rounded-xl text-left active:scale-95 transition-all">
+          <b class="text-emerald-400 block">🏋️ Тренировка А</b>
+          <span class="text-[10px] text-slate-400">Наклонный жим + Жим лежа + Жим ногами + Спина</span>
+        </button>
+        <button onclick="launchWorkoutOnSelectedDate('b')" class="w-full p-3 bg-slate-950 hover:bg-slate-900 border border-cyan-500/40 rounded-xl text-left active:scale-95 transition-all">
+          <b class="text-cyan-400 block">🦾 Тренировка Б</b>
+          <span class="text-[10px] text-slate-400">Бабочка + Брусья/Хаммер + Румынка + Тяга к груди</span>
+        </button>
+        <button onclick="launchWorkoutOnSelectedDate('c')" class="w-full p-3 bg-slate-950 hover:bg-slate-900 border border-violet-500/40 rounded-xl text-left active:scale-95 transition-all">
+          <b class="text-violet-400 block">✨ Тренировка В (Бонус)</b>
+          <span class="text-[10px] text-slate-400">Разгрузка шеи + Руки суперсет + Кардио</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
   <!-- МОДАЛКА: БЕЗОПАСНЫЙ СБРОС (15 СЕКУНД) -->
   <!-- ======================================================== -->
   <div id="modal-safe-reset" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
@@ -642,14 +689,17 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- МОДАЛКА: САМОЧУВСТВИЕ И ГОТОВНОСТЬ -->
+  <!-- МОДАЛКА: САМОЧУВСТВИЕ И АВТОРЕГУЛЯЦИЯ -->
   <!-- ======================================================== -->
   <div id="modal-readiness" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-4 bg-[#0e1422] rounded-3xl border border-cyan-500/40 shadow-2xl">
       <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 font-mono">
-        <h3 class="font-extrabold text-xs text-white uppercase">🩺 Готовность к тренировке</h3>
+        <h3 class="font-extrabold text-xs text-white uppercase">🩺 Авторегуляция нагрузок</h3>
         <button onclick="closeModal('modal-readiness')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
+      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">
+        Оцени текущее состояние — при сильной усталости рабочие веса автоматически скорректируются для защиты суставов и шеи:
+      </p>
       <div class="space-y-3 font-mono text-xs">
         <div>
           <div class="flex justify-between text-[11px] mb-1">
@@ -673,13 +723,18 @@
           <input type="range" min="1" max="5" value="1" id="readiness-range-soreness" class="w-full accent-amber-500" oninput="updateReadinessScore()">
         </div>
         <div class="p-2.5 bg-slate-950 rounded-xl text-center">
-          <span class="text-[10px] text-slate-400 block">ГОТОВНОСТЬ:</span>
-          <span id="readiness-total-badge" class="text-sm font-black text-emerald-400">90% • Высокая готовность</span>
+          <span class="text-[10px] text-slate-400 block">РЕКОМЕНДАЦИЯ АВТОРЕГУЛЯЦИИ:</span>
+          <span id="readiness-total-badge" class="text-sm font-black text-emerald-400">90% • 100% рабочих весов</span>
         </div>
       </div>
-      <button onclick="confirmReadinessAndStart()" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl active:scale-98 transition-all font-mono shadow-md">
-        Начать тренировку ▶️
-      </button>
+      <div class="space-y-2 font-mono">
+        <button onclick="confirmReadinessAndStart()" class="w-full py-3 bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl active:scale-98 transition-all shadow-md">
+          Начать тренировку ▶️
+        </button>
+        <button onclick="skipReadinessAndStart()" class="w-full py-1 text-[11px] text-slate-400 hover:text-white">
+          Быстрый старт (пропустить опрос) ⏩
+        </button>
+      </div>
     </div>
   </div>
 
@@ -746,6 +801,16 @@
         <div>
           <label class="text-[9px] text-slate-400 block mb-1">Дата:</label>
           <input type="date" id="edit-h-date" class="w-full bg-slate-950 border border-white/10 px-3 py-2 rounded-xl text-white outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[9px] text-slate-400 block mb-1">Время начала:</label>
+            <input type="time" id="edit-h-starttime" class="w-full bg-slate-950 border border-white/10 px-2 py-1.5 rounded-xl text-white outline-none">
+          </div>
+          <div>
+            <label class="text-[9px] text-slate-400 block mb-1">Время окончания:</label>
+            <input type="time" id="edit-h-endtime" class="w-full bg-slate-950 border border-white/10 px-2 py-1.5 rounded-xl text-white outline-none">
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
