@@ -88,6 +88,30 @@ export default {
       return new Response("OK", { status: 200 });
     }
 
+    // 1. Попытка отдать свежайший бандл с GitHub (Live Auto-Sync)
+    try {
+      const ghRes = await fetch("https://raw.githubusercontent.com/rtofan112-dot/iron-coach-app/main/bundle.html?v=" + Date.now(), {
+        headers: { "User-Agent": "Cloudflare-Worker" },
+        cf: { cacheTtl: 0 }
+      });
+      if (ghRes.ok) {
+        const ghHtml = await ghRes.text();
+        if (ghHtml && ghHtml.includes("<!DOCTYPE html>")) {
+          return new Response(ghHtml, {
+            status: 200,
+            headers: { 
+              "Content-Type": "text/html; charset=utf-8",
+              "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0",
+              "Pragma": "no-cache",
+              "Expires": "0",
+              "Surrogate-Control": "no-store"
+            }
+          });
+        }
+      }
+    } catch (e) {}
+
+    // 2. Фолбэк на встроенный base64
     const binary = atob(B64_APP);
     const bytes = new Uint8Array(binary.length);
     for (let i = 0; i < binary.length; i++) {
