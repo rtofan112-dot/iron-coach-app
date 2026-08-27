@@ -50,8 +50,8 @@ export default {
       }
     }
 
-    // Отправка отчета тренеру
-    if (url.pathname === "/api/sync-report" && request.method === "POST") {
+    // Отправка персонального пуш-уведомления
+    if (url.pathname === "/api/send-push" && request.method === "POST") {
       try {
         const body = await request.json();
         const chatId = body.chatId || body.userId;
@@ -62,7 +62,12 @@ export default {
             body: JSON.stringify({
               chat_id: chatId,
               text: body.text,
-              parse_mode: "HTML"
+              parse_mode: "HTML",
+              reply_markup: body.withButton ? {
+                inline_keyboard: [
+                  [{ text: "⚡ ОТКРЫТЬ IRON COACH ⚡", web_app: { url: `${url.origin}/?v=${Date.now()}` } }]
+                ]
+              } : undefined
             })
           });
         }

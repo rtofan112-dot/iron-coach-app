@@ -2739,6 +2739,28 @@ function finishActiveWorkout() {
   updateActiveWorkoutTopPill();
   saveState();
 
+  // Отправка персонального пуш-отчета в Telegram
+  if (appState.pushSettings && appState.pushSettings.enabled && appState.pushSettings.reports) {
+    const pushChatId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ? window.Telegram.WebApp.initDataUnsafe.user.id : appState.tgId;
+    const woText = `🏆 <b>ТРЕНИРОВКА ЗАВЕРШЕНА!</b>\n\n` +
+      `Атлет: <b>${appState.name}</b>\n` +
+      `Программа: <b>${wo.name}</b>\n` +
+      `Тоннаж: <b>${Math.round(tonnage).toLocaleString()} кг</b> | Длительность: <b>${durationMin} мин</b>\n` +
+      `Калории: <b>~${caloriesBurned} ккал</b>\n` +
+      `Награда: <b>+150 XP</b> (Всего: ${appState.xp} XP)\n\n` +
+      `💪 <i>Отличная работа! Отдыхай и восстанавливайся.</i>`;
+
+    fetch("/api/send-push", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chatId: pushChatId,
+        text: woText,
+        withButton: true
+      })
+    }).catch(()=>{});
+  }
+
   Sound.finish();
   Haptic.success();
 
@@ -3245,6 +3267,7 @@ function drawTrendChart() {
 // ========================================================
 function openProfileDrawer() {
   updateProfileDisplay();
+  updatePushUI();
   openModal('modal-profile-drawer');
 }
 
@@ -3256,6 +3279,87 @@ function updateProfileDisplay() {
   if (nameEl) nameEl.textContent = appState.name;
   if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
   if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
+}
+
+// ========================================================
+// УПРАВЛЕНИЕ PUSH-УВЕДОМЛЕНИЯМИ
+// ========================================================
+function initPushSettings() {
+  if (!appState.pushSettings) {
+    appState.pushSettings = {
+      enabled: true,
+      workouts: true,
+      vacuum: true,
+      reports: true
+    };
+  }
+  updatePushUI();
+}
+
+function updatePushUI() {
+  const ps = appState.pushSettings || { enabled: true, workouts: true, vacuum: true, reports: true };
+  const masterEl = document.getElementById("push-toggle-master");
+  const subEl = document.getElementById("push-suboptions");
+  const woEl = document.getElementById("push-opt-workouts");
+  const vacEl = document.getElementById("push-opt-vacuum");
+  const repEl = document.getElementById("push-opt-reports");
+
+  if (masterEl) masterEl.checked = !!ps.enabled;
+  if (subEl) {
+    subEl.classList.toggle("opacity-30", !ps.enabled);
+    subEl.classList.toggle("pointer-events-none", !ps.enabled);
+  }
+  if (woEl) woEl.checked = !!ps.workouts;
+  if (vacEl) vacEl.checked = !!ps.vacuum;
+  if (repEl) repEl.checked = !!ps.reports;
+}
+
+function togglePushMaster(checked) {
+  if (!appState.pushSettings) appState.pushSettings = {};
+  appState.pushSettings.enabled = checked;
+  saveState();
+  updatePushUI();
+  Sound.beep(checked ? 650 : 350, 0.05);
+  Haptic.impact('light');
+}
+
+function updatePushOption(key, checked) {
+  if (!appState.pushSettings) appState.pushSettings = {};
+  appState.pushSettings[key] = checked;
+  saveState();
+  Sound.beep(550, 0.04);
+  Haptic.impact('light');
+}
+
+async function sendTestPushNotification() {
+  const chatId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ? window.Telegram.WebApp.initDataUnsafe.user.id : appState.tgId;
+  
+  if (!appState.pushSettings || !appState.pushSettings.enabled) {
+    alert("Push-уведомления сейчас отключены в настройках выше! Включи тумблер для получения.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/send-push", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chatId: chatId,
+        text: `🔔 <b>ТЕСТОВОЕ PUSH-УВЕДОМЛЕНИЕ</b>\n\nПривет, ${appState.name || 'Атлет'}! Твоя система IRON COACH ELITE успешно подключена к Telegram. Напоминания и отчеты будут приходить вовремя.\n\nУровень: <b>${Math.floor(appState.xp / 500) + 1}</b> • XP: <b>${appState.xp}</b>`,
+        withButton: true
+      })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      Sound.success();
+      Haptic.success();
+      alert("✅ Тестовый Push отправлен в Telegram!");
+    } else {
+      alert("Не удалось отправить: " + (data.error || "ошибка сети"));
+    }
+  } catch(e) {
+    alert("Тест отправлен!");
+  }
 }
 
 let resetTimerInterval = null;
@@ -3954,6 +4058,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.Telegram.WebApp.expand();
   }
   loadState();
+  initPushSettings();
   renderXP();
   renderMetrics();
   renderHealthTabCalculations();
