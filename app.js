@@ -205,6 +205,11 @@ function loadState() {
     appState.name = tgName;
   }
 
+  // Автоматическая очистка старых латинских названий из сохраненного профиля
+  if (appState.injuries && (appState.injuries.includes("levator") || appState.injuries.includes("scapulae"))) {
+    appState.injuries = "Резекция левого легкого, спазм мышцы шеи и лопатки";
+  }
+
   const elName = document.getElementById("tg-user-name");
   const elAvatar = document.getElementById("tg-user-avatar");
   if (elName) elName.textContent = appState.name;
