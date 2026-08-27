@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.14 PRO",
+  version: "v2.8.15 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -801,7 +801,7 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
     `;
   }
 
-  // 26. ФРАНЦУЗСКИЙ ЖИМ С ГАНТЕЛЯМИ ЛЕЖА
+  // 26. ФРАНЦУЗСКИЙ ЖИМ С ГАНТЕЛЯМИ / ШТАНГОЙ ЛЕЖА
   if (n.includes("француз")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -819,6 +819,84 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти смотрят в потолок</text>
         <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Сгибание строго к вискам</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Длинная головка трицепса</text>
+      </svg>
+    `;
+  }
+
+  // 26.1 ЖИМ ШТАНГИ УЗКИМ ХВАТОМ
+  if (n.includes("узким хват") || n.includes("узким")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="58" x2="110" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="100" cy="48" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="95" y1="53" x2="45" y2="53" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M85 53 L60 53" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="80,53 78,32 78,16" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="65" y1="16" x2="91" y2="16" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
+        
+        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ УЗКИМ ХВАТОМ</text>
+        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Хват: на ширине плеч</text>
+        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти 30-45° к телу</text>
+        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Опускание к низу груди</text>
+        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Тяжелая база на трицепс</text>
+      </svg>
+    `;
+  }
+
+  // 26.2 СГИБАНИЯ НА СКАМЬЕ СКОТТА
+  if (n.includes("скотт") || n.includes("scott")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="45" y1="70" x2="75" y2="40" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="90" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="85" y1="36" x2="70" y2="60" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="80" y1="40" x2="60" y2="52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="60,52 68,36" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="68" cy="36" r="4.5" fill="#c8a97e"/>
+        
+        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СКАМЬЯ СКОТТА</text>
+        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти плотно на подушке</text>
+        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Исключен читинг плечами</text>
+        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Внизу не разгибать в хруст</text>
+        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Короткая головка бицепса</text>
+      </svg>
+    `;
+  }
+
+  // 26.3 РАЗГИБАНИЯ ИЗ-ЗА ГОЛОВЫ
+  if (n.includes("из-за головы") || n.includes("overhead")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="75" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="36" x2="75" y2="70" stroke="#f1f5f9" stroke-width="4"/>
+        <polyline points="75,40 75,14 62,26" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M75 40 L75 18" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="62" cy="26" r="4.5" fill="#c8a97e"/>
+        
+        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ИЗ-ЗА ГОЛОВЫ (ТРИЦЕПС)</text>
+        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти смотрят вверх</text>
+        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Глубокое опускание за шею</text>
+        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Мощная растяжка</text>
+        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Длинная головка трицепса</text>
+      </svg>
+    `;
+  }
+
+  // 26.4 КИКБЭК НА ТРИЦЕПС
+  if (n.includes("кикбэк") || n.includes("kickback") || (n.includes("разгибание") && n.includes("назад"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="95" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="90" y1="35" x2="50" y2="40" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="75" y1="37" x2="55" y2="37" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <polyline points="75,37 55,37 30,37" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="30" cy="37" r="4.5" fill="#c8a97e"/>
+        
+        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КИКБЭК (РАЗГИБАНИЕ НАЗАД)</text>
+        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локоть выше линии спины</text>
+        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Разгибание строго назад</text>
+        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Пиковая пауза 1 сек</text>
+        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Латеральная головка</text>
       </svg>
     `;
   }
@@ -1137,11 +1215,26 @@ const EXERCISE_DATABASE = [
   { id: "db_sh_3", name: "Разводка гантелей в наклоне на заднюю дельту", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Задняя дельта • Ромбовидные мышцы", phases: ["01: Наклон 45-60°", "02: Разведение рук", "03: Пауза 1с"], defaultSets: 4, min: 12, max: 15, defaultWeight: 7, calRate: 7, isTime: false, tip: "Движение выполняется локтями назад-вбок, трапецию не зажимай." },
   { id: "db_sh_4", name: "Протяжка на блоке к подбородку (широкий хват)", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Средняя дельта • Верх спины", phases: ["01: Хват шире плеч", "02: Тяга локтями вверх", "03: До низа груди"], defaultSets: 3, min: 12, max: 15, defaultWeight: 25, calRate: 8, isTime: false, tip: "Широкий хват снижает нагрузку на кистевые и плечевые суставы." },
 
-  // РУКИ
-  { id: "db_arm_1", name: "Разгибания рук на верхнем блоке с канатом", category: "Руки", muscleGroup: "Руки", targetMuscles: "Латеральная и длинная головка трицепса", phases: ["01: Фиксация локтей", "02: Разводка внизу", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 6, isTime: false, tip: "Локти прижаты к корпусу, разводи канат в нижней точке сокращения." },
-  { id: "db_arm_2", name: "Подъем гантелей на бицепс с разворотом кисти", category: "Руки", muscleGroup: "Руки", targetMuscles: "Двуглавая мышца плеча (бицепс)", phases: ["01: Локти у ребер", "02: Супинация кисти", "03: Сжатие вверху"], defaultSets: 3, min: 10, max: 12, defaultWeight: 12, calRate: 6, isTime: false, tip: "Разворот кисти наружу в верхней трети подъема." },
-  { id: "db_arm_3", name: "Молотковые сгибания с гантелями (Hammer)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Брахиалис • Плечелучевая мышца • Бицепс", phases: ["01: Нейтральный хват", "02: Подъем без читинга", "03: Контроль спуска"], defaultSets: 3, min: 10, max: 12, defaultWeight: 14, calRate: 7, isTime: false, tip: "Утолщает предплечья и выталкивает бицепс наружу." },
-  { id: "db_arm_4", name: "Французский жим с гантелями лежа на скамье", category: "Руки", muscleGroup: "Руки", targetMuscles: "Длинная головка трицепса", phases: ["01: Локти в потолок", "02: Сгибание к вискам", "03: Выжим"], defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 6, isTime: false, tip: "Локти не разводи широко в стороны, держи их параллельно." },
+  // РУКИ (БИЦЕПС И ТРИЦЕПС)
+  // --- БАЗОВЫЕ И ИЗОЛИРУЮЩИЕ НА ТРИЦЕПС ---
+  { id: "db_arm_tr_1", name: "Жим штанги узким хватом лежа", category: "Руки", muscleGroup: "Руки", targetMuscles: "Трицепс (все 3 головки) • Передняя дельта • Верх груди", phases: ["01: Хват на ширине плеч", "02: Опускание к низу груди", "03: Мощный выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 50, calRate: 12, isTime: false, tip: "Хват строго на ширине плеч (не слишком узко), локти держи ближе к корпусу (под 30-45°)." },
+  { id: "db_arm_tr_2", name: "Французский жим со штангой (EZ-гриф) лежа", category: "Руки", muscleGroup: "Руки", targetMuscles: "Длинная и латеральная головка трицепса", phases: ["01: Наклон плеча 15° назад", "02: Опускание за макушку", "03: Разгибание в локтях"], defaultSets: 4, min: 10, max: 12, defaultWeight: 25, calRate: 9, isTime: false, tip: "Опускай гриф чуть за голову (к макушке), чтобы сохранять постоянное натяжение длинной головки." },
+  { id: "db_arm_tr_3", name: "Разгибания рук на верхнем блоке с канатом", category: "Руки", muscleGroup: "Руки", targetMuscles: "Латеральная и медиальная головка трицепса", phases: ["01: Фиксация локтей у ребер", "02: Разведение каната внизу", "03: Пиковое сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 7, isTime: false, tip: "Локти намертво зафиксированы у корпуса, разводи концы каната в стороны в нижней точке." },
+  { id: "db_arm_tr_4", name: "Разгибания рук на блоке с прямой / V-рукоятью", category: "Руки", muscleGroup: "Руки", targetMuscles: "Латеральная головка трицепса (боковая часть)", phases: ["01: Упор в рукоять", "02: Полное выпрямление вниз", "03: Плавный подъем до 90°"], defaultSets: 3, min: 10, max: 12, defaultWeight: 25, calRate: 8, isTime: false, tip: "Корпус слегка наклонен вперед, жми рукоять вниз основанием ладоней." },
+  { id: "db_arm_tr_5", name: "Разгибание рук с гантелью из-за головы сидя", category: "Руки", muscleGroup: "Руки", targetMuscles: "Длинная головка трицепса (максимальная растяжка)", phases: ["01: Гантель над головой", "02: Глубокое опускание за шею", "03: Выжим вверх"], defaultSets: 3, min: 10, max: 12, defaultWeight: 18, calRate: 8, isTime: false, tip: "Локти держи направленными вверх и не разводи широко, ощущай мощное растяжение трицепса." },
+  { id: "db_arm_tr_6", name: "Французский жим с гантелями лежа на скамье", category: "Руки", muscleGroup: "Руки", targetMuscles: "Длинная и латеральная головка трицепса", phases: ["01: Нейтральный хват", "02: Опускание к вискам", "03: Разгибание"], defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 7, isTime: false, tip: "Независимая работа каждой руки исключает дисбаланс, локти параллельны друг другу." },
+  { id: "db_arm_tr_7", name: "Отжимания от скамьи сзади (обратные отжимания)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Трицепс • Передняя дельта", phases: ["01: Упор руками в край скамьи", "02: Опускание до 90°", "03: Выжим"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 9, isTime: false, tip: "Спина скользит вплотную к скамье, плечи не задирай к ушам." },
+  { id: "db_arm_tr_8", name: "Разгибание руки назад с гантелью в наклоне (Кикбэк)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Пиковая изоляция латеральной головки трицепса", phases: ["01: Локоть поднят выше спины", "02: Разгибание назад", "03: Фиксация 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 8, calRate: 6, isTime: false, tip: "Плечевая кость строго параллельна полу, двигается только предплечье." },
+
+  // --- БАЗОВЫЕ И ИЗОЛИРУЮЩИЕ НА БИЦЕПС ---
+  { id: "db_arm_bi_1", name: "Подъем штанги на бицепс стоя (прямой или EZ-гриф)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Бицепс (длинная и короткая головка) • Брахиалис", phases: ["01: Локти прижаты к бокам", "02: Подъем до уровня груди", "03: Опускание 2–3с"], defaultSets: 4, min: 8, max: 10, defaultWeight: 30, calRate: 10, isTime: false, tip: "Главная золотая база на бицепс. Не закидывай спиной (без читинга), опускай подконтрольно." },
+  { id: "db_arm_bi_2", name: "Подъем гантелей на бицепс с супинацией (разворотом)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Двуглавая мышца плеча (бицепс) • Пик бицепса", phases: ["01: Нейтральный хват внизу", "02: Разворот кисти наружу", "03: Сжатие вверху 1с"], defaultSets: 3, min: 10, max: 12, defaultWeight: 12, calRate: 8, isTime: false, tip: "В верхней трети амплитуды максимально разворачивай мизинец вверх и наружу." },
+  { id: "db_arm_bi_3", name: "Молотковые сгибания с гантелями (Hammer Curls)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Брахиалис • Плечелучевая мышца • Длинная головка бицепса", phases: ["01: Нейтральный хват (ладони внутрь)", "02: Подъем локтями вниз", "03: Медленный спуск"], defaultSets: 3, min: 10, max: 12, defaultWeight: 14, calRate: 8, isTime: false, tip: "Развивает брахиалис, который выталкивает бицепс наружу и дает мощную толщину рукам." },
+  { id: "db_arm_bi_4", name: "Сгибания рук на скамье Скотта (со штангой или гантелью)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Короткая (внутренняя) головка бицепса • Полная изоляция", phases: ["01: Подмышки плотно на упоре", "02: Подъем силой бицепса", "03: Растяжка без переразгиба"], defaultSets: 3, min: 10, max: 12, defaultWeight: 22, calRate: 8, isTime: false, tip: "Полностью исключает помощь плеч и корпуса. Внизу не разгибай локти до хруста в суставах." },
+  { id: "db_arm_bi_5", name: "Сгибания рук с гантелями на наклонной скамье 45°", category: "Руки", muscleGroup: "Руки", targetMuscles: "Длинная головка бицепса (максимальная гипертрофия в растяжке)", phases: ["01: Локти отведены назад", "02: Подъем с супинацией", "03: Глубокий спуск 3с"], defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 8, isTime: false, tip: "Наклон скамьи создает мощнейшее растяжение длинной головки бицепса в стартовой позиции." },
+  { id: "db_arm_bi_6", name: "Концентрированные сгибания с гантелью сидя", category: "Руки", muscleGroup: "Руки", targetMuscles: "Пик двуглавой мышцы плеча (точечная прорисовка)", phases: ["01: Упор локтем во внутреннюю часть бедра", "02: Подъем к подбородку", "03: Пауза 2с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 10, calRate: 7, isTime: false, tip: "Упри локоть в бедро, корпус неподвижен. Делай акцент на пиковое сокращение в верхней точке." },
+  { id: "db_arm_bi_7", name: "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Бицепс • Постоянное натяжение троса", phases: ["01: Локти у ребер", "02: Сгибание по дуге", "03: Пиковое напряжение 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 7, isTime: false, tip: "Трос дает равномерную нагрузку даже в верхней точке, где со штангой нагрузка падает." },
+  { id: "db_arm_bi_8", name: "Паучьи сгибания с гантелями (Spider Curls на скамье)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Короткая головка бицепса • Пиковый пампинг", phases: ["01: Грудь на наклонной скамье", "02: Руки вертикально вниз", "03: Сгибание вверх"], defaultSets: 3, min: 12, max: 15, defaultWeight: 10, calRate: 7, isTime: false, tip: "Изолирует верхнюю треть амплитуды и исключает инерцию корпуса." },
 
   // ПРЕСС
   { id: "db_abs_1", name: "Скручивания на блоке с канатом на пресс", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Прямая мышца живота", phases: ["01: Вдох вверху", "02: Скручивание на выдохе", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false, tip: "Скручивай грудную клетку к тазу силой мышц пресса." },
