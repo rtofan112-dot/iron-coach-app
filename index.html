@@ -36,7 +36,7 @@
 <body class="bg-[#080b11] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">
 
   <!-- ======================================================== -->
-  <!-- HEADER: ЧИСТЫЙ ПРОФИЛЬ, ОПЫТ, ГОЛОС И ЭКСПОРТ -->
+  <!-- HEADER: ЧИСТЫЙ ПРОФИЛЬ, ОПЫТ, ЗВУК/ВИБРО И ЭКСПОРТ -->
   <!-- ======================================================== -->
   <header class="sticky top-0 z-40 bg-[#080b11]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-xl">
     <div class="max-w-md mx-auto flex items-center justify-between">
@@ -59,9 +59,9 @@
         </div>
       </div>
 
-      <!-- СТРИК, ТУМБЛЕР ГОЛОСА И ЭКСПОРТ ОТЧЕТА -->
+      <!-- СТРИК, ТУМБЛЕР РЕЖИМА ЗВУК/ВИБРО/БЕЗ ЗВУКА И ЭКСПОРТ -->
       <div class="flex items-center space-x-2 font-mono">
-        <button onclick="toggleVoiceAnnounce()" id="btn-header-voice" title="Голосовые оповещения таймера" class="p-2 bg-[#0e1422] hover:bg-slate-800 border border-white/10 rounded-xl text-cyan-400 text-xs font-bold active:scale-95 transition-all">
+        <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="p-2 bg-[#0e1422] hover:bg-slate-800 border border-white/10 rounded-xl text-cyan-400 text-xs font-bold active:scale-95 transition-all">
           🔊
         </button>
         <div class="flex items-center space-x-1 px-3 py-1.5 bg-[#0e1422] border border-white/10 rounded-xl text-amber-400 text-xs font-bold shadow-sm">
@@ -119,6 +119,22 @@
           </div>
         </div>
 
+        <!-- КАРТОЧКА «СВОБОДНАЯ ТРЕНИРОВКА» (ВЫБОР ЛЮБЫХ УПРАЖНЕНИЙ ИЗ БАЗЫ) -->
+        <div class="p-4 rounded-3xl bg-gradient-to-r from-amber-500/15 via-[#0e1422] to-cyan-500/15 border border-amber-400/30 space-y-2.5">
+          <div class="flex justify-between items-center font-mono">
+            <span class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+              <span>⚡</span> СВОБОДНАЯ ТРЕНИРОВКА
+            </span>
+            <span class="text-[10px] text-cyan-300 font-bold bg-slate-900 px-2 py-0.5 rounded border border-white/10">Каталог 30+ упр.</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Пришел в зал и хочешь тренироваться произвольно? Выбирай любые упражнения из каталога базы, меняй веса и сохраняй результат!
+          </p>
+          <button onclick="startFreeWorkout()" class="w-full py-3 bg-gradient-to-r from-amber-400 to-orange-400 hover:opacity-95 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl active:scale-98 transition-all font-mono shadow-md flex items-center justify-center space-x-2">
+            <span>⚡</span><span>НАЧАТЬ СВОБОДНУЮ ТРЕНИРОВКУ</span>
+          </button>
+        </div>
+
         <!-- СТАТУС ТРЕНИРОВОЧНОГО ЦИКЛА -->
         <div class="p-4 rounded-2xl bg-[#0e1422] border border-white/[0.08] space-y-2">
           <div class="flex justify-between items-center text-xs font-mono">
@@ -137,7 +153,7 @@
         <!-- СПИСОК ВСЕХ ПРОГРАММ (СВОБОДНЫЙ ВЫБОР В ЛЮБОЙ ДЕНЬ) -->
         <div class="space-y-2.5">
           <div class="flex justify-between items-center px-1">
-            <h3 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Выбор любой программы:</h3>
+            <h3 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Выбор фиксированных программ:</h3>
             <span class="text-[10px] text-cyan-400 font-mono">Свободный график 🔓</span>
           </div>
 
@@ -203,12 +219,17 @@
           </div>
         </div>
 
+        <!-- КНОПКА ДОБАВЛЕНИЯ ИЗ БАЗЫ УПРАЖНЕНИЙ -->
+        <button onclick="openExerciseDatabaseModal()" class="w-full py-3 bg-gradient-to-r from-cyan-950 to-blue-950 hover:bg-slate-800 border border-cyan-500/40 rounded-2xl text-cyan-300 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2 shadow-sm">
+          <span>📚</span><span>Выбрать упражнение из каталога базы (30+ упр.)</span>
+        </button>
+
         <!-- КОНТЕЙНЕР УПРАЖНЕНИЙ (АККОРДЕОН) -->
         <div id="active-exercises-container" class="space-y-3"></div>
 
-        <!-- КНОПКА ДОБАВЛЕНИЯ СВОЕГО УПРАЖНЕНИЯ -->
-        <button onclick="openModal('modal-add-custom-exercise')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 border border-dashed border-cyan-500/40 rounded-2xl text-cyan-300 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2">
-          <span>➕</span><span>Добавить свое упражнение в эту тренировку</span>
+        <!-- КНОПКА СОЗДАНИЯ СВОЕГО УПРАЖНЕНИЯ ВРУЧНУЮ -->
+        <button onclick="openModal('modal-add-custom-exercise')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 border border-dashed border-white/20 rounded-2xl text-slate-300 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2">
+          <span>➕</span><span>Создать свое новое упражнение вручную</span>
         </button>
 
         <!-- КНОПКИ ДЕЙСТВИЯ -->
@@ -623,7 +644,7 @@
   </nav>
 
   <!-- ======================================================== -->
-  <!-- ТАЙМЕР ОТДЫХА С ГОЛОСОВЫМ ТУМБЛЕРОМ -->
+  <!-- ТАЙМЕР ОТДЫХА С ТУМБЛЕРОМ РЕЖИМА ЗВУКА -->
   <!-- ======================================================== -->
   <div id="timer-bar" class="fixed bottom-20 left-4 right-4 max-w-md mx-auto hidden z-50">
     <div class="bg-[#0e1422] border-2 border-cyan-400 p-3 rounded-2xl shadow-2xl flex items-center justify-between font-mono">
@@ -637,7 +658,7 @@
         </div>
       </div>
       <div class="flex items-center space-x-1.5">
-        <button onclick="toggleVoiceAnnounce()" id="btn-timer-voice" class="px-2.5 py-1.5 bg-slate-800 text-cyan-300 text-xs font-bold rounded-lg border border-white/10">🔊</button>
+        <button onclick="cycleSoundMode()" id="btn-timer-sound" class="px-2.5 py-1.5 bg-slate-800 text-cyan-300 text-xs font-bold rounded-lg border border-white/10">🔊</button>
         <button onclick="addTimer(30)" class="px-2.5 py-1.5 bg-slate-800 text-slate-200 text-xs font-bold rounded-lg">+30с</button>
         <button onclick="stopTimer()" class="px-3 py-1.5 bg-rose-950 text-rose-300 text-xs font-bold rounded-lg border border-rose-800">✕</button>
       </div>
@@ -645,7 +666,53 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- МОДАЛКА: ДОБАВЛЕНИЕ СВОЕГО УПРАЖНЕНИЯ -->
+  <!-- МОДАЛКА: КАТАЛОГ БАЗЫ УПРАЖНЕНИЙ (EXERCISE DATABASE) -->
+  <!-- ======================================================== -->
+  <div id="modal-exercise-database" class="fixed inset-0 z-50 modal-backdrop hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="max-w-md w-full bg-[#0e1422] rounded-t-3xl sm:rounded-3xl border border-cyan-500/40 shadow-2xl max-h-[85vh] flex flex-col font-mono text-xs">
+      
+      <!-- ШАПКА КАТАЛОГА -->
+      <div class="p-4 border-b border-white/[0.08] flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <span class="text-lg">📚</span>
+          <div>
+            <h3 class="font-extrabold text-xs text-white uppercase">Каталог базы упражнений</h3>
+            <span class="text-[10px] text-slate-400">Выбери и добавь в текущую тренировку:</span>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-exercise-database')" class="text-slate-400 hover:text-white font-bold px-2 py-1">✕</button>
+      </div>
+
+      <!-- ПОИСК И ФИЛЬТРЫ КАТЕГОРИЙ -->
+      <div class="p-3 space-y-2 border-b border-white/[0.06] bg-slate-950">
+        <input type="text" id="ex-catalog-search" oninput="filterExerciseDatabase()" placeholder="🔍 Поиск упражнения..." class="w-full bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-white font-sans text-xs outline-none">
+        
+        <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[10px]">
+          <button onclick="filterExerciseDatabaseCategory('all')" id="btn-cat-all" class="px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-black whitespace-nowrap">Все (30+)</button>
+          <button onclick="filterExerciseDatabaseCategory('Грудь')" id="btn-cat-chest" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Грудь</button>
+          <button onclick="filterExerciseDatabaseCategory('Спина')" id="btn-cat-back" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Спина</button>
+          <button onclick="filterExerciseDatabaseCategory('Ноги')" id="btn-cat-legs" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Ноги</button>
+          <button onclick="filterExerciseDatabaseCategory('Плечи')" id="btn-cat-shoulders" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Плечи</button>
+          <button onclick="filterExerciseDatabaseCategory('Руки')" id="btn-cat-arms" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Руки</button>
+          <button onclick="filterExerciseDatabaseCategory('Пресс')" id="btn-cat-abs" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Пресс</button>
+          <button onclick="filterExerciseDatabaseCategory('Кардио')" id="btn-cat-cardio" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">Кардио</button>
+        </div>
+      </div>
+
+      <!-- СПИСОК УПРАЖНЕНИЙ КАТАЛОГА -->
+      <div id="exercise-catalog-list" class="p-3 space-y-2 overflow-y-auto flex-1 font-sans"></div>
+
+      <!-- ФУТЕР С КНОПКОЙ РУЧНОГО СОЗДАНИЯ -->
+      <div class="p-3 border-t border-white/[0.08] bg-[#0e1422]">
+        <button onclick="closeModal('modal-exercise-database'); openModal('modal-add-custom-exercise')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-dashed border-cyan-500/40 rounded-xl font-mono text-xs font-bold active:scale-98 transition-all">
+          ➕ Не нашел нужное? Создать свое вручную
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- МОДАЛКА: СОЗДАНИЕ СВОЕГО УПРАЖНЕНИЯ ВРУЧНУЮ -->
   <!-- ======================================================== -->
   <div id="modal-add-custom-exercise" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-3 bg-[#0e1422] rounded-3xl border border-cyan-500/40 shadow-2xl font-mono text-xs">
@@ -681,6 +748,7 @@
             <option value="Плечи">Плечи</option>
             <option value="Руки">Руки</option>
             <option value="Пресс">Пресс / Кор</option>
+            <option value="Кардио">Кардио</option>
           </select>
         </div>
         <div>
@@ -752,6 +820,10 @@
         Выбери программу, которую хочешь провести или записать на эту дату:
       </p>
       <div class="space-y-2 font-mono text-xs">
+        <button onclick="launchWorkoutOnSelectedDate('free')" class="w-full p-3 bg-slate-950 hover:bg-slate-900 border border-amber-500/40 rounded-xl text-left active:scale-95 transition-all">
+          <b class="text-amber-400 block">⚡ Свободная тренировка</b>
+          <span class="text-[10px] text-slate-400">Выбор любых упражнений из базы (30+ упр.)</span>
+        </button>
         <button onclick="launchWorkoutOnSelectedDate('a')" class="w-full p-3 bg-slate-950 hover:bg-slate-900 border border-emerald-500/40 rounded-xl text-left active:scale-95 transition-all">
           <b class="text-emerald-400 block">🏋️ Тренировка А</b>
           <span class="text-[10px] text-slate-400">Наклонный жим + Жим лежа + Жим ногами + Спина</span>
