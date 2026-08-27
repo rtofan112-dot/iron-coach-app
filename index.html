@@ -557,220 +557,83 @@
     <!-- ======================================================== -->
     <section id="tab-nutrition" class="tab-pane space-y-4">
 
-      <!-- БЛОК ВЫБОРА СТРАТЕГИИ И ЦЕЛИ АТЛЕТА -->
-      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
+      <!-- КАРТОЧКА СТРАТЕГИИ И ЦЕЛИ (APPLE FITNESS / WHOOP 4.0) -->
+      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4 shadow-xl">
+        
         <div class="flex justify-between items-center font-mono">
-          <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Стратегия и Цель атлета</h3>
-            <span class="text-[10px] text-slate-400">Определяет расчет калоража, БЖУ, витаминов и темп прогресса:</span>
-          </div>
+          <span class="text-xs font-bold text-white uppercase tracking-wider">Стратегия & Цель атлета</span>
           <span id="active-goal-badge" class="px-2.5 py-1 rounded-xl bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 text-[10px] font-bold font-mono">Рекомпозиция</span>
         </div>
 
-        <!-- 4 ПРЕМИУМ-КАРТОЧКИ СТРАТЕГИЙ -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          
-          <!-- РЕКОМПОЗИЦИЯ -->
-          <div onclick="setHealthGoal('recomp')" id="strat-card-recomp" class="strategy-card active">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center space-x-2">
-                <span class="text-base">💎</span>
-                <div>
-                  <h4 class="text-xs font-bold text-white font-sans">Рекомпозиция</h4>
-                  <span class="text-[9px] font-mono text-[#c8a97e] font-bold">Сушка жира + Мышечный тонус</span>
-                </div>
-              </div>
-              <span class="active-indicator w-4 h-4 rounded-full bg-[#c8a97e] text-slate-950 text-[10px] font-bold flex items-center justify-center">✓</span>
-            </div>
-            <div class="mt-2.5 pt-2 border-t border-white/[0.05] flex flex-wrap gap-1 font-mono text-[9px]">
-              <span class="px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 font-bold">-360 ккал</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-300">Белок: 1.85 г/кг</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">~0.35 кг жира/нед</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-sans mt-1.5 leading-tight">
-              Сжигание висцерального жира при сохранении и уплотнении мышечной массы.
-            </p>
-          </div>
-
-          <!-- СУШКА -->
-          <div onclick="setHealthGoal('fatloss')" id="strat-card-fatloss" class="strategy-card">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center space-x-2">
-                <span class="text-base">🔥</span>
-                <div>
-                  <h4 class="text-xs font-bold text-white font-sans">Сушка и Рельеф</h4>
-                  <span class="text-[9px] font-mono text-rose-400 font-bold">Активное жиросжигание</span>
-                </div>
-              </div>
-              <span class="active-indicator w-4 h-4 rounded-full bg-[#c8a97e] text-slate-950 text-[10px] font-bold flex items-center justify-center">✓</span>
-            </div>
-            <div class="mt-2.5 pt-2 border-t border-white/[0.05] flex flex-wrap gap-1 font-mono text-[9px]">
-              <span class="px-1.5 py-0.5 rounded bg-rose-950/60 text-rose-300 border border-rose-800/40 font-bold">-550 ккал</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-300">Белок: 2.00 г/кг</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">~0.55 кг жира/нед</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-sans mt-1.5 leading-tight">
-              Ускоренное избавление от жировой ткани при повышенной защите мышц белком.
-            </p>
-          </div>
-
-          <!-- НАБОР МАССЫ -->
-          <div onclick="setHealthGoal('hypertrophy')" id="strat-card-hypertrophy" class="strategy-card">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center space-x-2">
-                <span class="text-base">⚡</span>
-                <div>
-                  <h4 class="text-xs font-bold text-white font-sans">Чистый Набор Массы</h4>
-                  <span class="text-[9px] font-mono text-[#38bdf8] font-bold">Lean Bulk & Гипертрофия</span>
-                </div>
-              </div>
-              <span class="active-indicator w-4 h-4 rounded-full bg-[#c8a97e] text-slate-950 text-[10px] font-bold flex items-center justify-center">✓</span>
-            </div>
-            <div class="mt-2.5 pt-2 border-t border-white/[0.05] flex flex-wrap gap-1 font-mono text-[9px]">
-              <span class="px-1.5 py-0.5 rounded bg-sky-950/60 text-sky-300 border border-sky-800/40 font-bold">+250 ккал</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-300">Белок: 1.80 г/кг</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">Углеводы: 4.1 г/кг</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-sans mt-1.5 leading-tight">
-              Рост силовых показателей и сухой мышечной массы за счет профицита энергии.
-            </p>
-          </div>
-
-          <!-- ПОДДЕРЖАНИЕ -->
-          <div onclick="setHealthGoal('maintenance')" id="strat-card-maintenance" class="strategy-card">
-            <div class="flex justify-between items-start">
-              <div class="flex items-center space-x-2">
-                <span class="text-base">🛡️</span>
-                <div>
-                  <h4 class="text-xs font-bold text-white font-sans">Сила & Поддержание</h4>
-                  <span class="text-[9px] font-mono text-slate-300 font-bold">Баланс & Восстановление</span>
-                </div>
-              </div>
-              <span class="active-indicator w-4 h-4 rounded-full bg-[#c8a97e] text-slate-950 text-[10px] font-bold flex items-center justify-center">✓</span>
-            </div>
-            <div class="mt-2.5 pt-2 border-t border-white/[0.05] flex flex-wrap gap-1 font-mono text-[9px]">
-              <span class="px-1.5 py-0.5 rounded bg-white/10 text-white border border-white/20 font-bold">0 ккал</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-300">Белок: 1.70 г/кг</span>
-              <span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">Стабильный вес</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-sans mt-1.5 leading-tight">
-              Фиксация формы, разгрузка ЦНС, укрепление связочного аппарата и шеи.
-            </p>
-          </div>
+        <!-- СЕГМЕНТИРОВАННЫЙ СЕЛЕКТОР ЦЕЛЕЙ -->
+        <div class="goal-segment-bar">
+          <button type="button" onclick="setHealthGoal('recomp')" id="goal-seg-recomp" class="goal-segment-btn active">
+            <span class="seg-icon text-sm">💎</span>
+            <span class="truncate">Рекомпозиция</span>
+          </button>
+          <button type="button" onclick="setHealthGoal('fatloss')" id="goal-seg-fatloss" class="goal-segment-btn">
+            <span class="seg-icon text-sm">🔥</span>
+            <span class="truncate">Сушка</span>
+          </button>
+          <button type="button" onclick="setHealthGoal('hypertrophy')" id="goal-seg-hypertrophy" class="goal-segment-btn">
+            <span class="seg-icon text-sm">⚡</span>
+            <span class="truncate">Масса</span>
+          </button>
+          <button type="button" onclick="setHealthGoal('maintenance')" id="goal-seg-maintenance" class="goal-segment-btn">
+            <span class="seg-icon text-sm">🛡️</span>
+            <span class="truncate">Баланс</span>
+          </button>
         </div>
 
-        <!-- ЦЕЛЕВЫЕ ОРИЕНТИРЫ И ТРЕКИНГ ПРОГРЕССА -->
-        <div class="p-4 bg-[#0c0d14] rounded-2xl border border-white/[0.06] space-y-3">
-          <div class="flex justify-between items-center font-mono">
-            <span class="text-[11px] font-bold text-white uppercase">Целевые параметры атлета:</span>
-            <span id="target-forecast-eta" class="text-[10px] text-[#c8a97e] font-bold">Осталось: ~6.5 кг жира (~16 нед)</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2 font-mono text-xs">
-            <div class="p-2.5 bg-[#181b26] rounded-xl border border-white/[0.05] space-y-1">
-              <div class="flex justify-between text-[10px] text-slate-400">
-                <span>ВЕС ТЕЛА:</span>
-                <span id="target-weight-delta" class="text-emerald-400 font-bold">-6.5 кг</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span id="cur-weight-val" class="text-white font-bold text-sm">83.0</span>
-                <span class="text-slate-500 text-xs">➔</span>
-                <div class="flex items-center space-x-1">
-                  <input type="number" step="0.5" id="input-target-weight" value="76.5" class="w-12 bg-white/10 text-center font-bold text-white rounded px-1 py-0.5 text-xs outline-none border border-white/10" onchange="onTargetParamsChanged()">
-                  <span class="text-[10px] text-slate-400">кг</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2.5 bg-[#181b26] rounded-xl border border-white/[0.05] space-y-1">
-              <div class="flex justify-between text-[10px] text-slate-400">
-                <span>ТАЛИЯ (WHtR):</span>
-                <span id="target-waist-delta" class="text-emerald-400 font-bold">-9.5 см</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span id="cur-waist-val" class="text-white font-bold text-sm">91.5</span>
-                <span class="text-slate-500 text-xs">➔</span>
-                <div class="flex items-center space-x-1">
-                  <input type="number" step="0.5" id="input-target-waist" value="82.0" class="w-12 bg-white/10 text-center font-bold text-white rounded px-1 py-0.5 text-xs outline-none border border-white/10" onchange="onTargetParamsChanged()">
-                  <span class="text-[10px] text-slate-400">см</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ПРОГРЕСС-БАР К ЦЕЛИ -->
-          <div class="space-y-1">
-            <div class="flex justify-between text-[9px] font-mono text-slate-400">
-              <span>Прогресс достижения цели:</span>
-              <span id="target-progress-pct" class="text-white font-bold">15% пути</span>
-            </div>
-            <div class="w-full h-1.5 bg-[#181b26] rounded-full overflow-hidden border border-white/5">
-              <div id="target-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-[#c8a97e] transition-all duration-300" style="width: 15%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ЭНЕРГЕТИЧЕСКИЙ БАЛАНС: РАСХОД, ДЕФИЦИТ И ЦЕЛЕВАЯ НОРМА -->
-      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
-        <div class="flex justify-between items-center font-mono">
+        <!-- ГЛАВНАЯ ЦЕЛЕВАЯ МЕТРИКА ККАЛ И ТЕЛЕМЕТРИЯ -->
+        <div class="p-4 bg-[#0c0d14] rounded-2xl border border-white/[0.05] flex items-center justify-between">
           <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Энергетический баланс (ккал/сутки)</h3>
-            <span class="text-[10px] text-slate-400">Формула Mifflin-St Jeor + поправка активности</span>
+            <span class="text-[10px] font-mono text-slate-400 block uppercase">Суточная целевая норма:</span>
+            <div class="flex items-baseline space-x-2 mt-0.5">
+              <span id="health-target-calories" class="text-3xl font-black text-white font-mono tracking-tight">2 050</span>
+              <span class="text-xs font-mono font-bold text-[#c8a97e] uppercase">ккал/день</span>
+            </div>
           </div>
-          <span id="health-target-calories" class="text-base font-bold text-[#c8a97e]">2050 ккал</span>
-        </div>
-
-        <!-- ТРЕХСТУПЕНЧАТАЯ ТЕЛЕМЕТРИЯ БАЛАНСА -->
-        <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs">
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
-            <span class="text-[9px] text-slate-400 block uppercase">Расход (TDEE)</span>
-            <b id="health-tdee-val" class="text-sm font-bold text-white">2410</b>
-            <span class="text-[9px] text-slate-400 block">ккал/день</span>
-          </div>
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
-            <span class="text-[9px] text-slate-400 block uppercase" id="health-diff-label">Дефицит</span>
-            <b id="health-diff-val" class="text-sm font-bold text-emerald-400">-360</b>
-            <span class="text-[9px] text-slate-400 block">ккал</span>
-          </div>
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
-            <span class="text-[9px] text-slate-400 block uppercase">Целевой прием</span>
-            <b id="health-target-val" class="text-sm font-bold text-[#c8a97e]">2050</b>
-            <span class="text-[9px] text-slate-400 block">ккал/день</span>
+          <div class="text-right font-mono space-y-1">
+            <span id="health-diff-badge" class="inline-block px-2.5 py-1 rounded-xl bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 font-bold text-xs">
+              Дефицит -360 ккал
+            </span>
+            <div class="text-[10px] text-slate-400">
+              Расход TDEE: <b id="health-tdee-val" class="text-white">2410</b> ккал
+            </div>
           </div>
         </div>
 
-        <!-- КАРТОЧКИ МАКРОНУТРИЕНТОВ -->
+        <!-- МАКРОНУТРИЕНТЫ БЖУ И ВОДА -->
         <div class="grid grid-cols-4 gap-2 text-center font-mono text-xs">
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+          <div class="bg-[#181b26] p-2.5 rounded-2xl border border-white/[0.04]">
             <span class="text-[9px] text-slate-400 block uppercase">Белки</span>
-            <b id="macro-prot-val" class="text-sm font-bold text-white">155 г</b>
+            <b id="macro-prot-val" class="text-sm font-bold text-white block mt-0.5">155 г</b>
             <span id="macro-prot-sub" class="text-[9px] text-emerald-400 block">1.85 г/кг</span>
           </div>
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+          <div class="bg-[#181b26] p-2.5 rounded-2xl border border-white/[0.04]">
             <span class="text-[9px] text-slate-400 block uppercase">Жиры</span>
-            <b id="macro-fat-val" class="text-sm font-bold text-white">65 г</b>
+            <b id="macro-fat-val" class="text-sm font-bold text-white block mt-0.5">65 г</b>
             <span id="macro-fat-sub" class="text-[9px] text-amber-400 block">0.8 г/кг</span>
           </div>
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+          <div class="bg-[#181b26] p-2.5 rounded-2xl border border-white/[0.04]">
             <span class="text-[9px] text-slate-400 block uppercase">Углеводы</span>
-            <b id="macro-carb-val" class="text-sm font-bold text-white">210 г</b>
+            <b id="macro-carb-val" class="text-sm font-bold text-white block mt-0.5">210 г</b>
             <span id="macro-carb-sub" class="text-[9px] text-slate-300 block">2.5 г/кг</span>
           </div>
-          <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+          <div class="bg-[#181b26] p-2.5 rounded-2xl border border-white/[0.04]">
             <span class="text-[9px] text-slate-400 block uppercase">Вода</span>
-            <b id="macro-water-val" class="text-sm font-bold text-cyan-300">2.6 л</b>
+            <b id="macro-water-val" class="text-sm font-bold text-cyan-300 block mt-0.5">2.6 л</b>
             <span class="text-[9px] text-slate-400 block">чистая</span>
           </div>
         </div>
 
-        <!-- СОВЕТЫ: НА ЧЕМ СРЕЗАТЬ КАЛОРИИ БЕЗ ЧУВСТВА ГОЛОДА -->
-        <div class="p-4 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-2.5 text-xs">
-          <div class="flex items-center space-x-2">
-            <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            <span id="diet-tips-title" class="font-mono font-bold text-white uppercase text-[11px]">На чем комфортно срезать калории (без голода):</span>
-          </div>
-          <div id="diet-tips-container" class="space-y-2 text-slate-300 font-sans leading-relaxed text-[11px]"></div>
+        <!-- ЛАКОНИЧНАЯ СВОДКА ПЛАНА ПИТАНИЯ И ИНСАЙТ -->
+        <div class="p-3 bg-[#181b26] rounded-2xl border border-white/[0.04] flex items-center space-x-2.5 text-xs text-slate-300 font-sans">
+          <span class="text-base flex-shrink-0">🎯</span>
+          <p id="diet-hero-summary" class="leading-tight text-[11px] text-slate-300">
+            Сжигание висцерального жира (~0.35 кг/нед) при сохранении мышечной массы и силовых показателей.
+          </p>
         </div>
       </div>
 

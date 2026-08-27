@@ -847,13 +847,7 @@ const GOAL_CONFIGS = {
     fatPerKg: 0.80,
     carbsPerKg: 2.50,
     waterPerKg: 31,
-    tipTitle: "На чем комфортно срезать калории (без чувства голода):",
-    tips: [
-      "🥤 <b>Убрать жидкие калории и скрытые сахара:</b> Соки, капучино с сиропами и сладкие напитки не дают сытости, но несут 200–300 пустых ккал. Замени на воду с лимоном, американо или зеленый чай (<b>экономия: ~250 ккал/день</b>).",
-      "🍳 <b>Контролировать масло при жарке:</b> 1 столовая ложка масла — это 120–140 ккал чистого жира. Используй кулинарный антипригарный спрей или запекание в духовке (<b>экономия: ~150 ккал/день</b>).",
-      "🥗 <b>Заменить соусы:</b> Майонезные и сырные заправки замени на 2% греческий йогурт с чесноком, горчицей и свежей зеленью (<b>экономия: ~100 ккал/день</b>).",
-      "🥦 <b>Добавить 300–400г зеленых овощей:</b> Огурцы, кабачки, брокколи содержат клетчатку и воду, физически заполняя желудок и продлевая насыщение на 3–4 часа."
-    ]
+    summary: "Сжигание висцерального жира (~0.35 кг/нед) при сохранении мышечной массы и силовых показателей."
   },
   fatloss: {
     title: "Сушка и активный сброс веса",
@@ -863,13 +857,7 @@ const GOAL_CONFIGS = {
     fatPerKg: 0.65,
     carbsPerKg: 2.10,
     waterPerKg: 34,
-    tipTitle: "Стратегия глубокого дефицита при сушке:",
-    tips: [
-      "🥩 <b>Повышенный белок (2.0г/кг):</b> Высокий уровень белка защищает твои рабочие мышцы от катаболизма во время сушки и усиливает термогенный эффект.",
-      "🚶‍♂️ <b>Бытовая активность (NEAT):</b> Добавь 15-20 минут ходьбы в горку на дорожке (уклон 8-10%, скорость 5.5 км/ч) после тренировки для сжигания еще 150-200 ккал.",
-      "🧂 <b>Контроль соли и калия:</b> Умеренное потребление соли снижает задержку воды под кожей, делая рельеф мышц более сухим и выразительным.",
-      "💧 <b>Пить за 20 мин до еды:</b> Стакан теплой воды перед приемом пищи снижает разовую порцию на 15-20% без волевых усилий."
-    ]
+    summary: "Ускоренное топление жировой ткани (~0.55 кг/нед) при повышенной защите мышц белком."
   },
   hypertrophy: {
     title: "Набор чистой мышечной массы",
@@ -879,12 +867,7 @@ const GOAL_CONFIGS = {
     fatPerKg: 0.90,
     carbsPerKg: 4.10,
     waterPerKg: 33,
-    tipTitle: "Как чисто добирать качественный профицит калорий:",
-    tips: [
-      "🍚 <b>Медленные углеводы:</b> Гречка, бурый рис, овсянка и макароны из твердых сортов пшеницы создадут стабильный запас мышечного гликогена без набора лишнего жира.",
-      "🥑 <b>Качественные мононенасыщенные жиры:</b> Авокадо, орехи (миндаль, грецкий), льняное масло поддерживают выработку тестостерона и здоровье суставов.",
-      "⏱️ <b>Углеводное окно:</b> 40-50г углеводов + 30г белка в течение 60 минут после силовой тренировки ускоряют синтез мышечного белка на 25%."
-    ]
+    summary: "Рост силовых показателей и сухой мышечной массы за счет стабильного профицита энергии."
   },
   maintenance: {
     title: "Сила, Здоровая осанка и Поддержание",
@@ -894,12 +877,7 @@ const GOAL_CONFIGS = {
     fatPerKg: 0.85,
     carbsPerKg: 3.60,
     waterPerKg: 30,
-    tipTitle: "Режим энергетического баланса и здоровья:",
-    tips: [
-      "⚖️ <b>Баланс 1:1:</b> Потребление калорий равно суточному расходу. Отличный режим для закрепления результатов и разгрузки нервной системы.",
-      "💤 <b>Фокус на сне:</b> Сон не менее 7.5–8 часов обеспечивает естественное восстановление ЦНС и связочного аппарата.",
-      "🛡️ <b>Суставная гимнастика:</b> Поддержание подвижности плечевых и тазобедренных суставов."
-    ]
+    summary: "Фиксация формы, разгрузка ЦНС, укрепление связочного аппарата и стабильный вес."
   }
 };
 
@@ -909,15 +887,6 @@ function getActiveGoalKey() {
   if (g.includes("набор")) return 'hypertrophy';
   if (g.includes("поддержание") || g.includes("осанка")) return 'maintenance';
   return 'recomp';
-}
-
-function onTargetParamsChanged() {
-  const twInput = document.getElementById("input-target-weight");
-  const waistInput = document.getElementById("input-target-waist");
-  if (twInput) appState.targetWeight = parseFloat(twInput.value) || 76.5;
-  if (waistInput) appState.targetWaist = parseFloat(waistInput.value) || 82.0;
-  saveState();
-  renderHealthTabCalculations();
 }
 
 function setHealthGoal(goalKey) {
@@ -935,12 +904,12 @@ function renderHealthTabCalculations() {
   const goalKey = getActiveGoalKey();
   const cfg = GOAL_CONFIGS[goalKey] || GOAL_CONFIGS.recomp;
 
-  // Обновляем премиум-карточки стратегий
+  // Обновляем сегментированные кнопки
   ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
-    const card = document.getElementById("strat-card-" + k);
-    if (card) {
-      if (k === goalKey) card.className = "strategy-card active";
-      else card.className = "strategy-card";
+    const btn = document.getElementById("goal-seg-" + k);
+    if (btn) {
+      if (k === goalKey) btn.className = "goal-segment-btn active";
+      else btn.className = "goal-segment-btn";
     }
   });
 
@@ -949,78 +918,8 @@ function renderHealthTabCalculations() {
 
   // Расчет BMR (Mifflin-St Jeor) и TDEE для Роман (32 г, 83 кг, 178 см)
   const weight = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83.0;
-  const waist = (appState.currentMetrics && appState.currentMetrics.waist) ? appState.currentMetrics.waist : 91.5;
   const height = appState.height || 178;
   const age = appState.age || 32;
-
-  const targetWeight = appState.targetWeight || 76.5;
-  const targetWaist = appState.targetWaist || 82.0;
-
-  // Обновление целевых ориентиров
-  const curWEl = document.getElementById("cur-weight-val");
-  const curWaistEl = document.getElementById("cur-waist-val");
-  const inputTW = document.getElementById("input-target-weight");
-  const inputTwaist = document.getElementById("input-target-waist");
-  const deltaWEl = document.getElementById("target-weight-delta");
-  const deltaWaistEl = document.getElementById("target-waist-delta");
-  const etaEl = document.getElementById("target-forecast-eta");
-  const progPctEl = document.getElementById("target-progress-pct");
-  const progBar = document.getElementById("target-progress-bar");
-
-  if (curWEl) curWEl.textContent = weight.toFixed(1);
-  if (curWaistEl) curWaistEl.textContent = waist.toFixed(1);
-  if (inputTW && document.activeElement !== inputTW) inputTW.value = targetWeight;
-  if (inputTwaist && document.activeElement !== inputTwaist) inputTwaist.value = targetWaist;
-
-  const weightDelta = (weight - targetWeight);
-  const waistDelta = (waist - targetWaist);
-
-  if (deltaWEl) {
-    if (weightDelta > 0) {
-      deltaWEl.textContent = `-${weightDelta.toFixed(1)} кг`;
-      deltaWEl.className = "text-emerald-400 font-bold";
-    } else if (weightDelta < 0) {
-      deltaWEl.textContent = `+${Math.abs(weightDelta).toFixed(1)} кг`;
-      deltaWEl.className = "text-[#c8a97e] font-bold";
-    } else {
-      deltaWEl.textContent = `Цель достигнута!`;
-      deltaWEl.className = "text-emerald-300 font-bold";
-    }
-  }
-
-  if (deltaWaistEl) {
-    if (waistDelta > 0) {
-      deltaWaistEl.textContent = `-${waistDelta.toFixed(1)} см`;
-      deltaWaistEl.className = "text-emerald-400 font-bold";
-    } else if (waistDelta < 0) {
-      deltaWaistEl.textContent = `+${Math.abs(waistDelta).toFixed(1)} см`;
-      deltaWaistEl.className = "text-[#c8a97e] font-bold";
-    } else {
-      deltaWaistEl.textContent = `Норма`;
-      deltaWaistEl.className = "text-emerald-300 font-bold";
-    }
-  }
-
-  // Расчет срока достижения цели (ETA)
-  if (etaEl) {
-    if (cfg.deficitDelta < 0) {
-      const weeklyLoss = (Math.abs(cfg.deficitDelta) * 7 / 7700);
-      const weeks = Math.max(1, Math.round(weightDelta / weeklyLoss));
-      etaEl.textContent = `Осталось: ~${weightDelta.toFixed(1)} кг (~${weeks} нед при темпе ~${weeklyLoss.toFixed(2)} кг/нед)`;
-    } else if (cfg.deficitDelta > 0) {
-      etaEl.textContent = `Профицит +${cfg.deficitDelta} ккал для качественного набора мышц`;
-    } else {
-      etaEl.textContent = `Режим стабилизации веса и фиксации формы`;
-    }
-  }
-
-  // Прогресс бар
-  const startWeight = 85.0; // Стартовая точка
-  const totalToLose = startWeight - targetWeight;
-  const lostSoFar = startWeight - weight;
-  const pct = Math.min(100, Math.max(12, Math.round((lostSoFar / (totalToLose || 1)) * 100)));
-  if (progPctEl) progPctEl.textContent = `${pct}% пути пройдено`;
-  if (progBar) progBar.style.width = `${pct}%`;
 
   const bmr = Math.round((10 * weight) + (6.25 * height) - (5 * age) + 5);
   // Коэффициент активности 1.35 (силовые 2-3 раза в неделю + бытовая активность)
@@ -1036,28 +935,27 @@ function renderHealthTabCalculations() {
   // Вывод в UI
   const headerTargetCal = document.getElementById("health-target-calories");
   const tdeeVal = document.getElementById("health-tdee-val");
-  const diffLabel = document.getElementById("health-diff-label");
-  const diffVal = document.getElementById("health-diff-val");
-  const targetVal = document.getElementById("health-target-val");
+  const diffBadge = document.getElementById("health-diff-badge");
+  const summaryEl = document.getElementById("diet-hero-summary");
 
-  if (headerTargetCal) headerTargetCal.textContent = `${targetCal} ккал`;
+  if (headerTargetCal) headerTargetCal.textContent = `${targetCal.toLocaleString('ru-RU')}`;
   if (tdeeVal) tdeeVal.textContent = `${tdee}`;
-  if (targetVal) targetVal.textContent = `${targetCal}`;
 
-  if (diffLabel && diffVal) {
+  if (diffBadge) {
     if (cfg.deficitDelta < 0) {
-      diffLabel.textContent = "Дефицит";
-      diffVal.textContent = `${cfg.deficitDelta}`;
-      diffVal.className = "text-sm font-bold text-emerald-400";
+      diffBadge.textContent = `Дефицит ${cfg.deficitDelta} ккал`;
+      diffBadge.className = "inline-block px-2.5 py-1 rounded-xl bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 font-bold text-xs";
     } else if (cfg.deficitDelta > 0) {
-      diffLabel.textContent = "Профицит";
-      diffVal.textContent = `+${cfg.deficitDelta}`;
-      diffVal.className = "text-sm font-bold text-[#c8a97e]";
+      diffBadge.textContent = `Профицит +${cfg.deficitDelta} ккал`;
+      diffBadge.className = "inline-block px-2.5 py-1 rounded-xl bg-[#c8a97e]/20 text-[#c8a97e] border border-[#c8a97e]/40 font-bold text-xs";
     } else {
-      diffLabel.textContent = "Баланс";
-      diffVal.textContent = "0";
-      diffVal.className = "text-sm font-bold text-white";
+      diffBadge.textContent = "Баланс (0 ккал)";
+      diffBadge.className = "inline-block px-2.5 py-1 rounded-xl bg-white/10 text-white border border-white/20 font-bold text-xs";
     }
+  }
+
+  if (summaryEl) {
+    summaryEl.textContent = cfg.summary;
   }
 
   // Макросы
@@ -1076,14 +974,6 @@ function renderHealthTabCalculations() {
   if (elCarb) elCarb.textContent = `${carbGrams} г`;
   if (elCarbSub) elCarbSub.textContent = `${cfg.carbsPerKg} г/кг`;
   if (elWater) elWater.textContent = `${waterLiters} л`;
-
-  // Советы
-  const tipsTitle = document.getElementById("diet-tips-title");
-  const tipsContainer = document.getElementById("diet-tips-container");
-  if (tipsTitle) tipsTitle.textContent = cfg.tipTitle;
-  if (tipsContainer) {
-    tipsContainer.innerHTML = cfg.tips.map(t => `<div>• ${t}</div>`).join("");
-  }
 }
 
 // ========================================================

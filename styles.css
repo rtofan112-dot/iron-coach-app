@@ -236,39 +236,55 @@ body {
   pointer-events: none;
 }
 
-/* КАРТОЧКИ ВЫБОРА СТРАТЕГИИ И ЦЕЛИ */
-.strategy-card {
-  background: #12141c;
+/* ПРЕМИАЛЬНЫЙ СЕГМЕНТИРОВАННЫЙ СЕЛЕКТОР ЦЕЛИ (APPLE FITNESS / WHOOP STYLE) */
+.goal-segment-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #0c0d14;
+  padding: 4px;
+  border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.15rem;
-  padding: 0.85rem;
+  gap: 4px;
+}
+
+.goal-segment-btn {
+  padding: 0.65rem 0.35rem;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.strategy-card:hover {
-  background: #181b26;
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.strategy-card:active {
-  transform: scale(0.98);
-}
-
-.strategy-card.active {
-  background: linear-gradient(135deg, rgba(200, 169, 126, 0.14), rgba(24, 27, 38, 0.98));
-  border-color: #c8a97e;
-  box-shadow: 0 4px 18px rgba(200, 169, 126, 0.18);
-}
-
-.strategy-card .active-indicator {
-  display: none;
-}
-
-.strategy-card.active .active-indicator {
+  text-align: center;
+  border: 1px solid transparent;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.goal-segment-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.goal-segment-btn:active {
+  transform: scale(0.96);
+}
+
+.goal-segment-btn.active {
+  background: #181b26;
+  color: var(--text-primary);
+  font-weight: 700;
+  border-color: rgba(200, 169, 126, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.goal-segment-btn.active .seg-icon {
+  transform: scale(1.15);
 }
 
 .goal-chip {
