@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.13 PRO",
+  version: "v2.8.14 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -1235,6 +1235,13 @@ let currentAchFilter = 'all';
 let currentDbCategory = 'all';
 
 let activeExpandedExerciseIndex = 0;
+
+function getFirstUnfinishedExerciseIndex(workout = appState.activeWorkout) {
+  if (!workout || !workout.exercises || workout.exercises.length === 0) return 0;
+  const idx = workout.exercises.findIndex(ex => ex.sets && ex.sets.some(s => !s.done));
+  return idx !== -1 ? idx : (workout.exercises.length - 1);
+}
+
 let liveWorkoutTimerInterval = null;
 let liveWorkoutSeconds = 0;
 
@@ -2417,6 +2424,8 @@ function cycleSetRIR(exIdx, sIdx) {
   Haptic.impact('light');
 }
 
+let isManualAccordionToggled = false;
+
 function renderActiveWorkoutUI() {
   if (!appState.activeWorkout) return;
 
@@ -2426,6 +2435,21 @@ function renderActiveWorkoutUI() {
   const wo = appState.activeWorkout;
   document.getElementById("wo-active-tag").textContent = `${wo.key.toUpperCase()} • ГОТОВНОСТЬ ${wo.readiness}%`;
   document.getElementById("wo-active-title").textContent = wo.name;
+
+  // Умный авто-фокус: если текущий раскрытый индекс не задан или указывает на уже закрытое упражнение,
+  // автоматически раскрываем первое незаконченное упражнение!
+  if (!isManualAccordionToggled) {
+    if (activeExpandedExerciseIndex === undefined || activeExpandedExerciseIndex === null || activeExpandedExerciseIndex < 0) {
+      activeExpandedExerciseIndex = getFirstUnfinishedExerciseIndex(wo);
+    } else if (wo.exercises[activeExpandedExerciseIndex]) {
+      const curEx = wo.exercises[activeExpandedExerciseIndex];
+      const isCurAllDone = curEx.sets && curEx.sets.length > 0 && curEx.sets.every(s => s.done);
+      if (isCurAllDone) {
+        const nextUnfinished = getFirstUnfinishedExerciseIndex(wo);
+        activeExpandedExerciseIndex = nextUnfinished;
+      }
+    }
+  }
 
   updateLiveWorkoutStats();
 
@@ -2693,15 +2717,14 @@ function toggleSet(exIdx, sIdx, done) {
         saveState();
       }
 
-      if (exIdx < appState.activeWorkout.exercises.length - 1) {
-        setTimeout(() => {
-          activeExpandedExerciseIndex = exIdx + 1;
-          renderActiveWorkoutUI();
-          const nextEl = document.getElementById(`ex-card-${exIdx + 1}`);
-          if (nextEl) nextEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
-        return;
-      }
+      const nextUnfinishedIdx = getFirstUnfinishedExerciseIndex(appState.activeWorkout);
+      setTimeout(() => {
+        activeExpandedExerciseIndex = nextUnfinishedIdx;
+        renderActiveWorkoutUI();
+        const nextEl = document.getElementById(`ex-card-${nextUnfinishedIdx}`);
+        if (nextEl) nextEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+      return;
     }
   }
 
@@ -2824,7 +2847,9 @@ function updateActiveWorkoutTopPill() {
 function jumpToActiveWorkout() {
   Sound.beep(650, 0.08);
   Haptic.impact('medium');
+  activeExpandedExerciseIndex = getFirstUnfinishedExerciseIndex(appState.activeWorkout);
   switchTab('workouts');
+  renderActiveWorkoutUI();
   setTimeout(() => {
     const activeEl = document.getElementById(`ex-card-${activeExpandedExerciseIndex}`) || document.getElementById('workout-active');
     if (activeEl) {
@@ -4435,6 +4460,7 @@ function restoreActiveWorkoutIfAny() {
     if (selectorEl) selectorEl.classList.add("hidden");
     if (activeEl) activeEl.classList.remove("hidden");
     
+    activeExpandedExerciseIndex = getFirstUnfinishedExerciseIndex(appState.activeWorkout);
     renderActiveWorkoutUI();
     startWorkoutTimer();
     updateActiveWorkoutTopPill();
@@ -4448,10 +4474,12 @@ function testRestGongSound() {
 }
 
 function toggleExerciseAccordion(exIdx) {
+  isManualAccordionToggled = true;
   activeExpandedExerciseIndex = (activeExpandedExerciseIndex === exIdx) ? -1 : exIdx;
   Sound.beep(600, 0.05);
   Haptic.impact('light');
   renderActiveWorkoutUI();
+  setTimeout(() => { isManualAccordionToggled = false; }, 600);
 }
 
 function addCustomExerciseToActiveWorkout(e) {
