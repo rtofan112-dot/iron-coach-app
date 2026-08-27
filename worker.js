@@ -134,26 +134,113 @@ export default {
 
 async function handleTelegramMessage(msg, origin) {
   const chatId = msg.chat.id;
+  const fromUser = msg.from || {};
   const text = msg.text || "";
   const v = Date.now();
   const webAppUrl = `${origin}/?v=${v}`;
+  const firstName = fromUser.first_name || "Атлет";
+  const username = fromUser.username ? `@${fromUser.username}` : `ID: ${fromUser.id || chatId}`;
 
-  if (text.startsWith("/start") || text.startsWith("/app")) {
-    const welcome = `🏋️‍♂️ <b>IRON COACH ELITE 2.0</b>\n\nТвой персональный научный AI-тренер и био-аналитическая система.\n\n• Программы А, Б, В и Свободный тренинг\n• Анатомический атлас и видео-траектории\n• Умная замена упражнений\n• Интерактивный календарь и зал рекордов\n• BMR/TDEE расчет и персональные нутрицевтики\n\n👇 <i>Нажми кнопку ниже для входа:</i>`;
-    
+  // Регистрация в глобальном списке участников
+  if (fromUser.id) {
+    const existingIdx = globalLeaderboard.findIndex(u => u.id === fromUser.id);
+    if (existingIdx === -1) {
+      globalLeaderboard.push({
+        id: fromUser.id,
+        name: firstName,
+        username: fromUser.username || "",
+        xp: 0,
+        tonnage: 0,
+        streak: 0,
+        lastActive: "Только что"
+      });
+    }
+  }
+
+  // Команда админской рассылки пуш-уведомлений: /broadcast <текст>
+  if (text.startsWith("/broadcast") && text.length > 11) {
+    const broadcastText = text.substring(11).trim();
+    let sentCount = 0;
+    for (const u of globalLeaderboard) {
+      try {
+        await fetch(API_URL + "/sendMessage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: u.id,
+            text: `🔔 <b>УВЕДОМЛЕНИЕ ОТ ТРЕНЕРА</b>\n\n${broadcastText}\n\n👇 <i>Открыть приложение:</i>`,
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "⚡ ОТКРЫТЬ IRON COACH ⚡", web_app: { url: webAppUrl } }]
+              ]
+            }
+          })
+        });
+        sentCount++;
+      } catch(e) {}
+    }
     await fetch(API_URL + "/sendMessage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: welcome,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "⚡ ОТКРЫТЬ IRON COACH 2.0 ⚡", web_app: { url: webAppUrl } }]
-          ]
-        }
+        text: `✅ Рассылка успешно отправлена ${sentCount} атлетам!`,
+        parse_mode: "HTML"
       })
     });
+    return;
+  }
+
+  if (text.startsWith("/start") || text.startsWith("/app") || text.startsWith("/help")) {
+    const caption = `🔥 <b>Привет, ${firstName}!</b> (${username})\n\n` +
+      `Добро пожаловать в <b>IRON COACH ELITE v2.7.0 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
+      `🏛 <b>Что внутри приложения:</b>\n` +
+      `• <b>Научный тренинг:</b> Программы А, Б, В по методологии RP Strength & MAV/MEV\n` +
+      `• <b>Защита ЦНС & лопаток:</b> Оценка готовности, биомеханические траектории и умная замена упражнений\n` +
+      `• <b>Био-стек & Питание:</b> Точный расчет BMR/TDEE дефицита и 4-фазный клинический протокол нутрицевтиков\n` +
+      `• <b>Анатомический Heatmap:</b> 2D карта проработки мышц и часы восстановления\n` +
+      `• <b>Telegram CloudStorage:</b> Неубиваемое облачное сохранение всех замеров и тоннажа\n\n` +
+      `👨‍💻 <b>Разработчик & Архитектор системы:</b>\n` +
+      `<b>Роман Тофан</b> (@rtofan112)\n\n` +
+      `📲 <i>В этот бот будут приходить напоминания об утреннем вакууме, отчеты о тренировках и важные пуш-уведомления от администратора.</i>\n\n` +
+      `👇 <b>Нажми кнопку ниже, чтобы войти:</b>`;
+
+    const photoUrl = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop";
+
+    try {
+      const res = await fetch(API_URL + "/sendPhoto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          photo: photoUrl,
+          caption: caption,
+          parse_mode: "HTML",
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "⚡ ВОЙТИ В IRON COACH PRO ⚡", web_app: { url: webAppUrl } }]
+            ]
+          }
+        })
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.description);
+    } catch(err) {
+      await fetch(API_URL + "/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: caption,
+          parse_mode: "HTML",
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "⚡ ВОЙТИ В IRON COACH PRO ⚡", web_app: { url: webAppUrl } }]
+            ]
+          }
+        })
+      });
+    }
   }
 }
