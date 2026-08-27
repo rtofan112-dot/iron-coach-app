@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.15 PRO",
+  version: "v2.8.16 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -1008,6 +1008,516 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
       <text x="140" y="60" fill="#64748b" font-size="8" font-family="monospace">Дыхание: выдох на усилии</text>
     </svg>
   `;
+}
+
+// ========================================================
+// PRO EXERCISE BIOMECHANICS & ANATOMICAL VISUALIZER 3.0 ENGINE
+// ========================================================
+function getExerciseAnatomyInfo(exName) {
+  const n = (exName || "").toLowerCase();
+  
+  let info = {
+    name: exName,
+    category: "Грудь",
+    equipment: "Гантели / Скамья",
+    tier: "Базовое упражнение",
+    tempo: "3-1-1-0",
+    breath: "Вдох на спуске 2–3с (растяжение), мощный выдох при выжиме.",
+    muscleMatrix: [
+      { name: "Целевой мышечный пучок", percent: 100, role: "Агонист (Основная)" },
+      { name: "Вспомогательные мышцы", percent: 65, role: "Синергист" },
+      { name: "Мышцы-стабилизаторы", percent: 40, role: "Стабилизаторы" }
+    ],
+    phases: [
+      { title: "Фаза 1: Эксцентрика", desc: "Контролируемое опускание снаряда в течение 2–3 секунд. Глубокое растяжение рабочих волокон.", cue: "Вдох 💨 • Плавный спуск 2–3с" },
+      { title: "Фаза 2: Натяжение & Пауза", desc: "Четкая пауза 1 секунда в нижней точке растяжения без расслабления и отскока.", cue: "Пауза ⏸️ • 1 сек фиксации" },
+      { title: "Фаза 3: Концентрика", desc: "Взрывной подконтрольный выжим веса вверх по дуге силой целевой мышцы.", cue: "Выдох 💥 • Мощный подъем 1с" }
+    ],
+    dos: [
+      "Держи лопатки сведенными и опущенными вниз.",
+      "Сохраняй стабильный упор стопами в пол.",
+      "Контролируй траекторию на каждом миллиметре амплитуды."
+    ],
+    donts: [
+      "Не допускай рывков и инерции при смене направления.",
+      "Не разгибай суставы до щелчка в верхней точке.",
+      "Не задерживай дыхание натуживанием."
+    ]
+  };
+
+  if (n.includes("наклонн") || n.includes("30°")) {
+    info.category = "Грудь";
+    info.equipment = "Гантели / Наклонная скамья 30°";
+    info.tier = "Базовое многосуставное";
+    info.muscleMatrix = [
+      { name: "Ключичная (верхняя) часть большой грудной", percent: 100, role: "Главный агонист" },
+      { name: "Передний пучок дельтовидной мышцы", percent: 75, role: "Синергист" },
+      { name: "Латеральная и длинная головки трицепса", percent: 60, role: "Синергист" },
+      { name: "Передняя зубчатая мышца и ротаторы", percent: 35, role: "Стабилизаторы" }
+    ];
+    info.dos = [
+      "Угол скамьи строго 30° (угол выше 45° перегружает переднюю дельту).",
+      "Локти под углом 60–70° к корпусу, предплечья вертикальны в нижней точке.",
+      "Шея и трапеция полностью расслаблены, голова лежит на спинке."
+    ];
+    info.donts = [
+      "Не разводи локти под 90° перпендикулярно телу — риск импиджмента плеча.",
+      "Не отрывай таз и поясницу от скамьи в попытке выжать вес 'мостом'.",
+      "Не своди гантели со стуком вверху — это снимает полезное напряжение с груди."
+    ];
+  } else if (n.includes("горизонтал") || (n.includes("жим") && n.includes("лежа") && !n.includes("узким") && !n.includes("француз"))) {
+    info.category = "Грудь";
+    info.equipment = "Гантели / Штанга / Прямая скамья";
+    info.tier = "Тяжелая база";
+    info.muscleMatrix = [
+      { name: "Стернокостальная (средняя) часть грудной мышцы", percent: 100, role: "Главный агонист" },
+      { name: "Передняя дельта", percent: 70, role: "Синергист" },
+      { name: "Трицепс плеча", percent: 65, role: "Синергист" }
+    ];
+    info.dos = [
+      "Лопатки плотно сведены в 'замок' и прижаты к скамье на протяжении всего сета.",
+      "Опускай снаряд на линию сосков (низ/середина груди).",
+      "Мощный упор стопами в пол создает стабилизирующий импульс."
+    ];
+    info.donts = [
+      "Не отбивай гриф от грудной клетки в нижней точке.",
+      "Не отрывай ягодицы от скамьи.",
+      "Не вставляй локти до щелчка в верхней фазе."
+    ];
+  } else if (n.includes("бабочк") || n.includes("pec deck")) {
+    info.category = "Грудь";
+    info.equipment = "Тренажер Pec Deck / Бабочка";
+    info.tier = "Изолирующее";
+    info.muscleMatrix = [
+      { name: "Внутренняя и средняя часть большой грудной", percent: 100, role: "Главный агонист" },
+      { name: "Малая грудная мышца", percent: 80, role: "Синергист" },
+      { name: "Передняя дельта", percent: 35, role: "Ассистент" }
+    ];
+    info.dos = [
+      "Высота сиденья: рукояти строго на уровне середины груди.",
+      "В пиковом сведении фиксируй напряжение на 2 секунды.",
+      "Опускай вес с медленным 3-секундным растяжением волокон."
+    ];
+    info.donts = [
+      "Не сутулься и не округляй плечи вперед при сведении.",
+      "Не уводи локти слишком далеко назад за линию спины (переразгиб связок)."
+    ];
+  } else if (n.includes("брусь") || n.includes("dips")) {
+    info.category = "Грудь / Руки";
+    info.equipment = "Параллельные брусья";
+    info.tier = "Многосуставная база";
+    info.muscleMatrix = [
+      { name: "Нижний (абдоминальный) пучок груди", percent: 90, role: "Агонист" },
+      { name: "Трицепс (все 3 головки)", percent: 85, role: "Агонист" },
+      { name: "Передняя дельта", percent: 65, role: "Синергист" }
+    ];
+    info.dos = [
+      "Для акцента на грудь наклони корпус вперед на 30° и разводи локти под 45°.",
+      "Опускайся до угла 90° в локтях (плечо параллельно полу)."
+    ];
+    info.donts = [
+      "Не проваливайся глубоко ниже 90° при жестких плечевых суставах.",
+      "Не совершай рывков ногами и держи корпус зафиксированным."
+    ];
+  } else if (n.includes("узким хват") || n.includes("узким")) {
+    info.category = "Руки";
+    info.equipment = "Штанга / Скамья";
+    info.tier = "Тяжелая база на трицепс";
+    info.muscleMatrix = [
+      { name: "Латеральная, медиальная и длинная головки трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Передняя дельта", percent: 60, role: "Синергист" },
+      { name: "Верхний край грудных мышц", percent: 50, role: "Синергист" }
+    ];
+    info.dos = [
+      "Хват ровно на ширине плеч (расстояние между ладонями 25–35 см).",
+      "При опускании прижимай локти ближе к бокам (угол 30–45°).",
+      "Опускай штангу на нижнюю границу грудных мышц."
+    ];
+    info.donts = [
+      "Не ставь руки вплотную (10 см) — это ломает кистевые суставы.",
+      "Не разводи локти в стороны под 90°."
+    ];
+  } else if (n.includes("француз")) {
+    info.category = "Руки";
+    info.equipment = "EZ-штанга / Гантели / Скамья";
+    info.tier = "Изолирующее силовое";
+    info.muscleMatrix = [
+      { name: "Длинная головка трицепса (масса руки)", percent: 100, role: "Главный агонист" },
+      { name: "Латеральная и медиальная головка трицепса", percent: 80, role: "Синергист" },
+      { name: "Мышцы предплечья (стабилизация)", percent: 40, role: "Стабилизаторы" }
+    ];
+    info.dos = [
+      "Наклони плечевые кости на 10–15° назад к голове, чтобы сохранить натяжение.",
+      "Опускай снаряд за макушку головы, а не ко лбу (безопаснее для локтей).",
+      "Локти держи строго параллельно друг другу."
+    ];
+    info.donts = [
+      "Не разводи локти широко в стороны.",
+      "Не двигай плечевым суставом во время разгибания."
+    ];
+  } else if (n.includes("разгибания рук") || (n.includes("блоке") && n.includes("трицепс")) || n.includes("канат")) {
+    info.category = "Руки";
+    info.equipment = "Верхний блок / Канатная рукоять";
+    info.tier = "Изолирующее";
+    info.muscleMatrix = [
+      { name: "Латеральная головка трицепса (подкова)", percent: 100, role: "Главный агонист" },
+      { name: "Медиальная головка трицепса", percent: 85, role: "Синергист" },
+      { name: "Длинная головка трицепса", percent: 65, role: "Синергист" }
+    ];
+    info.dos = [
+      "Локти прижаты к ребрам и неподвижны как на шарнирах.",
+      "В нижней точке полностью разгибай руки и разводи концы каната в стороны.",
+      "Пауза 1 секунда в пиковом сокращении."
+    ];
+    info.donts = [
+      "Не нависай всем весом тела над рукоятью.",
+      "Не уводи локти вперед и назад при движении."
+    ];
+  } else if (n.includes("бицепс") && !n.includes("скотт") && !n.includes("молот") && !n.includes("ног")) {
+    info.category = "Руки";
+    info.equipment = "Штанга / Гантели";
+    info.tier = "Золотая база на бицепс";
+    info.muscleMatrix = [
+      { name: "Двуглавая мышца плеча (длинная и короткая головка)", percent: 100, role: "Главный агонист" },
+      { name: "Брахиалис (плечевая мышца)", percent: 75, role: "Синергист" },
+      { name: "Плечелучевая мышца и сгибатели кисти", percent: 60, role: "Синергист" }
+    ];
+    info.dos = [
+      "Локти прижаты к бокам и слегка выдвинуты вперед на 2–3 см.",
+      "При работе с гантелями выполняй мощную супинацию (разворот кисти наружу).",
+      "Опускай снаряд медленно 3 секунды с полным контролем."
+    ];
+    info.donts = [
+      "Никакого читинга и раскачки поясницей.",
+      "Не забрасывай локти высоко к плечам вверху (нагрузка уходит в дельты)."
+    ];
+  } else if (n.includes("скотт") || n.includes("scott")) {
+    info.category = "Руки";
+    info.equipment = "Скамья Скотта / EZ-гриф";
+    info.tier = "Чистая изоляция";
+    info.muscleMatrix = [
+      { name: "Короткая (внутренняя) головка бицепса", percent: 100, role: "Главный агонист" },
+      { name: "Брахиалис", percent: 70, role: "Синергист" }
+    ];
+    info.dos = [
+      "Подмышки плотно упираются в верхний срез подушки.",
+      "Сгибай руки строго за счет сокращения бицепса без помощи корпуса."
+    ];
+    info.donts = [
+      "Не разгибай руки до конца до блокировки в локтях (риск травмы сухожилия).",
+      "Не отрывай грудь от опоры."
+    ];
+  } else if (n.includes("молот") || n.includes("hammer")) {
+    info.category = "Руки";
+    info.equipment = "Гантели / Нейтральный хват";
+    info.tier = "Формирующее базовое";
+    info.muscleMatrix = [
+      { name: "Брахиалис (выталкивает бицепс наружу)", percent: 100, role: "Главный агонист" },
+      { name: "Плечелучевая мышца (Brachioradialis)", percent: 90, role: "Главный агонист" },
+      { name: "Длинная головка бицепса", percent: 70, role: "Синергист" }
+    ];
+    info.dos = [
+      "Ладони смотрят строго друг на друга (нейтральный хват) на всем пути.",
+      "Поднимай гантель подконтрольно, задерживая на 1 сек вверху."
+    ];
+    info.donts = [
+      "Не закручивай кисти внутрь или наружу.",
+      "Не забрасывай вес плечами."
+    ];
+  } else if (n.includes("блока") && (n.includes("спин") || n.includes("поясу") || n.includes("тяга к груди"))) {
+    info.category = "Спина";
+    info.equipment = "Блочный тренажер / Рукояти";
+    info.tier = "Базовое на спину";
+    info.muscleMatrix = [
+      { name: "Широчайшие мышцы спины", percent: 100, role: "Главный агонист" },
+      { name: "Ромбовидные и средняя часть трапеции", percent: 85, role: "Синергист" },
+      { name: "Бицепс и брахиалис", percent: 65, role: "Синергист" }
+    ];
+    info.dos = [
+      "Движение начинается со сведения и опускания лопаток, а не с рывка руками.",
+      "Тяни локти строго назад вдоль корпуса.",
+      "Грудь подавай навстречу рукояти."
+    ];
+    info.donts = [
+      "Не сутулься и не задирай плечи к ушам.",
+      "Не отклоняйся корпусом назад на 45° (работает инерция вместо спины)."
+    ];
+  } else if (n.includes("лицу") || n.includes("face pull")) {
+    info.category = "Спина / Плечи";
+    info.equipment = "Верхний блок / Двойной канат";
+    info.tier = "Лечебно-профилактическое (Здоровье шеи)";
+    info.muscleMatrix = [
+      { name: "Задняя дельта", percent: 100, role: "Главный агонист" },
+      { name: "Подостная и малая круглая мышцы (ротаторная манжета)", percent: 95, role: "Главный агонист" },
+      { name: "Ромбовидные мышцы (снятие спазма трапеции)", percent: 85, role: "Синергист" }
+    ];
+    info.dos = [
+      "Тяни узел каната строго на уровень глаз/лба.",
+      "В конечной точке разводи кулаки назад за линию ушей (внешняя ротация плеча).",
+      "Фиксируй положение на 2 секунды для включения мышц-стабилизаторов лопатки."
+    ];
+    info.donts = [
+      "Не бери слишком большой вес, ломающий траекторию.",
+      "Не опускай локти ниже кистей."
+    ];
+  } else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк")) {
+    info.category = "Ноги";
+    info.equipment = "Тренажер жим ногами 45° / Гакк";
+    info.tier = "Тяжелая база на ноги";
+    info.muscleMatrix = [
+      { name: "Четырехглавая мышца бедра (квадрицепс)", percent: 100, role: "Главный агонист" },
+      { name: "Большая ягодичная мышца", percent: 80, role: "Синергист" },
+      { name: "Приводящие мышцы бедра", percent: 60, role: "Стабилизаторы" }
+    ];
+    info.dos = [
+      "Упор стопами в платформу: усилие идет через середину стопы и пятку.",
+      "Колени всегда двигаются строго сонаправленно с носками стоп.",
+      "Опускай платформу до угла 90° в коленях без отрыва поясницы."
+    ];
+    info.donts = [
+      "КАТЕГОРИЧЕСКИ НЕ ВСТАВЛЯЙ КОЛЕНИ ДО ЩЕЛЧКА ВВЕРХУ (опасность вывиха).",
+      "Не отрывай таз и крестец от сиденья в нижней точке (риск грыжи поясницы)."
+    ];
+  } else if (n.includes("румынск")) {
+    info.category = "Ноги";
+    info.equipment = "Гантели / Штанга";
+    info.tier = "Базовое на заднюю цепь";
+    info.muscleMatrix = [
+      { name: "Двуглавая мышца бедра (бицепс бедра)", percent: 100, role: "Главный агонист" },
+      { name: "Большая ягодичная мышца", percent: 90, role: "Главный агонист" },
+      { name: "Разгибатели позвоночника (поясница)", percent: 70, role: "Стабилизаторы" }
+    ];
+    info.dos = [
+      "Движение начинается с максимального отведения таза назад (петля бедра).",
+      "Спина идеально прямая с естественным прогибом, лопатки собраны.",
+      "Гантели скользят вплотную вдоль передней поверхности бедер и голеней."
+    ];
+    info.donts = [
+      "Не горби спину 'колесом'.",
+      "Не приседай вниз коленями (это не приседание, а отвод таза)."
+    ];
+  } else if (n.includes("мах") || (n.includes("дельт") && n.includes("сторон"))) {
+    info.category = "Плечи";
+    info.equipment = "Гантели";
+    info.tier = "Изолирующее на ширину плеч";
+    info.muscleMatrix = [
+      { name: "Средний пучок дельтовидной мышцы", percent: 100, role: "Главный агонист" },
+      { name: "Надостная мышца", percent: 75, role: "Синергист" },
+      { name: "Трапециевидная мышца (минимизировать)", percent: 30, role: "Стабилизатор" }
+    ];
+    info.dos = [
+      "Наклони корпус слегка вперед на 5–10°.",
+      "Движение ведут локти, кисти всегда чуть ниже локтей.",
+      "Поднимай снаряд строго до параллели с полом (не выше)."
+    ];
+    info.donts = [
+      "Не поджимай плечи к ушам (нагрузка забирается верхней трапецией).",
+      "Не задирай кисти выше локтей — это включает переднюю дельту вместо средней."
+    ];
+  }
+
+  return info;
+}
+
+let tempoMetronomeInterval = null;
+let currentVisualizerPhaseIdx = 0;
+let currentVisualizerData = null;
+let currentVisualizerOrigin = null;
+
+function openExerciseProVisualizer(exNameOrId, originContext = 'active') {
+  let exName = exNameOrId;
+  const dbEx = EXERCISE_DATABASE.find(e => e.id === exNameOrId || e.name === exNameOrId);
+  if (dbEx) exName = dbEx.name;
+
+  const info = getExerciseAnatomyInfo(exName);
+  currentVisualizerData = info;
+  currentVisualizerOrigin = { context: originContext, exId: dbEx ? dbEx.id : null };
+
+  const nameEl = document.getElementById("vis-ex-name");
+  const catEl = document.getElementById("vis-badge-cat");
+  const tierEl = document.getElementById("vis-badge-tier");
+  const svgContainer = document.getElementById("vis-svg-container");
+  const tempoEl = document.getElementById("vis-tempo-badge");
+  const breathEl = document.getElementById("vis-breath-cue");
+
+  if (nameEl) nameEl.textContent = info.name;
+  if (catEl) catEl.textContent = info.category;
+  if (tierEl) tierEl.textContent = info.tier;
+  if (tempoEl) tempoEl.textContent = info.tempo;
+  if (breathEl) breathEl.textContent = info.breath;
+
+  if (svgContainer) {
+    svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
+  }
+
+  const phaseBtnsContainer = document.getElementById("vis-phase-buttons-container");
+  if (phaseBtnsContainer) {
+    phaseBtnsContainer.innerHTML = info.phases.map((p, idx) => `
+      <button type="button" onclick="selectVisualizerPhase(${idx})" id="vis-phase-btn-${idx}" class="phase-step-btn ${idx === 0 ? 'active' : ''}">
+        <span class="text-[9px] uppercase tracking-wider opacity-70">Шаг 0${idx+1}</span>
+        <span class="font-bold">${p.title.split(':')[0]}</span>
+      </button>
+    `).join('');
+  }
+
+  selectVisualizerPhase(0);
+
+  const matrixContainer = document.getElementById("vis-muscle-matrix-container");
+  if (matrixContainer) {
+    matrixContainer.innerHTML = info.muscleMatrix.map(m => `
+      <div class="space-y-1">
+        <div class="flex justify-between items-center text-[10px] font-mono">
+          <span class="text-white font-medium flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full ${m.percent >= 90 ? 'bg-[#c8a97e]' : m.percent >= 60 ? 'bg-emerald-400' : 'bg-sky-400'}"></span>
+            ${m.name}
+          </span>
+          <span class="text-slate-400"><b class="${m.percent >= 90 ? 'text-[#c8a97e]' : 'text-slate-300'}">${m.percent}%</b> • ${m.role}</span>
+        </div>
+        <div class="w-full h-1.5 bg-[#181b26] rounded-full overflow-hidden">
+          <div class="h-full rounded-full muscle-bar-fill ${m.percent >= 90 ? 'bg-gradient-to-r from-[#dfc299] to-[#c8a97e]' : m.percent >= 60 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-sky-500'}" style="width: ${m.percent}%"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const dosList = document.getElementById("vis-dos-list");
+  const dontsList = document.getElementById("vis-donts-list");
+  if (dosList) {
+    dosList.innerHTML = info.dos.map(d => `<li class="leading-snug">${d}</li>`).join('');
+  }
+  if (dontsList) {
+    dontsList.innerHTML = info.donts.map(d => `<li class="leading-snug">${d}</li>`).join('');
+  }
+
+  const actionBtn = document.getElementById("vis-action-add-btn");
+  if (actionBtn) {
+    if (originContext === 'catalog') {
+      actionBtn.textContent = "+ Добавить в тренировку";
+      actionBtn.classList.remove("hidden");
+    } else {
+      actionBtn.textContent = "Понятно, к подходу ✓";
+    }
+  }
+
+  stopTempoMetronome();
+  openModal('modal-exercise-pro-visualizer');
+  Sound.beep(600, 0.05);
+  Haptic.impact('light');
+}
+
+function selectVisualizerPhase(idx) {
+  currentVisualizerPhaseIdx = idx;
+  if (!currentVisualizerData) return;
+
+  const info = currentVisualizerData;
+  info.phases.forEach((_, pIdx) => {
+    const btn = document.getElementById(`vis-phase-btn-${pIdx}`);
+    if (btn) {
+      if (pIdx === idx) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+  });
+
+  const curPhase = info.phases[idx] || info.phases[0];
+  const hintEl = document.getElementById("vis-current-phase-hint");
+  const descEl = document.getElementById("vis-phase-description-box");
+
+  if (hintEl) hintEl.textContent = curPhase.title;
+  if (descEl) {
+    descEl.innerHTML = `
+      <div class="space-y-1">
+        <div class="text-[#c8a97e] font-mono font-bold text-[10px] uppercase">${curPhase.cue}</div>
+        <div>${curPhase.desc}</div>
+      </div>
+    `;
+  }
+  Sound.beep(550, 0.03);
+  Haptic.impact('light');
+}
+
+let isMetronomeRunning = false;
+let metronomeState = 'inhale';
+let metronomeSecondsLeft = 3;
+
+function toggleTempoMetronome() {
+  if (isMetronomeRunning) {
+    stopTempoMetronome();
+  } else {
+    startTempoMetronome();
+  }
+}
+
+function startTempoMetronome() {
+  isMetronomeRunning = true;
+  metronomeState = 'inhale';
+  metronomeSecondsLeft = 3;
+  updateMetronomeUI();
+
+  if (tempoMetronomeInterval) clearInterval(tempoMetronomeInterval);
+  tempoMetronomeInterval = setInterval(() => {
+    metronomeSecondsLeft--;
+    if (metronomeSecondsLeft <= 0) {
+      if (metronomeState === 'inhale') {
+        metronomeState = 'pause';
+        metronomeSecondsLeft = 1;
+        Sound.beep(650, 0.05);
+      } else if (metronomeState === 'pause') {
+        metronomeState = 'exhale';
+        metronomeSecondsLeft = 1;
+        Sound.beep(800, 0.08);
+      } else {
+        metronomeState = 'inhale';
+        metronomeSecondsLeft = 3;
+        Sound.beep(500, 0.04);
+      }
+    }
+    updateMetronomeUI();
+  }, 1000);
+  Sound.beep(500, 0.06);
+}
+
+function stopTempoMetronome() {
+  isMetronomeRunning = false;
+  if (tempoMetronomeInterval) {
+    clearInterval(tempoMetronomeInterval);
+    tempoMetronomeInterval = null;
+  }
+  const circle = document.getElementById("vis-metronome-circle");
+  const stateEl = document.getElementById("vis-metro-state");
+  const timerEl = document.getElementById("vis-metro-timer");
+  if (circle) circle.className = "tempo-metronome-circle cursor-pointer select-none active:scale-95 transition-all";
+  if (stateEl) stateEl.textContent = "Темп";
+  if (timerEl) timerEl.textContent = "Пуск ▶";
+}
+
+function updateMetronomeUI() {
+  const circle = document.getElementById("vis-metronome-circle");
+  const stateEl = document.getElementById("vis-metro-state");
+  const timerEl = document.getElementById("vis-metro-timer");
+  if (!circle || !stateEl || !timerEl) return;
+
+  circle.className = `tempo-metronome-circle cursor-pointer select-none active:scale-95 transition-all ${metronomeState}`;
+  if (metronomeState === 'inhale') {
+    stateEl.textContent = "Вдох 💨";
+    timerEl.textContent = `${metronomeSecondsLeft}с`;
+  } else if (metronomeState === 'pause') {
+    stateEl.textContent = "Пауза ⏸️";
+    timerEl.textContent = `${metronomeSecondsLeft}с`;
+  } else {
+    stateEl.textContent = "Выдох 💥";
+    timerEl.textContent = `${metronomeSecondsLeft}с`;
+  }
+}
+
+function actionFromVisualizer() {
+  stopTempoMetronome();
+  closeModal('modal-exercise-pro-visualizer');
+  if (currentVisualizerOrigin && currentVisualizerOrigin.context === 'catalog' && currentVisualizerOrigin.exId) {
+    addExerciseFromCatalogToActiveWorkout(currentVisualizerOrigin.exId);
+  }
 }
 
 // ========================================================
@@ -2418,20 +2928,25 @@ function renderExerciseCatalogList() {
     return `
       <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
         <div class="flex justify-between items-start space-x-2">
-          <div class="space-y-0.5">
+          <div class="space-y-0.5 flex-1 cursor-pointer" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')">
             <div class="flex items-center space-x-1.5">
               <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-[#c8a97e]/30 rounded uppercase">${ex.category}</span>
-              <h4 class="font-bold text-xs text-white leading-tight">${ex.name}</h4>
+              <h4 class="font-bold text-xs text-white leading-tight hover:text-[#c8a97e] transition-colors">${ex.name}</h4>
             </div>
             <p class="text-[10px] text-slate-400 font-mono">${ex.targetMuscles}</p>
           </div>
-          <button onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
-            + В план
-          </button>
+          <div class="flex items-center space-x-1.5">
+            <button type="button" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="px-2 py-1.5 bg-[#181b26] hover:bg-white/10 text-slate-300 hover:text-white rounded-xl border border-white/10 text-[10px] font-bold font-mono active:scale-95 transition-all flex items-center gap-1">
+              <span>🔬 Анатомия</span>
+            </button>
+            <button type="button" onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+              + В план
+            </button>
+          </div>
         </div>
 
         <!-- ВИЗУАЛЬНАЯ АНИМИРОВАННАЯ ТРАЕКТОРИЯ И ДВИЖЕНИЕ -->
-        <div class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04]">
+        <div onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04] cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Нажмите для открытия 3D Анатомии и Техники">
           ${diagSvg}
         </div>
 
@@ -2659,9 +3174,12 @@ function renderActiveWorkoutUI() {
               <button type="button" onclick="addSetToExercise(${exIdx})" class="text-[#c8a97e] font-bold text-[11px] hover:underline">+ Подход</button>
               ${ex.sets.length > 1 ? `<button type="button" onclick="removeSetFromExercise(${exIdx})" class="text-slate-500 text-[11px] hover:underline">- Подход</button>` : ''}
             </div>
-            <div class="flex space-x-2">
-              <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-[#c8a97e] rounded-lg border border-[#c8a97e]/30 text-[10px] font-bold active:scale-95 transition-all">
-                👀 Схема & Техника
+            <div class="flex space-x-1.5">
+              <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="px-2.5 py-1 bg-gradient-to-r from-[#c8a97e]/25 to-[#c8a97e]/10 hover:bg-[#c8a97e]/35 text-[#c8a97e] rounded-lg border border-[#c8a97e]/40 text-[10px] font-bold active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>🔬 Анатомия & Схема</span>
+              </button>
+              <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2 py-1 bg-white/5 hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] font-bold active:scale-95 transition-all">
+                👀 Подсказка
               </button>
               <button type="button" onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-1 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] active:scale-95 transition-all">
                 Замена
@@ -2671,14 +3189,16 @@ function renderActiveWorkoutUI() {
 
           <!-- ВИЗУАЛЬНЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И ТЕХНИКИ (ПО УМОЛЧАНИЮ СКРЫТ) -->
           <div id="ex-guide-${exIdx}" class="pt-2 space-y-3 hidden">
-            <div class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2">
+            <div onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2 cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Нажмите для открытия 3D Анатомии и Метронома">
               ${diagramSvg}
             </div>
 
             <div class="p-3.5 bg-[#0c0d14] rounded-2xl border border-white/[0.06] space-y-2.5">
               <div class="flex justify-between items-center text-[10px] font-mono">
                 <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
-                <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold">${ex.muscleGroup || 'Группа'}</span>
+                <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="text-[9px] text-[#c8a97e] bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold hover:underline">
+                  3D Анатомия →
+                </button>
               </div>
               
               <div class="flex flex-wrap gap-1.5">${phasesBadges}</div>
