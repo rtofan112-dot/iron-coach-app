@@ -1351,22 +1351,25 @@ function renderPersonalizedAIAnalytics() {
 
   const tips = [
     {
-      title: "🫁 Контроль дыхания при резекции легкого",
+      icon: `<svg class="w-3.5 h-3.5 text-[#c8a97e] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>`,
+      title: "Контроль дыхания и темпа 3-1-1-0",
       desc: "Полностью исключен маневр Вальсальвы (задержка дыхания при натуживании). Выполняй длинный выдох строго на усилии при выжиме веса. Отдых между базовыми сетами: не менее 90–120 секунд."
     },
     {
-      title: "🛡️ Протокол защиты мышцы шеи и лопатки",
+      icon: `<svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+      title: "Протокол защиты и стабилизации лопаток",
       desc: "Исключены жимы штанги из-за головы и шраги. Обязательно сохраняй в программе тягу каната к лицу (Face Pull) 4х15-20 и нейтральный хват в тягах для снятия тонуса трапециевидной мышцы."
     },
     {
-      title: "⚖️ Дефицит калорий при талии 91.5 см (WHtR: 51%)",
+      icon: `<svg class="w-3.5 h-3.5 text-[#c8a97e] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
+      title: "Энергетический дефицит (WHtR: 51%)",
       desc: "Оптимальный суточный дефицит составляет -360 ккал (целевой прием: ~2050 ккал/день). Это обеспечивает сушку висцерального жира со скоростью 400-500г в неделю без потери мышечной массы."
     }
   ];
 
   container.innerHTML = tips.map(t => `
     <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
-      <h4 class="font-bold text-white text-xs">${t.title}</h4>
+      <h4 class="font-bold text-white text-xs flex items-center gap-1.5">${t.icon}<span>${t.title}</span></h4>
       <p class="text-slate-300 text-[11px] leading-relaxed">${t.desc}</p>
     </div>
   `).join("");
