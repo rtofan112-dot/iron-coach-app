@@ -1,5 +1,5 @@
 /**
- * IRON COACH ELITE - Пошаговый тренировочный движок, гибкий календарь и точный хронометраж
+ * IRON COACH ELITE - Пошаговый тренировочный движок, Таблица лидеров, Зал рекордов и Полный аналитический отчет
  */
 
 const Sound = {
@@ -30,6 +30,12 @@ const Sound = {
   success() {
     this.beep(587.33, 0.1);
     setTimeout(() => this.beep(880, 0.25), 100);
+  },
+  record() {
+    this.beep(523.25, 0.1);
+    setTimeout(() => this.beep(659.25, 0.1), 100);
+    setTimeout(() => this.beep(783.99, 0.1), 200);
+    setTimeout(() => this.beep(1046.50, 0.3), 300);
   },
   finish() {
     this.beep(523.25, 0.12);
@@ -105,7 +111,7 @@ const ACHIEVEMENTS = [
   { id: "ach_first", cat: "strength", title: "🥉 Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
   { id: "ach_ton_10", cat: "strength", title: "🏋️ Рубеж 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
   { id: "ach_ton_50", cat: "strength", title: "🏋️ Рубеж 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
-  { id: "ach_ton_100", cat: "strength", title: "🏛️ Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 1000 },
+  { id: "ach_ton_100", cat: "strength", title: "🏛️ Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 100000, current: (s) => getTotalTonnage(s), xp: 1000 },
   { id: "ach_ton_250", cat: "strength", title: "👑 Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
 
   { id: "ach_strk_3", cat: "streak", title: "🔥 Три в ряд", desc: "Серия из 3 тренировок без пропусков", target: 3, current: (s) => (s.streak || 0), xp: 250 },
@@ -148,6 +154,15 @@ function getInitialAccount() {
     vacDaysCount: 0,
     protDaysCount: 0,
     waterDaysCount: 0,
+    lastDailyBonusDate: null,
+    personalRecords: {
+      "Жим гантелей на наклонной скамье 30°": { weight: 22, reps: 10, oneRM: 29, date: "2026-08-25" },
+      "Жим гантелей на горизонтальной скамье": { weight: 24, reps: 10, oneRM: 32, date: "2026-08-25" },
+      "Жим ногами под углом 45° в тренажере": { weight: 90, reps: 12, oneRM: 126, date: "2026-08-25" },
+      "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, oneRM: 63, date: "2026-08-25" },
+      "Сведения рук в тренажере бабочка": { weight: 25, reps: 12, oneRM: 35, date: "2026-08-23" },
+      "Румынская тяга с гантелями": { weight: 22, reps: 12, oneRM: 31, date: "2026-08-23" }
+    },
     currentMetrics: { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 },
     metrics: [
       { id: "m_init", date: new Date().toISOString().split("T")[0], weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 }
@@ -164,10 +179,10 @@ let pendingWorkoutPlanKey = 'a';
 let pendingTargetWorkoutDate = null;
 let currentAchFilter = 'all';
 
-// Аккордеон тренировки: индекс открытого упражнения
+// Аккордеон тренировки
 let activeExpandedExerciseIndex = 0;
 
-// Таймер длительности активной тренировки
+// Таймер длительности тренировки
 let liveWorkoutTimerInterval = null;
 let liveWorkoutSeconds = 0;
 
@@ -210,7 +225,6 @@ function loadState() {
     appState.name = tgName;
   }
 
-  // Очистка старых латинских терминов
   if (appState.injuries && (appState.injuries.includes("levator") || appState.injuries.includes("scapulae"))) {
     appState.injuries = "Резекция левого легкого, спазм мышцы шеи и лопатки";
   }
@@ -226,12 +240,16 @@ function loadState() {
   updateProfileDisplay();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
+  renderPersonalRecords();
+  fetchLeaderboard();
+  updateDailyBonusUI();
 }
 
 function saveState() {
   localStorage.setItem(appState.tgId, JSON.stringify(appState));
   renderXP();
   renderMesocycleBanner();
+  syncUserToLeaderboard();
 }
 
 function addXP(amount) {
@@ -259,7 +277,238 @@ function renderXP() {
 }
 
 // ========================================================
-// ПРОФИЛЬ
+// ТАПАНИЕ ОПЫТА И ЕЖЕДНЕВНЫЕ КВЕСТЫ (XP TAPPER)
+// ========================================================
+function updateDailyBonusUI() {
+  const today = new Date().toISOString().split("T")[0];
+  const btn = document.getElementById("btn-daily-xp");
+  const status = document.getElementById("daily-claim-status");
+
+  if (appState.lastDailyBonusDate === today) {
+    if (btn) btn.className = "p-2.5 bg-slate-900 border border-white/5 rounded-xl text-left opacity-60 cursor-not-allowed";
+    if (status) {
+      status.textContent = "✓ Забрано";
+      status.className = "text-[10px] text-slate-400 font-bold bg-slate-900 px-2 py-0.5 rounded-lg border border-white/10";
+    }
+  } else {
+    if (btn) btn.className = "p-2.5 bg-gradient-to-br from-cyan-500/20 to-blue-600/30 hover:from-cyan-500/30 hover:to-blue-600/40 border border-cyan-400/40 rounded-xl text-left active:scale-95 transition-all";
+    if (status) {
+      status.textContent = "⚡ Доступно!";
+      status.className = "text-[10px] text-cyan-400 font-bold bg-cyan-950 px-2 py-0.5 rounded-lg border border-cyan-800";
+    }
+  }
+}
+
+function claimDailyXPBonus() {
+  const today = new Date().toISOString().split("T")[0];
+  if (appState.lastDailyBonusDate === today) {
+    alert("Ежедневный бонус уже получен! Возвращайся завтра.");
+    return;
+  }
+  appState.lastDailyBonusDate = today;
+  addXP(50);
+  Sound.record();
+  Haptic.success();
+  updateDailyBonusUI();
+  alert("🎉 +50 очков опыта получено за вход в приложение!");
+}
+
+function claimQuickQuestXP(key, xp, questName) {
+  addXP(xp);
+  Sound.success();
+  Haptic.impact('medium');
+  alert(`⚡ +${xp} очков XP начислено за: «${questName}»!`);
+}
+
+function addWater(ml) {
+  if (!appState.nutrition) appState.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
+  appState.nutrition.waterMl = (appState.nutrition.waterMl || 0) + ml;
+  if (appState.nutrition.waterMl >= 2500) {
+    appState.waterDaysCount = (appState.waterDaysCount || 0) + 1;
+  }
+  addXP(10);
+  saveState();
+  renderNutrition();
+  Sound.beep(750, 0.08);
+  Haptic.impact('light');
+}
+
+// ========================================================
+// 👑 ЗАЛ ЛИЧНЫХ РЕКОРДОВ (PERSONAL RECORDS)
+// ========================================================
+function checkAndSavePersonalRecord(exName, weight, reps) {
+  if (!appState.personalRecords) appState.personalRecords = {};
+  const currentPR = appState.personalRecords[exName] || { weight: 0, reps: 0, oneRM: 0 };
+
+  const oneRM = Math.round(weight * (1 + reps / 30.0));
+  if (oneRM > (currentPR.oneRM || 0) || (weight > currentPR.weight && reps >= currentPR.reps)) {
+    appState.personalRecords[exName] = {
+      weight: weight,
+      reps: reps,
+      oneRM: oneRM,
+      date: new Date().toISOString().split("T")[0]
+    };
+    addXP(75);
+    Sound.record();
+    Haptic.success();
+    renderPersonalRecords();
+    return true;
+  }
+  return false;
+}
+
+function renderPersonalRecords() {
+  const container = document.getElementById("personal-records-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const prs = appState.personalRecords || {};
+  const keys = Object.keys(prs);
+
+  if (keys.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1">
+        <span class="text-2xl block">👑</span>
+        <p class="text-xs font-bold text-slate-300">Рекордов пока нет</p>
+        <p class="text-[11px] text-slate-500">Завершай тренировки — максимальные веса будут автоматически заноситься сюда!</p>
+      </div>
+    `;
+    return;
+  }
+
+  keys.forEach((exName, idx) => {
+    const r = prs[exName];
+    const card = document.createElement("div");
+    card.className = "p-3.5 bg-[#0e1422] rounded-2xl border border-amber-500/20 space-y-1.5";
+
+    const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : "👑";
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">${medal}</span>
+          <h4 class="font-bold text-white text-xs font-sans">${exName}</h4>
+        </div>
+        <span class="px-2 py-0.5 bg-amber-950 text-amber-300 border border-amber-800 rounded-lg text-[10px] font-bold">
+          1ПМ: ~${r.oneRM} кг
+        </span>
+      </div>
+      <div class="flex justify-between items-center text-xs pt-1 border-t border-white/[0.04]">
+        <span class="text-slate-400">Лучший подход: <b class="text-emerald-400">${r.weight} кг × ${r.reps} повт</b></span>
+        <span class="text-[10px] text-slate-500">${r.date}</span>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ========================================================
+// 🏆 ТАБЛИЦА ЛИДЕРОВ И УЧАСТНИКОВ (LEADERBOARD)
+// ========================================================
+let cachedLeaderboard = [
+  { rank: 1, name: "Роман (Вы)", xp: 0, tonnage: 0, streak: 0, lastActive: "Сегодня", isMe: true },
+  { rank: 2, name: "Александр В.", xp: 2450, tonnage: 86400, streak: 12, lastActive: "Вчера", isMe: false },
+  { rank: 3, name: "Дмитрий К.", xp: 1800, tonnage: 62000, streak: 8, lastActive: "25 авг", isMe: false },
+  { rank: 4, name: "Максим С.", xp: 1250, tonnage: 45200, streak: 5, lastActive: "24 авг", isMe: false },
+  { rank: 5, name: "Илья П.", xp: 950, tonnage: 31000, streak: 3, lastActive: "22 авг", isMe: false }
+];
+
+async function syncUserToLeaderboard() {
+  try {
+    const myTonnage = getTotalTonnage(appState);
+    const myXP = appState.xp || 0;
+    const myStreak = appState.streak || 0;
+
+    await fetch('/api/sync-leaderboard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tgId: appState.tgId,
+        name: appState.name,
+        xp: myXP,
+        tonnage: myTonnage,
+        streak: myStreak,
+        lastActive: "Сегодня"
+      })
+    });
+  } catch(e) {}
+}
+
+async function fetchLeaderboard() {
+  const container = document.getElementById("leaderboard-container");
+  if (!container) return;
+
+  const myTonnage = getTotalTonnage(appState);
+  const myXP = appState.xp || 0;
+  const myStreak = appState.streak || 0;
+
+  // Обновляем текущего пользователя в таблице
+  cachedLeaderboard.forEach(u => {
+    if (u.isMe) {
+      u.name = `${appState.name} (Вы)`;
+      u.xp = myXP;
+      u.tonnage = myTonnage;
+      u.streak = myStreak;
+    }
+  });
+
+  try {
+    const res = await fetch('/api/leaderboard');
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        cachedLeaderboard = data;
+      }
+    }
+  } catch(e) {}
+
+  // Сортировка по XP и расчет рангов
+  cachedLeaderboard.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  cachedLeaderboard.forEach((u, i) => u.rank = i + 1);
+
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById("leaderboard-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  cachedLeaderboard.forEach(u => {
+    const card = document.createElement("div");
+    const isMe = u.isMe || (u.name && u.name.includes("(Вы)"));
+    card.className = `p-3.5 rounded-2xl border transition-all ${isMe ? 'bg-[#101b33] border-cyan-500/80 shadow-md shadow-cyan-500/10' : 'bg-slate-950 border-white/[0.06]'}`;
+
+    const rankBadge = u.rank === 1 ? '🥇' : u.rank === 2 ? '🥈' : u.rank === 3 ? '🥉' : `#${u.rank}`;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-7 h-7 rounded-xl bg-slate-900 flex items-center justify-center font-black text-xs ${u.rank <= 3 ? 'text-amber-400' : 'text-slate-400'} border border-white/5">
+            ${rankBadge}
+          </span>
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="font-bold text-xs ${isMe ? 'text-cyan-300' : 'text-white'} font-sans">${u.name}</span>
+              ${isMe ? '<span class="text-[9px] font-mono px-1 py-0.2 bg-cyan-400 text-slate-950 font-black rounded">ВЫ</span>' : ''}
+            </div>
+            <span class="text-[10px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${(u.tonnage / 1000).toFixed(1)} т</b> • 🔥${u.streak} дн</span>
+          </div>
+        </div>
+        <div class="text-right font-mono">
+          <span class="text-xs font-black text-cyan-400 block">${u.xp.toLocaleString()} XP</span>
+          <span class="text-[9px] text-slate-500">Ур. ${Math.floor(u.xp / 500) + 1}</span>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ========================================================
+// ПРОФИЛЬ И СБРОС
 // ========================================================
 function openProfileDrawer() {
   updateProfileDisplay();
@@ -278,9 +527,6 @@ function updateProfileDisplay() {
   if (injEl) injEl.textContent = appState.injuries || "Нет";
 }
 
-// ========================================================
-// СБРОС С ЗАЩИТОЙ 15 СЕКУНД
-// ========================================================
 let resetTimerInterval = null;
 let resetSecondsLeft = 15;
 
@@ -392,10 +638,11 @@ function saveOnboardingProfile(e) {
   renderNutrition();
   renderPersonalizedVitamins();
   renderMonthlyCalendar();
+  renderPersonalRecords();
 }
 
 // ========================================================
-// ПЕРСОНАЛЬНЫЙ ВИТАМИННЫЙ КОМПЛЕКС (ПОЛНОСТЬЮ НА РУССКОМ)
+// ПЕРСОНАЛЬНЫЙ ВИТАМИННЫЙ КОМПЛЕКС
 // ========================================================
 function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
@@ -598,7 +845,7 @@ function advanceMesocycleWeek() {
 }
 
 // ========================================================
-// САМОЧУВСТВИЕ И АВТОРЕГУЛЯЦИЯ НАГРУЗОК
+// САМОЧУВСТВИЕ И АВТОРЕГУЛЯЦИЯ
 // ========================================================
 function promptReadinessBeforeWorkout(planKey, targetDate = null) {
   pendingWorkoutPlanKey = planKey;
@@ -657,9 +904,7 @@ function startWorkout(planKey, readinessPct = 90, targetDate = null) {
   const plan = DEFAULT_PROGRAMS[planKey];
   activeExpandedExerciseIndex = 0;
 
-  // Авторегуляция: если самочувствие <65%, снижаем стартовые веса на 10%
   const weightMultiplier = (readinessPct < 65) ? 0.9 : 1.0;
-
   const now = new Date();
   const startTimeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 
@@ -691,7 +936,6 @@ function startWorkout(planKey, readinessPct = 90, targetDate = null) {
     })
   };
 
-  // Запуск живого таймера тренировки
   clearInterval(liveWorkoutTimerInterval);
   liveWorkoutSeconds = 0;
   liveWorkoutTimerInterval = setInterval(() => {
@@ -850,17 +1094,23 @@ function stepReps(exIdx, sIdx, delta) {
 function toggleSet(exIdx, sIdx, done) {
   if (!appState.activeWorkout) return;
   const ex = appState.activeWorkout.exercises[exIdx];
-  ex.sets[sIdx].done = done;
+  const s = ex.sets[sIdx];
+  s.done = done;
   saveState();
   updateLiveWorkoutStats();
 
   if (done) {
+    // Проверка на рекорд
+    if (s.weight > 0 && s.reps > 0) {
+      checkAndSavePersonalRecord(ex.name, s.weight, s.reps);
+    }
+
     Sound.success();
     Haptic.success();
     addXP(25);
     startRestTimer(90);
 
-    const allSetsClosed = ex.sets.every(s => s.done);
+    const allSetsClosed = ex.sets.every(setObj => setObj.done);
     if (allSetsClosed && exIdx < appState.activeWorkout.exercises.length - 1) {
       setTimeout(() => {
         activeExpandedExerciseIndex = exIdx + 1;
@@ -1018,7 +1268,12 @@ function finishActiveWorkout() {
 
   wo.exercises.forEach(e => {
     const doneSets = e.sets.filter(s => s.done);
-    doneSets.forEach(s => { tonnage += (s.weight * s.reps); });
+    doneSets.forEach(s => {
+      tonnage += (s.weight * s.reps);
+      if (s.weight > 0 && s.reps > 0) {
+        checkAndSavePersonalRecord(e.name, s.weight, s.reps);
+      }
+    });
     const isMaxClosed = doneSets.length === e.sets.length && doneSets.every(s => s.reps >= e.max);
     exSummaries.push({
       name: e.name,
@@ -1143,12 +1398,12 @@ function renderMonthlyCalendar() {
   let doneCount = 0;
   let plannedCount = 0;
   let missedCount = 0;
-  const currentTodayDate = 27; // 27 августа 2026
+  const currentTodayDate = 27;
 
   for (let day = 1; day <= totalDaysInMonth; day++) {
     const curDate = new Date(calYear, calMonth, day);
     const dayOfWeek = curDate.getDay();
-    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // Вт, Чт
+    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
     const dStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
     const woData = histMap.get(dStr);
@@ -1420,7 +1675,6 @@ function drawTrendChart() {
   ctx.clearRect(0, 0, w, h);
 
   if (currentChartFilter === 'duration') {
-    // График времени тренировок
     const hist = (appState.history || []).slice().reverse().filter(item => (item.durationMin || 45) > 0);
     if (hist.length < 2) {
       ctx.fillStyle = "#64748b";
@@ -1472,7 +1726,6 @@ function drawTrendChart() {
     return;
   }
 
-  // График замеров тела
   const logs = (appState.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
   if (logs.length < 2) {
     ctx.fillStyle = "#64748b";
@@ -1884,40 +2137,77 @@ function openAddManualWorkoutModal() {
   Sound.success();
 }
 
+// ========================================================
+// ПОЛНЫЙ АНАЛИТИЧЕСКИЙ ОТЧЕТ ДЛЯ ТРЕНЕРА
+// ========================================================
 function copyCoachSummary() {
   const m = appState.currentMetrics || {};
   const hist = appState.history || [];
+  const prs = appState.personalRecords || {};
+  const currentLvl = Math.floor(appState.xp / 500) + 1;
+  const waistRatio = Math.round(((m.waist || 91.5) / (appState.height || 178)) * 100);
 
-  let lastWosText = "";
-  if (hist.length === 0) {
-    lastWosText = "Тренировок в архиве пока нет.";
+  // Таблица рекордов
+  let prsText = "";
+  const prKeys = Object.keys(prs);
+  if (prKeys.length > 0) {
+    prsText = prKeys.map(k => `  • ${k}: ${prs[k].weight} кг × ${prs[k].reps} (1ПМ: ~${prs[k].oneRM} кг, дата: ${prs[k].date})`).join("\n");
   } else {
-    lastWosText = hist.slice(0, 3).map((h, i) => 
-      `${i + 1}) ${h.date} (${h.startTimeStr || '18:00'}–${h.endTimeStr || '19:00'}) — ${h.name} (Тоннаж: ${h.tonnage}кг, Сожжено: ~${h.calories || 350}ккал)`
-    ).join("\n");
+    prsText = "  • Рекорды пока формируются.";
   }
 
-  const summary = `📊 [IRON COACH — СВОДКА АТЛЕТА]:
-• Атлет: ${appState.name} | Возраст: ${appState.age || 32} | Рост: ${appState.height || 178} см
-• Цель: ${appState.goal || 'Рекомпозиция'}
-• Фаза тренировочного цикла: Неделя ${appState.mesocycleWeek || 1} из 8
-• Текущий вес: ${m.weight || 83} кг
-• Талия по пупку: ${m.waist || 91.5} см (Соотношение талии к росту: ${Math.round(((m.waist || 91.5) / (appState.height || 178)) * 100)}%)
-• Бицепс: ${m.biceps || 38.5} см | Грудь: ${m.chest || 104} см | Бедро: ${m.thigh || 59} см | Шея: ${m.neck || 39.5} см
-• Серия тренировок: 🔥${appState.streak || 0} | Суммарный тоннаж: ${getTotalTonnage(appState).toLocaleString()} кг
-• Последние тренировки:
-${lastWosText}`;
+  // Последние тренировки
+  let lastWosText = "";
+  if (hist.length === 0) {
+    lastWosText = "  • Тренировок в архиве пока нет.";
+  } else {
+    lastWosText = hist.slice(0, 4).map((h, i) => {
+      const timeSpan = h.startTimeStr ? `${h.startTimeStr}–${h.endTimeStr || '...'} (${h.durationMin || 45} мин)` : `~45 мин`;
+      const exStr = (h.exercises || []).map(e => `    - ${e.name}: ${e.sets}`).join("\n");
+      return `${i + 1}) ${h.date} [${timeSpan}] — ${h.name}\n   Тоннаж: ${h.tonnage} кг | Сожжено: ~${h.calories || 350} ккал | Готовность: ${h.readiness || 90}%\n${exStr}`;
+    }).join("\n\n");
+  }
+
+  const summary = `📊 [IRON COACH — ПОЛНОЕ АНАЛИТИЧЕСКОЕ ДОСЬЕ АТЛЕТА]:
+=============================================
+👤 1. ПРОФИЛЬ И ПАРАМЕТРЫ:
+• Атлет: ${appState.name} | Возраст: ${appState.age || 32} года | Рост: ${appState.height || 178} см
+• Главная цель: ${appState.goal || 'Рекомпозиция (Сушка жира + Мышечный тонус)'}
+• Ограничения/травмы: ${appState.injuries || 'Нет'}
+• Уровень: ${currentLvl} | Всего опыта: ${appState.xp.toLocaleString()} XP
+• Текущая серия: 🔥${appState.streak || 0} дней без срывов
+• Периодизация: Неделя ${appState.mesocycleWeek || 1} из 8 (Фаза ${appState.mesocycleWeek <= 3 ? '1: Накопление' : appState.mesocycleWeek <= 6 ? '2: Интенсификация' : '3: Пик'})
+
+📐 2. АНТРОПОМЕТРИЯ И ЗАМЕРЫ ТЕЛА:
+• Вес тела: ${m.weight || 83} кг
+• Талия по пупку: ${m.waist || 91.5} см (Соотношение талии к росту: ${waistRatio}%)
+• Бицепс (рука): ${m.biceps || 38.5} см
+• Обхват груди: ${m.chest || 104} см
+• Бедро (нога): ${m.thigh || 59} см
+• Шея: ${m.neck || 39.5} см
+
+👑 3. ЗАЛ ЛИЧНЫХ РЕКОРДОВ (1ПМ):
+${prsText}
+
+📋 4. ПОСЛЕДНИЕ ТРЕНИРОВКИ (С ХРОНОМЕТРАЖЕМ И ВЕСАМИ):
+${lastWosText}
+
+💧 5. ДИСЦИПЛИНА И ЗДОРОВЬЕ:
+• Выполнено сессий утреннего вакуума: ${appState.vacDaysCount || 0}
+• Дней с закрытием нормы белка (150г+): ${appState.protDaysCount || 0}
+• Суммарный тоннаж за все время: ${getTotalTonnage(appState).toLocaleString()} кг
+=============================================`;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(summary).then(() => {
       Sound.success();
       Haptic.success();
-      alert(`✓ Сводка атлета «${appState.name}» скопирована в буфер обмена!\n\nПросто вставь (Ctrl+V) в чат с тренером.`);
+      alert(`✓ Полное аналитическое досье атлета «${appState.name}» скопировано в буфер обмена!\n\nПросто вставь (Ctrl+V) в чат с тренером.`);
     }).catch(() => {
-      prompt("Скопируй текст сводки вручную:", summary);
+      prompt("Скопируй текст досье вручную:", summary);
     });
   } else {
-    prompt("Скопируй текст сводки вручную:", summary);
+    prompt("Скопируй текст досье вручную:", summary);
   }
 
   sendCoachReportToTelegram(`<pre>${summary}</pre>`);
@@ -1966,15 +2256,15 @@ function switchProgressSubtab(subtabId) {
   Sound.beep(550, 0.05);
   Haptic.impact('light');
 
-  ['calendar', 'metrics', 'achievements', 'archive'].forEach(st => {
+  ['calendar', 'metrics', 'records', 'leaderboard', 'achievements', 'archive'].forEach(st => {
     const pane = document.getElementById("subtab-" + st);
     const btn = document.getElementById("btn-sub-" + st);
     if (st === subtabId) {
       if (pane) pane.classList.remove("hidden");
-      if (btn) btn.className = "flex-1 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm";
+      if (btn) btn.className = "px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm whitespace-nowrap";
     } else {
       if (pane) pane.classList.add("hidden");
-      if (btn) btn.className = "flex-1 py-2 rounded-xl text-slate-400 font-bold transition-all";
+      if (btn) btn.className = "px-3 py-2 rounded-xl text-slate-400 font-bold transition-all whitespace-nowrap";
     }
   });
 
@@ -1987,6 +2277,12 @@ function switchProgressSubtab(subtabId) {
       renderMetrics();
       drawTrendChart();
     }, 50);
+  }
+  if (subtabId === 'records') {
+    renderPersonalRecords();
+  }
+  if (subtabId === 'leaderboard') {
+    fetchLeaderboard();
   }
   if (subtabId === 'achievements') {
     renderAchievementsList();
@@ -2045,4 +2341,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPersonalizedVitamins();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
+  renderPersonalRecords();
 });

@@ -2,11 +2,60 @@ const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
 const API_URL = "https://api.telegram.org/bot" + BOT_TOKEN;
 const B64_APP = "__B64_APP_PLACEHOLDER__";
 
+// Глобальный лидерборд участников
+let globalLeaderboard = [
+  { id: "u_alx", name: "Александр В.", xp: 2450, tonnage: 86400, streak: 12, lastActive: "Вчера" },
+  { id: "u_dmt", name: "Дмитрий К.", xp: 1800, tonnage: 62000, streak: 8, lastActive: "25 авг" },
+  { id: "u_max", name: "Максим С.", xp: 1250, tonnage: 45200, streak: 5, lastActive: "24 авг" },
+  { id: "u_ily", name: "Илья П.", xp: 950, tonnage: 31000, streak: 3, lastActive: "22 авг" }
+];
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Endpoint for Mini App to send sync reports directly to Telegram Chat
+    // Получение таблицы лидеров
+    if (url.pathname === "/api/leaderboard" && request.method === "GET") {
+      return new Response(JSON.stringify(globalLeaderboard), {
+        status: 200,
+        headers: { "Content-Type": "application/json; charset=utf-8" }
+      });
+    }
+
+    // Синхронизация прогресса участника в таблицу лидеров
+    if (url.pathname === "/api/sync-leaderboard" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        if (body.tgId) {
+          const idx = globalLeaderboard.findIndex(u => u.id === body.tgId);
+          const userData = {
+            id: body.tgId,
+            name: body.name || "Атлет",
+            xp: body.xp || 0,
+            tonnage: body.tonnage || 0,
+            streak: body.streak || 0,
+            lastActive: "Сегодня"
+          };
+
+          if (idx >= 0) {
+            globalLeaderboard[idx] = userData;
+          } else {
+            globalLeaderboard.push(userData);
+          }
+        }
+        return new Response(JSON.stringify({ ok: true, leaderboard: globalLeaderboard }), {
+          status: 200,
+          headers: { "Content-Type": "application/json; charset=utf-8" }
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ ok: false, error: err.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json; charset=utf-8" }
+        });
+      }
+    }
+
+    // Отправка отчета тренеру
     if (url.pathname === "/api/sync-report" && request.method === "POST") {
       try {
         const body = await request.json();
@@ -82,7 +131,7 @@ async function handleTelegramMessage(msg, appUrl) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: chatId,
-      text: "🦾 <b>Приветствую, коллега!</b>\n\nТвое персональное фитнес-приложение <b>IRON COACH ELITE</b> готово к работе!\n\n👇 <b>Нажми на кнопку ниже, чтобы открыть приложение:</b>",
+      text: "🦾 <b>Приветствую, Роман!</b>\n\nТвое персональное фитнес-приложение <b>IRON COACH ELITE</b> готово к работе!\n\n👇 <b>Нажми на кнопку ниже, чтобы открыть приложение:</b>",
       parse_mode: "HTML",
       reply_markup: {
         inline_keyboard: [
