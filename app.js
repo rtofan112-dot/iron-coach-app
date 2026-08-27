@@ -1903,8 +1903,8 @@ function renderActiveWorkoutUI() {
           <div class="flex justify-between items-center text-xs font-mono text-slate-400">
             <span>Сеты и веса:</span>
             <div class="flex space-x-1.5">
-              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10 active:scale-95">Сброс</button>
-              ${ex.substitutes && ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10 active:scale-95">Замена</button>` : ''}
+              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 active:scale-95 transition-all">Сброс</button>
+              <button onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-0.5 bg-[#181b26] hover:bg-white/10 text-[#c8a97e] rounded-lg border border-white/10 active:scale-95 transition-all">Замена</button>
             </div>
           </div>
 
@@ -2116,18 +2116,134 @@ function jumpToActiveWorkout() {
   }, 100);
 }
 
-function swapExercisePrompt(exIdx) {
+let currentSwappingExerciseIndex = null;
+let currentSwapFilter = 'recommended';
+
+function openSwapExerciseModal(exIdx) {
   if (!appState.activeWorkout) return;
+  currentSwappingExerciseIndex = exIdx;
   const ex = appState.activeWorkout.exercises[exIdx];
-  if (!ex.substitutes || ex.substitutes.length === 0) return;
-  const choice = confirm(`Заменить «${ex.name}» на «${ex.substitutes[0]}»?`);
-  if (choice) {
-    const oldName = ex.name;
-    ex.name = ex.substitutes[0];
-    ex.substitutes[0] = oldName;
-    renderActiveWorkoutUI();
-    Sound.beep(700, 0.08);
+
+  const titleEl = document.getElementById("swap-modal-current-name");
+  if (titleEl) titleEl.textContent = `Текущее: ${ex.name}`;
+
+  const searchInput = document.getElementById("swap-search-input");
+  if (searchInput) searchInput.value = "";
+
+  setSwapCategoryFilter('recommended');
+  openModal('modal-swap-exercise');
+}
+
+function setSwapCategoryFilter(filter) {
+  currentSwapFilter = filter;
+  ['rec', 'same', 'all'].forEach(f => {
+    const btn = document.getElementById("btn-swap-cat-" + f);
+    if (btn) {
+      if ((f === 'rec' && filter === 'recommended') ||
+          (f === 'same' && filter === 'same-group') ||
+          (f === 'all' && filter === 'all')) {
+        btn.className = "px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
+      } else {
+        btn.className = "px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
+      }
+    }
+  });
+  renderSwapExerciseAlternativesList();
+}
+
+function renderSwapExerciseAlternativesList() {
+  const container = document.getElementById("swap-alternatives-list");
+  if (!container || currentSwappingExerciseIndex === null || !appState.activeWorkout) return;
+
+  const currentEx = appState.activeWorkout.exercises[currentSwappingExerciseIndex];
+  const searchInput = document.getElementById("swap-search-input");
+  const query = (searchInput ? searchInput.value : "").trim().toLowerCase();
+
+  let list = [];
+
+  if (currentSwapFilter === 'recommended') {
+    const explicitNames = currentEx.substitutes || [];
+    const explicitMatches = EXERCISE_DATABASE.filter(e => explicitNames.includes(e.name));
+    const sameGroup = EXERCISE_DATABASE.filter(e => e.muscleGroup === currentEx.muscleGroup && e.name !== currentEx.name);
+    
+    const combined = [...explicitMatches];
+    sameGroup.forEach(e => {
+      if (!combined.some(c => c.id === e.id)) {
+        combined.push(e);
+      }
+    });
+    list = combined;
+  } else if (currentSwapFilter === 'same-group') {
+    list = EXERCISE_DATABASE.filter(e => e.muscleGroup === currentEx.muscleGroup && e.name !== currentEx.name);
+  } else {
+    list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name);
   }
+
+  if (query) {
+    list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name && (e.name.toLowerCase().includes(query) || (e.targetMuscles || '').toLowerCase().includes(query)));
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
+        <p class="text-xs font-bold text-slate-300 uppercase">Альтернативы не найдены</p>
+        <p class="text-[11px] text-slate-500 font-sans">Попробуй изменить поисковый запрос или выбрать другую категорию.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map(dbEx => `
+    <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
+      <div class="space-y-1 pr-1">
+        <div class="flex items-center space-x-1.5">
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-white/10 rounded uppercase">${dbEx.category || dbEx.muscleGroup}</span>
+          <h4 class="font-bold text-xs text-white leading-tight">${dbEx.name}</h4>
+        </div>
+        <p class="text-[11px] text-slate-400 font-mono">${dbEx.targetMuscles || ''}</p>
+        <p class="text-[10px] text-slate-500 font-sans truncate max-w-[240px]">💡 ${dbEx.tip || ''}</p>
+      </div>
+      <button onclick="executeSwapExercise('${dbEx.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+        Заменить
+      </button>
+    </div>
+  `).join("");
+}
+
+function executeSwapExercise(targetDbId) {
+  if (currentSwappingExerciseIndex === null || !appState.activeWorkout) return;
+  const dbEx = EXERCISE_DATABASE.find(e => e.id === targetDbId);
+  if (!dbEx) return;
+
+  const currentEx = appState.activeWorkout.exercises[currentSwappingExerciseIndex];
+  const oldName = currentEx.name;
+
+  const scaledWeight = appState.weightProgression && appState.weightProgression[dbEx.name] !== undefined
+    ? appState.weightProgression[dbEx.name]
+    : dbEx.defaultWeight;
+
+  currentEx.name = dbEx.name;
+  currentEx.muscleGroup = dbEx.muscleGroup;
+  currentEx.targetMuscles = dbEx.targetMuscles;
+  currentEx.phases = dbEx.phases;
+  currentEx.tip = dbEx.tip;
+  currentEx.calRate = dbEx.calRate || 10;
+  currentEx.isTime = !!dbEx.isTime;
+  currentEx.defaultWeight = scaledWeight;
+  currentEx.substitutes = [oldName];
+
+  // Обновляем вес в незавершенных подходах
+  currentEx.sets.forEach(s => {
+    if (!s.done) {
+      s.weight = scaledWeight;
+    }
+  });
+
+  saveState();
+  closeModal('modal-swap-exercise');
+  renderActiveWorkoutUI();
+  Sound.beep(750, 0.08);
+  Haptic.success();
 }
 
 let timerInt = null, timerLeft = 0;

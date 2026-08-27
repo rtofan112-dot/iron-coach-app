@@ -164,19 +164,7 @@
           </button>
         </div>
 
-        <!-- АВТОМАТИЧЕСКИЙ СТАТУС ПЕРИОДИЗАЦИИ -->
-        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.08] space-y-2">
-          <div class="flex justify-between items-center text-xs font-mono">
-            <span class="text-slate-200 font-bold flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-              АВТО-ПЕРИОДИЗАЦИЯ: НЕДЕЛЯ <b id="meso-week-display" class="text-[#c8a97e]">3</b> ИЗ 8
-            </span>
-            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">Авто-расчет</span>
-          </div>
-          <p id="meso-desc-text" class="text-xs text-slate-300 leading-relaxed">
-            <b>Фаза 1 (Линейная прогрессия):</b> Автоматический пересчет по выполненным сессиям. Нагрузка рассчитывается по шкале Брэда Шёнфельда (+2.5 кг в базе при закрытии плана).
-          </p>
-        </div>
+
 
         <!-- СПИСОК ФИКСИРОВАННЫХ ПРОГРАММ -->
         <div class="space-y-2.5">
@@ -769,6 +757,38 @@
           + Создать свое упражнение вручную
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- МОДАЛКА: ЗАМЕНА УПРАЖНЕНИЯ НА АЛЬТЕРНАТИВНОЕ -->
+  <!-- ======================================================== -->
+  <div id="modal-swap-exercise" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+    <div class="max-w-md w-full max-h-[85vh] flex flex-col bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+      <div class="p-4 border-b border-white/[0.08] flex justify-between items-center bg-[#12141c]">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-[#181b26] border border-white/10 flex items-center justify-center text-[#c8a97e]">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 3 4 4-4 4"></path><path d="M20 7H4"></path><path d="m8 21-4-4 4-4"></path><path d="M4 17h16"></path></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-xs text-white uppercase tracking-wider">Замена упражнения</h3>
+            <span id="swap-modal-current-name" class="text-[10px] text-slate-400 font-sans block truncate max-w-[220px]">Текущее: Жим гантелей 30°</span>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-swap-exercise')" class="text-slate-400 hover:text-white font-bold px-2 py-1">✕</button>
+      </div>
+
+      <div class="p-3 space-y-2 border-b border-white/[0.06] bg-[#0c0d14]">
+        <input type="text" id="swap-search-input" oninput="renderSwapExerciseAlternativesList()" placeholder="Поиск альтернативы..." class="w-full bg-[#181b26] border border-white/10 px-3 py-2 rounded-xl text-white font-sans text-xs outline-none">
+        
+        <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[10px]">
+          <button onclick="setSwapCategoryFilter('recommended')" id="btn-swap-cat-rec" class="px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm">Рекомендуемые</button>
+          <button onclick="setSwapCategoryFilter('same-group')" id="btn-swap-cat-same" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Та же группа</button>
+          <button onclick="setSwapCategoryFilter('all')" id="btn-swap-cat-all" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Весь каталог</button>
+        </div>
+      </div>
+
+      <div id="swap-alternatives-list" class="p-3 space-y-2 overflow-y-auto flex-1 font-sans"></div>
     </div>
   </div>
 
