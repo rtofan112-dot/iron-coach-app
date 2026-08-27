@@ -28,7 +28,7 @@ body {
   overflow-x: hidden;
 }
 
-/* TAB TRANSITIONS */
+/* ПЛАВНОСТЬ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК */
 .tab-pane {
   display: none;
   opacity: 0;
@@ -42,7 +42,7 @@ body {
   transform: translateY(0);
 }
 
-/* NAVIGATION ITEM ACTIVE */
+/* АКТИВНЫЙ ПУНКТ НАВИГАЦИИ */
 .nav-item {
   position: relative;
   transition: all 0.2s ease;
@@ -65,7 +65,7 @@ body {
   box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
 }
 
-/* TOUCH TARGETS FOR WORKOUT INPUTS */
+/* КРУПНЫЕ КНОПКИ ШАГА ВЕСА И ПОВТОРЕНИЙ */
 .stepper-btn {
   width: 2.4rem;
   height: 2.4rem;
@@ -85,7 +85,7 @@ body {
   background: #233252;
 }
 
-/* BESPOKE CHECKBOX FOR FINISHED SET */
+/* ЧЕКБОКС ЗАВЕРШЕНИЯ ПОДХОДА */
 .custom-checkbox {
   appearance: none;
   width: 1.85rem;
@@ -114,7 +114,23 @@ body {
   line-height: 1;
 }
 
-/* MOBILE-FIRST MONTHLY CALENDAR CELL */
+/* АККОРДЕОН УПРАЖНЕНИЙ */
+.ex-card-accordion {
+  transition: all 0.25s ease;
+}
+
+.ex-card-accordion.active-focus {
+  border-color: rgba(0, 240, 255, 0.5);
+  background: linear-gradient(180deg, #101b33 0%, #0e1422 100%);
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.08);
+}
+
+.ex-card-accordion.done-all {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: #0b111e;
+}
+
+/* МОБИЛЬНЫЙ КАЛЕНДАРЬ */
 .cal-day-cell {
   aspect-ratio: 1 / 1;
   display: flex;
@@ -179,7 +195,7 @@ body {
   pointer-events: none;
 }
 
-/* 12 MONTHS ANNUAL PILLS */
+/* 12 МЕСЯЦЕВ ГОДОВОГО ОБЗОРА */
 .annual-month-pill {
   padding: 0.6rem 0.5rem;
   background-color: #080d18;
@@ -194,7 +210,7 @@ body {
   background-color: #111b2f;
 }
 
-/* MODALS BACKDROP */
+/* МОДАЛЬНЫЕ ОКНА */
 .modal-backdrop {
   background: rgba(4, 7, 13, 0.85);
   backdrop-filter: blur(12px);
@@ -207,7 +223,7 @@ body {
   to { opacity: 1; }
 }
 
-/* SCROLLBAR */
+/* СКРОЛЛБАР */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;

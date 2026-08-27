@@ -1,5 +1,5 @@
 /**
- * IRON COACH ELITE - High-Performance Hypertrophy, Focus Workout & Calendar Hub
+ * IRON COACH ELITE - Пошаговый тренировочный движок и мобильный календарь
  */
 
 const Sound = {
@@ -57,78 +57,73 @@ const Haptic = {
 };
 
 // ========================================================
-// S-TIER TRAINING PROTOCOLS
+// ПРОТОКОЛЫ ТРЕНИРОВОК (ПОЛНОСТЬЮ НА РУССКОМ)
 // ========================================================
 const DEFAULT_PROGRAMS = {
   a: {
-    name: "Вторник: Full Body A (Верх базы + Жим + Квадры + Спина)",
+    name: "Вторник: Тренировка А (Верх базы + Жим + Квадрицепс + Спина)",
     exercises: [
-      { id: "ex1", name: "Жим гантелей на наклонной скамье 30°", sets: 4, min: 8, max: 10, w: 22, calRate: 12, tip: "Локти 60-70° к телу, лопатки сведены и опущены вниз (депрессия лопатки).", substitutes: ["Жим штанги на наклонной 30°", "Жим в наклонном Хаммере"] },
-      { id: "ex2", name: "Жим гантелей / штанги на горизонтальной скамье", sets: 4, min: 8, max: 10, w: 24, calRate: 12, tip: "Мощный подконтрольный выжим, микропауза 1 сек в нижней точке растяжения.", substitutes: ["Жим штанги лежа", "Жим в горизонтальном Хаммере"] },
-      { id: "ex3", name: "Жим ногами под углом 45° в тренажере", sets: 4, min: 10, max: 12, w: 90, calRate: 16, tip: "Колени вверху не вставляй, упор в середину стопы и пятки.", substitutes: ["Приседания со штангой", "Гакк-приседания"] },
-      { id: "ex4", name: "Тяга горизонтального блока к поясу (нейтрально)", sets: 4, min: 10, max: 12, w: 45, calRate: 11, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы внизу.", substitutes: ["Тяга Т-грифа", "Тяга гантели в упоре"] },
-      { id: "ex5", name: "Сгибания ног сидя/лежа в тренажере", sets: 3, min: 12, max: 15, w: 35, calRate: 8, tip: "Медленный негатив 2-3 сек, акцент на растяжение бицепса бедра.", substitutes: ["Румынская тяга на 1 ноге"] },
-      { id: "ex6", name: "Махи гантелями в стороны стоя", sets: 4, min: 12, max: 15, w: 8, calRate: 7, tip: "Подъем через стороны локтями до параллели, кисть не задирай выше локтя.", substitutes: ["Махи на нижнем блоке"] },
-      { id: "ex7", name: "Разгибания рук на блоке с канатом", sets: 3, min: 12, max: 15, w: 20, calRate: 6, tip: "Локти прижаты к корпусу, разводи канат в нижней точке.", substitutes: ["Французский жим с гантелями"] },
-      { id: "ex8", name: "Скручивания на блоке с канатом («Молитва»)", sets: 3, min: 12, max: 15, w: 35, calRate: 8, tip: "Скручивай грудную клетку к тазу силой пресса, а не наклоном бедер.", substitutes: ["Подъем ног на наклонной скамье", "Скручивания на фитболе"] }
+      { id: "ex1", name: "Жим гантелей на наклонной скамье 30°", sets: 4, min: 8, max: 10, w: 22, calRate: 12, tip: "Локти 60–70° к телу, лопатки сведены и опущены вниз для защиты шеи.", substitutes: ["Жим штанги на наклонной 30°", "Жим в наклонном Хаммере"] },
+      { id: "ex2", name: "Жим гантелей на горизонтальной скамье", sets: 4, min: 8, max: 10, w: 24, calRate: 12, tip: "Мощный подконтрольный выжим, пауза 1 сек в нижней точке растяжения груди.", substitutes: ["Жим штанги лежа", "Жим в тренажере на грудь"] },
+      { id: "ex3", name: "Жим ногами под углом 45° в тренажере", sets: 4, min: 10, max: 12, w: 90, calRate: 16, tip: "Колени вверху не вставляй до щелчка, упор в середину стопы и пятки.", substitutes: ["Приседания со штангой", "Приседания в Гакк-тренажере"] },
+      { id: "ex4", name: "Тяга горизонтального блока к поясу (нейтральный хват)", sets: 4, min: 10, max: 12, w: 45, calRate: 11, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы внизу.", substitutes: ["Тяга Т-грифа к поясу", "Тяга гантели в упоре"] },
+      { id: "ex5", name: "Сгибания ног сидя или лежа в тренажере", sets: 3, min: 12, max: 15, w: 35, calRate: 8, tip: "Медленное опускание 2–3 сек, акцент на растяжение бицепса бедра.", substitutes: ["Румынская тяга на одной ноге"] },
+      { id: "ex6", name: "Махи гантелями через стороны стоя", sets: 4, min: 12, max: 15, w: 8, calRate: 7, tip: "Подъем через стороны локтями до уровня плеч, кисть не задирай выше локтя.", substitutes: ["Махи на нижнем блоке"] },
+      { id: "ex7", name: "Разгибания рук на верхнем блоке с канатом", sets: 3, min: 12, max: 15, w: 20, calRate: 6, tip: "Локти прижаты к корпусу, разводи канат в нижней точке сокращения.", substitutes: ["Французский жим с гантелями"] },
+      { id: "ex8", name: "Скручивания на блоке с канатом на пресс", sets: 3, min: 12, max: 15, w: 35, calRate: 8, tip: "Скручивай грудную клетку к тазу силой мышц пресса.", substitutes: ["Подъем ног на наклонной скамье", "Скручивания на коврике"] }
     ]
   },
   b: {
-    name: "Четверг: Full Body B (Бабочка + Брусья + Румынка + V-Тяга)",
+    name: "Четверг: Тренировка Б (Бабочка + Брусья/Хаммер + Румынка + Тяга к груди)",
     exercises: [
-      { id: "ex1", name: "Сведения в бабочке / кроссовере (Pec-Deck)", sets: 4, min: 10, max: 12, w: 25, calRate: 9, tip: "Глубокая растяжка фасций в негативе и пауза 2 сек в пиковом сведении.", substitutes: ["Разводка гантелей на наклонной скамье"] },
-      { id: "ex2", name: "Отжимания на брусьях (наклон) / Жим в Хаммере", sets: 4, min: 8, max: 10, w: 0, calRate: 11, tip: "Корпус наклонен вперед под 30°, локти под 45° к корпусу.", substitutes: ["Жим гантелей головой вниз"] },
-      { id: "ex3", name: "Румынская тяга с гантелями", sets: 4, min: 10, max: 12, w: 22, calRate: 15, tip: "Таз максимально назад, колени мягкие, спина ровная.", substitutes: ["Гиперэкстензия с весом", "Тяга сумо"] },
-      { id: "ex4", name: "Тяга верхнего блока нейтральным (V-образным) хватом", sets: 4, min: 10, max: 12, w: 50, calRate: 12, tip: "Двуручная симметричная тяга к ключицам, лопатки опущены вниз.", substitutes: ["Подтягивания нейтральным хватом", "Тяга широким хватом"] },
-      { id: "ex5", name: "Гакк-приседания в тренажере / Шагающие выпады", sets: 3, min: 10, max: 12, w: 35, calRate: 13, tip: "Глубокая амплитуда, колени по направлению носков.", substitutes: ["Болгарские сплит-приседания"] },
-      { id: "ex6", name: "Жим гантелей сидя на скамье 75°", sets: 4, min: 8, max: 10, w: 16, calRate: 9, tip: "Плавный жим над головой без резких рывков поясницей.", substitutes: ["Армейский жим стоя", "Жим в Хаммере"] },
-      { id: "ex7", name: "Подъем гантелей на бицепс с супинацией", sets: 3, min: 10, max: 12, w: 12, calRate: 6, tip: "Разворот кисти наружу в верхней трети амплитуды.", substitutes: ["Подъем штанги на бицепс EZ"] },
-      { id: "ex8", name: "Подъем ног / коленей в висе на брусьях", sets: 3, min: 12, max: 15, isTime: false, w: 0, calRate: 7, tip: "Подкручивай таз вверх на выдохе для активации нижнего пресса.", substitutes: ["Складка на скамье"] }
+      { id: "ex1", name: "Сведения рук в тренажере бабочка", sets: 4, min: 10, max: 12, w: 25, calRate: 9, tip: "Глубокая растяжка грудных при опускании и фиксация 2 сек в сведении.", substitutes: ["Разводка гантелей на скамье"] },
+      { id: "ex2", name: "Отжимания на брусьях (наклон) или жим в Хаммере", sets: 4, min: 8, max: 10, w: 0, calRate: 11, tip: "Корпус наклонен вперед под 30°, локти под 45° к корпусу.", substitutes: ["Жим гантелей с наклоном вниз"] },
+      { id: "ex3", name: "Румынская тяга с гантелями", sets: 4, min: 10, max: 12, w: 22, calRate: 15, tip: "Таз максимально назад, колени слегка согнуты, спина прямая.", substitutes: ["Гиперэкстензия с весом"] },
+      { id: "ex4", name: "Тяга верхнего блока нейтральным хватом к груди", sets: 4, min: 10, max: 12, w: 50, calRate: 12, tip: "Симметричная тяга к верху груди, лопатки опущены вниз.", substitutes: ["Подтягивания нейтральным хватом"] },
+      { id: "ex5", name: "Приседания в Гакк-тренажере или выпады", sets: 3, min: 10, max: 12, w: 35, calRate: 13, tip: "Плавное движение по направлению носков, без рывков.", substitutes: ["Болгарские выпады на скамье"] },
+      { id: "ex6", name: "Жим гантелей сидя на плечи (скамья 75°)", sets: 4, min: 8, max: 10, w: 16, calRate: 9, tip: "Плавный жим над головой без резкого прогиба в пояснице.", substitutes: ["Жим в тренажере на плечи"] },
+      { id: "ex7", name: "Подъем гантелей на бицепс с разворотом кисти", sets: 3, min: 10, max: 12, w: 12, calRate: 6, tip: "Разворот кисти наружу в верхней трети подъема.", substitutes: ["Подъем изогнутой штанги на бицепс"] },
+      { id: "ex8", name: "Подъем коленей в висе на брусьях на пресс", sets: 3, min: 12, max: 15, isTime: false, w: 0, calRate: 7, tip: "Подкручивай таз вверх на выдохе для включения низа живота.", substitutes: ["Скручивания на скамье"] }
     ]
   },
   c: {
-    name: "Воскресенье: День В [ОПЦИОНАЛЬНО] (Recharge + Шея/Лопатка + Зона 2)",
+    name: "Воскресенье: День В [ОПЦИЯ] (Разгрузка шеи + Руки + Кардио Зона 2)",
     exercises: [
-      { id: "ex1", name: "Face Pulls (Тяга каната к лицу)", sets: 4, min: 15, max: 20, w: 15, calRate: 8, tip: "Канат к глазам, локти разводи назад, пауза 2 сек (разгрузка шеи и лопатки).", substitutes: ["Разводка на заднюю дельту"] },
-      { id: "ex2", name: "Жим гантелей на наклонной скамье 15-30° (пампинг)", sets: 3, min: 12, max: 15, w: 16, calRate: 8, tip: "Чистая накачка кровью в запасе 3-4 повтора без отказа.", substitutes: ["Сведения в кроссовере"] },
-      { id: "ex3", name: "Суперсет на руки: Бицепс молот + Французский жим", sets: 3, min: 12, max: 15, w: 22, calRate: 11, tip: "Пампинг рук, закачка локтевых сухожилий.", substitutes: ["Памп на блоке"] },
-      { id: "ex4", name: "Подъем на носки стоя на платформе", sets: 4, min: 15, max: 20, w: 50, calRate: 8, tip: "Полная амплитуда с растяжкой икр внизу 2 сек.", substitutes: ["Подъем на носки сидя"] },
-      { id: "ex5", name: "Ходьба в горку на дорожке (Зона 2)", sets: 1, min: 25, max: 30, isTime: true, w: 0, calRate: 200, tip: "Уклон 8-10%, скорость 5.5 км/ч. Сжигание висцерального жира.", substitutes: ["Эллипс Зона 2"] }
+      { id: "ex1", name: "Тяга каната к лицу (разгрузка шеи и лопатки)", sets: 4, min: 15, max: 20, w: 15, calRate: 8, tip: "Канат к глазам, локти разводи назад, пауза 2 сек (снимает спазм мышцы шеи).", substitutes: ["Разводка на заднюю дельту"] },
+      { id: "ex2", name: "Жим гантелей на наклонной скамье (легкий пампинг)", sets: 3, min: 12, max: 15, w: 16, calRate: 8, tip: "Работа на наполнение мышц кровью, с запасом 3-4 повтора.", substitutes: ["Сведения в кроссовере"] },
+      { id: "ex3", name: "Суперсет на руки: Бицепс молот + Разгибания трицепс", sets: 3, min: 12, max: 15, w: 22, calRate: 11, tip: "Укрепление локтевых связок и мышечный тонус.", substitutes: ["Памп на блоке"] },
+      { id: "ex4", name: "Подъем на носки стоя на икры", sets: 4, min: 15, max: 20, w: 50, calRate: 8, tip: "Полная амплитуда с паузой 2 сек в нижней точке растяжки.", substitutes: ["Подъем на носки сидя"] },
+      { id: "ex5", name: "Ходьба в горку на дорожке (сжигание жира)", sets: 1, min: 25, max: 30, isTime: true, w: 0, calRate: 200, tip: "Уклон 8-10%, скорость 5.5 км/ч. Пульс 115-125 уд/мин без одышки.", substitutes: ["Эллиптический тренажер"] }
     ]
   }
 };
 
 // ========================================================
-// 18+ TIERED ACHIEVEMENTS DATA
+// 18 ДОСТИЖЕНИЙ
 // ========================================================
 const ACHIEVEMENTS = [
-  // STRENGTH (5)
-  { id: "ach_first", cat: "strength", title: "🥉 Первый импульс", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
-  { id: "ach_ton_10", cat: "strength", title: "🏋️ Клуб 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
-  { id: "ach_ton_50", cat: "strength", title: "🏋️ Клуб 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
+  { id: "ach_first", cat: "strength", title: "🥉 Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
+  { id: "ach_ton_10", cat: "strength", title: "🏋️ Рубеж 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
+  { id: "ach_ton_50", cat: "strength", title: "🏋️ Рубеж 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
   { id: "ach_ton_100", cat: "strength", title: "🏛️ Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 1000 },
   { id: "ach_ton_250", cat: "strength", title: "👑 Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
 
-  // STREAKS (4)
-  { id: "ach_strk_3", cat: "streak", title: "🔥 Три в ряд", desc: "Серия из 3 тренировок подряд", target: 3, current: (s) => (s.streak || 0), xp: 250 },
+  { id: "ach_strk_3", cat: "streak", title: "🔥 Три в ряд", desc: "Серия из 3 тренировок без пропусков", target: 3, current: (s) => (s.streak || 0), xp: 250 },
   { id: "ach_strk_7", cat: "streak", title: "⚡ Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
-  { id: "ach_strk_10", cat: "streak", title: "🛡️ Стальная декада", desc: "Серия из 10 тренировок подряд", target: 10, current: (s) => (s.streak || 0), xp: 700 },
-  { id: "ach_strk_30", cat: "streak", title: "🗿 Кремень 30", desc: "Серия из 30 регулярных занятий", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
+  { id: "ach_strk_10", cat: "streak", title: "🛡️ Стальная декада", desc: "Серия из 10 регулярных тренировок", target: 10, current: (s) => (s.streak || 0), xp: 700 },
+  { id: "ach_strk_30", cat: "streak", title: "🗿 Кремень 30", desc: "Серия из 30 тренировок по графику", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
 
-  // BODY & VACUUM (3)
   { id: "ach_vac_1", cat: "body", title: "🌬️ Первое втягивание", desc: "Выполни 1-ю утреннюю сессию вакуума", target: 1, current: (s) => (s.vacDaysCount || 0), xp: 100 },
   { id: "ach_vac_5", cat: "body", title: "🌬️ Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
   { id: "ach_vac_14", cat: "body", title: "🛡️ Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 },
 
-  // NUTRITION (4)
   { id: "ach_prot_3", cat: "nutrition", title: "🥩 Белковый старт", desc: "Закрой норму 150г белка 3 дня", target: 3, current: (s) => (s.protDaysCount || 0), xp: 200 },
   { id: "ach_prot_7", cat: "nutrition", title: "🥩 Белковый баланс", desc: "Закрой норму 150г белка 7 дней", target: 7, current: (s) => (s.protDaysCount || 0), xp: 400 },
-  { id: "ach_prot_21", cat: "nutrition", title: "🥩 Мастер рекомпозиции", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
+  { id: "ach_prot_21", cat: "nutrition", title: "🥩 Мастер питания", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
   { id: "ach_water_14", cat: "nutrition", title: "💧 Водный баланс", desc: "Выпей норму воды 14 дней подряд", target: 14, current: (s) => (s.waterDaysCount || 0), xp: 500 },
 
-  // MESOCYCLES (2)
-  { id: "ach_meso_1", cat: "meso", title: "🏆 Мастер мезоцикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
-  { id: "ach_meso_3", cat: "meso", title: "🔬 Профессор периодизации", desc: "Заверши 3 полных мезоцикла (24 нед)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
+  { id: "ach_meso_1", cat: "meso", title: "🏆 Мастер цикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
+  { id: "ach_meso_3", cat: "meso", title: "🔬 Профессор периодизации", desc: "Заверши 3 полных цикла (24 недели)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
 ];
 
 function getTotalTonnage(s) {
@@ -136,7 +131,7 @@ function getTotalTonnage(s) {
 }
 
 // ========================================================
-// TELEGRAM ACCOUNT STATE
+// СОСТОЯНИЕ АККАУНТА
 // ========================================================
 function getInitialAccount() {
   return {
@@ -144,7 +139,7 @@ function getInitialAccount() {
     name: "Роман",
     age: 32,
     height: 178,
-    injuries: "Резекция левого легкого, спазм m. levator scapulae",
+    injuries: "Резекция левого легкого, спазм мышцы шеи и лопатки",
     goal: "Рекомпозиция (Сушка жира + Мышечный тонус)",
     mesocycleWeek: 3,
     totalMesoWeeks: 3,
@@ -168,9 +163,12 @@ let appState = getInitialAccount();
 let pendingWorkoutPlanKey = 'a';
 let currentAchFilter = 'all';
 
-// CALENDAR STATE
+// Аккордеон тренировки: индекс открытого упражнения
+let activeExpandedExerciseIndex = 0;
+
+// Календарь
 let calYear = 2026;
-let calMonth = 7; // August (0-indexed)
+let calMonth = 7; // Август (0-indexed)
 let selectedCalDateStr = "2026-08-27";
 
 const MONTH_NAMES = [
@@ -243,15 +241,15 @@ function renderXP() {
   const xpBar = document.getElementById("xp-bar");
   const strkEl = document.getElementById("streak-count");
 
-  if (lvlHeader) lvlHeader.textContent = `LVL ${currentLvl}`;
+  if (lvlHeader) lvlHeader.textContent = `УРОВЕНЬ ${currentLvl}`;
   if (xpTxt) xpTxt.textContent = appState.xp;
-  if (xpNxt) xpNxt.textContent = `${xpToNext} XP`;
+  if (xpNxt) xpNxt.textContent = `${xpToNext} очков`;
   if (xpBar) xpBar.style.width = `${(xpInLvl / 500) * 100}%`;
   if (strkEl) strkEl.textContent = appState.streak;
 }
 
 // ========================================================
-// PROFILE DRAWER & ACTIONS
+// ПРОФИЛЬ
 // ========================================================
 function openProfileDrawer() {
   updateProfileDisplay();
@@ -271,7 +269,7 @@ function updateProfileDisplay() {
 }
 
 // ========================================================
-// ONBOARDING WIZARD & 15-SECOND SAFE ACCOUNT RESET
+// СБРОС С ЗАЩИТОЙ 15 СЕКУНД
 // ========================================================
 let resetTimerInterval = null;
 let resetSecondsLeft = 15;
@@ -383,193 +381,11 @@ function saveOnboardingProfile(e) {
   renderMetrics();
   renderNutrition();
   renderPersonalizedVitamins();
-  calculateScheduleCompliance();
-}
-
-// ========================================================
-// MOBILE-FIRST MONTHLY CALENDAR ENGINE
-// ========================================================
-function changeCalendarMonth(delta) {
-  calMonth += delta;
-  if (calMonth < 0) {
-    calMonth = 11;
-    calYear--;
-  } else if (calMonth > 11) {
-    calMonth = 0;
-    calYear++;
-  }
-  Sound.beep(650, 0.05);
-  Haptic.impact('light');
   renderMonthlyCalendar();
-  render12MonthsAnnualBreakdown();
-}
-
-function jumpToMonth(mIndex) {
-  calMonth = mIndex;
-  calYear = 2026;
-  Sound.beep(650, 0.05);
-  Haptic.impact('light');
-  renderMonthlyCalendar();
-  render12MonthsAnnualBreakdown();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function renderMonthlyCalendar() {
-  const monthNameEl = document.getElementById("cal-month-name");
-  const summaryTagEl = document.getElementById("cal-month-summary-tag");
-  const gridEl = document.getElementById("cal-days-grid");
-  if (!monthNameEl || !gridEl) return;
-
-  monthNameEl.textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
-  gridEl.innerHTML = "";
-
-  const hist = appState.history || [];
-  const histMap = new Map();
-  hist.forEach(h => histMap.set(h.date, h));
-
-  const firstDay = new Date(calYear, calMonth, 1);
-  const totalDaysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  
-  // Calculate starting blank days (Monday = 0, Sunday = 6)
-  let startDayOfWeek = firstDay.getDay() - 1;
-  if (startDayOfWeek === -1) startDayOfWeek = 6;
-
-  for (let i = 0; i < startDayOfWeek; i++) {
-    const emptyCell = document.createElement("div");
-    emptyCell.className = "cal-day-cell empty";
-    gridEl.appendChild(emptyCell);
-  }
-
-  let doneCount = 0;
-  let plannedCount = 0;
-  let missedCount = 0;
-  const currentTodayDate = 27; // Aug 27, 2026
-
-  for (let day = 1; day <= totalDaysInMonth; day++) {
-    const curDate = new Date(calYear, calMonth, day);
-    const dayOfWeek = curDate.getDay();
-    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // Tue, Thu
-    const dStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    
-    const woData = histMap.get(dStr);
-    const isDone = !!woData;
-    const isToday = (calYear === 2026 && calMonth === 7 && day === currentTodayDate);
-    const isPast = (calYear < 2026) || (calYear === 2026 && calMonth < 7) || (calYear === 2026 && calMonth === 7 && day < currentTodayDate);
-    const isMissed = isScheduled && isPast && !isDone;
-    const isFuturePlan = isScheduled && !isPast && !isDone;
-
-    if (isDone) doneCount++;
-    if (isMissed) missedCount++;
-    if (isScheduled || isDone) plannedCount++;
-
-    const cell = document.createElement("button");
-    let cls = "cal-day-cell";
-
-    if (isDone) cls += " done";
-    else if (isMissed) cls += " missed";
-    else if (isFuturePlan) cls += " scheduled";
-
-    if (isToday) cls += " today";
-    if (dStr === selectedCalDateStr) cls += " selected";
-
-    cell.className = cls;
-    cell.innerHTML = `<span>${day}</span>`;
-    cell.onclick = () => selectCalendarDay(dStr, isDone ? 'done' : isMissed ? 'missed' : isFuturePlan ? 'plan' : 'rest', woData);
-
-    gridEl.appendChild(cell);
-  }
-
-  if (summaryTagEl) {
-    summaryTagEl.textContent = `${doneCount} закрыто • ${missedCount > 0 ? missedCount + ' пропуск' : '100% дисциплина'}`;
-  }
-
-  selectCalendarDay(selectedCalDateStr, histMap.get(selectedCalDateStr) ? 'done' : 'rest', histMap.get(selectedCalDateStr));
-}
-
-function selectCalendarDay(dateStr, status, woData) {
-  selectedCalDateStr = dateStr;
-
-  document.querySelectorAll(".cal-day-cell").forEach(el => el.classList.remove("selected"));
-
-  const inspDate = document.getElementById("cal-insp-date");
-  const inspBadge = document.getElementById("cal-insp-badge");
-  const inspContent = document.getElementById("cal-insp-content");
-  if (!inspDate || !inspBadge || !inspContent) return;
-
-  const dateObj = new Date(dateStr);
-  const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  inspDate.textContent = formatted;
-
-  if (status === 'done' && woData) {
-    inspBadge.textContent = "✅ ВЫПОЛНЕНО";
-    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `
-      <p><b>${woData.name}</b></p>
-      <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> • Сожжено: <b class="text-amber-400">~${woData.calories || 350} ккал</b> • Готовность: <b>${woData.readiness || 90}%</b></p>
-    `;
-  } else if (status === 'missed') {
-    inspBadge.textContent = "❌ ПРОПУСК";
-    inspBadge.className = "px-2.5 py-0.5 bg-rose-950 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка (Full Body) была пропущена.</p>`;
-  } else if (status === 'plan') {
-    inspBadge.textContent = "⏳ ПЛАН";
-    inspBadge.className = "px-2.5 py-0.5 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику. Готовься к линейной прогрессии весов!</p>`;
-  } else {
-    inspBadge.textContent = "⚪ ОТДЫХ";
-    inspBadge.className = "px-2.5 py-0.5 bg-slate-900 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Восстановление ЦНС, суперкомпенсация мышечных волокон, утренний вакуум и сон 8 часов.</p>`;
-  }
 }
 
 // ========================================================
-// 12-MONTH ANNUAL BREAKDOWN & HIGHLIGHTS
-// ========================================================
-function render12MonthsAnnualBreakdown() {
-  const container = document.getElementById("annual-months-grid");
-  const tonEl = document.getElementById("year-stat-tonnage");
-  const sessEl = document.getElementById("year-stat-sessions");
-  const strkEl = document.getElementById("year-stat-streak");
-  const compEl = document.getElementById("year-stat-compliance");
-  if (!container) return;
-
-  const hist = appState.history || [];
-  const totalTonnage = getTotalTonnage(appState);
-  const totalSessions = hist.length;
-
-  if (tonEl) tonEl.textContent = `${(totalTonnage / 1000).toFixed(1)} т`;
-  if (sessEl) sessEl.textContent = `${totalSessions}`;
-  if (strkEl) strkEl.textContent = `🔥${appState.streak || 0} дн`;
-  if (compEl) compEl.textContent = "100%";
-
-  container.innerHTML = "";
-
-  for (let m = 0; m < 12; m++) {
-    const monthStr = String(m + 1).padStart(2, '0');
-    const monthHist = hist.filter(h => h.date && h.date.startsWith(`2026-${monthStr}`));
-    const monthTon = monthHist.reduce((s, h) => s + (h.tonnage || 0), 0);
-    const isActiveMonth = (m === calMonth && calYear === 2026);
-
-    const pill = document.createElement("div");
-    pill.className = `annual-month-pill ${isActiveMonth ? 'active-month' : ''} text-center space-y-1`;
-    pill.onclick = () => jumpToMonth(m);
-
-    pill.innerHTML = `
-      <div class="flex justify-between items-center text-[10px] font-mono">
-        <b class="${isActiveMonth ? 'text-cyan-400' : 'text-white'}">${MONTH_SHORT[m]}</b>
-        <span class="text-slate-400">${monthHist.length} сесс.</span>
-      </div>
-      <div class="text-[11px] font-mono font-black ${monthTon > 0 ? 'text-emerald-400' : 'text-slate-600'}">
-        ${monthTon > 0 ? (monthTon / 1000).toFixed(1) + ' т' : '—'}
-      </div>
-    `;
-
-    container.appendChild(pill);
-  }
-}
-
-// ========================================================
-// PERSONALIZED EVIDENCE-BASED VITAMIN & MINERAL ENGINE
+// ПЕРСОНАЛЬНЫЙ ВИТАМИННЫЙ КОМПЛЕКС (ПОЛНОСТЬЮ НА РУССКОМ)
 // ========================================================
 function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
@@ -580,54 +396,54 @@ function renderPersonalizedVitamins() {
   const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
   const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
   const height = appState.height || 178;
-  const whtr = (waist / height).toFixed(2);
+  const waistRatioPct = Math.round((waist / height) * 100);
   const injuries = (appState.injuries || "").toLowerCase();
 
   if (reasonLabel) {
-    reasonLabel.textContent = `Под профиль: ${age} года, ${weight} кг, WHtR ${whtr}, ${appState.goal || 'Рекомпозиция'}`;
+    reasonLabel.textContent = `Под параметры: ${age} года, ${weight} кг, талия/рост: ${waistRatioPct}%, ${appState.goal || 'Рекомпозиция'}`;
   }
 
   const stack = [
     {
-      name: "1. Магний (Глицинат) — перед сном",
+      name: "1. Магний (Глицинат) — за 40 мин до сна",
       dose: "400 мг",
       badgeColor: "text-violet-400",
       reason: injuries.includes("ше") || injuries.includes("лопатк") || injuries.includes("спазм")
-        ? `Снимает спазм <i>m. levator scapulae</i>, восстанавливает фазы глубокого сна и ЦНС.`
-        : `Восстановление нервно-мышечной проводимости и глубокий сон.`
+        ? `Снимает мышечный спазм шеи и лопатки, ускоряет фазу глубокого сна и восстановление нервной системы.`
+        : `Восстановление нервной системы и глубокий сон.`
     },
     {
-      name: "2. Витамин D3 + K2 — утром",
-      dose: "4000 IU",
+      name: "2. Витамин D3 + K2 — утром с едой",
+      dose: "4000 МЕ",
       badgeColor: "text-amber-400",
-      reason: `Стимулирует синтез тестостерона для возраста 30+ и офисного режима 5/2.`
+      reason: `Поддерживает выработку мужских гормонов для возраста 30+ и компенсирует офисный режим.`
     },
     {
-      name: "3. Омега-3 (EPA/DHA) — с едой",
+      name: "3. Омега-3 (жирные кислоты) — с едой",
       dose: "2000 мг",
       badgeColor: "text-cyan-400",
-      reason: `Защита суставов и связок плеча при тяжелых жимах.`
+      reason: `Защита плечевых суставов и связок при жимовых нагрузках.`
     },
     {
-      name: "4. Креатин Моногидрат — в любое время",
+      name: "4. Креатин моногидрат — в любое время",
       dose: "5 г",
       badgeColor: "text-emerald-400",
-      reason: `Ресинтез АТФ, повышение силовой выносливости на 12-15% и защита мышечной массы.`
+      reason: `Повышает силовую выносливость на 12–15% и защищает мышечную массу от разрушения.`
     },
     {
-      name: "5. Цинк Хелат — вечером",
+      name: "5. Цинк хелат — вечером после еды",
       dose: "25 мг",
       badgeColor: "text-slate-300",
-      reason: `Синтез анаболических гормонов и иммунитет.`
+      reason: `Синтез гормонов и укрепление иммунитета.`
     }
   ];
 
-  if (whtr >= 0.50) {
+  if (waistRatioPct >= 50) {
     stack.push({
-      name: "6. L-Карнитин — перед ходьбой Зона 2",
+      name: "6. L-Карнитин — перед ходьбой в горку",
       dose: "1500 мг",
       badgeColor: "text-rose-400",
-      reason: `Транспорт жирных кислот в митохондрии при повышенном висцеральном жире (WHtR ${whtr}).`
+      reason: `Ускоряет сжигание жира на животе при кардио-нагрузке низкой интенсивности.`
     });
   }
 
@@ -643,7 +459,7 @@ function renderPersonalizedVitamins() {
 }
 
 // ========================================================
-// 18+ ACHIEVEMENTS HUB & CATEGORY FILTERING
+// 18 ДОСТИЖЕНИЙ
 // ========================================================
 function filterAchievements(cat) {
   currentAchFilter = cat;
@@ -704,7 +520,7 @@ function renderAchievementsList() {
           <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
         </div>
         <span class="px-2.5 py-1 rounded-lg text-[10px] font-black font-mono ${isUnlocked ? 'bg-cyan-400 text-slate-950' : 'bg-slate-900 text-slate-500 border border-white/5'}">
-          ${isUnlocked ? '✓ ОТКРЫТО' : `+${ach.xp} XP`}
+          ${isUnlocked ? '✓ ОТКРЫТО' : `+${ach.xp} очков`}
         </span>
       </div>
 
@@ -724,7 +540,7 @@ function renderAchievementsList() {
 }
 
 // ========================================================
-// MESOCYCLE ROTATION SYSTEM
+// ЦИКЛ ПЕРИОДИЗАЦИИ
 // ========================================================
 function renderMesocycleBanner() {
   const w = appState.mesocycleWeek || 1;
@@ -738,13 +554,13 @@ function renderMesocycleBanner() {
   if (!descEl) return;
 
   if (w <= 3) {
-    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейная прогрессия рабочих весов (+2.5 кг в базе). 48 часов отдыха между Full-Body днями.`;
+    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейное повышение рабочих весов (+2.5 кг в базе). 48 часов отдыха между днями тренировок.`;
   } else if (w <= 6) {
-    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий мышечный стимул.`;
+    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий стимул роста мышц.`;
   } else if (w === 7) {
-    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных рабочих весов перед разгрузкой.`;
+    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных весов перед разгрузкой.`;
   } else {
-    descEl.innerHTML = `<span class="text-amber-400 font-bold">⚠️ Периодизация:</span> 8-недельный цикл завершен. <b>Рекомендуется 1 неделя Deload (-40% объема) для преодоления адаптационного плато.</b>`;
+    descEl.innerHTML = `<span class="text-amber-400 font-bold">⚠️ Разгрузка:</span> 8-недельный цикл завершен. <b>Рекомендуется 1 легкая неделя (-40% весов) для восстановления связок.</b>`;
   }
 }
 
@@ -753,12 +569,12 @@ function advanceMesocycleWeek() {
   appState.totalMesoWeeks = (appState.totalMesoWeeks || 1) + 1;
 
   if (w > 8) {
-    if (confirm("Начать новый 8-недельный мезоцикл с Недели 1?")) {
+    if (confirm("Начать новый 8-недельный тренировочный цикл с Недели 1?")) {
       w = 1;
       addXP(500);
       Sound.finish();
       Haptic.success();
-      alert("🎉 Мезоцикл успешно закрыт! Запущен новый цикл (+500 XP).");
+      alert("🎉 Цикл успешно завершен! Начат новый тренировочный блок (+500 очков).");
     } else {
       return;
     }
@@ -772,7 +588,7 @@ function advanceMesocycleWeek() {
 }
 
 // ========================================================
-// PRE-WORKOUT READINESS CHECK-IN
+// САМОЧУВСТВИЕ И ГОТОВНОСТЬ ПЕРЕД СТАРТОМ
 // ========================================================
 function promptReadinessBeforeWorkout(planKey) {
   pendingWorkoutPlanKey = planKey;
@@ -801,7 +617,7 @@ function updateReadinessScore() {
     badge.textContent = `${scorePct}% • Умеренная готовность (запас 1-2 повт)`;
     badge.className = "text-sm font-black text-amber-400 font-mono";
   } else {
-    badge.textContent = `${scorePct}% • Утомление (снизь веса на 10%)`;
+    badge.textContent = `${scorePct}% • Усталость (снизь веса на 10%)`;
     badge.className = "text-sm font-black text-rose-400 font-mono";
   }
 }
@@ -817,12 +633,13 @@ function confirmReadinessAndStart() {
 }
 
 // ========================================================
-// FOCUS WORKOUT EXECUTION MODE (LARGE TOUCH TARGETS)
+// ПОШАГОВЫЙ РЕЖИМ ТРЕНИРОВКИ (АККОРДЕОН)
 // ========================================================
 function startWorkout(planKey, readinessPct = 90) {
   Sound.beep(600, 0.1);
   Haptic.impact('medium');
   const plan = DEFAULT_PROGRAMS[planKey];
+  activeExpandedExerciseIndex = 0; // Открыто только первое упражнение
 
   appState.activeWorkout = {
     key: planKey,
@@ -849,6 +666,13 @@ function startWorkout(planKey, readinessPct = 90) {
   renderActiveWorkoutUI();
 }
 
+function toggleExerciseAccordion(exIdx) {
+  activeExpandedExerciseIndex = (activeExpandedExerciseIndex === exIdx) ? -1 : exIdx;
+  Sound.beep(600, 0.05);
+  Haptic.impact('light');
+  renderActiveWorkoutUI();
+}
+
 function renderActiveWorkoutUI() {
   if (!appState.activeWorkout) return;
 
@@ -865,58 +689,90 @@ function renderActiveWorkoutUI() {
   container.innerHTML = "";
 
   wo.exercises.forEach((ex, exIdx) => {
+    const isExpanded = (activeExpandedExerciseIndex === exIdx);
+    const doneSetsCount = ex.sets.filter(s => s.done).length;
+    const isAllDone = (doneSetsCount === ex.sets.length && ex.sets.length > 0);
+
     const card = document.createElement("div");
-    card.className = "p-4 bg-[#0e1422] rounded-2xl border border-white/[0.08] space-y-3";
+    card.id = `ex-card-${exIdx}`;
+    card.className = `ex-card-accordion p-4 rounded-2xl border transition-all ${isExpanded ? 'active-focus' : isAllDone ? 'done-all' : 'bg-[#0e1422] border-white/[0.08]'}`;
 
-    const setsRows = ex.sets.map((s, sIdx) => `
-      <div class="grid grid-cols-12 gap-2 items-center bg-slate-950 p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/80 bg-emerald-950/20' : 'border-white/[0.06]'} font-mono text-xs">
-        <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
-        
-        <!-- WEIGHT STEPPER -->
-        <div class="col-span-5 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
-          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="stepper-btn">-</button>
-          <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-black text-center text-xs outline-none"
-            onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
-          <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
-          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-cyan-400">+</button>
+    // ШАПКА АККОРДЕОНА (КЛИКАБЕЛЬНАЯ)
+    const headerHtml = `
+      <div onclick="toggleExerciseAccordion(${exIdx})" class="flex justify-between items-center cursor-pointer select-none">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-6 h-6 rounded-lg ${isAllDone ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : isExpanded ? 'bg-cyan-950 text-cyan-400 border border-cyan-800' : 'bg-slate-900 text-slate-400'} flex items-center justify-center font-mono font-bold text-xs">
+            ${isAllDone ? '✓' : exIdx + 1}
+          </span>
+          <div>
+            <h3 class="font-extrabold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
+            <span class="text-[11px] font-mono ${isAllDone ? 'text-emerald-400' : 'text-slate-400'} font-bold">
+              ${isAllDone ? `Все ${ex.sets.length} подходов закрыты` : `${doneSetsCount} из ${ex.sets.length} выполнено`}
+            </span>
+          </div>
         </div>
-
-        <!-- REPS STEPPER -->
-        <div class="col-span-4 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
-          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, -1)" class="stepper-btn">-</button>
-          <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-black text-center text-xs outline-none"
-            onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'reps', this.value)">
-          <span class="text-[9px] text-slate-400 pr-0.5">раз</span>
-          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="stepper-btn text-emerald-400">+</button>
+        <div class="flex items-center space-x-2 font-mono">
+          <span class="text-xs font-bold px-2 py-0.5 rounded-md ${isAllDone ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : isExpanded ? 'bg-cyan-950 text-cyan-300 border border-cyan-800' : 'bg-slate-900 text-slate-400'}">
+            ${isAllDone ? '✅ Готово' : isExpanded ? '⚡ В работе' : '⏳ В очереди'}
+          </span>
+          <span class="text-slate-400 text-xs">${isExpanded ? '▲' : '▼'}</span>
         </div>
-
-        <!-- CHECKBOX -->
-        <div class="col-span-2 flex justify-center">
-          <input type="checkbox" class="custom-checkbox" ${s.done ? 'checked' : ''}
-            onchange="toggleSet(${exIdx}, ${sIdx}, this.checked)">
-        </div>
-      </div>
-    `).join('');
-
-    card.innerHTML = `
-      <div class="flex justify-between items-start">
-        <div>
-          <h3 class="font-extrabold text-white text-sm">${ex.name}</h3>
-          <span class="text-xs font-mono text-cyan-400 font-bold">${ex.sets.length} подхода × ${ex.min}-${ex.max} раз</span>
-        </div>
-        <div class="flex items-center space-x-1.5 font-mono text-xs">
-          <button onclick="resetExerciseSets(${exIdx})" class="px-2.5 py-1 bg-slate-900 text-rose-300 rounded-lg border border-white/10">↺</button>
-          ${ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2.5 py-1 bg-slate-900 text-slate-300 rounded-lg border border-white/10">Замена</button>` : ''}
-        </div>
-      </div>
-      <p class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-xl border border-white/[0.06] leading-relaxed">${ex.tip}</p>
-      <div class="space-y-2">${setsRows}</div>
-      <div class="flex justify-between items-center pt-1 text-xs font-mono">
-        <button onclick="addSetToExercise(${exIdx})" class="text-cyan-400 font-bold">➕ Добавить подход</button>
-        ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">➖ Убрать</button>` : ''}
       </div>
     `;
 
+    // ТЕЛО УПРАЖНЕНИЯ (ОТОБРАЖАЕТСЯ ТОЛЬКО ПРИ РАЗВОРОТЕ)
+    let bodyHtml = "";
+    if (isExpanded) {
+      const setsRows = ex.sets.map((s, sIdx) => `
+        <div class="grid grid-cols-12 gap-2 items-center bg-slate-950 p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/80 bg-emerald-950/20' : 'border-white/[0.06]'} font-mono text-xs">
+          <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
+          
+          <!-- ШАГ ВЕСА -->
+          <div class="col-span-5 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
+            <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="stepper-btn">-</button>
+            <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-black text-center text-xs outline-none"
+              onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
+            <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
+            <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-cyan-400">+</button>
+          </div>
+
+          <!-- ШАГ ПОВТОРЕНИЙ -->
+          <div class="col-span-4 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
+            <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, -1)" class="stepper-btn">-</button>
+            <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-black text-center text-xs outline-none"
+              onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'reps', this.value)">
+            <span class="text-[9px] text-slate-400 pr-0.5">раз</span>
+            <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="stepper-btn text-emerald-400">+</button>
+          </div>
+
+          <!-- ЧЕКБОКС -->
+          <div class="col-span-2 flex justify-center">
+            <input type="checkbox" class="custom-checkbox" ${s.done ? 'checked' : ''}
+              onchange="toggleSet(${exIdx}, ${sIdx}, this.checked)">
+          </div>
+        </div>
+      `).join('');
+
+      bodyHtml = `
+        <div class="pt-3 space-y-3 border-t border-white/[0.06] mt-3">
+          <div class="flex justify-between items-center text-xs font-mono text-slate-400">
+            <span>Подсказка по технике:</span>
+            <div class="flex space-x-1.5">
+              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-slate-900 text-rose-300 rounded-lg border border-white/10">↺ Сброс</button>
+              ${ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-0.5 bg-slate-900 text-slate-300 rounded-lg border border-white/10">Замена</button>` : ''}
+            </div>
+          </div>
+          <p class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-xl border border-white/[0.06] leading-relaxed font-sans">${ex.tip}</p>
+          <div class="space-y-2">${setsRows}</div>
+          <div class="flex justify-between items-center pt-1 text-xs font-mono">
+            <button onclick="addSetToExercise(${exIdx})" class="text-cyan-400 font-bold">➕ Добавить подход</button>
+            ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">➖ Убрать подход</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    card.innerHTML = headerHtml + bodyHtml;
     container.appendChild(card);
   });
 }
@@ -951,7 +807,8 @@ function stepReps(exIdx, sIdx, delta) {
 
 function toggleSet(exIdx, sIdx, done) {
   if (!appState.activeWorkout) return;
-  appState.activeWorkout.exercises[exIdx].sets[sIdx].done = done;
+  const ex = appState.activeWorkout.exercises[exIdx];
+  ex.sets[sIdx].done = done;
   saveState();
   updateLiveWorkoutStats();
 
@@ -960,7 +817,22 @@ function toggleSet(exIdx, sIdx, done) {
     Haptic.success();
     addXP(25);
     startRestTimer(90);
+
+    // Проверяем, закрыты ли ВСЕ подходы текущего упражнения
+    const allSetsClosed = ex.sets.every(s => s.done);
+    if (allSetsClosed && exIdx < appState.activeWorkout.exercises.length - 1) {
+      // Автоматически переключаем аккордеон на следующее упражнение
+      setTimeout(() => {
+        activeExpandedExerciseIndex = exIdx + 1;
+        renderActiveWorkoutUI();
+        const nextEl = document.getElementById(`ex-card-${exIdx + 1}`);
+        if (nextEl) nextEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+      return;
+    }
   }
+
+  renderActiveWorkoutUI();
 }
 
 function resetExerciseSets(exIdx) {
@@ -1136,7 +1008,7 @@ function finishActiveWorkout() {
   Sound.finish();
   Haptic.success();
 
-  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено: ~${caloriesBurned} ккал 🔥\n+150 XP получено!`);
+  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено: ~${caloriesBurned} ккал 🔥\n+150 очков получено!`);
   document.getElementById("workout-active").classList.add("hidden");
   document.getElementById("workout-selector").classList.remove("hidden");
   switchTab("progress");
@@ -1153,7 +1025,188 @@ function cancelWorkout() {
 }
 
 // ========================================================
-// METRICS & TREND GRAPH
+// МОБИЛЬНЫЙ КАЛЕНДАРЬ МЕСЯЦА
+// ========================================================
+function changeCalendarMonth(delta) {
+  calMonth += delta;
+  if (calMonth < 0) {
+    calMonth = 11;
+    calYear--;
+  } else if (calMonth > 11) {
+    calMonth = 0;
+    calYear++;
+  }
+  Sound.beep(650, 0.05);
+  Haptic.impact('light');
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
+}
+
+function jumpToMonth(mIndex) {
+  calMonth = mIndex;
+  calYear = 2026;
+  Sound.beep(650, 0.05);
+  Haptic.impact('light');
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderMonthlyCalendar() {
+  const monthNameEl = document.getElementById("cal-month-name");
+  const summaryTagEl = document.getElementById("cal-month-summary-tag");
+  const gridEl = document.getElementById("cal-days-grid");
+  if (!monthNameEl || !gridEl) return;
+
+  monthNameEl.textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
+  gridEl.innerHTML = "";
+
+  const hist = appState.history || [];
+  const histMap = new Map();
+  hist.forEach(h => histMap.set(h.date, h));
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  const totalDaysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  
+  let startDayOfWeek = firstDay.getDay() - 1;
+  if (startDayOfWeek === -1) startDayOfWeek = 6;
+
+  for (let i = 0; i < startDayOfWeek; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.className = "cal-day-cell empty";
+    gridEl.appendChild(emptyCell);
+  }
+
+  let doneCount = 0;
+  let plannedCount = 0;
+  let missedCount = 0;
+  const currentTodayDate = 27; // 27 августа 2026
+
+  for (let day = 1; day <= totalDaysInMonth; day++) {
+    const curDate = new Date(calYear, calMonth, day);
+    const dayOfWeek = curDate.getDay();
+    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // Вт, Чт
+    const dStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    const woData = histMap.get(dStr);
+    const isDone = !!woData;
+    const isToday = (calYear === 2026 && calMonth === 7 && day === currentTodayDate);
+    const isPast = (calYear < 2026) || (calYear === 2026 && calMonth < 7) || (calYear === 2026 && calMonth === 7 && day < currentTodayDate);
+    const isMissed = isScheduled && isPast && !isDone;
+    const isFuturePlan = isScheduled && !isPast && !isDone;
+
+    if (isDone) doneCount++;
+    if (isMissed) missedCount++;
+    if (isScheduled || isDone) plannedCount++;
+
+    const cell = document.createElement("button");
+    let cls = "cal-day-cell";
+
+    if (isDone) cls += " done";
+    else if (isMissed) cls += " missed";
+    else if (isFuturePlan) cls += " scheduled";
+
+    if (isToday) cls += " today";
+    if (dStr === selectedCalDateStr) cls += " selected";
+
+    cell.className = cls;
+    cell.innerHTML = `<span>${day}</span>`;
+    cell.onclick = () => selectCalendarDay(dStr, isDone ? 'done' : isMissed ? 'missed' : isFuturePlan ? 'plan' : 'rest', woData);
+
+    gridEl.appendChild(cell);
+  }
+
+  if (summaryTagEl) {
+    summaryTagEl.textContent = `${doneCount} закрыто • ${missedCount > 0 ? missedCount + ' пропуск' : '100% дисциплина'}`;
+  }
+
+  selectCalendarDay(selectedCalDateStr, histMap.get(selectedCalDateStr) ? 'done' : 'rest', histMap.get(selectedCalDateStr));
+}
+
+function selectCalendarDay(dateStr, status, woData) {
+  selectedCalDateStr = dateStr;
+
+  document.querySelectorAll(".cal-day-cell").forEach(el => el.classList.remove("selected"));
+
+  const inspDate = document.getElementById("cal-insp-date");
+  const inspBadge = document.getElementById("cal-insp-badge");
+  const inspContent = document.getElementById("cal-insp-content");
+  if (!inspDate || !inspBadge || !inspContent) return;
+
+  const dateObj = new Date(dateStr);
+  const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  inspDate.textContent = formatted;
+
+  if (status === 'done' && woData) {
+    inspBadge.textContent = "✅ ВЫПОЛНЕНО";
+    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `
+      <p><b>${woData.name}</b></p>
+      <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> • Сожжено: <b class="text-amber-400">~${woData.calories || 350} ккал</b> • Готовность: <b>${woData.readiness || 90}%</b></p>
+    `;
+  } else if (status === 'missed') {
+    inspBadge.textContent = "❌ ПРОПУСК";
+    inspBadge.className = "px-2.5 py-0.5 bg-rose-950 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка была пропущена.</p>`;
+  } else if (status === 'plan') {
+    inspBadge.textContent = "⏳ ПЛАН";
+    inspBadge.className = "px-2.5 py-0.5 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику (Вторник/Четверг).</p>`;
+  } else {
+    inspBadge.textContent = "⚪ ОТДЫХ";
+    inspBadge.className = "px-2.5 py-0.5 bg-slate-900 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Восстановление нервной системы, отдых мышц, утренний вакуум и сон 8 часов.</p>`;
+  }
+}
+
+// ========================================================
+// 12-МЕСЯЧНЫЙ ГОДОВОЙ ОБЗОР
+// ========================================================
+function render12MonthsAnnualBreakdown() {
+  const container = document.getElementById("annual-months-grid");
+  const tonEl = document.getElementById("year-stat-tonnage");
+  const sessEl = document.getElementById("year-stat-sessions");
+  const strkEl = document.getElementById("year-stat-streak");
+  const compEl = document.getElementById("year-stat-compliance");
+  if (!container) return;
+
+  const hist = appState.history || [];
+  const totalTonnage = getTotalTonnage(appState);
+  const totalSessions = hist.length;
+
+  if (tonEl) tonEl.textContent = `${(totalTonnage / 1000).toFixed(1)} т`;
+  if (sessEl) sessEl.textContent = `${totalSessions}`;
+  if (strkEl) strkEl.textContent = `🔥${appState.streak || 0} дн`;
+  if (compEl) compEl.textContent = "100%";
+
+  container.innerHTML = "";
+
+  for (let m = 0; m < 12; m++) {
+    const monthStr = String(m + 1).padStart(2, '0');
+    const monthHist = hist.filter(h => h.date && h.date.startsWith(`2026-${monthStr}`));
+    const monthTon = monthHist.reduce((s, h) => s + (h.tonnage || 0), 0);
+    const isActiveMonth = (m === calMonth && calYear === 2026);
+
+    const pill = document.createElement("div");
+    pill.className = `annual-month-pill ${isActiveMonth ? 'active-month' : ''} text-center space-y-1`;
+    pill.onclick = () => jumpToMonth(m);
+
+    pill.innerHTML = `
+      <div class="flex justify-between items-center text-[10px] font-mono">
+        <b class="${isActiveMonth ? 'text-cyan-400' : 'text-white'}">${MONTH_SHORT[m]}</b>
+        <span class="text-slate-400">${monthHist.length} сесс.</span>
+      </div>
+      <div class="text-[11px] font-mono font-black ${monthTon > 0 ? 'text-emerald-400' : 'text-slate-600'}">
+        ${monthTon > 0 ? (monthTon / 1000).toFixed(1) + ' т' : '—'}
+      </div>
+    `;
+
+    container.appendChild(pill);
+  }
+}
+
+// ========================================================
+// ЗАМЕРЫ ТЕЛА
 // ========================================================
 let currentChartFilter = 'all';
 
@@ -1201,15 +1254,15 @@ function updateWHtRBadge(waist, height = 178) {
     badge.textContent = "—";
     return;
   }
-  const whtr = (waist / height).toFixed(2);
-  if (whtr < 0.49) {
-    badge.textContent = `🟢 Норма (${whtr})`;
+  const ratio = Math.round((waist / height) * 100);
+  if (ratio <= 49) {
+    badge.textContent = `🟢 Норма (${ratio}%)`;
     badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800";
-  } else if (whtr < 0.54) {
-    badge.textContent = `🟡 Умеренный (${whtr})`;
+  } else if (ratio <= 53) {
+    badge.textContent = `🟡 Умеренный жир (${ratio}%)`;
     badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-amber-950 text-amber-300 border border-amber-800";
   } else {
-    badge.textContent = `🔴 Риск (${whtr})`;
+    badge.textContent = `🔴 Избыток жира (${ratio}%)`;
     badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-rose-950 text-rose-300 border border-rose-800";
   }
 }
@@ -1250,7 +1303,7 @@ function saveCurrentTilesAsMeasurement() {
 
   Sound.success();
   Haptic.success();
-  alert(`✓ Замеры за ${today} сохранены! (+40 XP)`);
+  alert(`✓ Замеры за ${today} сохранены! (+40 очков опыта)`);
 }
 
 function setChartFilter(filter) {
@@ -1284,7 +1337,7 @@ function drawTrendChart() {
     ctx.fillStyle = "#64748b";
     ctx.font = "11px Inter, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("Добавь минимум 2 замера для графика", w / 2, h / 2);
+    ctx.fillText("Добавь минимум 2 замера для отображения графика", w / 2, h / 2);
     return;
   }
 
@@ -1350,7 +1403,7 @@ function drawTrendChart() {
 }
 
 // ========================================================
-// 3-PHASE VACUUM TRAINER
+// УТРЕННИЙ ВАКУУМ
 // ========================================================
 let vacuumState = {
   active: false,
@@ -1408,21 +1461,21 @@ function startVacuumPhase(phase) {
     vacuumState.timeLeft = 4;
     circle.className = "w-20 h-20 rounded-full bg-emerald-950/50 border-4 border-emerald-400 flex flex-col items-center justify-center shadow-lg scale-110";
     phaseEl.textContent = "1. ВДОХ ГРУДЬЮ";
-    instr.textContent = "Медленно наполняй легкие...";
+    instr.textContent = "Медленно наполняй легкие воздухом...";
     txt.textContent = vacuumState.timeLeft;
     Sound.beep(440, 0.2);
   } else if (phase === 'exhale') {
     vacuumState.timeLeft = 4;
     circle.className = "w-20 h-20 rounded-full bg-amber-950/50 border-4 border-amber-400 flex flex-col items-center justify-center shadow-lg scale-95";
     phaseEl.textContent = "2. ПОЛНЫЙ ВЫДОХ";
-    instr.textContent = "Выдохни весь воздух до конца!";
+    instr.textContent = "Выдохни весь воздух до самого конца!";
     txt.textContent = vacuumState.timeLeft;
     Sound.beep(550, 0.2);
   } else if (phase === 'hold') {
     vacuumState.timeLeft = vacuumState.duration;
     circle.className = "w-20 h-20 rounded-full bg-cyan-950/60 border-4 border-cyan-300 flex flex-col items-center justify-center shadow-2xl scale-90";
     phaseEl.textContent = "3. ДЕРЖИ ВАКУУМ!";
-    instr.textContent = "Втяни живот под ребра и держи.";
+    instr.textContent = "Втяни живот под ребра и удерживай.";
     txt.textContent = vacuumState.timeLeft;
     Sound.finish();
   } else if (phase === 'rest') {
@@ -1452,7 +1505,7 @@ function startVacuumPhase(phase) {
           addXP(50);
           Sound.finish();
           Haptic.success();
-          alert("🎉 Все 5 подходов вакуума выполнены! (+50 XP).");
+          alert("🎉 Все 5 подходов вакуума выполнены! (+50 очков опыта).");
         }
       } else if (vacuumState.phase === 'rest') {
         vacuumState.currentSet++;
@@ -1463,7 +1516,7 @@ function startVacuumPhase(phase) {
 }
 
 // ========================================================
-// NUTRITION
+// ПИТАНИЕ
 // ========================================================
 function addProtein(p, cal) {
   if (!appState.nutrition) appState.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
@@ -1508,7 +1561,7 @@ function renderNutrition() {
 }
 
 // ========================================================
-// ARCHIVE
+// АРХИВ ТРЕНИРОВОК
 // ========================================================
 function renderHistory() {
   const container = document.getElementById("history-container");
@@ -1646,7 +1699,7 @@ function deleteHistoryItemDirect(idx) {
 }
 
 function openAddManualWorkoutModal() {
-  const name = prompt("Название тренировки:", "Вторник: Full Body A");
+  const name = prompt("Название тренировки:", "Вторник: Тренировка А");
   if (!name) return;
   const tonnage = prompt("Общий тоннаж (кг):", "4000");
   const cals = prompt("Сожжено калорий (ккал):", "380");
@@ -1690,11 +1743,11 @@ function copyCoachSummary() {
   const summary = `📊 [IRON COACH — СВОДКА АТЛЕТА]:
 • Атлет: ${appState.name} | Возраст: ${appState.age || 32} | Рост: ${appState.height || 178} см
 • Цель: ${appState.goal || 'Рекомпозиция'}
-• Фаза мезоцикла: Неделя ${appState.mesocycleWeek || 1} из 8
+• Фаза тренировочного цикла: Неделя ${appState.mesocycleWeek || 1} из 8
 • Текущий вес: ${m.weight || 83} кг
-• Талия по пупку: ${m.waist || 91.5} см (WHtR: ${((m.waist || 91.5) / (appState.height || 178)).toFixed(2)})
+• Талия по пупку: ${m.waist || 91.5} см (Соотношение талии к росту: ${Math.round(((m.waist || 91.5) / (appState.height || 178)) * 100)}%)
 • Бицепс: ${m.biceps || 38.5} см | Грудь: ${m.chest || 104} см | Бедро: ${m.thigh || 59} см | Шея: ${m.neck || 39.5} см
-• Стрик: 🔥${appState.streak || 0} | Общий тоннаж: ${getTotalTonnage(appState).toLocaleString()} кг
+• Серия тренировок: 🔥${appState.streak || 0} | Суммарный тоннаж: ${getTotalTonnage(appState).toLocaleString()} кг
 • Последние тренировки:
 ${lastWosText}`;
 
@@ -1728,7 +1781,7 @@ async function sendCoachReportToTelegram(reportHtml) {
 }
 
 // ========================================================
-// 3-TAB NAVIGATION & SUBTAB SWITCHER
+// НАВИГАЦИЯ МЕЖДУ 3 ВКЛАДКАМИ
 // ========================================================
 function switchTab(tabId) {
   Sound.beep(500, 0.05);
@@ -1812,12 +1865,12 @@ function calculate1RM() {
 
   resEl.innerHTML = `
     <div class="flex justify-between items-center pb-1 border-b border-white/[0.08]">
-      <span class="text-slate-400">Одноповторный максимум (1ПМ):</span>
+      <span class="text-slate-400">Максимум на 1 раз (1ПМ):</span>
       <span class="text-sm font-bold text-cyan-300 font-mono">${oneRM} кг</span>
     </div>
     <div class="flex justify-between text-[11px] pt-1 font-mono">
-      <span>80% (Рабочий 8-10): <b>${eightyPct} кг</b></span>
-      <span>70% (12-15): <b>${seventyPct} кг</b></span>
+      <span>80% (Рабочий на 8-10): <b>${eightyPct} кг</b></span>
+      <span>70% (Памп на 12-15): <b>${seventyPct} кг</b></span>
     </div>
   `;
 }
