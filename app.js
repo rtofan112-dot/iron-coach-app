@@ -1155,7 +1155,6 @@ function loadState() {
   const elName = document.getElementById("tg-user-name");
   if (elName) elName.textContent = appState.name;
 
-  calculateAutoMesocycle();
   saveState();
   checkAchievements();
   renderPersonalizedVitamins();
@@ -1173,7 +1172,6 @@ function loadState() {
 function saveState() {
   localStorage.setItem(appState.tgId, JSON.stringify(appState));
   renderXP();
-  renderMesocycleBanner();
   syncUserToLeaderboard();
 }
 
@@ -1201,39 +1199,7 @@ function renderXP() {
   if (strkEl) strkEl.textContent = appState.streak;
 }
 
-// ========================================================
-// АВТОМАТИЧЕСКАЯ ПЕРИОДИЗАЦИЯ
-// ========================================================
-function calculateAutoMesocycle() {
-  const totalSessions = (appState.history || []).length;
-  let calculatedWeek = Math.floor(totalSessions / 2) + 1;
-  if (calculatedWeek > 8) {
-    calculatedWeek = ((calculatedWeek - 1) % 8) + 1;
-  }
-  appState.mesocycleWeek = calculatedWeek;
-}
 
-function renderMesocycleBanner() {
-  const w = appState.mesocycleWeek || 3;
-  const badgeHeader = document.getElementById("meso-header-badge");
-  const weekDisp = document.getElementById("meso-week-display");
-  const descEl = document.getElementById("meso-desc-text");
-
-  if (badgeHeader) badgeHeader.textContent = `Неделя ${w}/8`;
-  if (weekDisp) weekDisp.textContent = w;
-
-  if (!descEl) return;
-
-  if (w <= 3) {
-    descEl.innerHTML = `<b>Фаза 1 (Накопление объёма):</b> Линейное повышение рабочих весов (+2.5 кг в базе при закрытии плана). 48 часов отдыха между тренировочными днями.`;
-  } else if (w <= 6) {
-    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий стимул мышечной гипертрофии.`;
-  } else if (w === 7) {
-    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных весов перед разгрузкой.`;
-  } else {
-    descEl.innerHTML = `<span class="text-[#c8a97e] font-bold">Фаза 4 (Авто-делоад):</b> Завершение 8-недельного макроцикла. Рекомендуется снизить веса на 40% для разгрузки суставов и ЦНС.`;
-  }
-}
 
 // ========================================================
 // ИНТЕЛЛЕКТУАЛЬНЫЙ АВТО-ДЕТЕКТОР РЕКОРДОВ
@@ -3549,7 +3515,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   loadState();
   renderXP();
-  renderMesocycleBanner();
   renderMetrics();
   renderHealthTabCalculations();
   renderPersonalizedVitamins();
