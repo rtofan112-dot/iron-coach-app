@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.16 PRO",
+  version: "v2.8.17 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -1325,84 +1325,93 @@ let currentVisualizerData = null;
 let currentVisualizerOrigin = null;
 
 function openExerciseProVisualizer(exNameOrId, originContext = 'active') {
-  let exName = exNameOrId;
-  const dbEx = EXERCISE_DATABASE.find(e => e.id === exNameOrId || e.name === exNameOrId);
-  if (dbEx) exName = dbEx.name;
-
-  const info = getExerciseAnatomyInfo(exName);
-  currentVisualizerData = info;
-  currentVisualizerOrigin = { context: originContext, exId: dbEx ? dbEx.id : null };
-
-  const nameEl = document.getElementById("vis-ex-name");
-  const catEl = document.getElementById("vis-badge-cat");
-  const tierEl = document.getElementById("vis-badge-tier");
-  const svgContainer = document.getElementById("vis-svg-container");
-  const tempoEl = document.getElementById("vis-tempo-badge");
-  const breathEl = document.getElementById("vis-breath-cue");
-
-  if (nameEl) nameEl.textContent = info.name;
-  if (catEl) catEl.textContent = info.category;
-  if (tierEl) tierEl.textContent = info.tier;
-  if (tempoEl) tempoEl.textContent = info.tempo;
-  if (breathEl) breathEl.textContent = info.breath;
-
-  if (svgContainer) {
-    svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
-  }
-
-  const phaseBtnsContainer = document.getElementById("vis-phase-buttons-container");
-  if (phaseBtnsContainer) {
-    phaseBtnsContainer.innerHTML = info.phases.map((p, idx) => `
-      <button type="button" onclick="selectVisualizerPhase(${idx})" id="vis-phase-btn-${idx}" class="phase-step-btn ${idx === 0 ? 'active' : ''}">
-        <span class="text-[9px] uppercase tracking-wider opacity-70">Шаг 0${idx+1}</span>
-        <span class="font-bold">${p.title.split(':')[0]}</span>
-      </button>
-    `).join('');
-  }
-
-  selectVisualizerPhase(0);
-
-  const matrixContainer = document.getElementById("vis-muscle-matrix-container");
-  if (matrixContainer) {
-    matrixContainer.innerHTML = info.muscleMatrix.map(m => `
-      <div class="space-y-1">
-        <div class="flex justify-between items-center text-[10px] font-mono">
-          <span class="text-white font-medium flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full ${m.percent >= 90 ? 'bg-[#c8a97e]' : m.percent >= 60 ? 'bg-emerald-400' : 'bg-sky-400'}"></span>
-            ${m.name}
-          </span>
-          <span class="text-slate-400"><b class="${m.percent >= 90 ? 'text-[#c8a97e]' : 'text-slate-300'}">${m.percent}%</b> • ${m.role}</span>
-        </div>
-        <div class="w-full h-1.5 bg-[#181b26] rounded-full overflow-hidden">
-          <div class="h-full rounded-full muscle-bar-fill ${m.percent >= 90 ? 'bg-gradient-to-r from-[#dfc299] to-[#c8a97e]' : m.percent >= 60 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-sky-500'}" style="width: ${m.percent}%"></div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  const dosList = document.getElementById("vis-dos-list");
-  const dontsList = document.getElementById("vis-donts-list");
-  if (dosList) {
-    dosList.innerHTML = info.dos.map(d => `<li class="leading-snug">${d}</li>`).join('');
-  }
-  if (dontsList) {
-    dontsList.innerHTML = info.donts.map(d => `<li class="leading-snug">${d}</li>`).join('');
-  }
-
-  const actionBtn = document.getElementById("vis-action-add-btn");
-  if (actionBtn) {
-    if (originContext === 'catalog') {
-      actionBtn.textContent = "+ Добавить в тренировку";
-      actionBtn.classList.remove("hidden");
-    } else {
-      actionBtn.textContent = "Понятно, к подходу ✓";
+  try {
+    let exName = exNameOrId;
+    if (!exName && appState.activeWorkout && appState.activeWorkout.exercises && appState.activeWorkout.exercises.length > 0) {
+      exName = appState.activeWorkout.exercises[0].name;
     }
-  }
+    const dbEx = EXERCISE_DATABASE.find(e => e.id === exNameOrId || e.name === exNameOrId);
+    if (dbEx) exName = dbEx.name;
+    if (!exName) exName = "Жим гантелей на наклонной скамье 30°";
 
-  stopTempoMetronome();
-  openModal('modal-exercise-pro-visualizer');
-  Sound.beep(600, 0.05);
-  Haptic.impact('light');
+    const info = getExerciseAnatomyInfo(exName);
+    currentVisualizerData = info;
+    currentVisualizerOrigin = { context: originContext, exId: dbEx ? dbEx.id : null };
+
+    const nameEl = document.getElementById("vis-ex-name");
+    const catEl = document.getElementById("vis-badge-cat");
+    const tierEl = document.getElementById("vis-badge-tier");
+    const svgContainer = document.getElementById("vis-svg-container");
+    const tempoEl = document.getElementById("vis-tempo-badge");
+    const breathEl = document.getElementById("vis-breath-cue");
+
+    if (nameEl) nameEl.textContent = info.name;
+    if (catEl) catEl.textContent = info.category;
+    if (tierEl) tierEl.textContent = info.tier;
+    if (tempoEl) tempoEl.textContent = info.tempo;
+    if (breathEl) breathEl.textContent = info.breath;
+
+    if (svgContainer) {
+      svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
+    }
+
+    const phaseBtnsContainer = document.getElementById("vis-phase-buttons-container");
+    if (phaseBtnsContainer) {
+      phaseBtnsContainer.innerHTML = info.phases.map((p, idx) => `
+        <button type="button" onclick="selectVisualizerPhase(${idx})" id="vis-phase-btn-${idx}" class="phase-step-btn ${idx === 0 ? 'active' : ''}">
+          <span class="text-[9px] uppercase tracking-wider opacity-70">Шаг 0${idx+1}</span>
+          <span class="font-bold">${p.title.split(':')[0]}</span>
+        </button>
+      `).join('');
+    }
+
+    selectVisualizerPhase(0);
+
+    const matrixContainer = document.getElementById("vis-muscle-matrix-container");
+    if (matrixContainer) {
+      matrixContainer.innerHTML = info.muscleMatrix.map(m => `
+        <div class="space-y-1">
+          <div class="flex justify-between items-center text-[10px] font-mono">
+            <span class="text-white font-medium flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full ${m.percent >= 90 ? 'bg-[#c8a97e]' : m.percent >= 60 ? 'bg-emerald-400' : 'bg-sky-400'}"></span>
+              ${m.name}
+            </span>
+            <span class="text-slate-400"><b class="${m.percent >= 90 ? 'text-[#c8a97e]' : 'text-slate-300'}">${m.percent}%</b> • ${m.role}</span>
+          </div>
+          <div class="w-full h-1.5 bg-[#181b26] rounded-full overflow-hidden">
+            <div class="h-full rounded-full muscle-bar-fill ${m.percent >= 90 ? 'bg-gradient-to-r from-[#dfc299] to-[#c8a97e]' : m.percent >= 60 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-sky-500'}" style="width: ${m.percent}%"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const dosList = document.getElementById("vis-dos-list");
+    const dontsList = document.getElementById("vis-donts-list");
+    if (dosList) {
+      dosList.innerHTML = info.dos.map(d => `<li class="leading-snug">${d}</li>`).join('');
+    }
+    if (dontsList) {
+      dontsList.innerHTML = info.donts.map(d => `<li class="leading-snug">${d}</li>`).join('');
+    }
+
+    const actionBtn = document.getElementById("vis-action-add-btn");
+    if (actionBtn) {
+      if (originContext === 'catalog') {
+        actionBtn.textContent = "+ Добавить в тренировку";
+        actionBtn.classList.remove("hidden");
+      } else {
+        actionBtn.textContent = "Понятно, к подходу ✓";
+      }
+    }
+
+    stopTempoMetronome();
+    openModal('modal-exercise-pro-visualizer');
+    Sound.beep(600, 0.05);
+    Haptic.impact('light');
+  } catch (err) {
+    console.error("Visualizer modal error:", err);
+    openModal('modal-exercise-pro-visualizer');
+  }
 }
 
 function selectVisualizerPhase(idx) {
@@ -5532,11 +5541,13 @@ function switchProgressSubtab(subtabId) {
 function openModal(modalId) {
   Sound.beep(600, 0.08);
   Haptic.impact('light');
-  document.getElementById(modalId).classList.remove("hidden");
+  const el = document.getElementById(modalId);
+  if (el) el.classList.remove("hidden");
   if (modalId === "modal-1rm") calculate1RM();
 }
 function closeModal(modalId) {
-  document.getElementById(modalId).classList.add("hidden");
+  const el = document.getElementById(modalId);
+  if (el) el.classList.add("hidden");
 }
 
 function calculate1RM() {
