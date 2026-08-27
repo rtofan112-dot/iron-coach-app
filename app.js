@@ -1,5 +1,5 @@
 /**
- * IRON COACH PRO - High-Performance Hypertrophy, AI Coach & Compliance Engine
+ * IRON COACH CYBER-PRO - High-Performance Hypertrophy, AI Coach & 52-Week Engine
  */
 
 const Sound = {
@@ -57,7 +57,7 @@ const Haptic = {
 };
 
 // ========================================================
-// S-TIER FULL-BODY TRAINING PROTOCOLS
+// S-TIER TRAINING PROTOCOLS
 // ========================================================
 const DEFAULT_PROGRAMS = {
   a: {
@@ -99,16 +99,36 @@ const DEFAULT_PROGRAMS = {
 };
 
 // ========================================================
-// ACHIEVEMENTS DEFINITIONS
+// 18+ TIERED ACHIEVEMENTS DATA
 // ========================================================
 const ACHIEVEMENTS = [
-  { id: "ach_first", title: "🥉 Первый импульс", desc: "Заверши 1-ю тренировку", xp: 100, check: (s) => (s.history || []).length >= 1 },
-  { id: "ach_streak_3", title: "🔥 Три в ряд", desc: "Выполни 3 тренировки подряд без срывов", xp: 250, check: (s) => (s.streak || 0) >= 3 },
-  { id: "ach_streak_10", title: "⚡ Стальная декада", desc: "Серия из 10 регулярных тренировок", xp: 600, check: (s) => (s.streak || 0) >= 10 },
-  { id: "ach_tonnage_50", title: "🏋️ Клуб 50 Тонн", desc: "Суммарный поднятый тоннаж превысил 50 000 кг", xp: 500, check: (s) => getTotalTonnage(s) >= 50000 },
-  { id: "ach_vac_5", title: "🌬️ Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", xp: 300, check: (s) => (s.vacDaysCount || 0) >= 5 },
-  { id: "ach_prot_7", title: "🥩 Белковый баланс", desc: "Закрой норму 150г белка 7 дней", xp: 400, check: (s) => (s.protDaysCount || 0) >= 7 },
-  { id: "ach_meso", title: "🏆 Мастер мезоцикла", desc: "Заверши полный 8-недельный цикл", xp: 1000, check: (s) => (s.mesocycleWeek || 1) >= 8 }
+  // STRENGTH & TONNAGE (5)
+  { id: "ach_first", cat: "strength", title: "🥉 Первый импульс", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
+  { id: "ach_ton_10", cat: "strength", title: "🏋️ Клуб 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
+  { id: "ach_ton_50", cat: "strength", title: "🏋️ Клуб 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
+  { id: "ach_ton_100", cat: "strength", title: "🏛️ Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 1000 },
+  { id: "ach_ton_250", cat: "strength", title: "👑 Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
+
+  // STREAKS & DISCIPLINE (4)
+  { id: "ach_strk_3", cat: "streak", title: "🔥 Три в ряд", desc: "Серия из 3 тренировок подряд", target: 3, current: (s) => (s.streak || 0), xp: 250 },
+  { id: "ach_strk_7", cat: "streak", title: "⚡ Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
+  { id: "ach_strk_10", cat: "streak", title: "🛡️ Стальная декада", desc: "Серия из 10 тренировок подряд", target: 10, current: (s) => (s.streak || 0), xp: 700 },
+  { id: "ach_strk_30", cat: "streak", title: "🗿 Кремень 30", desc: "Серия из 30 регулярных занятий", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
+
+  // BODY & VACUUM (3)
+  { id: "ach_vac_1", cat: "body", title: "🌬️ Первое втягивание", desc: "Выполни 1-ю утреннюю сессию вакуума", target: 1, current: (s) => (s.vacDaysCount || 0), xp: 100 },
+  { id: "ach_vac_5", cat: "body", title: "🌬️ Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
+  { id: "ach_vac_14", cat: "body", title: "🛡️ Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 },
+
+  // NUTRITION & MACROS (4)
+  { id: "ach_prot_3", cat: "nutrition", title: "🥩 Белковый старт", desc: "Закрой норму 150г белка 3 дня", target: 3, current: (s) => (s.protDaysCount || 0), xp: 200 },
+  { id: "ach_prot_7", cat: "nutrition", title: "🥩 Белковый баланс", desc: "Закрой норму 150г белка 7 дней", target: 7, current: (s) => (s.protDaysCount || 0), xp: 400 },
+  { id: "ach_prot_21", cat: "nutrition", title: "🥩 Мастер рекомпозиции", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
+  { id: "ach_water_14", cat: "nutrition", title: "💧 Водный баланс", desc: "Выпей норму воды 14 дней подряд", target: 14, current: (s) => (s.waterDaysCount || 0), xp: 500 },
+
+  // MESOCYCLES & PERIODIZATION (2)
+  { id: "ach_meso_1", cat: "meso", title: "🏆 Мастер мезоцикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
+  { id: "ach_meso_3", cat: "meso", title: "🔬 Профессор периодизации", desc: "Заверши 3 полных мезоцикла (24 нед)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
 ];
 
 function getTotalTonnage(s) {
@@ -127,10 +147,12 @@ function getInitialAccount() {
     injuries: "Резекция левого легкого, спазм m. levator scapulae",
     goal: "Рекомпозиция (Сушка жира + Мышечный тонус)",
     mesocycleWeek: 3,
+    totalMesoWeeks: 3,
     xp: 0,
     streak: 0,
     vacDaysCount: 0,
     protDaysCount: 0,
+    waterDaysCount: 0,
     currentMetrics: { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 },
     metrics: [
       { id: "m_init", date: new Date().toISOString().split("T")[0], weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 }
@@ -144,6 +166,7 @@ function getInitialAccount() {
 
 let appState = getInitialAccount();
 let pendingWorkoutPlanKey = 'a';
+let currentAchFilter = 'all';
 
 function loadState() {
   let tgKey = "asutp_iron_account_default";
@@ -177,6 +200,7 @@ function loadState() {
 
   saveState();
   checkAchievements();
+  renderPersonalizedVitamins();
 }
 
 function saveState() {
@@ -251,7 +275,6 @@ function executeSafeResetAndReOnboard() {
   clearInterval(resetTimerInterval);
   closeModal('modal-safe-reset');
 
-  // Reset all account data
   const currentTgId = appState.tgId;
   const currentName = appState.name;
 
@@ -303,13 +326,11 @@ function saveOnboardingProfile(e) {
     appState.currentMetrics.waist = waist;
   }
 
-  // Update initial metric
   const today = new Date().toISOString().split("T")[0];
   appState.metrics = [
     { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
   ];
 
-  // Update header badge
   const elName = document.getElementById("tg-user-name");
   const elAvatar = document.getElementById("tg-user-avatar");
   if (elName) elName.textContent = name;
@@ -322,13 +343,368 @@ function saveOnboardingProfile(e) {
 
   renderMetrics();
   renderNutrition();
+  renderPersonalizedVitamins();
   calculateScheduleCompliance();
 
-  alert(`🎉 Профиль атлета «${name}» успешно настроен!\n\nИИ адаптировал целевые калории (${Math.round(weight*24*1.15)} ккал), норму белка (${Math.round(weight*1.8)}г) и программу.`);
+  alert(`🎉 Профиль атлета «${name}» успешно настроен!\n\nИИ адаптировал целевые калории (${Math.round(weight*24*1.15)} ккал), норму белка (${Math.round(weight*1.8)}г) и персональные витамины.`);
 }
 
 // ========================================================
-// BUILT-IN AI COACH AUDIT & INTELLIGENCE ENGINE
+// PERSONALIZED EVIDENCE-BASED VITAMIN & MINERAL ENGINE
+// ========================================================
+function renderPersonalizedVitamins() {
+  const container = document.getElementById("personalized-vitamins-container");
+  const reasonLabel = document.getElementById("vitamin-calc-reason");
+  if (!container) return;
+
+  const age = appState.age || 32;
+  const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
+  const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
+  const height = appState.height || 178;
+  const whtr = (waist / height).toFixed(2);
+  const injuries = (appState.injuries || "").toLowerCase();
+
+  if (reasonLabel) {
+    reasonLabel.textContent = `Сгенерировано под профиль: ${age} года, ${weight} кг, WHtR ${whtr}, цель: ${appState.goal || 'Рекомпозиция'}`;
+  }
+
+  const stack = [
+    {
+      name: "1. Магний (Глицинат / Цитрат)",
+      dose: "400 мг",
+      badgeColor: "text-violet-400",
+      reason: injuries.includes("ше") || injuries.includes("лопатк") || injuries.includes("спазм")
+        ? `🔥 <b>Персональное показание:</b> Устраняет спазм <i>m. levator scapulae</i>, восстанавливает фазы глубокого сна и снижает гипертонус ЦНС при сидячей работе.`
+        : `Восстановление нервно-мышечной проводимости и глубокий сон (400мг за 40 мин до сна).`
+    },
+    {
+      name: "2. Витамин D3 (Холекальциферол) + K2",
+      dose: "4000 IU",
+      badgeColor: "text-amber-400",
+      reason: `☀️ <b>Персональное показание:</b> Для возраста ${age} лет и офисного режима 5/2. Стимулирует рецепторы клеток Лейдига для естественного синтеза тестостерона и плотности костной ткани.`
+    },
+    {
+      name: "3. Омега-3 (Концентрат EPA / DHA)",
+      dose: "2000 мг",
+      badgeColor: "text-cyan-400",
+      reason: `🐟 <b>Персональное показание:</b> Защита синовиальной оболочки суставов и связок при жимах 20+ кг, снижение маркеров системного воспаления (CRP).`
+    },
+    {
+      name: "4. Креатин Моногидрат",
+      dose: "5 г",
+      badgeColor: "text-emerald-400",
+      reason: `⚡ <b>Персональное показание:</b> При рекомпозиции обеспечивает ресинтез АТФ, повышает силовую выносливость на 12-15% и защищает мышечные волокна от катаболизма.`
+    },
+    {
+      name: "5. Цинк (Хелат / Пиколинат)",
+      dose: "25 мг",
+      badgeColor: "text-slate-300",
+      reason: `🛡️ <b>Персональное показание:</b> Необходим для синтеза лютеинизирующего гормона и антиоксидантной защиты мышечных мембран после тяжелых силовых тренировок.`
+    }
+  ];
+
+  // If visceral fat is elevated (WHtR >= 0.50), dynamically add L-Carnitine
+  if (whtr >= 0.50) {
+    stack.push({
+      name: "6. L-Карнитин Тартрат (Перед Зоной 2)",
+      dose: "1500 мг",
+      badgeColor: "text-rose-400",
+      reason: `🔥 <b>Персональное показание (WHtR ${whtr} $\ge$ 0.50):</b> Ускоряет транспортировку длинноцепочечных жирных кислот в митохондрии мышц во время ходьбы в горку (Зона 2).`
+    });
+  }
+
+  container.innerHTML = stack.map(item => `
+    <div class="p-3 bg-slate-950/90 rounded-xl border border-white/[0.06] space-y-1">
+      <div class="flex justify-between items-center font-mono">
+        <b class="text-white text-xs">${item.name}</b>
+        <span class="${item.badgeColor} font-black text-xs">${item.dose}</span>
+      </div>
+      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
+    </div>
+  `).join("");
+}
+
+// ========================================================
+// 18+ ACHIEVEMENTS HUB & CATEGORY FILTERING
+// ========================================================
+function filterAchievements(cat) {
+  currentAchFilter = cat;
+  ['all', 'strength', 'streak', 'body', 'nutrition', 'meso'].forEach(c => {
+    const btn = document.getElementById("btn-ach-" + c);
+    if (btn) {
+      if (c === cat) {
+        btn.className = "px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold whitespace-nowrap shadow-sm";
+      } else {
+        btn.className = "px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap";
+      }
+    }
+  });
+  renderAchievementsList();
+}
+
+function checkAchievements() {
+  if (!appState.unlockedAchievements) appState.unlockedAchievements = [];
+
+  ACHIEVEMENTS.forEach(ach => {
+    if (!appState.unlockedAchievements.includes(ach.id)) {
+      const curVal = ach.current(appState);
+      if (curVal >= ach.target) {
+        appState.unlockedAchievements.push(ach.id);
+        appState.xp += ach.xp;
+        Sound.finish();
+        Haptic.success();
+      }
+    }
+  });
+
+  renderAchievementsList();
+}
+
+function renderAchievementsList() {
+  const container = document.getElementById("achievements-list");
+  const countEl = document.getElementById("achievements-unlocked-count");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const unlocked = appState.unlockedAchievements || [];
+  if (countEl) countEl.textContent = `${unlocked.length}/${ACHIEVEMENTS.length}`;
+
+  const filtered = ACHIEVEMENTS.filter(a => currentAchFilter === 'all' || a.cat === currentAchFilter);
+
+  filtered.forEach(ach => {
+    const isUnlocked = unlocked.includes(ach.id);
+    const curVal = ach.current(appState);
+    const pct = Math.min(100, Math.round((curVal / ach.target) * 100));
+
+    const card = document.createElement("div");
+    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-cyan-950/30 border-cyan-500/80 shadow-md glow-cyan text-white' : 'bg-slate-950/80 border-white/[0.06] text-slate-400 opacity-75'}`;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start">
+        <div>
+          <h4 class="font-black text-xs ${isUnlocked ? 'text-cyan-300' : 'text-slate-300'} font-sans">${ach.title}</h4>
+          <p class="text-[10px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
+        </div>
+        <span class="px-2.5 py-1 rounded-lg text-[10px] font-black font-mono ${isUnlocked ? 'bg-cyan-400 text-slate-950 shadow-sm' : 'bg-slate-900 text-slate-500 border border-white/5'}">
+          ${isUnlocked ? '✓ ОТКРЫТО' : `+${ach.xp} XP`}
+        </span>
+      </div>
+
+      <div class="space-y-1 font-mono text-[9px]">
+        <div class="flex justify-between text-slate-400">
+          <span>Прогресс: <b class="${isUnlocked ? 'text-cyan-300' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
+          <span>${pct}%</span>
+        </div>
+        <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-white/5">
+          <div class="h-full ${isUnlocked ? 'bg-gradient-to-r from-cyan-400 to-emerald-400' : 'bg-slate-700'}" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ========================================================
+// 52-WEEK INTERACTIVE YEAR HEATMAP & DAY INSPECTOR
+// ========================================================
+function setScheduleView(view) {
+  ['week', 'month', 'year'].forEach(v => {
+    const el = document.getElementById("sch-view-" + v);
+    const btn = document.getElementById("btn-sch-" + v);
+    if (v === view) {
+      if (el) el.classList.remove("hidden");
+      if (btn) btn.className = "px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold shadow-sm";
+    } else {
+      if (el) el.classList.add("hidden");
+      if (btn) btn.className = "px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 font-bold border border-white/10";
+    }
+  });
+
+  calculateScheduleCompliance();
+  if (view === 'month') renderMonthMatrix();
+  if (view === 'year') render52WeekYearHeatmap();
+}
+
+function render52WeekYearHeatmap() {
+  const container = document.getElementById("year-heatmap");
+  const totalEl = document.getElementById("year-total-sessions");
+  const tonnageEl = document.getElementById("year-total-tonnage-kpi");
+  const streakEl = document.getElementById("year-best-streak-kpi");
+  const compEl = document.getElementById("year-compliance-kpi");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const hist = appState.history || [];
+  const histMap = new Map();
+  hist.forEach(h => histMap.set(h.date, h));
+
+  const totalTonnage = getTotalTonnage(appState);
+  if (totalEl) totalEl.textContent = `${hist.length} сессий`;
+  if (tonnageEl) tonnageEl.textContent = `${(totalTonnage / 1000).toFixed(1)} т`;
+  if (streakEl) streakEl.textContent = `🔥${appState.streak || 0} дн`;
+  if (compEl) compEl.textContent = document.getElementById("schedule-compliance-pct") ? document.getElementById("schedule-compliance-pct").textContent : "100%";
+
+  const startDate = new Date(2026, 0, 1); // Jan 1, 2026
+  const currentDayOfYear = 239; // ~Aug 27, 2026
+
+  for (let week = 0; week < 52; week++) {
+    for (let day = 0; day < 7; day++) {
+      const dayIndex = week * 7 + day;
+      const curDate = new Date(2026, 0, 1 + dayIndex);
+      const dStr = curDate.toISOString().split("T")[0];
+      const dayOfWeek = curDate.getDay(); // 0 = Sun, 2 = Tue, 4 = Thu
+      const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
+
+      const woData = histMap.get(dStr);
+      const isDone = !!woData;
+      const isMissed = isScheduled && (dayIndex < currentDayOfYear) && !isDone;
+      const isFuturePlan = isScheduled && (dayIndex >= currentDayOfYear);
+
+      const cell = document.createElement("div");
+      let cls = "heat-day";
+
+      if (isDone) {
+        cls += (woData.tonnage > 6000 ? " heavy" : " done");
+      } else if (isMissed) {
+        cls += " missed";
+      } else if (isFuturePlan) {
+        cls += " future-plan";
+      }
+
+      cell.className = cls;
+      cell.title = `${dStr}: ${isDone ? 'Выполнено' : isMissed ? 'Пропуск' : isFuturePlan ? 'План' : 'Отдых'}`;
+      cell.onclick = () => inspectHeatmapDay(dStr, isDone ? 'done' : isMissed ? 'missed' : isFuturePlan ? 'plan' : 'rest', woData);
+
+      container.appendChild(cell);
+    }
+  }
+}
+
+function inspectHeatmapDay(dateStr, status, woData) {
+  Sound.beep(700, 0.05);
+  Haptic.impact('light');
+
+  const inspDate = document.getElementById("insp-date");
+  const inspStatus = document.getElementById("insp-status");
+  const inspDetails = document.getElementById("insp-details");
+
+  if (!inspDate || !inspStatus || !inspDetails) return;
+
+  const dateObj = new Date(dateStr);
+  const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  inspDate.textContent = formatted;
+
+  if (status === 'done' && woData) {
+    inspStatus.innerHTML = `<span class="text-cyan-400 font-bold">✅ ВЫПОЛНЕНО</span>`;
+    inspDetails.innerHTML = `
+      <b>${woData.name}</b><br>
+      Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> | Сожжено: <b class="text-amber-400">~${woData.calories || 350} ккал</b> | Готовность: <b>${woData.readiness || 90}%</b>
+    `;
+  } else if (status === 'missed') {
+    inspStatus.innerHTML = `<span class="text-rose-400 font-bold">❌ ПРОПУСК ПЛАНА</span>`;
+    inspDetails.innerHTML = `Запланированная тренировка (Full Body) в этот день не была завершена в архиве.`;
+  } else if (status === 'plan') {
+    inspStatus.innerHTML = `<span class="text-slate-300 font-bold">⏳ ЗАПЛАНИРОВАНО</span>`;
+    inspDetails.innerHTML = `Предстоящий тренировочный день по графику. Готовься к прогрессивной перегрузке!`;
+  } else {
+    inspStatus.innerHTML = `<span class="text-slate-400 font-bold">⚪ ДЕНЬ ОТДЫХА</span>`;
+    inspDetails.innerHTML = `Восстановление ЦНС, суперкомпенсация мышечных волокон, утренний вакуум и сон 8 часов.`;
+  }
+}
+
+function calculateScheduleCompliance() {
+  const histDates = new Set((appState.history || []).map(h => h.date));
+  const today = new Date();
+  const currentDayOfMonth = today.getDate();
+
+  let plannedCount = 0;
+  let doneCount = 0;
+  let missedCount = 0;
+
+  for (let d = 1; d <= 31; d++) {
+    const dateObj = new Date(2026, 7, d);
+    const dayOfWeek = dateObj.getDay();
+    const isScheduledDay = (dayOfWeek === 2 || dayOfWeek === 4);
+    const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
+
+    if (isScheduledDay) {
+      if (d <= currentDayOfMonth) {
+        if (histDates.has(dStr)) {
+          doneCount++;
+        } else {
+          if (d < currentDayOfMonth) {
+            missedCount++;
+          } else {
+            plannedCount++;
+          }
+        }
+      } else {
+        plannedCount++;
+      }
+    } else if (histDates.has(dStr)) {
+      doneCount++;
+    }
+  }
+
+  const totalPast = doneCount + missedCount;
+  const compliancePct = totalPast > 0 ? Math.round((doneCount / totalPast) * 100) : 100;
+
+  const pctEl = document.getElementById("schedule-compliance-pct");
+  const statDone = document.getElementById("sch-stat-done");
+  const statMissed = document.getElementById("sch-stat-missed");
+  const statPlanned = document.getElementById("sch-stat-planned");
+
+  if (pctEl) {
+    pctEl.textContent = `${compliancePct}% План`;
+    pctEl.className = compliancePct >= 80 ? "text-xs font-black text-cyan-400 bg-cyan-950/80 px-2.5 py-0.5 rounded border border-cyan-700/60 shadow-sm" : "text-xs font-black text-rose-400 bg-rose-950/80 px-2.5 py-0.5 rounded border border-rose-800 shadow-sm";
+  }
+  if (statDone) statDone.textContent = doneCount;
+  if (statMissed) statMissed.textContent = missedCount;
+  if (statPlanned) statPlanned.textContent = plannedCount;
+}
+
+function renderMonthMatrix() {
+  const container = document.getElementById("month-matrix-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const histDates = new Set((appState.history || []).map(h => h.date));
+  const currentDay = 27;
+
+  for (let d = 1; d <= 31; d++) {
+    const dateObj = new Date(2026, 7, d);
+    const dayOfWeek = dateObj.getDay();
+    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
+    const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
+
+    const isDone = histDates.has(dStr);
+    const isMissed = isScheduled && (d < currentDay) && !isDone;
+    const isToday = (d === currentDay);
+
+    const cell = document.createElement("div");
+    let cellStyle = "p-2 rounded-xl border ";
+
+    if (isDone) {
+      cellStyle += "bg-emerald-950/80 border-emerald-500/80 text-emerald-300 font-bold";
+    } else if (isMissed) {
+      cellStyle += "bg-rose-950/80 border-rose-500/80 text-rose-300 font-bold";
+    } else if (isToday) {
+      cellStyle += "bg-slate-900 border-cyan-400 text-white font-bold";
+    } else if (isScheduled) {
+      cellStyle += "bg-slate-950/90 border-slate-700 text-slate-300";
+    } else {
+      cellStyle += "bg-slate-950/50 border-white/[0.04] text-slate-600";
+    }
+
+    cell.className = cellStyle;
+    cell.innerHTML = `<span>${d}</span><span class="block text-[8px]">${isDone ? '✓' : isMissed ? '✕' : isScheduled ? '⏳' : ''}</span>`;
+    container.appendChild(cell);
+  }
+}
+
+// ========================================================
+// AI COACH ENGINE
 // ========================================================
 function openAICoachModal() {
   openModal('modal-ai-coach');
@@ -369,7 +745,7 @@ function runAICoachFullAudit() {
     <div class="space-y-2 text-xs">
       <div class="flex justify-between items-center border-b border-white/[0.08] pb-1.5 font-mono">
         <span class="text-violet-300 font-bold">📋 ОТЧЕТ ИИ-АУДИТА</span>
-        <span class="text-emerald-400 font-bold">${appState.name} (${age} года)</span>
+        <span class="text-cyan-400 font-bold">${appState.name} (${age} года)</span>
       </div>
 
       <p>${cardioAdvice}</p>
@@ -456,6 +832,8 @@ function renderMesocycleBanner() {
 
 function advanceMesocycleWeek() {
   let w = (appState.mesocycleWeek || 1) + 1;
+  appState.totalMesoWeeks = (appState.totalMesoWeeks || 1) + 1;
+
   if (w > 8) {
     if (confirm("Начать новый 8-недельный мезоцикл с Недели 1?")) {
       w = 1;
@@ -570,10 +948,10 @@ function renderActiveWorkoutUI() {
 
   wo.exercises.forEach((ex, exIdx) => {
     const card = document.createElement("div");
-    card.className = "card-premium p-4 space-y-3";
+    card.className = "card-luxury p-4 space-y-3";
 
     const setsRows = ex.sets.map((s, sIdx) => `
-      <div class="grid grid-cols-12 gap-1.5 items-center bg-slate-950/80 p-2 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.06]'} font-mono text-xs">
+      <div class="grid grid-cols-12 gap-1.5 items-center bg-slate-950/80 p-2 rounded-xl border ${s.done ? 'border-cyan-400/80 bg-cyan-950/20' : 'border-white/[0.06]'} font-mono text-xs">
         <div class="col-span-1 text-center font-bold text-slate-400">#${s.set}</div>
         
         <div class="col-span-5 flex items-center bg-slate-900 px-1 py-1 rounded-lg border border-white/10 justify-between">
@@ -581,7 +959,7 @@ function renderActiveWorkoutUI() {
           <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-bold text-center text-xs outline-none px-0.5"
             onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
           <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
-          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-emerald-400 font-bold rounded-md text-xs touch-press">+</button>
+          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-cyan-400 font-bold rounded-md text-xs touch-press">+</button>
         </div>
 
         <div class="col-span-4 flex items-center bg-slate-900 px-1 py-1 rounded-lg border border-white/10 justify-between">
@@ -589,7 +967,7 @@ function renderActiveWorkoutUI() {
           <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-bold text-center text-xs outline-none px-0.5"
             onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'reps', this.value)">
           <span class="text-[9px] text-slate-400 pr-0.5">раз</span>
-          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-cyan-400 font-bold rounded-md text-xs touch-press">+</button>
+          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-emerald-400 font-bold rounded-md text-xs touch-press">+</button>
         </div>
 
         <div class="col-span-2 flex justify-center">
@@ -603,7 +981,7 @@ function renderActiveWorkoutUI() {
       <div class="flex justify-between items-start">
         <div>
           <h3 class="font-extrabold text-white text-xs font-sans">${ex.name}</h3>
-          <span class="text-[10px] font-mono text-emerald-400 font-bold">${ex.sets.length} подхода × ${ex.min}-${ex.max} раз</span>
+          <span class="text-[10px] font-mono text-cyan-400 font-bold">${ex.sets.length} подхода × ${ex.min}-${ex.max} раз</span>
         </div>
         <div class="flex items-center space-x-1.5 font-mono text-[10px]">
           <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-1 bg-slate-900 text-rose-300 rounded-lg border border-white/10 touch-press">↺</button>
@@ -613,7 +991,7 @@ function renderActiveWorkoutUI() {
       <p class="text-xs text-slate-300 bg-slate-950/80 p-2.5 rounded-xl border border-white/[0.06] font-sans leading-relaxed">${ex.tip}</p>
       <div class="space-y-1.5">${setsRows}</div>
       <div class="flex justify-between items-center pt-1 text-[11px] font-mono">
-        <button onclick="addSetToExercise(${exIdx})" class="text-emerald-400 font-bold">➕ Добавить подход</button>
+        <button onclick="addSetToExercise(${exIdx})" class="text-cyan-400 font-bold">➕ Добавить подход</button>
         ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">➖ Убрать подход</button>` : ''}
       </div>
     `;
@@ -853,189 +1231,6 @@ function cancelWorkout() {
 }
 
 // ========================================================
-// SCHEDULE: REAL COMPLIANCE & MISSED WORKOUT LOGIC
-// ========================================================
-function setScheduleView(view) {
-  ['week', 'month', 'year'].forEach(v => {
-    const el = document.getElementById("sch-view-" + v);
-    const btn = document.getElementById("btn-sch-" + v);
-    if (v === view) {
-      if (el) el.classList.remove("hidden");
-      if (btn) {
-        btn.className = "px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold";
-      }
-    } else {
-      if (el) el.classList.add("hidden");
-      if (btn) {
-        btn.className = "px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 font-bold border border-white/10";
-      }
-    }
-  });
-
-  calculateScheduleCompliance();
-  if (view === 'month') renderMonthMatrix();
-  if (view === 'year') renderYearHeatmap();
-}
-
-function calculateScheduleCompliance() {
-  const histDates = new Set((appState.history || []).map(h => h.date));
-  const today = new Date();
-  const currentDayOfMonth = today.getDate();
-
-  let plannedCount = 0;
-  let doneCount = 0;
-  let missedCount = 0;
-
-  for (let d = 1; d <= 31; d++) {
-    const dateObj = new Date(2026, 7, d);
-    const dayOfWeek = dateObj.getDay();
-    const isScheduledDay = (dayOfWeek === 2 || dayOfWeek === 4);
-    const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
-
-    if (isScheduledDay) {
-      if (d <= currentDayOfMonth) {
-        if (histDates.has(dStr)) {
-          doneCount++;
-        } else {
-          if (d < currentDayOfMonth) {
-            missedCount++;
-          } else {
-            plannedCount++;
-          }
-        }
-      } else {
-        plannedCount++;
-      }
-    } else if (histDates.has(dStr)) {
-      doneCount++;
-    }
-  }
-
-  const totalPast = doneCount + missedCount;
-  const compliancePct = totalPast > 0 ? Math.round((doneCount / totalPast) * 100) : 100;
-
-  const pctEl = document.getElementById("schedule-compliance-pct");
-  const statDone = document.getElementById("sch-stat-done");
-  const statMissed = document.getElementById("sch-stat-missed");
-  const statPlanned = document.getElementById("sch-stat-planned");
-
-  if (pctEl) {
-    pctEl.textContent = `${compliancePct}% План`;
-    pctEl.className = compliancePct >= 80 ? "text-xs font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800" : "text-xs font-bold text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800";
-  }
-  if (statDone) statDone.textContent = doneCount;
-  if (statMissed) statMissed.textContent = missedCount;
-  if (statPlanned) statPlanned.textContent = plannedCount;
-}
-
-function renderMonthMatrix() {
-  const container = document.getElementById("month-matrix-container");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const histDates = new Set((appState.history || []).map(h => h.date));
-  const currentDay = 27;
-
-  for (let d = 1; d <= 31; d++) {
-    const dateObj = new Date(2026, 7, d);
-    const dayOfWeek = dateObj.getDay();
-    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
-    const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
-
-    const isDone = histDates.has(dStr);
-    const isMissed = isScheduled && (d < currentDay) && !isDone;
-    const isToday = (d === currentDay);
-
-    const cell = document.createElement("div");
-    let cellStyle = "p-2 rounded-xl border ";
-
-    if (isDone) {
-      cellStyle += "bg-emerald-950/80 border-emerald-500/80 text-emerald-300 font-bold";
-    } else if (isMissed) {
-      cellStyle += "bg-rose-950/80 border-rose-500/80 text-rose-300 font-bold";
-    } else if (isToday) {
-      cellStyle += "bg-slate-900 border-cyan-400 text-white font-bold";
-    } else if (isScheduled) {
-      cellStyle += "bg-slate-950/90 border-slate-700 text-slate-300";
-    } else {
-      cellStyle += "bg-slate-950/50 border-white/[0.04] text-slate-600";
-    }
-
-    cell.className = cellStyle;
-    cell.innerHTML = `<span>${d}</span><span class="block text-[8px]">${isDone ? '✓' : isMissed ? '✕' : isScheduled ? '⏳' : ''}</span>`;
-    container.appendChild(cell);
-  }
-}
-
-function renderYearHeatmap() {
-  const container = document.getElementById("year-heatmap");
-  const totalEl = document.getElementById("year-total-sessions");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const hist = appState.history || [];
-  if (totalEl) totalEl.textContent = `${hist.length} тренировок за год`;
-
-  for (let i = 0; i < 182; i++) {
-    const cell = document.createElement("div");
-    let level = "heatmap-cell";
-    if (i % 7 === 1 || i % 7 === 3) {
-      if (i < 80) level += " completed";
-    }
-    cell.className = level;
-    container.appendChild(cell);
-  }
-}
-
-// ========================================================
-// ACHIEVEMENTS
-// ========================================================
-function checkAchievements() {
-  if (!appState.unlockedAchievements) appState.unlockedAchievements = [];
-
-  ACHIEVEMENTS.forEach(ach => {
-    if (!appState.unlockedAchievements.includes(ach.id)) {
-      if (ach.check(appState)) {
-        appState.unlockedAchievements.push(ach.id);
-        appState.xp += ach.xp;
-        Sound.finish();
-        Haptic.success();
-      }
-    }
-  });
-
-  renderAchievementsList();
-}
-
-function renderAchievementsList() {
-  const container = document.getElementById("achievements-list");
-  const countEl = document.getElementById("achievements-unlocked-count");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const unlocked = appState.unlockedAchievements || [];
-  if (countEl) countEl.textContent = `${unlocked.length}/${ACHIEVEMENTS.length} Открыто`;
-
-  ACHIEVEMENTS.forEach(ach => {
-    const isUnlocked = unlocked.includes(ach.id);
-    const card = document.createElement("div");
-    card.className = `p-3 rounded-xl border flex justify-between items-center ${isUnlocked ? 'bg-emerald-950/40 border-emerald-500/80 text-white' : 'bg-slate-950/80 border-white/[0.06] text-slate-500 opacity-60'}`;
-
-    card.innerHTML = `
-      <div>
-        <h4 class="font-bold text-xs ${isUnlocked ? 'text-emerald-300' : 'text-slate-400'}">${ach.title}</h4>
-        <p class="text-[10px] text-slate-400 font-sans">${ach.desc}</p>
-      </div>
-      <span class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono ${isUnlocked ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 text-slate-600'}">
-        ${isUnlocked ? '✓ ОТКРЫТО' : `+${ach.xp} XP`}
-      </span>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-// ========================================================
 // METRICS & TREND GRAPH
 // ========================================================
 let currentChartFilter = 'all';
@@ -1074,6 +1269,7 @@ function onTileInputChanged() {
   appState.currentMetrics = cur;
   updateWHtRBadge(cur.waist, appState.height || 178);
   saveState();
+  renderPersonalizedVitamins();
 }
 
 function updateWHtRBadge(waist, height = 178) {
@@ -1141,7 +1337,7 @@ function setChartFilter(filter) {
     const btn = document.getElementById("btn-chart-" + f);
     if (btn) {
       if (f === filter) {
-        btn.className = "px-2 py-0.5 font-bold rounded-md bg-emerald-500 text-slate-950";
+        btn.className = "px-2 py-0.5 font-bold rounded-md bg-cyan-400 text-slate-950";
       } else {
         btn.className = "px-2 py-0.5 font-bold rounded-md text-slate-400";
       }
@@ -1226,13 +1422,13 @@ function drawTrendChart() {
   }
 
   if (currentChartFilter === 'all' || currentChartFilter === 'weight') {
-    drawLine(logs.map(l => l.weight || 0), "#10b981");
+    drawLine(logs.map(l => l.weight || 0), "#00f0ff");
   }
   if (currentChartFilter === 'all' || currentChartFilter === 'waist') {
-    drawLine(logs.map(l => l.waist || 0), "#06b6d4");
+    drawLine(logs.map(l => l.waist || 0), "#10b981");
   }
   if (currentChartFilter === 'all' || currentChartFilter === 'biceps') {
-    drawLine(logs.map(l => l.biceps || 0), "#8b5cf6");
+    drawLine(logs.map(l => l.biceps || 0), "#a855f7");
   }
 }
 
@@ -1405,7 +1601,7 @@ function renderHistory() {
   const hist = appState.history || [];
   if (hist.length === 0) {
     container.innerHTML = `
-      <div class="card-premium p-6 text-center text-slate-400 space-y-2 font-mono">
+      <div class="card-luxury p-6 text-center text-slate-400 space-y-2 font-mono">
         <span class="text-2xl block">📋</span>
         <p class="text-xs font-bold text-slate-200">Журнал тренировок пуст</p>
         <p class="text-[10px] text-slate-400">Начни тренировку во вкладке «Тренинг» или нажми «➕ Добавить» выше.</p>
@@ -1416,7 +1612,7 @@ function renderHistory() {
 
   hist.forEach((h, idx) => {
     const card = document.createElement("div");
-    card.className = "card-premium p-4 space-y-2.5 font-mono text-xs";
+    card.className = "card-luxury p-4 space-y-2.5 font-mono text-xs";
 
     const exList = (h.exercises || []).map(e => `
       <div class="flex justify-between items-center text-[11px] py-1 border-b border-white/[0.04] last:border-0 font-sans">
@@ -1475,7 +1671,7 @@ function openEditHistoryModal(idx) {
     row.className = "grid grid-cols-12 gap-1.5 items-center";
     row.innerHTML = `
       <input type="text" value="${e.name}" id="edit-ex-name-${eIdx}" class="col-span-6 bg-slate-900 border border-white/10 px-2 py-1 rounded-lg text-white text-xs outline-none">
-      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-slate-900 border border-white/10 px-2 py-1 rounded-lg text-emerald-400 font-mono text-xs outline-none">
+      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-slate-900 border border-white/10 px-2 py-1 rounded-lg text-cyan-400 font-mono text-xs outline-none">
     `;
     exContainer.appendChild(row);
   });
@@ -1502,6 +1698,7 @@ function saveEditedHistoryItem() {
   saveState();
   closeModal("modal-edit-history");
   renderHistory();
+  render52WeekYearHeatmap();
   Sound.success();
   Haptic.success();
 }
@@ -1513,6 +1710,7 @@ function deleteCurrentEditingHistoryItem() {
     saveState();
     closeModal("modal-edit-history");
     renderHistory();
+    render52WeekYearHeatmap();
     Sound.beep(400, 0.1);
   }
 }
@@ -1522,6 +1720,7 @@ function deleteHistoryItemDirect(idx) {
     appState.history.splice(idx, 1);
     saveState();
     renderHistory();
+    render52WeekYearHeatmap();
     Sound.beep(400, 0.1);
   }
 }
@@ -1550,13 +1749,13 @@ function openAddManualWorkoutModal() {
   addXP(100);
   saveState();
   renderHistory();
+  render52WeekYearHeatmap();
   Sound.success();
 }
 
 function copyCoachSummary() {
   const m = appState.currentMetrics || {};
   const hist = appState.history || [];
-  const nut = appState.nutrition || {};
 
   let lastWosText = "";
   if (hist.length === 0) {
@@ -1628,7 +1827,10 @@ function switchTab(tabId) {
       drawTrendChart();
     }, 50);
   }
-  if (tabId === "nutrition") renderNutrition();
+  if (tabId === "nutrition") {
+    renderNutrition();
+    renderPersonalizedVitamins();
+  }
   if (tabId === "history") renderHistory();
 }
 
@@ -1659,7 +1861,7 @@ function calculate1RM() {
   resEl.innerHTML = `
     <div class="flex justify-between items-center pb-1 border-b border-white/[0.08]">
       <span class="text-slate-400">Одноповторный максимум (1ПМ):</span>
-      <span class="text-sm font-bold text-violet-300 font-mono">${oneRM} кг</span>
+      <span class="text-sm font-bold text-cyan-300 font-mono">${oneRM} кг</span>
     </div>
     <div class="flex justify-between text-[10px] pt-1 font-mono">
       <span>80% (Рабочий 8-10): <b>${eightyPct} кг</b></span>
@@ -1678,4 +1880,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMesocycleBanner();
   renderMetrics();
   renderNutrition();
+  renderPersonalizedVitamins();
 });
