@@ -1406,55 +1406,49 @@ function renderMuscleVolumeBreakdown() {
 // ========================================================
 function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
-  const reasonLabel = document.getElementById("vitamin-calc-reason");
   if (!container) return;
 
   const stack = [
     {
-      name: "01. Магний Бисглицинат — за 40 мин до сна",
-      dose: "400 мг (чистый Mg)",
-      badgeColor: "text-[#c8a97e]",
-      reason: `Хелатная форма с глицином. Снимает спастический тонус с мышцы, поднимающей лопатку, и улучшает глубокую фазу сна (NREM).`
-    },
-    {
-      name: "02. Витамин D3 + K2 (MK-7) — утром с едой",
+      timing: "☀️ УТРО (с едой)",
+      timingBadge: "bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30",
+      name: "Витамин D3 + K2 (MK-7)",
       dose: "4000 МЕ + 100 мкг",
-      badgeColor: "text-white",
-      reason: `Поддерживает выработку тестостерона при силовых нагрузках и направляет кальций в кости, а не в сосуды.`
+      reason: "Стимулирует синтез тестостерона, укрепляет костный матрикс и направляет кальций в кости, предотвращая кальцификацию сосудов."
     },
     {
-      name: "03. Омега-3 Высококонцентрированная — в обед",
+      timing: "☀️ УТРО / ОБЕД",
+      timingBadge: "bg-emerald-950/80 text-emerald-400 border border-emerald-800/60",
+      name: "Омега-3 (EPA / DHA)",
       dose: "2000 мг (EPA > 800 мг)",
-      badgeColor: "text-slate-300",
-      reason: `Снижает системное воспаление суставов и сохраняет эластичность связочного аппарата плеча.`
+      reason: "Снижает системное воспаление, защищает суставные сумки плечевого пояса и улучшает липидный профиль крови."
     },
     {
-      name: "04. Креатин Моногидрат — утром или после тренинга",
-      dose: "5 г",
-      badgeColor: "text-emerald-400",
-      reason: `Повышает запас фосфокреатина в мышцах, увеличивая силу на 10-15% в первых повторениях базовых сетов.`
+      timing: "🌙 ВЕЧЕР (за 40 мин до сна)",
+      timingBadge: "bg-sky-950/80 text-sky-400 border border-sky-800/60",
+      name: "Магний Бисглицинат / Хелат",
+      dose: "400 мг чистого Mg",
+      reason: "Хелатная форма с аминокислотой глицин. Снимает остаточный спазм с мышцы шеи и лопатки, ускоряет засыпание и углубляет фазу NREM-сна."
     },
     {
-      name: "05. Цинк Хелат (Пиколинат) — после ужина",
-      dose: "25 мг",
-      badgeColor: "text-slate-400",
-      reason: `Синтез белка и поддержание иммунитета.`
-    },
-    {
-      name: "06. L-Теанин — при мышечном напряжении",
-      dose: "200 мг",
-      badgeColor: "text-slate-300",
-      reason: `Мягко снижает гиперактивность нервной системы и гипертонус шейного отдела без сонливости.`
+      timing: "⚡ В ДНИ ТРЕНИРОВОК",
+      timingBadge: "bg-purple-950/80 text-purple-300 border border-purple-800/60",
+      name: "Креатин Моногидрат",
+      dose: "5 г утром или после зала",
+      reason: "Насыщает запасы фосфокреатина в мышечных волокнах, повышает взрывную силу на 10–15% в базовых жимах и тягах."
     }
   ];
 
   container.innerHTML = stack.map(item => `
-    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
+    <div class="p-3.5 glass-panel-elevated rounded-2xl space-y-2">
       <div class="flex justify-between items-center font-mono">
-        <b class="text-white text-xs uppercase">${item.name}</b>
-        <span class="${item.badgeColor} font-bold text-xs">${item.dose}</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md ${item.timingBadge}">${item.timing}</span>
+        <span class="text-white font-bold text-xs">${item.dose}</span>
       </div>
-      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
+      <div>
+        <b class="text-sm font-bold text-white font-sans">${item.name}</b>
+        <p class="text-[11px] text-slate-300 leading-relaxed font-sans mt-1">${item.reason}</p>
+      </div>
     </div>
   `).join("");
 }

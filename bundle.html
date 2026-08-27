@@ -1077,44 +1077,20 @@ html, body {
         </div>
       </div>
 
-      <!-- КАРТОЧКА: АПТЕЧКА И НУТРИЦЕВТИКИ -->
-      <div class="p-5 glass-panel space-y-3">
+      <!-- КАРТОЧКА: БИОДОБАВКИ И ВОССТАНОВЛЕНИЕ -->
+      <div class="p-5 glass-panel space-y-3.5">
         <div class="flex justify-between items-center font-mono">
           <div class="flex items-center space-x-2">
             <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <h3 class="font-bold text-xs text-white uppercase">Аптечка и нутрицевтики</h3>
+            <h3 class="font-bold text-xs text-white uppercase tracking-wider">Биодобавки & Восстановление</h3>
           </div>
-          <span class="text-[10px] text-[#c8a97e] font-bold bg-[#c8a97e]/15 px-2 py-0.5 rounded border border-[#c8a97e]/30">Кастом</span>
+          <span class="text-[10px] text-[#c8a97e] font-bold bg-[#c8a97e]/15 px-2.5 py-0.5 rounded-lg border border-[#c8a97e]/30">Био-протокол</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Базовый стек поддержки суставов, связок, щитовидной железы и нервной системы:
+        <p class="text-xs text-slate-400 leading-relaxed font-sans">
+          Персональный протокол микронутриентов для защиты связок, разгрузки нервной системы и глубокого сна:
         </p>
 
-        <div class="space-y-2 text-xs font-mono">
-          <div class="p-2.5 glass-panel-elevated rounded-xl flex justify-between items-center">
-            <div>
-              <b class="text-white">Омега-3 (EPA/DHA)</b>
-              <span class="text-[10px] text-slate-400 block">2000 мг/сутки после еды</span>
-            </div>
-            <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">Сердце</span>
-          </div>
-
-          <div class="p-2.5 glass-panel-elevated rounded-xl flex justify-between items-center">
-            <div>
-              <b class="text-white">Витамин D3 + K2</b>
-              <span class="text-[10px] text-slate-400 block">5000 ME утром с жирами</span>
-            </div>
-            <span class="text-[10px] font-bold text-[#c8a97e] bg-[#c8a97e]/15 px-2 py-0.5 rounded border border-[#c8a97e]/30">Гормоны</span>
-          </div>
-
-          <div class="p-2.5 glass-panel-elevated rounded-xl flex justify-between items-center">
-            <div>
-              <b class="text-white">Магний Хелат / Цитрат</b>
-              <span class="text-[10px] text-slate-400 block">400 мг за 40 мин до сна</span>
-            </div>
-            <span class="text-[10px] font-bold text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">Сон/ЦНС</span>
-          </div>
-        </div>
+        <div id="personalized-vitamins-container" class="space-y-2.5 font-mono text-xs"></div>
       </div>
 
       <!-- КАРТОЧКА: УТРЕННИЙ ВАКУУМ -->
@@ -2814,55 +2790,49 @@ function renderMuscleVolumeBreakdown() {
 // ========================================================
 function renderPersonalizedVitamins() {
   const container = document.getElementById("personalized-vitamins-container");
-  const reasonLabel = document.getElementById("vitamin-calc-reason");
   if (!container) return;
 
   const stack = [
     {
-      name: "01. Магний Бисглицинат — за 40 мин до сна",
-      dose: "400 мг (чистый Mg)",
-      badgeColor: "text-[#c8a97e]",
-      reason: `Хелатная форма с глицином. Снимает спастический тонус с мышцы, поднимающей лопатку, и улучшает глубокую фазу сна (NREM).`
-    },
-    {
-      name: "02. Витамин D3 + K2 (MK-7) — утром с едой",
+      timing: "☀️ УТРО (с едой)",
+      timingBadge: "bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30",
+      name: "Витамин D3 + K2 (MK-7)",
       dose: "4000 МЕ + 100 мкг",
-      badgeColor: "text-white",
-      reason: `Поддерживает выработку тестостерона при силовых нагрузках и направляет кальций в кости, а не в сосуды.`
+      reason: "Стимулирует синтез тестостерона, укрепляет костный матрикс и направляет кальций в кости, предотвращая кальцификацию сосудов."
     },
     {
-      name: "03. Омега-3 Высококонцентрированная — в обед",
+      timing: "☀️ УТРО / ОБЕД",
+      timingBadge: "bg-emerald-950/80 text-emerald-400 border border-emerald-800/60",
+      name: "Омега-3 (EPA / DHA)",
       dose: "2000 мг (EPA > 800 мг)",
-      badgeColor: "text-slate-300",
-      reason: `Снижает системное воспаление суставов и сохраняет эластичность связочного аппарата плеча.`
+      reason: "Снижает системное воспаление, защищает суставные сумки плечевого пояса и улучшает липидный профиль крови."
     },
     {
-      name: "04. Креатин Моногидрат — утром или после тренинга",
-      dose: "5 г",
-      badgeColor: "text-emerald-400",
-      reason: `Повышает запас фосфокреатина в мышцах, увеличивая силу на 10-15% в первых повторениях базовых сетов.`
+      timing: "🌙 ВЕЧЕР (за 40 мин до сна)",
+      timingBadge: "bg-sky-950/80 text-sky-400 border border-sky-800/60",
+      name: "Магний Бисглицинат / Хелат",
+      dose: "400 мг чистого Mg",
+      reason: "Хелатная форма с аминокислотой глицин. Снимает остаточный спазм с мышцы шеи и лопатки, ускоряет засыпание и углубляет фазу NREM-сна."
     },
     {
-      name: "05. Цинк Хелат (Пиколинат) — после ужина",
-      dose: "25 мг",
-      badgeColor: "text-slate-400",
-      reason: `Синтез белка и поддержание иммунитета.`
-    },
-    {
-      name: "06. L-Теанин — при мышечном напряжении",
-      dose: "200 мг",
-      badgeColor: "text-slate-300",
-      reason: `Мягко снижает гиперактивность нервной системы и гипертонус шейного отдела без сонливости.`
+      timing: "⚡ В ДНИ ТРЕНИРОВОК",
+      timingBadge: "bg-purple-950/80 text-purple-300 border border-purple-800/60",
+      name: "Креатин Моногидрат",
+      dose: "5 г утром или после зала",
+      reason: "Насыщает запасы фосфокреатина в мышечных волокнах, повышает взрывную силу на 10–15% в базовых жимах и тягах."
     }
   ];
 
   container.innerHTML = stack.map(item => `
-    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
+    <div class="p-3.5 glass-panel-elevated rounded-2xl space-y-2">
       <div class="flex justify-between items-center font-mono">
-        <b class="text-white text-xs uppercase">${item.name}</b>
-        <span class="${item.badgeColor} font-bold text-xs">${item.dose}</span>
+        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md ${item.timingBadge}">${item.timing}</span>
+        <span class="text-white font-bold text-xs">${item.dose}</span>
       </div>
-      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
+      <div>
+        <b class="text-sm font-bold text-white font-sans">${item.name}</b>
+        <p class="text-[11px] text-slate-300 leading-relaxed font-sans mt-1">${item.reason}</p>
+      </div>
     </div>
   `).join("");
 }
