@@ -495,6 +495,11 @@ html, body {
 </head>
 <body class="bg-[#0a0b10] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">
 
+  <!-- ПЛАВАЮЩИЙ ИНДИКАТОР ВЕРСИИ В УГЛУ ЭКРАНА -->
+  <div class="fixed top-3 right-3 z-50 pointer-events-none opacity-90">
+    <span class="px-2 py-0.5 rounded-full bg-[#181b28]/90 text-[#c8a97e] border border-[#c8a97e]/40 font-mono text-[9px] font-bold shadow-lg backdrop-blur-md">v2.4.0 PRO</span>
+  </div>
+
   <!-- ======================================================== -->
   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->
   <!-- ======================================================== -->
@@ -509,7 +514,7 @@ html, body {
         <div class="leading-tight">
           <div class="flex items-center gap-1.5">
             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>
-            <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-white/10 rounded">ATHLETE</span>
+            <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded">v2.4.0 PRO</span>
           </div>
           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">
             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>
@@ -1327,6 +1332,9 @@ html, body {
         </div>
         <div class="flex justify-between text-slate-300">
           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>
+        </div>
+        <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">
+          <span>Версия сборки:</span><b class="text-[#c8a97e]">v2.4.0 (Edge Pro)</b>
         </div>
       </div>
 
