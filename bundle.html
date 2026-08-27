@@ -908,8 +908,8 @@ if(window.Telegram&&window.Telegram.WebApp){window.Telegram.WebApp.ready();windo
  */
 
 const APP_CONFIG = {
-  version: "v2.8.2 PRO",
-  build: "v2.8.2 (Adaptive RIR & Instant Telemetry)",
+  version: "v2.8.3 PRO",
+  build: "v2.8.3 (Rich Visuals & Biomechanics Engine)",
   releaseDate: "2026-08-27"
 };
 
@@ -2784,20 +2784,51 @@ function renderExerciseCatalogList() {
     return;
   }
 
-  container.innerHTML = filtered.map(ex => `
-    <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
-      <div class="space-y-1 pr-1">
-        <div class="flex items-center space-x-1.5">
-          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-slate-300 border border-white/10 rounded uppercase">${ex.category}</span>
-          <h4 class="font-bold text-xs text-white leading-tight">${ex.name}</h4>
+  container.innerHTML = filtered.map(ex => {
+    const diagSvg = getExerciseDiagramSVG(ex.name, ex.category);
+    return `
+      <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
+        <div class="flex justify-between items-start space-x-2">
+          <div class="space-y-0.5">
+            <div class="flex items-center space-x-1.5">
+              <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-[#c8a97e]/30 rounded uppercase">${ex.category}</span>
+              <h4 class="font-bold text-xs text-white leading-tight">${ex.name}</h4>
+            </div>
+            <p class="text-[10px] text-slate-400 font-mono">${ex.targetMuscles}</p>
+          </div>
+          <button onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+            + В план
+          </button>
         </div>
-        <p class="text-[11px] text-slate-400 font-mono">${ex.targetMuscles}</p>
+
+        <!-- ВИЗУАЛЬНАЯ АНИМИРОВАННАЯ ТРАЕКТОРИЯ И ДВИЖЕНИЕ -->
+        <div class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04]">
+          ${diagSvg}
+        </div>
+
+        <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-white/[0.04] pt-1.5">
+          <span>Норма: <b class="text-white">${ex.defaultSets}×${ex.min}-${ex.max}</b> (${ex.defaultWeight} кг)</span>
+          <span class="text-emerald-400">🔥 ~${ex.calRate * ex.defaultSets} ккал</span>
+        </div>
       </div>
-      <button onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
-        + В план
-      </button>
-    </div>
-  `).join("");
+    `;
+  }).join("");
+}
+
+function toggleExerciseGuide(exIdx) {
+  const guideEl = document.getElementById(`ex-guide-${exIdx}`);
+  const btnEl = document.getElementById(`btn-guide-${exIdx}`);
+  if (!guideEl) return;
+  const isHidden = guideEl.classList.contains("hidden");
+  if (isHidden) {
+    guideEl.classList.remove("hidden");
+    if (btnEl) btnEl.textContent = "👀 Скрыть схему движения";
+  } else {
+    guideEl.classList.add("hidden");
+    if (btnEl) btnEl.textContent = "👀 Схема движения & Техника";
+  }
+  Sound.beep(550, 0.04);
+  Haptic.impact('light');
 }
 
 function addExerciseFromCatalogToActiveWorkout(exId) {
@@ -2984,7 +3015,7 @@ function renderActiveWorkoutUI() {
             </div>
             <div class="flex space-x-2">
               <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-[#c8a97e] rounded-lg border border-[#c8a97e]/30 text-[10px] font-bold active:scale-95 transition-all">
-                👀 Анатомия & Техника
+                👀 Скрыть схему движения
               </button>
               <button type="button" onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-1 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] active:scale-95 transition-all">
                 Замена
@@ -2992,9 +3023,9 @@ function renderActiveWorkoutUI() {
             </div>
           </div>
 
-          <!-- СКРЫВАЕМЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И СОВЕТОВ -->
-          <div id="ex-guide-${exIdx}" class="hidden pt-2 space-y-3">
-            <div class="ex-diagram-container">
+          <!-- ВИЗУАЛЬНЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И ТЕХНИКИ (ВИДЕН СРАЗУ) -->
+          <div id="ex-guide-${exIdx}" class="pt-2 space-y-3">
+            <div class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2">
               ${diagramSvg}
             </div>
 
