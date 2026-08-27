@@ -3,8 +3,8 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.7.3 PRO",
-  build: "v2.7.3 (Push Hub & Edge Ultimate)",
+  version: "v2.8.2 PRO",
+  build: "v2.8.2 (Adaptive RIR & Instant Telemetry)",
   releaseDate: "2026-08-27"
 };
 
@@ -1927,6 +1927,19 @@ function getProgressiveOverloadSuggestion(exName) {
   };
 }
 
+function getRIRBadgeHtml(rirVal) {
+  const rir = (rirVal !== undefined) ? rirVal : 2;
+  if (rir === 0) {
+    return `<span class="px-1 py-1 rounded text-[8px] sm:text-[9px] font-bold bg-rose-950/80 text-rose-300 border border-rose-800 flex items-center justify-center gap-1 shadow-sm whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>Отказ 0</span>`;
+  } else if (rir === 1) {
+    return `<span class="px-1 py-1 rounded text-[8px] sm:text-[9px] font-bold bg-amber-950/80 text-amber-300 border border-amber-800 flex items-center justify-center gap-1 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Запас 1</span>`;
+  } else if (rir === 2) {
+    return `<span class="px-1 py-1 rounded text-[8px] sm:text-[9px] font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center justify-center gap-1 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Запас 2</span>`;
+  } else {
+    return `<span class="px-1 py-1 rounded text-[8px] sm:text-[9px] font-bold bg-sky-950/80 text-sky-300 border border-sky-800 flex items-center justify-center gap-1 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Запас 3+</span>`;
+  }
+}
+
 function cycleSetRIR(exIdx, sIdx) {
   if (!appState.activeWorkout) return;
   const set = appState.activeWorkout.exercises[exIdx].sets[sIdx];
@@ -2025,7 +2038,9 @@ function renderActiveWorkoutUI() {
           </div>
 
           <div class="col-span-2 flex justify-center">
-            <button type="button" onclick="cycleSetRIR(${exIdx}, ${sIdx})" class="px-1.5 py-1 rounded text-[9px] font-bold ${s.rir === 0 ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-white/5 text-[#c8a97e] border border-white/10'}">RIR ${s.rir !== undefined ? s.rir : 2}</button>
+            <button type="button" onclick="cycleSetRIR(${exIdx}, ${sIdx})" class="w-full flex justify-center active:scale-95 transition-all" title="Нажмите, чтобы изменить запас сил">
+              ${getRIRBadgeHtml(s.rir)}
+            </button>
           </div>
 
           <div class="col-span-1 flex justify-center">
@@ -2044,6 +2059,15 @@ function renderActiveWorkoutUI() {
       bodyHtml = `
         <div class="pt-3 space-y-2.5 border-t border-white/[0.06] mt-3">
           
+          <!-- ЗАГОЛОВКИ КОЛОНОК СЕТОВ С ПОДСКАЗКОЙ -->
+          <div class="grid grid-cols-12 gap-1.5 text-[9px] font-mono text-slate-400 uppercase pb-0.5 px-1 select-none">
+            <div class="col-span-1 text-center">Сет</div>
+            <div class="col-span-5 text-center">Вес</div>
+            <div class="col-span-3 text-center">Повторы</div>
+            <div class="col-span-2 text-center cursor-pointer text-[#c8a97e] hover:underline" onclick="openModal('modal-rir-guide')" title="Что такое Запас сил?">Запас ℹ️</div>
+            <div class="col-span-1 text-center">✓</div>
+          </div>
+
           <!-- СЕТЫ И ВЕСА (ПЕРВЫМ ПЛАНОМ ДЛЯ МАКСИМАЛЬНОГО УДОБСТВА) -->
           <div class="space-y-1.5">${setsRows}</div>
 
