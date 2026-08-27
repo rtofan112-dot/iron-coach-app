@@ -1,5 +1,5 @@
 /**
- * IRON COACH ELITE - High-End Dark Luxury Cyber-Sport UI Engine
+ * IRON COACH ELITE - Swiss Titanium & Velvet Graphite UI Engine
  */
 
 // ========================================================
@@ -23,7 +23,7 @@ const Sound = {
       const gain = this.ctx.createGain();
       osc.type = type;
       osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + dur);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -32,20 +32,19 @@ const Sound = {
     } catch(e) {}
   },
   success() {
-    this.beep(587.33, 0.1);
-    setTimeout(() => this.beep(880, 0.25), 100);
+    this.beep(587.33, 0.08);
+    setTimeout(() => this.beep(880, 0.2), 80);
   },
   record() {
-    this.beep(523.25, 0.1);
-    setTimeout(() => this.beep(659.25, 0.1), 100);
-    setTimeout(() => this.beep(783.99, 0.2), 200);
-    setTimeout(() => this.beep(1046.50, 0.3), 300);
+    this.beep(523.25, 0.08);
+    setTimeout(() => this.beep(659.25, 0.08), 90);
+    setTimeout(() => this.beep(783.99, 0.15), 180);
   },
   finish() {
-    this.beep(523.25, 0.12);
-    setTimeout(() => this.beep(659.25, 0.12), 120);
-    setTimeout(() => this.beep(783.99, 0.12), 240);
-    setTimeout(() => this.beep(1046.50, 0.35), 360);
+    this.beep(523.25, 0.1);
+    setTimeout(() => this.beep(659.25, 0.1), 100);
+    setTimeout(() => this.beep(783.99, 0.1), 200);
+    setTimeout(() => this.beep(1046.50, 0.25), 300);
   }
 };
 
@@ -55,7 +54,7 @@ const Haptic = {
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
       window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
     } else if (navigator.vibrate) {
-      navigator.vibrate(40);
+      navigator.vibrate(35);
     }
   },
   success() {
@@ -63,15 +62,15 @@ const Haptic = {
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
       window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
     } else if (navigator.vibrate) {
-      navigator.vibrate([40, 60, 80]);
+      navigator.vibrate([35, 50, 70]);
     }
   }
 };
 
 const SVG_ICONS = {
-  soundOn: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`,
-  soundVibrate: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line><path d="M1 9l2 3-2 3M23 9l-2 3 2 3"></path></svg>`,
-  soundMute: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`
+  soundOn: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`,
+  soundVibrate: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line><path d="M1 9l2 3-2 3M23 9l-2 3 2 3"></path></svg>`,
+  soundMute: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`
 };
 
 function cycleSoundMode() {
@@ -84,7 +83,7 @@ function cycleSoundMode() {
   }
   saveState();
   updateSoundUI();
-  Sound.beep(700, 0.1);
+  Sound.beep(700, 0.08);
   Haptic.impact('light');
 }
 
@@ -101,342 +100,227 @@ function updateSoundUI() {
 }
 
 // ========================================================
-// БАЗА УПРАЖНЕНИЙ (EXERCISE DATABASE - 30+ ПОЗИЦИЙ)
+// КАСТОМНЫЕ ВЕКТОРНЫЕ БИОМЕХАНИЧЕСКИЕ ИЛЛЮСТРАЦИИ (CAD BLUEPRINT)
+// ========================================================
+function getExerciseDiagramSVG(exName, muscleGroup) {
+  const n = (exName || "").toLowerCase();
+  
+  // НАКЛОННЫЙ ЖИМ (30°)
+  if (n.includes("наклонн") || n.includes("30°")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Скамья 30° -->
+        <line x1="40" y1="65" x2="160" y2="25" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+        <line x1="70" y1="55" x2="70" y2="70" stroke="#334155" stroke-width="2"/>
+        <line x1="140" y1="32" x2="140" y2="70" stroke="#334155" stroke-width="2"/>
+        <line x1="30" y1="70" x2="180" y2="70" stroke="#1e293b" stroke-width="2"/>
+        <!-- Фигура атлета -->
+        <circle cx="150" cy="18" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="145" y1="24" x2="80" y2="48" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+        <!-- Подсвеченная верхняя часть груди -->
+        <path d="M125 28 L110 34" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <!-- Рука и вектор жима вверх -->
+        <polyline points="125,30 110,18 105,6" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Гантель -->
+        <circle cx="105" cy="6" r="4" fill="#c8a97e"/>
+        <!-- Векторная стрелка движения -->
+        <path d="M112 18 L106 8" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        <text x="180" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">ВЕРХ ГРУДИ</text>
+        <text x="180" y="44" fill="#64748b" font-size="8" font-family="monospace">Угол 30°</text>
+      </svg>
+    `;
+  }
+  
+  // ГОРИЗОНТАЛЬНЫЙ ЖИМ / БРУСЬЯ / БАБОЧКА
+  if (n.includes("жим лежа") || n.includes("горизонтал") || n.includes("бабочк") || n.includes("брусь") || n.includes("хаммер")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Скамья -->
+        <line x1="40" y1="50" x2="160" y2="50" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="50" y2="70" stroke="#334155" stroke-width="2"/>
+        <line x1="150" y1="50" x2="150" y2="70" stroke="#334155" stroke-width="2"/>
+        <!-- Фигура атлета -->
+        <circle cx="150" cy="40" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="144" y1="44" x2="70" y2="44" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+        <!-- Подсветка груди -->
+        <path d="M125 44 L105 44" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <!-- Руки с выжимом -->
+        <polyline points="120,44 115,24 115,10" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="115" cy="10" r="4" fill="#c8a97e"/>
+        <!-- Вектор жима -->
+        <line x1="115" y1="35" x2="115" y2="15" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        <text x="175" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">ГРУДНЫЕ</text>
+        <text x="175" y="44" fill="#64748b" font-size="8" font-family="monospace">Сведение лопаток</text>
+      </svg>
+    `;
+  }
+
+  // ТЯГА К ЛИЦУ (FACE PULL — РАЗГРУЗКА ШЕИ)
+  if (n.includes("лицу") || n.includes("face pull") || n.includes("ше") || n.includes("лопатк")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Блочная стойка -->
+        <line x1="30" y1="10" x2="30" y2="70" stroke="#334155" stroke-width="3"/>
+        <circle cx="30" cy="25" r="3" fill="#c8a97e"/>
+        <!-- Канатный трос -->
+        <path d="M30 25 L95 25" stroke="#475569" stroke-width="2" stroke-dasharray="3 3"/>
+        <!-- Атлет стоя -->
+        <circle cx="130" cy="20" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="130" y1="27" x2="130" y2="60" stroke="#cbd5e1" stroke-width="4"/>
+        <polyline points="130,60 120,72" stroke="#94a3b8" stroke-width="2.5"/>
+        <polyline points="130,60 140,72" stroke="#94a3b8" stroke-width="2.5"/>
+        <!-- Руки тянут канат к глазам, локти назад -->
+        <polyline points="130,30 115,22 95,25" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Подсвеченная задняя дельта и трапеция/лопатка -->
+        <circle cx="126" cy="30" r="4" fill="#c8a97e"/>
+        <text x="160" y="28" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">РАЗГРУЗКА ШЕИ</text>
+        <text x="160" y="40" fill="#64748b" font-size="8" font-family="monospace">Лопатки и задн. дельта</text>
+      </svg>
+    `;
+  }
+
+  // ТЯГИ СПИНЫ (ГОРИЗОНТАЛЬНЫЙ / ВЕРТИКАЛЬНЫЙ БЛОК)
+  if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Блок тренажера -->
+        <line x1="35" y1="10" x2="35" y2="70" stroke="#334155" stroke-width="3"/>
+        <line x1="35" y1="40" x2="90" y2="40" stroke="#475569" stroke-width="2" stroke-dasharray="2 2"/>
+        <!-- Атлет сидя -->
+        <circle cx="125" cy="22" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="125" y1="29" x2="120" y2="55" stroke="#cbd5e1" stroke-width="4"/>
+        <line x1="120" y1="55" x2="85" y2="55" stroke="#94a3b8" stroke-width="3"/>
+        <!-- Подсвеченные широчайшие спины -->
+        <path d="M123 32 L121 48" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <!-- Руки тянут к поясу -->
+        <polyline points="123,32 105,38 90,40" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="160" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">ШИРОЧАЙШИЕ</text>
+        <text x="160" y="44" fill="#64748b" font-size="8" font-family="monospace">Тяга локтями назад</text>
+      </svg>
+    `;
+  }
+
+  // НОГИ (ЖИМ НОГАМИ 45° / ПРИСЕД / ГАКК / СГИБАНИЯ)
+  if (n.includes("ног") || n.includes("присед") || n.includes("румын") || n.includes("икр")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Платформа тренажера 45° -->
+        <line x1="50" y1="20" x2="110" y2="65" stroke="#334155" stroke-width="3"/>
+        <rect x="40" y="15" width="20" height="8" rx="2" fill="#c8a97e" transform="rotate(-35 40 15)"/>
+        <!-- Атлет в кресле -->
+        <circle cx="150" cy="35" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <polyline points="145,40 120,55 80,45 55,30" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Подсветка квадрицепса и бицепса бедра -->
+        <path d="M120 55 L80 45" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <text x="165" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">КВАДРИЦЕПС</text>
+        <text x="165" y="44" fill="#64748b" font-size="8" font-family="monospace">Упор в пятки</text>
+      </svg>
+    `;
+  }
+
+  // ПЛЕЧИ / МАХИ / ЖИМ СИДЯ
+  if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Фигура атлета -->
+        <circle cx="120" cy="18" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="120" y1="25" x2="120" y2="60" stroke="#cbd5e1" stroke-width="4"/>
+        <polyline points="120,60 110,72" stroke="#94a3b8" stroke-width="2.5"/>
+        <polyline points="120,60 130,72" stroke="#94a3b8" stroke-width="2.5"/>
+        <!-- Руки в разведении в стороны -->
+        <polyline points="70,30 95,26 120,26 145,26 170,30" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Гантели -->
+        <circle cx="70" cy="30" r="3.5" fill="#c8a97e"/>
+        <circle cx="170" cy="30" r="3.5" fill="#c8a97e"/>
+        <!-- Подсветка средних дельт -->
+        <circle cx="100" cy="26" r="4" fill="#c8a97e"/>
+        <circle cx="140" cy="26" r="4" fill="#c8a97e"/>
+        <text x="175" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">СРЕДНЯЯ ДЕЛЬТА</text>
+        <text x="175" y="44" fill="#64748b" font-size="8" font-family="monospace">Подъем локтями</text>
+      </svg>
+    `;
+  }
+
+  // РУКИ (БИЦЕПС / ТРИЦЕПС)
+  if (n.includes("бицепс") || n.includes("трицепс") || n.includes("молот") || n.includes("руки")) {
+    return `
+      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="20" r="7" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="100" y1="27" x2="100" y2="60" stroke="#cbd5e1" stroke-width="4"/>
+        <polyline points="100,28 100,42 85,30" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Подсветка руки -->
+        <circle cx="95" cy="36" r="4" fill="#c8a97e"/>
+        <!-- Гантель -->
+        <circle cx="85" cy="30" r="4" fill="#c8a97e"/>
+        <text x="140" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">РУКИ / ИЗОЛЯЦИЯ</text>
+        <text x="140" y="44" fill="#64748b" font-size="8" font-family="monospace">Локти фиксированы</text>
+      </svg>
+    `;
+  }
+
+  // УНИВЕРСАЛЬНЫЙ ДИЗАЙН
+  return `
+    <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="22" r="7" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="100" y1="29" x2="100" y2="60" stroke="#cbd5e1" stroke-width="4"/>
+      <polyline points="100,60 90,72" stroke="#94a3b8" stroke-width="2.5"/>
+      <polyline points="100,60 110,72" stroke="#94a3b8" stroke-width="2.5"/>
+      <circle cx="100" cy="38" r="5" fill="#c8a97e"/>
+      <text x="140" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">${muscleGroup || 'БАЗА'}</text>
+      <text x="140" y="44" fill="#64748b" font-size="8" font-family="monospace">Контроль техники</text>
+    </svg>
+  `;
+}
+
+// ========================================================
+// БАЗА УПРАЖНЕНИЙ (EXERCISE DATABASE)
 // ========================================================
 const EXERCISE_DATABASE = [
   // ГРУДЬ
-  {
-    id: "db_ch_1",
-    name: "Жим гантелей на наклонной скамье 30°",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Верх грудных (ключичная часть) • Передняя дельта • Трицепс",
-    phases: ["01: Опускание 2–3с", "02: Пауза внизу 1с", "03: Мощный выжим"],
-    defaultSets: 4, min: 8, max: 10, defaultWeight: 22, calRate: 12, isTime: false,
-    tip: "Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи."
-  },
-  {
-    id: "db_ch_2",
-    name: "Жим гантелей на горизонтальной скамье",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Середина и низ груди • Трицепс",
-    phases: ["01: Сведение лопаток", "02: Растяжка 2с", "03: Выжим"],
-    defaultSets: 4, min: 8, max: 10, defaultWeight: 24, calRate: 12, isTime: false,
-    tip: "Мощный подконтрольный выжим, пауза 1 сек в нижней точке растяжения груди."
-  },
-  {
-    id: "db_ch_3",
-    name: "Жим штанги лежа на горизонтальной скамье",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Грудные мышцы целиком • Трицепс",
-    phases: ["01: Снятие со стоек", "02: Касание низа груди", "03: Выжим"],
-    defaultSets: 4, min: 8, max: 10, defaultWeight: 60, calRate: 14, isTime: false,
-    tip: "Сведение лопаток, плотный упор ногами в пол, гриф опускай на линию сосков."
-  },
-  {
-    id: "db_ch_4",
-    name: "Сведения рук в тренажере бабочка (Pec Deck)",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Изоляция грудных мышц • Внутренняя часть",
-    phases: ["01: Глубокая растяжка", "02: Сведение по дуге", "03: Сжатие 2с"],
-    defaultSets: 4, min: 10, max: 12, defaultWeight: 25, calRate: 9, isTime: false,
-    tip: "Глубокая растяжка грудных при опускании и фиксация 2 сек в сведении."
-  },
-  {
-    id: "db_ch_5",
-    name: "Сведения в кроссовере на блоках",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Низ и середина груди",
-    phases: ["01: Наклон вперед", "02: Сведение рук", "03: Сжатие 1с"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 15, calRate: 8, isTime: false,
-    tip: "Локти слегка согнуты и зафиксированы, движение чисто в плечевых суставах."
-  },
-  {
-    id: "db_ch_6",
-    name: "Отжимания на брусьях (с акцентом на грудь)",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Нижняя часть грудных • Трицепс",
-    phases: ["01: Наклон 30°", "02: Опускание до 90°", "03: Выжим вверх"],
-    defaultSets: 4, min: 8, max: 10, defaultWeight: 0, calRate: 11, isTime: false,
-    tip: "Корпус наклонен вперед, локти немного разведены в стороны под 45°."
-  },
-  {
-    id: "db_ch_7",
-    name: "Жим в тренажере Хаммер на грудь",
-    category: "Грудь",
-    muscleGroup: "Грудь",
-    targetMuscles: "Изолированная траектория грудных мышц",
-    phases: ["01: Упор в спинку", "02: Плавный выжим", "03: Медленный возврат"],
-    defaultSets: 4, min: 10, max: 12, defaultWeight: 40, calRate: 10, isTime: false,
-    tip: "Безопасная траектория для суставов при максимальном кровенаполнении."
-  },
+  { id: "db_ch_1", name: "Жим гантелей на наклонной скамье 30°", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта • Трицепс", phases: ["01: Опускание 2–3с", "02: Пауза внизу 1с", "03: Мощный выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 22, calRate: 12, isTime: false, tip: "Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи." },
+  { id: "db_ch_2", name: "Жим гантелей на горизонтальной скамье", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Середина и низ груди • Трицепс", phases: ["01: Сведение лопаток", "02: Растяжка 2с", "03: Выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 24, calRate: 12, isTime: false, tip: "Мощный подконтрольный выжим, пауза 1 сек в нижней точке растяжения груди." },
+  { id: "db_ch_3", name: "Жим штанги лежа на горизонтальной скамье", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Грудные мышцы целиком • Трицепс", phases: ["01: Снятие со стоек", "02: Касание низа груди", "03: Выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 60, calRate: 14, isTime: false, tip: "Сведение лопаток, плотный упор ногами в пол, гриф опускай на линию сосков." },
+  { id: "db_ch_4", name: "Сведения рук в тренажере бабочка (Pec Deck)", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Изоляция грудных мышц • Внутренняя часть", phases: ["01: Глубокая растяжка", "02: Сведение по дуге", "03: Сжатие 2с"], defaultSets: 4, min: 10, max: 12, defaultWeight: 25, calRate: 9, isTime: false, tip: "Глубокая растяжка грудных при опускании и фиксация 2 сек в сведении." },
+  { id: "db_ch_5", name: "Сведения в кроссовере на блоках", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Низ и середина груди", phases: ["01: Наклон вперед", "02: Сведение рук", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 15, calRate: 8, isTime: false, tip: "Локти слегка согнуты и зафиксированы, движение чисто в плечевых суставах." },
+  { id: "db_ch_6", name: "Отжимания на брусьях (с акцентом на грудь)", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Нижняя часть грудных • Трицепс", phases: ["01: Наклон 30°", "02: Опускание до 90°", "03: Выжим вверх"], defaultSets: 4, min: 8, max: 10, defaultWeight: 0, calRate: 11, isTime: false, tip: "Корпус наклонен вперед, локти немного разведены в стороны под 45°." },
+  { id: "db_ch_7", name: "Жим в тренажере Хаммер на грудь", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Изолированная траектория грудных мышц", phases: ["01: Упор в спинку", "02: Плавный выжим", "03: Медленный возврат"], defaultSets: 4, min: 10, max: 12, defaultWeight: 40, calRate: 10, isTime: false, tip: "Безопасная траектория для суставов при максимальном кровенаполнении." },
 
   // СПИНА
-  {
-    id: "db_bk_1",
-    name: "Тяга горизонтального блока к поясу (нейтральный хват)",
-    category: "Спина",
-    muscleGroup: "Спина",
-    targetMuscles: "Широчайшие мышцы • Ромбовидные • Середина спины",
-    phases: ["01: Локти скользят назад", "02: Сведение лопаток", "03: Растяжка 2с"],
-    defaultSets: 4, min: 10, max: 12, defaultWeight: 45, calRate: 11, isTime: false,
-    tip: "Локти скользят вдоль ребер назад, плечи зафиксированы внизу."
-  },
-  {
-    id: "db_bk_2",
-    name: "Тяга верхнего блока нейтральным хватом к груди",
-    category: "Спина",
-    muscleGroup: "Спина",
-    targetMuscles: "Верх широчайших • Середина спины",
-    phases: ["01: Растяжка вверху", "02: Тяга к ключицам", "03: Опускание лопаток"],
-    defaultSets: 4, min: 10, max: 12, defaultWeight: 50, calRate: 12, isTime: false,
-    tip: "Симметричная тяга к верху груди, лопатки опущены вниз."
-  },
-  {
-    id: "db_bk_3",
-    name: "Тяга каната к лицу (Face Pull — разгрузка шеи)",
-    category: "Спина",
-    muscleGroup: "Спина",
-    targetMuscles: "Задняя дельта • Мышцы лопатки (снятие спазма)",
-    phases: ["01: Канат к глазам", "02: Локти назад и врозь", "03: Пауза 2с"],
-    defaultSets: 4, min: 15, max: 20, defaultWeight: 15, calRate: 8, isTime: false,
-    tip: "Канат к глазам, локти разводи назад, пауза 2 сек (снимает спазм мышцы шеи)."
-  },
-  {
-    id: "db_bk_4",
-    name: "Подтягивания на турнике (или в гравитроне)",
-    category: "Спина",
-    muscleGroup: "Спина",
-    targetMuscles: "Широчайшие мышцы • Брахиалис",
-    phases: ["01: Полный вис", "02: Подтягивание к груди", "03: Плавный спуск"],
-    defaultSets: 4, min: 6, max: 10, defaultWeight: 0, calRate: 13, isTime: false,
-    tip: "Грудь тянется к перекладине, плечи опущены, без раскачки."
-  },
-  {
-    id: "db_bk_5",
-    name: "Тяга гантели в наклоне с упором в скамью",
-    category: "Спина",
-    muscleGroup: "Спина",
-    targetMuscles: "Односторонняя проработка широчайшей мышцы",
-    phases: ["01: Упор рукой", "02: Тяга к бедру", "03: Растяжка внизу"],
-    defaultSets: 3, min: 10, max: 12, defaultWeight: 22, calRate: 10, isTime: false,
-    tip: "Тяни гантель строго к тазу по дуге, без скручивания позвоночника."
-  },
-  {
-    id: "db_bk_6",
-    name: "Гиперэкстензия для разгибателей спины",
-    category: "Спина",
-    muscleGroup: "Спина",
-    targetMuscles: "Поясничные разгибатели • Ягодицы",
-    phases: ["01: Опускание до 90°", "02: Подъем в линию", "03: Без переразгиба"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 8, isTime: false,
-    tip: "Не прогибайся сильно назад вверху, держи корпус в прямую линию."
-  },
+  { id: "db_bk_1", name: "Тяга горизонтального блока к поясу (нейтральный хват)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы • Ромбовидные • Середина спины", phases: ["01: Локти скользят назад", "02: Сведение лопаток", "03: Растяжка 2с"], defaultSets: 4, min: 10, max: 12, defaultWeight: 45, calRate: 11, isTime: false, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы внизу." },
+  { id: "db_bk_2", name: "Тяга верхнего блока нейтральным хватом к груди", category: "Спина", muscleGroup: "Спина", targetMuscles: "Верх широчайших • Середина спины", phases: ["01: Растяжка вверху", "02: Тяга к ключицам", "03: Опускание лопаток"], defaultSets: 4, min: 10, max: 12, defaultWeight: 50, calRate: 12, isTime: false, tip: "Симметричная тяга к верху груди, лопатки опущены вниз." },
+  { id: "db_bk_3", name: "Тяга каната к лицу (Face Pull — разгрузка шеи)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Задняя дельта • Мышцы лопатки (снятие спазма)", phases: ["01: Канат к глазам", "02: Локти назад и врозь", "03: Пауза 2с"], defaultSets: 4, min: 15, max: 20, defaultWeight: 15, calRate: 8, isTime: false, tip: "Канат к глазам, локти разводи назад, пауза 2 сек (снимает спазм мышцы шеи)." },
+  { id: "db_bk_4", name: "Подтягивания на турнике (или в гравитроне)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы • Брахиалис", phases: ["01: Полный вис", "02: Подтягивание к груди", "03: Плавный спуск"], defaultSets: 4, min: 6, max: 10, defaultWeight: 0, calRate: 13, isTime: false, tip: "Грудь тянется к перекладине, плечи опущены, без раскачки." },
+  { id: "db_bk_5", name: "Тяга гантели в наклоне с упором в скамью", category: "Спина", muscleGroup: "Спина", targetMuscles: "Односторонняя проработка широчайшей мышцы", phases: ["01: Упор рукой", "02: Тяга к бедру", "03: Растяжка внизу"], defaultSets: 3, min: 10, max: 12, defaultWeight: 22, calRate: 10, isTime: false, tip: "Тяни гантель строго к тазу по дуге, без скручивания позвоночника." },
+  { id: "db_bk_6", name: "Гиперэкстензия для разгибателей спины", category: "Спина", muscleGroup: "Спина", targetMuscles: "Поясничные разгибатели • Ягодицы", phases: ["01: Опускание до 90°", "02: Подъем в линию", "03: Без переразгиба"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 8, isTime: false, tip: "Не прогибайся сильно назад вверху, держи корпус в прямую линию." },
 
   // НОГИ
-  {
-    id: "db_lg_1",
-    name: "Жим ногами под углом 45° в тренажере",
-    category: "Ноги",
-    muscleGroup: "Ноги",
-    targetMuscles: "Квадрицепс • Ягодицы",
-    phases: ["01: Упор в пятки", "02: Угол в коленях 90°", "03: Без щелчка суставов"],
-    defaultSets: 4, min: 10, max: 12, defaultWeight: 90, calRate: 16, isTime: false,
-    tip: "Колени вверху не вставляй до щелчка, упор в середину стопы и пятки."
-  },
-  {
-    id: "db_lg_2",
-    name: "Румынская тяга с гантелями",
-    category: "Ноги",
-    muscleGroup: "Ноги",
-    targetMuscles: "Бицепс бедра • Ягодичные мышцы",
-    phases: ["01: Отвод таза назад", "02: Прямая спина", "03: Растяжение бедра"],
-    defaultSets: 4, min: 10, max: 12, defaultWeight: 22, calRate: 15, isTime: false,
-    tip: "Таз максимально назад, колени слегка согнуты, спина прямая."
-  },
-  {
-    id: "db_lg_3",
-    name: "Сгибания ног сидя или лежа в тренажере",
-    category: "Ноги",
-    muscleGroup: "Ноги",
-    targetMuscles: "Бицепс бедра • Подколенные связки",
-    phases: ["01: Плавное сгибание", "02: Фиксация 1с", "03: Медленный спуск 3с"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false,
-    tip: "Медленное опускание 2–3 сек, акцент на растяжение бицепса бедра."
-  },
-  {
-    id: "db_lg_4",
-    name: "Разгибания ног в тренажере сидя",
-    category: "Ноги",
-    muscleGroup: "Ноги",
-    targetMuscles: "Изоляция квадрицепса",
-    phases: ["01: Плавный подъем", "02: Пиковое сжатие 1с", "03: Медленный спуск"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 40, calRate: 8, isTime: false,
-    tip: "Без рывков, задержись на секунду в верхней точке."
-  },
-  {
-    id: "db_lg_5",
-    name: "Приседания в Гакк-тренажере",
-    category: "Ноги",
-    muscleGroup: "Ноги",
-    targetMuscles: "Квадрицепс • Ягодицы",
-    phases: ["01: Спина к опоре", "02: Плавный сед 90°", "03: Подъем пятками"],
-    defaultSets: 3, min: 10, max: 12, defaultWeight: 35, calRate: 13, isTime: false,
-    tip: "Плавное движение по направлению носков, поясница плотно прижата."
-  },
-  {
-    id: "db_lg_6",
-    name: "Подъем на носки стоя на икроножные",
-    category: "Ноги",
-    muscleGroup: "Ноги",
-    targetMuscles: "Икроножные мышцы • Ахиллово сухожилие",
-    phases: ["01: Глубокий спуск", "02: Выжим на носки", "03: Пауза 2с вверху"],
-    defaultSets: 4, min: 15, max: 20, defaultWeight: 50, calRate: 8, isTime: false,
-    tip: "Полная амплитуда с паузой 2 сек в нижней точке растяжки."
-  },
+  { id: "db_lg_1", name: "Жим ногами под углом 45° в тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Упор в пятки", "02: Угол в коленях 90°", "03: Без щелчка суставов"], defaultSets: 4, min: 10, max: 12, defaultWeight: 90, calRate: 16, isTime: false, tip: "Колени вверху не вставляй до щелчка, упор в середину стопы и пятки." },
+  { id: "db_lg_2", name: "Румынская тяга с гантелями", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Ягодичные мышцы", phases: ["01: Отвод таза назад", "02: Прямая спина", "03: Растяжение бедра"], defaultSets: 4, min: 10, max: 12, defaultWeight: 22, calRate: 15, isTime: false, tip: "Таз максимально назад, колени слегка согнуты, спина прямая." },
+  { id: "db_lg_3", name: "Сгибания ног сидя или лежа в тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Подколенные связки", phases: ["01: Плавное сгибание", "02: Фиксация 1с", "03: Медленный спуск 3с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false, tip: "Медленное опускание 2–3 сек, акцент на растяжение бицепса бедра." },
+  { id: "db_lg_4", name: "Разгибания ног в тренажере сидя", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Изоляция квадрицепса", phases: ["01: Плавный подъем", "02: Пиковое сжатие 1с", "03: Медленный спуск"], defaultSets: 3, min: 12, max: 15, defaultWeight: 40, calRate: 8, isTime: false, tip: "Без рывков, задержись на секунду в верхней точке." },
+  { id: "db_lg_5", name: "Приседания в Гакк-тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Спина к опоре", "02: Плавный сед 90°", "03: Подъем пятками"], defaultSets: 3, min: 10, max: 12, defaultWeight: 35, calRate: 13, isTime: false, tip: "Плавное движение по направлению носков, поясница плотно прижата." },
+  { id: "db_lg_6", name: "Подъем на носки стоя на икроножные", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Икроножные мышцы • Ахиллово сухожилие", phases: ["01: Глубокий спуск", "02: Выжим на носки", "03: Пауза 2с вверху"], defaultSets: 4, min: 15, max: 20, defaultWeight: 50, calRate: 8, isTime: false, tip: "Полная амплитуда с паузой 2 сек в нижней точке растяжки." },
 
   // ПЛЕЧИ
-  {
-    id: "db_sh_1",
-    name: "Махи гантелями через стороны стоя",
-    category: "Плечи",
-    muscleGroup: "Плечи",
-    targetMuscles: "Средняя дельта (ширина плеч)",
-    phases: ["01: Наклон вперед", "02: Подъем локтями", "03: Кисть ниже локтя"],
-    defaultSets: 4, min: 12, max: 15, defaultWeight: 8, calRate: 7, isTime: false,
-    tip: "Подъем через стороны локтями до уровня плеч, кисть не задирай выше локтя."
-  },
-  {
-    id: "db_sh_2",
-    name: "Жим гантелей сидя на плечи (скамья 75°)",
-    category: "Плечи",
-    muscleGroup: "Плечи",
-    targetMuscles: "Передняя и средняя дельта",
-    phases: ["01: Локти перед собой", "02: Выжим над головой", "03: Без прогиба"],
-    defaultSets: 4, min: 8, max: 10, defaultWeight: 16, calRate: 9, isTime: false,
-    tip: "Плавный жим над головой без резкого прогиба в пояснице."
-  },
-  {
-    id: "db_sh_3",
-    name: "Разводка гантелей в наклоне на заднюю дельту",
-    category: "Плечи",
-    muscleGroup: "Плечи",
-    targetMuscles: "Задняя дельта • Ромбовидные мышцы",
-    phases: ["01: Наклон 45-60°", "02: Разведение рук", "03: Пауза 1с"],
-    defaultSets: 4, min: 12, max: 15, defaultWeight: 7, calRate: 7, isTime: false,
-    tip: "Движение выполняется локтями назад-вбок, трапецию не зажимай."
-  },
-  {
-    id: "db_sh_4",
-    name: "Протяжка на блоке к подбородку (широкий хват)",
-    category: "Плечи",
-    muscleGroup: "Плечи",
-    targetMuscles: "Средняя дельта • Верх спины",
-    phases: ["01: Хват шире плеч", "02: Тяга локтями вверх", "03: До низа груди"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 25, calRate: 8, isTime: false,
-    tip: "Широкий хват снижает нагрузку на кистевые и плечевые суставы."
-  },
+  { id: "db_sh_1", name: "Махи гантелями через стороны стоя", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Средняя дельта (ширина плеч)", phases: ["01: Наклон вперед", "02: Подъем локтями", "03: Кисть ниже локтя"], defaultSets: 4, min: 12, max: 15, defaultWeight: 8, calRate: 7, isTime: false, tip: "Подъем через стороны локтями до уровня плеч, кисть не задирай выше локтя." },
+  { id: "db_sh_2", name: "Жим гантелей сидя на плечи (скамья 75°)", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Передняя и средняя дельта", phases: ["01: Локти перед собой", "02: Выжим над головой", "03: Без прогиба"], defaultSets: 4, min: 8, max: 10, defaultWeight: 16, calRate: 9, isTime: false, tip: "Плавный жим над головой без резкого прогиба в пояснице." },
+  { id: "db_sh_3", name: "Разводка гантелей в наклоне на заднюю дельту", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Задняя дельта • Ромбовидные мышцы", phases: ["01: Наклон 45-60°", "02: Разведение рук", "03: Пауза 1с"], defaultSets: 4, min: 12, max: 15, defaultWeight: 7, calRate: 7, isTime: false, tip: "Движение выполняется локтями назад-вбок, трапецию не зажимай." },
+  { id: "db_sh_4", name: "Протяжка на блоке к подбородку (широкий хват)", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Средняя дельта • Верх спины", phases: ["01: Хват шире плеч", "02: Тяга локтями вверх", "03: До низа груди"], defaultSets: 3, min: 12, max: 15, defaultWeight: 25, calRate: 8, isTime: false, tip: "Широкий хват снижает нагрузку на кистевые и плечевые суставы." },
 
   // РУКИ
-  {
-    id: "db_arm_1",
-    name: "Разгибания рук на верхнем блоке с канатом",
-    category: "Руки",
-    muscleGroup: "Руки",
-    targetMuscles: "Латеральная и длинная головка трицепса",
-    phases: ["01: Фиксация локтей", "02: Разводка внизу", "03: Сжатие 1с"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 6, isTime: false,
-    tip: "Локти прижаты к корпусу, разводи канат в нижней точке сокращения."
-  },
-  {
-    id: "db_arm_2",
-    name: "Подъем гантелей на бицепс с разворотом кисти",
-    category: "Руки",
-    muscleGroup: "Руки",
-    targetMuscles: "Двуглавая мышца плеча (бицепс)",
-    phases: ["01: Локти у ребер", "02: Супинация кисти", "03: Сжатие вверху"],
-    defaultSets: 3, min: 10, max: 12, defaultWeight: 12, calRate: 6, isTime: false,
-    tip: "Разворот кисти наружу в верхней трети подъема."
-  },
-  {
-    id: "db_arm_3",
-    name: "Молотковые сгибания с гантелями (Hammer)",
-    category: "Руки",
-    muscleGroup: "Руки",
-    targetMuscles: "Брахиалис • Плечелучевая мышца • Бицепс",
-    phases: ["01: Нейтральный хват", "02: Подъем без читинга", "03: Контроль спуска"],
-    defaultSets: 3, min: 10, max: 12, defaultWeight: 14, calRate: 7, isTime: false,
-    tip: "Утолщает предплечья и выталкивает бицепс наружу."
-  },
-  {
-    id: "db_arm_4",
-    name: "Французский жим с гантелями лежа на скамье",
-    category: "Руки",
-    muscleGroup: "Руки",
-    targetMuscles: "Длинная головка трицепса",
-    phases: ["01: Локти в потолок", "02: Сгибание к вискам", "03: Выжим"],
-    defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 6, isTime: false,
-    tip: "Локти не разводи широко в стороны, держи их параллельно."
-  },
+  { id: "db_arm_1", name: "Разгибания рук на верхнем блоке с канатом", category: "Руки", muscleGroup: "Руки", targetMuscles: "Латеральная и длинная головка трицепса", phases: ["01: Фиксация локтей", "02: Разводка внизу", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 6, isTime: false, tip: "Локти прижаты к корпусу, разводи канат в нижней точке сокращения." },
+  { id: "db_arm_2", name: "Подъем гантелей на бицепс с разворотом кисти", category: "Руки", muscleGroup: "Руки", targetMuscles: "Двуглавая мышца плеча (бицепс)", phases: ["01: Локти у ребер", "02: Супинация кисти", "03: Сжатие вверху"], defaultSets: 3, min: 10, max: 12, defaultWeight: 12, calRate: 6, isTime: false, tip: "Разворот кисти наружу в верхней трети подъема." },
+  { id: "db_arm_3", name: "Молотковые сгибания с гантелями (Hammer)", category: "Руки", muscleGroup: "Руки", targetMuscles: "Брахиалис • Плечелучевая мышца • Бицепс", phases: ["01: Нейтральный хват", "02: Подъем без читинга", "03: Контроль спуска"], defaultSets: 3, min: 10, max: 12, defaultWeight: 14, calRate: 7, isTime: false, tip: "Утолщает предплечья и выталкивает бицепс наружу." },
+  { id: "db_arm_4", name: "Французский жим с гантелями лежа на скамье", category: "Руки", muscleGroup: "Руки", targetMuscles: "Длинная головка трицепса", phases: ["01: Локти в потолок", "02: Сгибание к вискам", "03: Выжим"], defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 6, isTime: false, tip: "Локти не разводи широко в стороны, держи их параллельно." },
 
   // ПРЕСС
-  {
-    id: "db_abs_1",
-    name: "Скручивания на блоке с канатом на пресс",
-    category: "Пресс",
-    muscleGroup: "Пресс",
-    targetMuscles: "Прямая мышца живота",
-    phases: ["01: Вдох вверху", "02: Скручивание на выдохе", "03: Сжатие 1с"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false,
-    tip: "Скручивай грудную клетку к тазу силой мышц пресса."
-  },
-  {
-    id: "db_abs_2",
-    name: "Подъем коленей в висе на брусьях на пресс",
-    category: "Пресс",
-    muscleGroup: "Пресс",
-    targetMuscles: "Нижняя часть прямой мышцы живота",
-    phases: ["01: Фиксация плеч", "02: Подкручивание таза", "03: Пауза 1с"],
-    defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 7, isTime: false,
-    tip: "Подкручивай таз вверх на выдохе для включения низа живота."
-  },
-  {
-    id: "db_abs_3",
-    name: "Планка на локтях (удержание корсета)",
-    category: "Пресс",
-    muscleGroup: "Пресс",
-    targetMuscles: "Поперечная мышца живота • Корсет",
-    phases: ["01: Прямая линия", "02: Сжатие ягодиц", "03: Ровное дыхание"],
-    defaultSets: 3, min: 45, max: 60, defaultWeight: 0, calRate: 6, isTime: true,
-    tip: "Не прогибай поясницу, подкручивай таз вперед."
-  },
+  { id: "db_abs_1", name: "Скручивания на блоке с канатом на пресс", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Прямая мышца живота", phases: ["01: Вдох вверху", "02: Скручивание на выдохе", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false, tip: "Скручивай грудную клетку к тазу силой мышц пресса." },
+  { id: "db_abs_2", name: "Подъем коленей в висе на брусьях на пресс", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Нижняя часть прямой мышцы живота", phases: ["01: Фиксация плеч", "02: Подкручивание таза", "03: Пауза 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 7, isTime: false, tip: "Подкручивай таз вверх на выдохе для включения низа живота." },
+  { id: "db_abs_3", name: "Планка на локтях (удержание корсета)", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Поперечная мышца живота • Корсет", phases: ["01: Прямая линия", "02: Сжатие ягодиц", "03: Ровное дыхание"], defaultSets: 3, min: 45, max: 60, defaultWeight: 0, calRate: 6, isTime: true, tip: "Не прогибай поясницу, подкручивай таз вперед." },
 
   // КАРДИО
-  {
-    id: "db_card_1",
-    name: "Ходьба в горку на дорожке (сжигание жира)",
-    category: "Кардио",
-    muscleGroup: "Кардио",
-    targetMuscles: "Сердечно-сосудистая система • Жиросжигание",
-    phases: ["01: Уклон 8–10%", "02: Скорость 5.5 км/ч", "03: Пульс 115–125"],
-    defaultSets: 1, min: 25, max: 30, defaultWeight: 0, calRate: 200, isTime: true,
-    tip: "Уклон 8-10%, скорость 5.5 км/ч. Пульс 115-125 уд/мин без одышки."
-  },
-  {
-    id: "db_card_2",
-    name: "Эллиптический тренажер",
-    category: "Кардио",
-    muscleGroup: "Кардио",
-    targetMuscles: "Все тело • Щадящий режим для коленных суставов",
-    phases: ["01: Ровный темп", "02: Умеренное усилие", "03: Пульс 120"],
-    defaultSets: 1, min: 20, max: 30, defaultWeight: 0, calRate: 180, isTime: true,
-    tip: "Идеально для разогрева и заминки без ударной нагрузки на суставы."
-  }
+  { id: "db_card_1", name: "Ходьба в горку на дорожке (сжигание жира)", category: "Кардио", muscleGroup: "Кардио", targetMuscles: "Сердечно-сосудистая система • Жиросжигание", phases: ["01: Уклон 8–10%", "02: Скорость 5.5 км/ч", "03: Пульс 115–125"], defaultSets: 1, min: 25, max: 30, defaultWeight: 0, calRate: 200, isTime: true, tip: "Уклон 8-10%, скорость 5.5 км/ч. Пульс 115-125 уд/мин без одышки." },
+  { id: "db_card_2", name: "Эллиптический тренажер", category: "Кардио", muscleGroup: "Кардио", targetMuscles: "Все тело • Щадящий режим для коленных суставов", phases: ["01: Ровный темп", "02: Умеренное усилие", "03: Пульс 120"], defaultSets: 1, min: 20, max: 30, defaultWeight: 0, calRate: 180, isTime: true, tip: "Идеально для разогрева и заминки без ударной нагрузки на суставы." }
 ];
 
 const DEFAULT_PROGRAMS = {
@@ -512,7 +396,6 @@ function getInitialAccount() {
     metrics: [
       { id: "m_init", date: new Date().toISOString().split("T")[0], weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 }
     ],
-    nutrition: { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0, date: new Date().toISOString().split("T")[0] },
     history: [],
     activeWorkout: null,
     unlockedAchievements: []
@@ -524,6 +407,7 @@ let pendingWorkoutPlanKey = 'a';
 let pendingTargetWorkoutDate = null;
 let currentAchFilter = 'all';
 let currentDbCategory = 'all';
+let currentPrFilter = 'all';
 
 let activeExpandedExerciseIndex = 0;
 let liveWorkoutTimerInterval = null;
@@ -549,13 +433,11 @@ function getTotalTonnage(s) {
 function loadState() {
   let tgKey = "asutp_iron_account_default";
   let tgName = "Роман";
-  let tgAvatar = "РТ";
 
   if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
     const u = window.Telegram.WebApp.initDataUnsafe.user;
     tgKey = "asutp_iron_account_" + u.id;
     tgName = u.first_name + (u.last_name ? ` ${u.last_name}` : "");
-    tgAvatar = (u.first_name[0] + (u.last_name ? u.last_name[0] : "")).toUpperCase();
   }
 
   const raw = localStorage.getItem(tgKey);
@@ -576,9 +458,7 @@ function loadState() {
   }
 
   const elName = document.getElementById("tg-user-name");
-  const elAvatar = document.getElementById("tg-user-avatar");
   if (elName) elName.textContent = appState.name;
-  if (elAvatar) elAvatar.textContent = tgAvatar;
 
   saveState();
   checkAchievements();
@@ -590,6 +470,7 @@ function loadState() {
   renderMuscleVolumeBreakdown();
   fetchLeaderboard();
   updateSoundUI();
+  updateVacuumBadge();
 }
 
 function saveState() {
@@ -616,36 +497,55 @@ function renderXP() {
   const xpBar = document.getElementById("xp-bar");
   const strkEl = document.getElementById("streak-count");
 
-  if (lvlHeader) lvlHeader.textContent = `УРОВЕНЬ ${currentLvl}`;
+  if (lvlHeader) lvlHeader.textContent = `Уровень ${currentLvl}`;
   if (xpTxt) xpTxt.textContent = appState.xp;
   if (xpNxt) xpNxt.textContent = `${xpToNext} XP`;
   if (xpBar) xpBar.style.width = `${(xpInLvl / 500) * 100}%`;
   if (strkEl) strkEl.textContent = appState.streak;
 }
 
-function addWater(ml) {
-  if (!appState.nutrition) appState.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
-  appState.nutrition.waterMl = (appState.nutrition.waterMl || 0) + ml;
-  if (appState.nutrition.waterMl >= 2600) {
-    appState.waterDaysCount = (appState.waterDaysCount || 0) + 1;
-  }
-  saveState();
-  renderNutrition();
-  Sound.beep(750, 0.08);
-  Haptic.impact('light');
+// ========================================================
+// 1-ТАП УТРЕННИЙ ВАКУУМ (БЕЗ ТАЙМЕРОВ)
+// ========================================================
+function checkinMorningVacuum() {
+  appState.vacDaysCount = (appState.vacDaysCount || 0) + 1;
+  addXP(30);
+  Sound.success();
+  Haptic.success();
+  updateVacuumBadge();
+  checkAchievements();
+  alert("✓ Утренний вакуум зафиксирован! (+30 XP к прогрессу)");
 }
 
-function getLastExercisePerformance(exName) {
-  const hist = appState.history || [];
-  for (const h of hist) {
-    if (h.exercises) {
-      const match = h.exercises.find(e => e.name === exName);
-      if (match && match.sets && match.sets !== '0') {
-        return { setsStr: match.sets, date: h.date };
+function updateVacuumBadge() {
+  const badge = document.getElementById("vac-total-days-badge");
+  if (badge) {
+    badge.textContent = `${appState.vacDaysCount || 0} дней`;
+  }
+}
+
+// ========================================================
+// ПОЛНЫЙ ХАБ ЛИЧНЫХ РЕКОРДОВ (ВСЕ УПРАЖНЕНИЯ ИЗ БАЗЫ)
+// ========================================================
+function filterRecordsCategory(cat) {
+  currentPrFilter = cat;
+  ['all', 'chest', 'back', 'legs', 'shoulders', 'arms'].forEach(c => {
+    const btn = document.getElementById("btn-pr-" + c);
+    if (btn) {
+      const match = (c === 'all' && cat === 'all') ||
+                    (c === 'chest' && cat === 'Грудь') ||
+                    (c === 'back' && cat === 'Спина') ||
+                    (c === 'legs' && cat === 'Ноги') ||
+                    (c === 'shoulders' && cat === 'Плечи') ||
+                    (c === 'arms' && cat === 'Руки');
+      if (match) {
+        btn.className = "px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
+      } else {
+        btn.className = "px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
       }
     }
-  }
-  return null;
+  });
+  renderPersonalRecords();
 }
 
 function checkAndSavePersonalRecord(exName, weight, reps) {
@@ -669,46 +569,68 @@ function checkAndSavePersonalRecord(exName, weight, reps) {
   return false;
 }
 
+let currentEditingRecordName = null;
+
+function openEditRecordModal(exName, curWeight, curReps) {
+  currentEditingRecordName = exName;
+  document.getElementById("rec-edit-name").value = exName;
+  document.getElementById("rec-edit-weight").value = curWeight || 0;
+  document.getElementById("rec-edit-reps").value = curReps || 10;
+  document.getElementById("rec-edit-date").value = new Date().toISOString().split("T")[0];
+  openModal("modal-edit-record");
+}
+
+function saveRecordFromModal() {
+  if (!currentEditingRecordName) return;
+  const w = parseFloat(document.getElementById("rec-edit-weight").value) || 0;
+  const r = parseInt(document.getElementById("rec-edit-reps").value) || 0;
+  const d = document.getElementById("rec-edit-date").value || new Date().toISOString().split("T")[0];
+
+  if (w <= 0 || r <= 0) {
+    alert("Укажи корректный вес и повторы");
+    return;
+  }
+
+  if (!appState.personalRecords) appState.personalRecords = {};
+  appState.personalRecords[currentEditingRecordName] = { weight: w, reps: r, date: d };
+  saveState();
+  closeModal("modal-edit-record");
+  renderPersonalRecords();
+  Sound.success();
+  Haptic.success();
+}
+
 function renderPersonalRecords() {
   const container = document.getElementById("personal-records-container");
   if (!container) return;
   container.innerHTML = "";
 
   const prs = appState.personalRecords || {};
-  const keys = Object.keys(prs);
 
-  if (keys.length === 0) {
-    container.innerHTML = `
-      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
-        <p class="text-xs font-bold text-slate-300 uppercase">Рекордов пока нет</p>
-        <p class="text-[11px] text-slate-500 font-sans">Завершай тренировки — твои максимальные веса и повторения будут заноситься сюда!</p>
-      </div>
-    `;
-    return;
-  }
+  // Собираем все упражнения базы + пользовательские
+  const allExercises = EXERCISE_DATABASE.filter(ex => {
+    return currentPrFilter === 'all' || ex.category === currentPrFilter;
+  });
 
-  keys.forEach((exName, idx) => {
-    const r = prs[exName];
+  allExercises.forEach((ex, idx) => {
+    const rec = prs[ex.name];
+    const hasRecord = !!rec && rec.weight > 0;
     const card = document.createElement("div");
-    card.className = "p-3.5 bg-[#090d16] rounded-2xl border border-amber-500/20 space-y-1.5";
-
-    const rankNumber = idx + 1;
-    const badgeColor = idx === 0 ? "bg-amber-400 text-slate-950 font-black" : idx === 1 ? "bg-slate-300 text-slate-950 font-black" : idx === 2 ? "bg-amber-700 text-white font-bold" : "bg-slate-900 text-slate-400 font-bold border border-white/10";
+    card.className = "p-3.5 bg-[#12141c] rounded-2xl border border-white/[0.07] flex justify-between items-center space-x-3";
 
     card.innerHTML = `
-      <div class="flex justify-between items-start">
-        <div class="flex items-center space-x-2">
-          <span class="w-5 h-5 rounded-md ${badgeColor} flex items-center justify-center text-[10px] font-mono">${rankNumber}</span>
-          <h4 class="font-bold text-white text-xs font-sans">${exName}</h4>
+      <div class="space-y-0.5">
+        <div class="flex items-center space-x-1.5">
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-slate-300 rounded">${ex.category}</span>
+          <h4 class="font-bold text-white text-xs font-sans">${ex.name}</h4>
         </div>
-        <span class="px-2.5 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-800/80 rounded-lg text-xs font-bold font-mono">
-          ${r.weight} кг × ${r.reps}
-        </span>
+        <p class="text-[11px] text-slate-400 font-mono">
+          ${hasRecord ? `<b class="text-[#c8a97e]">${rec.weight} кг × ${rec.reps}</b> • ${rec.date}` : '<span class="text-slate-500">Рекорд еще не зафиксирован</span>'}
+        </p>
       </div>
-      <div class="flex justify-between items-center text-xs pt-1 border-t border-white/[0.04] font-mono">
-        <span class="text-slate-400">Дата фиксации:</span>
-        <span class="text-[11px] text-slate-300">${r.date}</span>
-      </div>
+      <button onclick="openEditRecordModal('${ex.name.replace(/'/g, "\\'")}', ${hasRecord ? rec.weight : ex.defaultWeight}, ${hasRecord ? rec.reps : ex.min})" class="px-2.5 py-1.5 bg-[#181b26] hover:bg-[#202432] text-slate-300 border border-white/10 rounded-xl text-[11px] font-mono font-medium active:scale-95 transition-all whitespace-nowrap">
+        ${hasRecord ? 'Изменить' : '+ Задать'}
+      </button>
     `;
 
     container.appendChild(card);
@@ -716,10 +638,10 @@ function renderPersonalRecords() {
 }
 
 // ========================================================
-// СВОБОДНАЯ ТРЕНИРОВКА И КАТАЛОГ УПРАЖНЕНИЙ
+// СВОБОДНАЯ ТРЕНИРОВКА И УДАЛЕНИЕ УПРАЖНЕНИЙ
 // ========================================================
 function startFreeWorkout(targetDate = null) {
-  Sound.beep(600, 0.1);
+  Sound.beep(600, 0.08);
   Haptic.impact('medium');
   activeExpandedExerciseIndex = 0;
 
@@ -770,6 +692,19 @@ function createExerciseInstanceFromDB(dbEx) {
   };
 }
 
+function deleteExerciseFromActiveWorkout(exIdx) {
+  if (!appState.activeWorkout) return;
+  const ex = appState.activeWorkout.exercises[exIdx];
+  if (confirm(`Удалить упражнение «${ex.name}» из текущей тренировки?`)) {
+    appState.activeWorkout.exercises.splice(exIdx, 1);
+    activeExpandedExerciseIndex = Math.max(0, exIdx - 1);
+    saveState();
+    renderActiveWorkoutUI();
+    Sound.beep(400, 0.08);
+    Haptic.impact('light');
+  }
+}
+
 function openExerciseDatabaseModal() {
   currentDbCategory = 'all';
   renderExerciseCatalogList();
@@ -790,9 +725,9 @@ function filterExerciseDatabaseCategory(cat) {
                     (c === 'abs' && cat === 'Пресс') ||
                     (c === 'cardio' && cat === 'Кардио');
       if (match) {
-        btn.className = "px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-black whitespace-nowrap shadow-sm";
+        btn.className = "px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
       } else {
-        btn.className = "px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap";
+        btn.className = "px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
       }
     }
   });
@@ -818,24 +753,24 @@ function renderExerciseCatalogList() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
+      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
         <p class="text-xs font-bold text-slate-300 uppercase">Упражнение не найдено</p>
-        <p class="text-[11px] text-slate-500 font-sans">Нажми кнопку внизу, чтобы создать свое упражнение вручную.</p>
+        <p class="text-[11px] text-slate-500 font-sans">Создай свое упражнение вручную с помощью кнопки внизу.</p>
       </div>
     `;
     return;
   }
 
   container.innerHTML = filtered.map(ex => `
-    <div class="p-3.5 bg-slate-950 hover:bg-[#0e1628] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
+    <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
       <div class="space-y-1 pr-1">
         <div class="flex items-center space-x-1.5">
-          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-slate-900 text-cyan-400 border border-white/10 rounded uppercase">${ex.category}</span>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-slate-300 border border-white/10 rounded uppercase">${ex.category}</span>
           <h4 class="font-bold text-xs text-white leading-tight">${ex.name}</h4>
         </div>
         <p class="text-[11px] text-slate-400 font-mono">${ex.targetMuscles}</p>
       </div>
-      <button onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-2 bg-gradient-to-r from-cyan-400 to-emerald-400 hover:opacity-90 text-slate-950 font-black text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+      <button onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
         + В план
       </button>
     </div>
@@ -863,686 +798,6 @@ function addExerciseFromCatalogToActiveWorkout(exId) {
   if (newEl) newEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function renderMuscleVolumeBreakdown() {
-  const container = document.getElementById("muscle-volume-container");
-  if (!container) return;
-
-  const targets = [
-    { group: "Грудь", optimal: 12, current: 8, color: "from-cyan-400 to-blue-500" },
-    { group: "Спина", optimal: 14, current: 8, color: "from-emerald-400 to-teal-500" },
-    { group: "Ноги", optimal: 12, current: 7, color: "from-amber-400 to-orange-500" },
-    { group: "Плечи", optimal: 8, current: 4, color: "from-violet-400 to-purple-500" },
-    { group: "Руки & Кор", optimal: 10, current: 6, color: "from-rose-400 to-pink-500" }
-  ];
-
-  const hist = appState.history || [];
-  const currentWeekLogs = hist.slice(0, 3);
-  let chestSets = 0, backSets = 0, legSets = 0, shoulderSets = 0, armSets = 0;
-
-  currentWeekLogs.forEach(h => {
-    (h.exercises || []).forEach(e => {
-      const setCount = (e.sets.match(/,/g) || []).length + 1;
-      const n = (e.name || "").toLowerCase();
-      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) chestSets += setCount;
-      else if (n.includes("тяга") || n.includes("спин")) backSets += setCount;
-      else if (n.includes("ног") || n.includes("присед") || n.includes("румын")) legSets += setCount;
-      else if (n.includes("мах") || n.includes("плеч")) shoulderSets += setCount;
-      else armSets += setCount;
-    });
-  });
-
-  if (chestSets > 0) targets[0].current = chestSets;
-  if (backSets > 0) targets[1].current = backSets;
-  if (legSets > 0) targets[2].current = legSets;
-  if (shoulderSets > 0) targets[3].current = shoulderSets;
-  if (armSets > 0) targets[4].current = armSets;
-
-  container.innerHTML = targets.map(t => {
-    const pct = Math.min(100, Math.round((t.current / t.optimal) * 100));
-    const status = pct >= 80 ? 'ОПТИМУМ' : pct >= 50 ? 'В ПРОЦЕССЕ' : 'СТАРТ';
-    return `
-      <div class="space-y-1 bg-slate-950 p-2.5 rounded-xl border border-white/[0.05]">
-        <div class="flex justify-between items-center text-[11px]">
-          <span class="font-bold text-white uppercase">${t.group}</span>
-          <div class="flex items-center space-x-2">
-            <span class="text-slate-400 font-mono">${t.current} / ${t.optimal} сетов</span>
-            <span class="text-[9px] font-bold text-cyan-400">${status}</span>
-          </div>
-        </div>
-        <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-white/5">
-          <div class="h-full bg-gradient-to-r ${t.color}" style="width: ${pct}%"></div>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-// ========================================================
-// ТАБЛИЦА ЛИДЕРОВ
-// ========================================================
-let cachedLeaderboard = [];
-
-async function syncUserToLeaderboard() {
-  try {
-    const myTonnage = getTotalTonnage(appState);
-    const myXP = appState.xp || 0;
-    const myStreak = appState.streak || 0;
-
-    await fetch('/api/sync-leaderboard', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tgId: appState.tgId,
-        name: appState.name,
-        xp: myXP,
-        tonnage: myTonnage,
-        streak: myStreak,
-        lastActive: "Сегодня"
-      })
-    });
-  } catch(e) {}
-}
-
-async function fetchLeaderboard() {
-  const container = document.getElementById("leaderboard-container");
-  if (!container) return;
-
-  const myTonnage = getTotalTonnage(appState);
-  const myXP = appState.xp || 0;
-  const myStreak = appState.streak || 0;
-
-  let list = [
-    { id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true }
-  ];
-
-  try {
-    const res = await fetch('/api/leaderboard');
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        list = data.map(u => ({
-          ...u,
-          isMe: (u.id === appState.tgId)
-        }));
-        if (!list.some(u => u.isMe)) {
-          list.push({ id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true });
-        }
-      }
-    }
-  } catch(e) {}
-
-  list.sort((a, b) => (b.xp || 0) - (a.xp || 0));
-  list.forEach((u, i) => u.rank = i + 1);
-  cachedLeaderboard = list;
-
-  renderLeaderboard();
-}
-
-function renderLeaderboard() {
-  const container = document.getElementById("leaderboard-container");
-  if (!container) return;
-  container.innerHTML = "";
-
-  if (cachedLeaderboard.length === 0) {
-    container.innerHTML = `
-      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
-        <p class="text-xs font-bold text-slate-300 uppercase">Таблица формируется</p>
-        <p class="text-[11px] text-slate-500 font-sans">Участники клуба будут появляться здесь по мере тренировок.</p>
-      </div>
-    `;
-    return;
-  }
-
-  cachedLeaderboard.forEach(u => {
-    const card = document.createElement("div");
-    const isMe = u.isMe || (u.name && u.name.includes("(Вы)"));
-    card.className = `p-3.5 rounded-2xl border transition-all ${isMe ? 'bg-[#0e1628] border-cyan-500/80 shadow-md shadow-cyan-500/10' : 'bg-slate-950 border-white/[0.06]'}`;
-
-    const badgeColor = u.rank === 1 ? 'bg-amber-400 text-slate-950 font-black' : u.rank === 2 ? 'bg-slate-300 text-slate-950 font-black' : u.rank === 3 ? 'bg-amber-700 text-white font-bold' : 'bg-slate-900 text-slate-400 font-bold border border-white/5';
-
-    card.innerHTML = `
-      <div class="flex justify-between items-center">
-        <div class="flex items-center space-x-2.5">
-          <span class="w-6 h-6 rounded-lg ${badgeColor} flex items-center justify-center text-[10px] font-mono">
-            #${u.rank}
-          </span>
-          <div>
-            <div class="flex items-center space-x-1.5">
-              <span class="font-bold text-xs ${isMe ? 'text-cyan-300' : 'text-white'} font-sans">${u.name}</span>
-              ${isMe ? '<span class="text-[8px] font-mono px-1.5 py-0.2 bg-cyan-400 text-slate-950 font-black rounded uppercase">YOU</span>' : ''}
-            </div>
-            <span class="text-[10px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${(u.tonnage / 1000).toFixed(1)} т</b> • Серия: ${u.streak} дн</span>
-          </div>
-        </div>
-        <div class="text-right font-mono">
-          <span class="text-xs font-black text-cyan-400 block">${u.xp.toLocaleString()} XP</span>
-          <span class="text-[9px] text-slate-500">Ур. ${Math.floor(u.xp / 500) + 1}</span>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-function openProfileDrawer() {
-  updateProfileDisplay();
-  openModal('modal-profile-drawer');
-}
-
-function updateProfileDisplay() {
-  const nameEl = document.getElementById("prof-disp-name");
-  const ageEl = document.getElementById("prof-disp-age");
-  const goalEl = document.getElementById("prof-disp-goal");
-  const injEl = document.getElementById("prof-disp-injuries");
-
-  if (nameEl) nameEl.textContent = appState.name;
-  if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
-  if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
-  if (injEl) injEl.textContent = appState.injuries || "Нет";
-}
-
-let resetTimerInterval = null;
-let resetSecondsLeft = 15;
-
-function openSafeResetModal() {
-  closeModal('modal-profile-drawer');
-  resetSecondsLeft = 15;
-  clearInterval(resetTimerInterval);
-
-  const btn = document.getElementById("btn-confirm-safe-reset");
-  const txt = document.getElementById("reset-countdown-text");
-
-  btn.disabled = true;
-  btn.className = "flex-1 py-3 bg-slate-800 text-slate-500 font-black uppercase rounded-xl cursor-not-allowed transition-all";
-  btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
-  txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
-
-  openModal('modal-safe-reset');
-
-  resetTimerInterval = setInterval(() => {
-    resetSecondsLeft--;
-    if (resetSecondsLeft > 0) {
-      btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
-      txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
-    } else {
-      clearInterval(resetTimerInterval);
-      btn.disabled = false;
-      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-black uppercase rounded-xl cursor-pointer transition-all";
-      btn.textContent = "Подтвердить полный сброс";
-      txt.textContent = "✓ Защита снята: можно выполнить сброс";
-      txt.className = "text-sm font-black text-rose-400 font-mono";
-      Sound.beep(880, 0.2);
-      Haptic.impact('heavy');
-    }
-  }, 1000);
-}
-
-function executeSafeResetAndReOnboard() {
-  clearInterval(resetTimerInterval);
-  closeModal('modal-safe-reset');
-
-  const currentTgId = appState.tgId;
-  const currentName = appState.name;
-
-  appState = getInitialAccount();
-  appState.tgId = currentTgId;
-  appState.name = currentName;
-
-  saveState();
-  Sound.finish();
-  Haptic.success();
-
-  alert("✓ Профиль успешно сброшен!");
-  openOnboardingModal();
-}
-
-function openOnboardingModal() {
-  closeModal('modal-profile-drawer');
-  document.getElementById("onboard-name").value = appState.name || "Роман";
-  document.getElementById("onboard-age").value = appState.age || 32;
-  document.getElementById("onboard-height").value = appState.height || 178;
-  document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
-  document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
-  document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
-  document.getElementById("onboard-injuries").value = appState.injuries || "";
-
-  openModal('modal-onboarding');
-}
-
-function saveOnboardingProfile(e) {
-  e.preventDefault();
-
-  const name = document.getElementById("onboard-name").value.trim();
-  const age = parseInt(document.getElementById("onboard-age").value) || 32;
-  const height = parseInt(document.getElementById("onboard-height").value) || 178;
-  const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
-  const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
-  const goal = document.getElementById("onboard-goal").value;
-  const injuries = document.getElementById("onboard-injuries").value.trim();
-
-  appState.name = name;
-  appState.age = age;
-  appState.height = height;
-  appState.goal = goal;
-  appState.injuries = injuries;
-
-  if (!appState.currentMetrics) {
-    appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
-  } else {
-    appState.currentMetrics.weight = weight;
-    appState.currentMetrics.waist = waist;
-  }
-
-  const today = new Date().toISOString().split("T")[0];
-  appState.metrics = [
-    { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
-  ];
-
-  const elName = document.getElementById("tg-user-name");
-  const elAvatar = document.getElementById("tg-user-avatar");
-  if (elName) elName.textContent = name;
-  if (elAvatar) elAvatar.textContent = (name[0] || "Р").toUpperCase();
-
-  saveState();
-  closeModal('modal-onboarding');
-  Sound.finish();
-  Haptic.success();
-
-  renderMetrics();
-  renderNutrition();
-  renderPersonalizedVitamins();
-  renderMonthlyCalendar();
-  renderPersonalRecords();
-  renderMuscleVolumeBreakdown();
-}
-
-function renderPersonalizedVitamins() {
-  const container = document.getElementById("personalized-vitamins-container");
-  const reasonLabel = document.getElementById("vitamin-calc-reason");
-  if (!container) return;
-
-  const age = appState.age || 32;
-  const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
-  const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
-  const height = appState.height || 178;
-  const waistRatioPct = Math.round((waist / height) * 100);
-  const injuries = (appState.injuries || "").toLowerCase();
-
-  if (reasonLabel) {
-    reasonLabel.textContent = `Под параметры: ${age} года, ${weight} кг, талия/рост: ${waistRatioPct}%, ${appState.goal || 'Рекомпозиция'}`;
-  }
-
-  const stack = [
-    {
-      name: "01. Магний (Глицинат) — за 40 мин до сна",
-      dose: "400 мг",
-      badgeColor: "text-violet-400",
-      reason: injuries.includes("ше") || injuries.includes("лопатк") || injuries.includes("спазм")
-        ? `Снимает мышечный спазм шеи и лопатки, ускоряет фазу глубокого сна и восстановление нервной системы.`
-        : `Восстановление нервной системы и глубокий сон.`
-    },
-    {
-      name: "02. Витамин D3 + K2 — утром с едой",
-      dose: "4000 МЕ",
-      badgeColor: "text-amber-400",
-      reason: `Поддерживает выработку мужских гормонов для возраста 30+ и компенсирует офисный режим.`
-    },
-    {
-      name: "03. Омега-3 (жирные кислоты) — с едой",
-      dose: "2000 мг",
-      badgeColor: "text-cyan-400",
-      reason: `Защита плечевых суставов и связок при жимовых нагрузках.`
-    },
-    {
-      name: "04. Креатин моногидрат — в любое время",
-      dose: "5 г",
-      badgeColor: "text-emerald-400",
-      reason: `Повышает силовую выносливость на 12–15% и защищает мышечную массу от разрушения.`
-    },
-    {
-      name: "05. Цинк хелат — вечером после еды",
-      dose: "25 мг",
-      badgeColor: "text-slate-300",
-      reason: `Синтез гормонов и укрепление иммунитета.`
-    }
-  ];
-
-  if (waistRatioPct >= 50) {
-    stack.push({
-      name: "06. L-Карнитин — перед ходьбой в горку",
-      dose: "1500 мг",
-      badgeColor: "text-rose-400",
-      reason: `Ускоряет сжигание жира на животе при кардио-нагрузке низкой интенсивности.`
-    });
-  }
-
-  container.innerHTML = stack.map(item => `
-    <div class="p-3.5 bg-slate-950 rounded-2xl border border-white/[0.05] space-y-1">
-      <div class="flex justify-between items-center font-mono">
-        <b class="text-white text-xs uppercase">${item.name}</b>
-        <span class="${item.badgeColor} font-black text-xs">${item.dose}</span>
-      </div>
-      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
-    </div>
-  `).join("");
-}
-
-const ACHIEVEMENTS = [
-  { id: "ach_first", cat: "strength", title: "Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
-  { id: "ach_ton_10", cat: "strength", title: "Рубеж 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
-  { id: "ach_ton_50", cat: "strength", title: "Рубеж 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
-  { id: "ach_ton_100", cat: "strength", title: "Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 100000, current: (s) => getTotalTonnage(s), xp: 1000 },
-  { id: "ach_ton_250", cat: "strength", title: "Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
-
-  { id: "ach_strk_3", cat: "streak", title: "Три в ряд", desc: "Серия из 3 тренировок без пропусков", target: 3, current: (s) => (s.streak || 0), xp: 250 },
-  { id: "ach_strk_7", cat: "streak", title: "Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
-  { id: "ach_strk_10", cat: "streak", title: "Стальная декада", desc: "Серия из 10 регулярных тренировок", target: 10, current: (s) => (s.streak || 0), xp: 700 },
-  { id: "ach_strk_30", cat: "streak", title: "Кремень 30", desc: "Серия из 30 тренировок по графику", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
-
-  { id: "ach_vac_1", cat: "body", title: "Первое втягивание", desc: "Выполни 1-ю утреннюю сессию вакуума", target: 1, current: (s) => (s.vacDaysCount || 0), xp: 100 },
-  { id: "ach_vac_5", cat: "body", title: "Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
-  { id: "ach_vac_14", cat: "body", title: "Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 },
-
-  { id: "ach_prot_3", cat: "nutrition", title: "Белковый старт", desc: "Закрой норму 150г белка 3 дня", target: 3, current: (s) => (s.protDaysCount || 0), xp: 200 },
-  { id: "ach_prot_7", cat: "nutrition", title: "Белковый баланс", desc: "Закрой норму 150г белка 7 дней", target: 7, current: (s) => (s.protDaysCount || 0), xp: 400 },
-  { id: "ach_prot_21", cat: "nutrition", title: "Мастер питания", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
-  { id: "ach_water_14", cat: "nutrition", title: "Водный баланс", desc: "Выпей норму воды 14 дней подряд", target: 14, current: (s) => (s.waterDaysCount || 0), xp: 500 },
-
-  { id: "ach_meso_1", cat: "meso", title: "Мастер цикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
-  { id: "ach_meso_3", cat: "meso", title: "Профессор периодизации", desc: "Заверши 3 полных цикла (24 недели)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
-];
-
-function filterAchievements(cat) {
-  currentAchFilter = cat;
-  ['all', 'strength', 'streak', 'body', 'nutrition', 'meso'].forEach(c => {
-    const btn = document.getElementById("btn-ach-" + c);
-    if (btn) {
-      if (c === cat) {
-        btn.className = "px-3 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold whitespace-nowrap shadow-sm";
-      } else {
-        btn.className = "px-3 py-1 rounded-lg bg-slate-950 text-slate-400 border border-white/10 font-bold whitespace-nowrap";
-      }
-    }
-  });
-  renderAchievementsList();
-}
-
-function checkAchievements() {
-  if (!appState.unlockedAchievements) appState.unlockedAchievements = [];
-
-  ACHIEVEMENTS.forEach(ach => {
-    if (!appState.unlockedAchievements.includes(ach.id)) {
-      const curVal = ach.current(appState);
-      if (curVal >= ach.target) {
-        appState.unlockedAchievements.push(ach.id);
-        appState.xp += ach.xp;
-        Sound.finish();
-        Haptic.success();
-      }
-    }
-  });
-
-  renderAchievementsList();
-}
-
-function renderAchievementsList() {
-  const container = document.getElementById("achievements-list");
-  const countEl = document.getElementById("achievements-unlocked-count");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const unlocked = appState.unlockedAchievements || [];
-  if (countEl) countEl.textContent = `${unlocked.length}/${ACHIEVEMENTS.length}`;
-
-  const filtered = ACHIEVEMENTS.filter(a => currentAchFilter === 'all' || a.cat === currentAchFilter);
-
-  filtered.forEach(ach => {
-    const isUnlocked = unlocked.includes(ach.id);
-    const curVal = ach.current(appState);
-    const pct = Math.min(100, Math.round((curVal / ach.target) * 100));
-
-    const card = document.createElement("div");
-    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-[#0e1628] border-cyan-500/80 text-white' : 'bg-slate-950 border-white/[0.06] text-slate-400 opacity-75'}`;
-
-    card.innerHTML = `
-      <div class="flex justify-between items-start">
-        <div>
-          <h4 class="font-bold text-xs ${isUnlocked ? 'text-cyan-300' : 'text-slate-300'} font-sans">${ach.title}</h4>
-          <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
-        </div>
-        <span class="px-2 py-0.5 rounded-lg text-[10px] font-black font-mono ${isUnlocked ? 'bg-cyan-400 text-slate-950' : 'bg-slate-900 text-slate-500 border border-white/5'}">
-          ${isUnlocked ? 'ОТКРЫТО' : `+${ach.xp} XP`}
-        </span>
-      </div>
-
-      <div class="space-y-1 font-mono text-[10px]">
-        <div class="flex justify-between text-slate-400">
-          <span>Прогресс: <b class="${isUnlocked ? 'text-cyan-300' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
-          <span>${pct}%</span>
-        </div>
-        <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-white/5">
-          <div class="h-full ${isUnlocked ? 'bg-gradient-to-r from-cyan-400 to-emerald-400' : 'bg-slate-700'}" style="width: ${pct}%"></div>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-function renderMesocycleBanner() {
-  const w = appState.mesocycleWeek || 1;
-  const badgeHeader = document.getElementById("meso-header-badge");
-  const weekDisp = document.getElementById("meso-week-display");
-  const descEl = document.getElementById("meso-desc-text");
-
-  if (badgeHeader) badgeHeader.textContent = `Неделя ${w}/8`;
-  if (weekDisp) weekDisp.textContent = w;
-
-  if (!descEl) return;
-
-  if (w <= 3) {
-    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейное повышение рабочих весов (+2.5 кг в базе). 48 часов отдыха между днями тренировок.`;
-  } else if (w <= 6) {
-    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий стимул роста мышц.`;
-  } else if (w === 7) {
-    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных весов перед разгрузкой.`;
-  } else {
-    descEl.innerHTML = `<span class="text-amber-400 font-bold">Разгрузка:</span> 8-недельный цикл завершен. <b>Рекомендуется 1 легкая неделя (-40% весов) для восстановления связок.</b>`;
-  }
-}
-
-function advanceMesocycleWeek() {
-  let w = (appState.mesocycleWeek || 1) + 1;
-  appState.totalMesoWeeks = (appState.totalMesoWeeks || 1) + 1;
-
-  if (w > 8) {
-    if (confirm("Начать новый 8-недельный тренировочный цикл с Недели 1?")) {
-      w = 1;
-      addXP(500);
-      Sound.finish();
-      Haptic.success();
-      alert("Цикл успешно завершен! Начат новый тренировочный блок (+500 XP).");
-    } else {
-      return;
-    }
-  } else {
-    Sound.beep(700, 0.1);
-    Haptic.impact('light');
-  }
-  appState.mesocycleWeek = w;
-  saveState();
-  checkAchievements();
-}
-
-function promptReadinessBeforeWorkout(planKey, targetDate = null) {
-  pendingWorkoutPlanKey = planKey;
-  pendingTargetWorkoutDate = targetDate;
-  updateReadinessScore();
-  openModal('modal-readiness');
-}
-
-function updateReadinessScore() {
-  const energy = parseInt(document.getElementById("readiness-range-energy").value) || 4;
-  const sleep = parseInt(document.getElementById("readiness-range-sleep").value) || 4;
-  const soreness = parseInt(document.getElementById("readiness-range-soreness").value) || 1;
-
-  document.getElementById("readiness-val-energy").textContent = `${energy} / 5`;
-  document.getElementById("readiness-val-sleep").textContent = `${sleep} / 5`;
-  
-  const soreLabels = ["", "1 (Свежий)", "2 (Легкая)", "3 (Умеренная)", "4 (Забитость)", "5 (Сильная)"];
-  document.getElementById("readiness-val-soreness").textContent = soreLabels[soreness] || `${soreness}`;
-
-  const scorePct = Math.round(((energy + sleep + (6 - soreness)) / 15) * 100);
-  const badge = document.getElementById("readiness-total-badge");
-
-  if (scorePct >= 85) {
-    badge.textContent = `${scorePct}% • 100% рабочих весов (Полная нагрузка)`;
-    badge.className = "text-sm font-black text-emerald-400 font-mono";
-  } else if (scorePct >= 65) {
-    badge.textContent = `${scorePct}% • Умеренная нагрузка (запас 1-2 повт)`;
-    badge.className = "text-sm font-black text-amber-400 font-mono";
-  } else {
-    badge.textContent = `${scorePct}% • Авто-снижение весов на 10% (Защита шеи)`;
-    badge.className = "text-sm font-black text-rose-400 font-mono";
-  }
-}
-
-function confirmReadinessAndStart() {
-  closeModal('modal-readiness');
-  const energy = parseInt(document.getElementById("readiness-range-energy").value) || 4;
-  const sleep = parseInt(document.getElementById("readiness-range-sleep").value) || 4;
-  const soreness = parseInt(document.getElementById("readiness-range-soreness").value) || 1;
-  const scorePct = Math.round(((energy + sleep + (6 - soreness)) / 15) * 100);
-
-  if (pendingWorkoutPlanKey === 'free') {
-    startFreeWorkout(pendingTargetWorkoutDate);
-  } else {
-    startWorkout(pendingWorkoutPlanKey, scorePct, pendingTargetWorkoutDate);
-  }
-}
-
-function skipReadinessAndStart() {
-  closeModal('modal-readiness');
-  if (pendingWorkoutPlanKey === 'free') {
-    startFreeWorkout(pendingTargetWorkoutDate);
-  } else {
-    startWorkout(pendingWorkoutPlanKey, 90, pendingTargetWorkoutDate);
-  }
-}
-
-function startWorkout(planKey, readinessPct = 90, targetDate = null) {
-  Sound.beep(600, 0.1);
-  Haptic.impact('medium');
-  const plan = DEFAULT_PROGRAMS[planKey];
-  activeExpandedExerciseIndex = 0;
-
-  const weightMultiplier = (readinessPct < 65) ? 0.9 : 1.0;
-  const now = new Date();
-  const startTimeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-
-  if (!appState.weightProgression) appState.weightProgression = {};
-
-  appState.activeWorkout = {
-    key: planKey,
-    name: plan.name,
-    targetDate: targetDate || now.toISOString().split("T")[0],
-    startTimestamp: now.getTime(),
-    startTimeStr: startTimeStr,
-    readiness: readinessPct,
-    exercises: plan.exercises.map(e => {
-      const baseW = appState.weightProgression[e.name] !== undefined ? appState.weightProgression[e.name] : e.w;
-      const scaledWeight = (baseW > 0) ? Math.round((baseW * weightMultiplier) * 2) / 2 : 0;
-      return {
-        name: e.name,
-        muscleGroup: e.muscleGroup || "Все тело",
-        targetMuscles: e.targetMuscles || "Целевые зоны",
-        phases: e.phases || ["01: Опускание 2-3с", "02: Пауза 1с", "03: Выжим"],
-        min: e.min,
-        max: e.max,
-        defaultWeight: scaledWeight,
-        calRate: e.calRate || 10,
-        isTime: !!e.isTime,
-        tip: e.tip,
-        substitutes: e.substitutes || [],
-        sets: Array.from({ length: e.sets }, (_, i) => ({
-          set: i + 1,
-          weight: scaledWeight,
-          reps: e.min,
-          done: false
-        }))
-      };
-    })
-  };
-
-  startWorkoutTimer();
-  renderActiveWorkoutUI();
-  switchTab("workouts");
-}
-
-function startWorkoutTimer() {
-  clearInterval(liveWorkoutTimerInterval);
-  liveWorkoutSeconds = 0;
-  liveWorkoutTimerInterval = setInterval(() => {
-    liveWorkoutSeconds++;
-    const m = Math.floor(liveWorkoutSeconds / 60);
-    const s = liveWorkoutSeconds % 60;
-    const timerEl = document.getElementById("wo-live-timer");
-    if (timerEl) {
-      timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
-  }, 1000);
-}
-
-function toggleExerciseAccordion(exIdx) {
-  activeExpandedExerciseIndex = (activeExpandedExerciseIndex === exIdx) ? -1 : exIdx;
-  Sound.beep(600, 0.05);
-  Haptic.impact('light');
-  renderActiveWorkoutUI();
-}
-
-function addCustomExerciseToActiveWorkout(e) {
-  e.preventDefault();
-  if (!appState.activeWorkout) {
-    startFreeWorkout();
-  }
-
-  const name = document.getElementById("cust-ex-name").value.trim();
-  const sets = parseInt(document.getElementById("cust-ex-sets").value) || 3;
-  const reps = parseInt(document.getElementById("cust-ex-reps").value) || 10;
-  const weight = parseFloat(document.getElementById("cust-ex-weight").value) || 0;
-  const muscle = document.getElementById("cust-ex-muscle").value;
-  const tip = document.getElementById("cust-ex-tip").value.trim() || "Подконтрольное движение без раскачки.";
-
-  appState.activeWorkout.exercises.push({
-    name: name,
-    muscleGroup: muscle,
-    targetMuscles: `${muscle} • Индивидуальное`,
-    phases: ["01: Начальная фаза", "02: Рабочее движение", "03: Фиксация 1с"],
-    min: reps,
-    max: reps,
-    defaultWeight: weight,
-    calRate: 10,
-    isTime: false,
-    tip: tip,
-    substitutes: [],
-    sets: Array.from({ length: sets }, (_, i) => ({
-      set: i + 1,
-      weight: weight,
-      reps: reps,
-      done: false
-    }))
-  });
-
-  saveState();
-  closeModal('modal-add-custom-exercise');
-  activeExpandedExerciseIndex = appState.activeWorkout.exercises.length - 1;
-  renderActiveWorkoutUI();
-  Sound.success();
-  Haptic.success();
-}
-
 function renderActiveWorkoutUI() {
   if (!appState.activeWorkout) return;
 
@@ -1560,7 +815,7 @@ function renderActiveWorkoutUI() {
 
   if (wo.exercises.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
+      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
         <p class="text-xs font-bold text-slate-200 uppercase">Тренировка пока пуста</p>
         <p class="text-[11px] text-slate-400 font-sans">Нажми кнопку «Выбрать упражнение из каталога» выше!</p>
       </div>
@@ -1576,29 +831,29 @@ function renderActiveWorkoutUI() {
 
     const card = document.createElement("div");
     card.id = `ex-card-${exIdx}`;
-    card.className = `ex-card-accordion p-4 rounded-2xl border transition-all ${isExpanded ? 'active-focus' : isAllDone ? 'done-all' : 'bg-[#090d16] border-white/[0.07]'}`;
+    card.className = `ex-card-accordion p-4 rounded-2xl border transition-all ${isExpanded ? 'active-focus' : isAllDone ? 'done-all' : 'bg-[#12141c] border-white/[0.07]'}`;
 
     const headerHtml = `
-      <div onclick="toggleExerciseAccordion(${exIdx})" class="flex justify-between items-center cursor-pointer select-none">
-        <div class="flex items-center space-x-2.5">
-          <span class="w-6 h-6 rounded-lg ${isAllDone ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : isExpanded ? 'bg-cyan-950 text-cyan-400 border border-cyan-800' : 'bg-slate-900 text-slate-400'} flex items-center justify-center font-mono font-bold text-xs">
+      <div class="flex justify-between items-center select-none">
+        <div onclick="toggleExerciseAccordion(${exIdx})" class="flex items-center space-x-2.5 cursor-pointer flex-1">
+          <span class="w-6 h-6 rounded-lg ${isAllDone ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800' : isExpanded ? 'bg-white/10 text-white border border-white/20' : 'bg-[#181b26] text-slate-400'} flex items-center justify-center font-mono font-bold text-xs">
             ${isAllDone ? '✓' : exIdx + 1}
           </span>
           <div>
-            <h3 class="font-extrabold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
+            <h3 class="font-bold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
             <div class="flex items-center space-x-2 font-mono text-[11px] mt-0.5">
-              <span class="${isAllDone ? 'text-emerald-400' : 'text-slate-400'} font-bold">
+              <span class="${isAllDone ? 'text-emerald-400' : 'text-slate-400'} font-medium">
                 ${isAllDone ? `Все ${ex.sets.length} сетов закрыты` : `${doneSetsCount} из ${ex.sets.length} выполнено`}
               </span>
-              ${lastPerf ? `<span class="text-cyan-400/80 text-[10px]">В прошлый раз: ${lastPerf.setsStr}</span>` : ''}
+              ${lastPerf ? `<span class="text-slate-400 text-[10px]">В прошлый раз: ${lastPerf.setsStr}</span>` : ''}
             </div>
           </div>
         </div>
-        <div class="flex items-center space-x-2 font-mono">
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${isAllDone ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : isExpanded ? 'bg-cyan-950 text-cyan-300 border border-cyan-800' : 'bg-slate-900 text-slate-400'}">
-            ${isAllDone ? 'ГОТОВО' : isExpanded ? 'В РАБОТЕ' : 'ОЧЕРЕДЬ'}
-          </span>
-          <span class="text-slate-400 text-xs">${isExpanded ? '▲' : '▼'}</span>
+        <div class="flex items-center space-x-1 font-mono">
+          <button onclick="deleteExerciseFromActiveWorkout(${exIdx})" title="Удалить упражнение" class="p-1.5 text-slate-400 hover:text-rose-400 active:scale-90 transition-all">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+          <button onclick="toggleExerciseAccordion(${exIdx})" class="p-1 text-slate-400 text-xs">${isExpanded ? '▲' : '▼'}</button>
         </div>
       </div>
     `;
@@ -1606,23 +861,23 @@ function renderActiveWorkoutUI() {
     let bodyHtml = "";
     if (isExpanded) {
       const setsRows = ex.sets.map((s, sIdx) => `
-        <div class="grid grid-cols-12 gap-2 items-center bg-slate-950 p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/80 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
+        <div class="grid grid-cols-12 gap-2 items-center bg-[#0e1017] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
           <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
           
-          <div class="col-span-5 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
+          <div class="col-span-5 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
             <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="stepper-btn">-</button>
-            <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-black text-center text-xs outline-none"
+            <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-bold text-center text-xs outline-none"
               onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
             <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
-            <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-cyan-400">+</button>
+            <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-[#c8a97e]">+</button>
           </div>
 
-          <div class="col-span-4 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
+          <div class="col-span-4 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
             <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, -1)" class="stepper-btn">-</button>
-            <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-black text-center text-xs outline-none"
+            <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-bold text-center text-xs outline-none"
               onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'reps', this.value)">
             <span class="text-[9px] text-slate-400 pr-0.5">раз</span>
-            <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="stepper-btn text-emerald-400">+</button>
+            <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="stepper-btn text-slate-200">+</button>
           </div>
 
           <div class="col-span-2 flex justify-center">
@@ -1636,13 +891,21 @@ function renderActiveWorkoutUI() {
         <span class="ex-phase-badge">${p}</span>
       `).join('');
 
+      const diagramSvg = getExerciseDiagramSVG(ex.name, ex.muscleGroup);
+
       bodyHtml = `
         <div class="pt-3 space-y-3 border-t border-white/[0.06] mt-3">
           
-          <div class="p-3 bg-slate-950 rounded-2xl border border-cyan-500/20 space-y-2">
+          <!-- ВЕКТОРНАЯ ИЛЛЮСТРАЦИЯ ТЕХНИКИ -->
+          <div class="ex-diagram-container">
+            ${diagramSvg}
+          </div>
+
+          <!-- ОПИСАНИЕ И ФАЗЫ -->
+          <div class="p-3 bg-[#0e1017] rounded-2xl border border-white/[0.05] space-y-2">
             <div class="flex justify-between items-center text-[10px] font-mono">
-              <span class="text-cyan-400 font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
-              <span class="text-slate-400 bg-slate-900 px-2 py-0.5 rounded uppercase">${ex.muscleGroup || 'Группа'}</span>
+              <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
+              <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase">${ex.muscleGroup || 'Группа'}</span>
             </div>
             <div class="flex flex-wrap gap-1.5 pt-0.5">${phasesBadges}</div>
             <p class="text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/[0.04]">
@@ -1653,15 +916,15 @@ function renderActiveWorkoutUI() {
           <div class="flex justify-between items-center text-xs font-mono text-slate-400">
             <span>Сеты и веса:</span>
             <div class="flex space-x-1.5">
-              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-slate-900 text-rose-300 rounded-lg border border-white/10">Сброс</button>
-              ${ex.substitutes && ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-0.5 bg-slate-900 text-slate-300 rounded-lg border border-white/10">Замена</button>` : ''}
+              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Сброс</button>
+              ${ex.substitutes && ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-0.5 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Замена</button>` : ''}
             </div>
           </div>
 
           <div class="space-y-2">${setsRows}</div>
 
           <div class="flex justify-between items-center pt-1 text-xs font-mono">
-            <button onclick="addSetToExercise(${exIdx})" class="text-cyan-400 font-bold">+ Добавить подход</button>
+            <button onclick="addSetToExercise(${exIdx})" class="text-[#c8a97e] font-bold">+ Добавить подход</button>
             ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">- Убрать подход</button>` : ''}
           </div>
         </div>
@@ -1753,7 +1016,7 @@ function resetExerciseSets(exIdx) {
   });
   saveState();
   renderActiveWorkoutUI();
-  Sound.beep(400, 0.1);
+  Sound.beep(400, 0.08);
 }
 
 function addSetToExercise(exIdx) {
@@ -1829,7 +1092,7 @@ function swapExercisePrompt(exIdx) {
     ex.name = ex.substitutes[0];
     ex.substitutes[0] = oldName;
     renderActiveWorkoutUI();
-    Sound.beep(700, 0.1);
+    Sound.beep(700, 0.08);
   }
 }
 
@@ -1848,7 +1111,7 @@ function startRestTimer(sec) {
         Sound.finish();
         Haptic.impact('heavy');
         clearInterval(timerInt);
-        setTimeout(() => document.getElementById("timer-bar").classList.add("hidden"), 3000);
+        setTimeout(() => document.getElementById("timer-bar").classList.add("hidden"), 2500);
       }
     }
   }, 1000);
@@ -1863,7 +1126,7 @@ function updateTimerHUD() {
 function addTimer(sec) {
   timerLeft += sec;
   updateTimerHUD();
-  Sound.beep(750, 0.08);
+  Sound.beep(750, 0.05);
 }
 
 function stopTimer() {
@@ -1916,10 +1179,6 @@ function finishActiveWorkout() {
     calories: caloriesBurned,
     exercises: exSummaries
   });
-
-  if (!appState.nutrition) appState.nutrition = {};
-  if (!appState.nutrition.caloriesBurned) appState.nutrition.caloriesBurned = 0;
-  appState.nutrition.caloriesBurned += caloriesBurned;
 
   addXP(150);
   appState.streak = (appState.streak || 0) + 1;
@@ -2081,42 +1340,42 @@ function selectCalendarDay(dateStr, status, woData) {
 
   if (status === 'done' && woData) {
     inspBadge.textContent = "ВЫПОЛНЕНО";
-    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 rounded-lg text-xs font-bold font-mono";
     const timeInfo = woData.startTimeStr ? `${woData.startTimeStr} – ${woData.endTimeStr || '...'} (${woData.durationMin || 45} мин)` : `~45 мин`;
     inspContent.innerHTML = `
       <p><b>${woData.name}</b></p>
-      <p class="text-[11px] text-slate-300 font-mono">${timeInfo} • Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> • <b class="text-amber-400">~${woData.calories || 350} ккал</b></p>
+      <p class="text-[11px] text-slate-400 font-mono">${timeInfo} • Тоннаж: <b class="text-white">${woData.tonnage} кг</b> • <b class="text-[#c8a97e]">~${woData.calories || 350} ккал</b></p>
     `;
     if (inspActions) inspActions.innerHTML = "";
   } else if (status === 'missed') {
     inspBadge.textContent = "ПРОПУСК";
-    inspBadge.className = "px-2.5 py-0.5 bg-rose-950 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка была пропущена. Ты можешь восполнить ее в любой день!</p>`;
+    inspBadge.className = "px-2.5 py-0.5 bg-rose-950/60 text-rose-400 border border-rose-800/60 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка была пропущена. Ты можешь провести ее в любой день!</p>`;
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-md">
+        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-sm">
           Записать тренировку на ${dateStr}
         </button>
       `;
     }
   } else if (status === 'plan') {
     inspBadge.textContent = "ПЛАН";
-    inspBadge.className = "px-2.5 py-0.5 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-white/5 text-slate-300 border border-white/10 rounded-lg text-xs font-bold font-mono";
     inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику. Готовься к прогрессии весов!</p>`;
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-md">
+        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-sm">
           Начать тренировку на эту дату
         </button>
       `;
     }
   } else {
     inspBadge.textContent = "ОТДЫХ";
-    inspBadge.className = "px-2.5 py-0.5 bg-slate-900 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-[#181b26] text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
     inspContent.innerHTML = `<p class="text-slate-300">День отдыха. Пришел в зал вне графика? Выбирай программу или свободную тренировку:</p>`;
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 font-bold text-xs uppercase rounded-xl border border-cyan-500/40 font-mono active:scale-98 transition-all">
+        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-[#181b26] hover:bg-[#202432] text-slate-300 font-bold text-xs uppercase rounded-xl border border-white/10 font-mono active:scale-98 transition-all">
           + Провести тренировку в этот день
         </button>
       `;
@@ -2155,10 +1414,10 @@ function render12MonthsAnnualBreakdown() {
 
     pill.innerHTML = `
       <div class="flex justify-between items-center text-[10px] font-mono">
-        <b class="${isActiveMonth ? 'text-cyan-400' : 'text-white'}">${MONTH_SHORT[m]}</b>
+        <b class="${isActiveMonth ? 'text-[#c8a97e]' : 'text-white'}">${MONTH_SHORT[m]}</b>
         <span class="text-slate-400">${monthHist.length} сесс.</span>
       </div>
-      <div class="text-[11px] font-mono font-black ${monthTon > 0 ? 'text-emerald-400' : 'text-slate-600'}">
+      <div class="text-[11px] font-mono font-bold ${monthTon > 0 ? 'text-white' : 'text-slate-600'}">
         ${monthTon > 0 ? (monthTon / 1000).toFixed(1) + ' т' : '—'}
       </div>
     `;
@@ -2219,13 +1478,13 @@ function updateWHtRBadge(waist, height = 178) {
   const ratio = Math.round((waist / height) * 100);
   if (ratio <= 49) {
     badge.textContent = `Норма (${ratio}%)`;
-    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800";
+    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60";
   } else if (ratio <= 53) {
     badge.textContent = `Умеренный жир (${ratio}%)`;
-    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-amber-950 text-amber-300 border border-amber-800";
+    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-amber-950/60 text-amber-300 border border-amber-800/60";
   } else {
     badge.textContent = `Избыток жира (${ratio}%)`;
-    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-rose-950 text-rose-300 border border-rose-800";
+    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60";
   }
 }
 
@@ -2274,7 +1533,7 @@ function setChartFilter(filter) {
     const btn = document.getElementById("btn-chart-" + f);
     if (btn) {
       if (f === filter) {
-        btn.className = "px-2 py-0.5 font-bold rounded-md bg-cyan-400 text-slate-950";
+        btn.className = "px-2 py-0.5 font-bold rounded-md bg-[#c8a97e] text-slate-950";
       } else {
         btn.className = "px-2 py-0.5 font-bold rounded-md text-slate-400";
       }
@@ -2320,14 +1579,14 @@ function drawTrendChart() {
       ctx.stroke();
 
       const val = (max - (i / 3) * (max - min)).toFixed(0) + "м";
-      ctx.fillStyle = "#475569";
+      ctx.fillStyle = "#64748b";
       ctx.font = "10px monospace";
       ctx.textAlign = "right";
       ctx.fillText(val, 30, y + 3);
     }
 
-    ctx.strokeStyle = "#00f0ff";
-    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = "#c8a97e";
+    ctx.lineWidth = 2;
     ctx.beginPath();
     durations.forEach((v, i) => {
       const x = getX(i), y = getY(v);
@@ -2338,9 +1597,9 @@ function drawTrendChart() {
 
     durations.forEach((v, i) => {
       const x = getX(i), y = getY(v);
-      ctx.fillStyle = "#00f0ff";
+      ctx.fillStyle = "#c8a97e";
       ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
       ctx.fill();
     });
     return;
@@ -2381,7 +1640,7 @@ function drawTrendChart() {
     ctx.stroke();
 
     const val = (max - (i / 3) * (max - min)).toFixed(0);
-    ctx.fillStyle = "#475569";
+    ctx.fillStyle = "#64748b";
     ctx.font = "10px monospace";
     ctx.textAlign = "right";
     ctx.fillText(val, 30, y + 3);
@@ -2390,7 +1649,7 @@ function drawTrendChart() {
   function drawLine(data, color) {
     if (data.length < 2) return;
     ctx.strokeStyle = color;
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
     data.forEach((v, i) => {
       const x = getX(i), y = getY(v);
@@ -2403,174 +1662,713 @@ function drawTrendChart() {
       const x = getX(i), y = getY(v);
       ctx.fillStyle = color;
       ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
       ctx.fill();
     });
   }
 
   if (currentChartFilter === 'all' || currentChartFilter === 'weight') {
-    drawLine(logs.map(l => l.weight || 0), "#00f0ff");
+    drawLine(logs.map(l => l.weight || 0), "#e2e8f0");
   }
   if (currentChartFilter === 'all' || currentChartFilter === 'waist') {
-    drawLine(logs.map(l => l.waist || 0), "#10b981");
+    drawLine(logs.map(l => l.waist || 0), "#c8a97e");
   }
 }
 
 // ========================================================
-// УТРЕННИЙ ВАКУУМ
+// ПЕРСОНАЛЬНЫЙ ВИТАМИННЫЙ КОМПЛЕКС
 // ========================================================
-let vacuumState = {
-  active: false,
-  phase: 'idle',
-  duration: 15,
-  currentSet: 1,
-  maxSets: 5,
-  timeLeft: 15,
-  interval: null
-};
+function renderPersonalizedVitamins() {
+  const container = document.getElementById("personalized-vitamins-container");
+  const reasonLabel = document.getElementById("vitamin-calc-reason");
+  if (!container) return;
 
-function toggleVacuumSession() {
-  if (vacuumState.active) {
-    resetVacuumSession();
-    return;
-  }
-  startVacuumPhase('inhale');
-}
+  const age = appState.age || 32;
+  const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
+  const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
+  const height = appState.height || 178;
+  const waistRatioPct = Math.round((waist / height) * 100);
+  const injuries = (appState.injuries || "").toLowerCase();
 
-function resetVacuumSession() {
-  clearInterval(vacuumState.interval);
-  vacuumState.active = false;
-  vacuumState.phase = 'idle';
-  vacuumState.timeLeft = vacuumState.duration;
-
-  const circle = document.getElementById("vac-circle");
-  const txt = document.getElementById("vac-timer-text");
-  const phaseEl = document.getElementById("vac-phase");
-  const instr = document.getElementById("vac-instruction");
-  const btn = document.getElementById("btn-vac-start");
-
-  if (circle) circle.className = "w-20 h-20 rounded-full bg-cyan-950/30 border-2 border-cyan-400 flex flex-col items-center justify-center shadow-lg transition-all duration-300";
-  if (txt) txt.textContent = vacuumState.duration;
-  if (phaseEl) phaseEl.textContent = "Готов к старту";
-  if (instr) instr.textContent = "Сделай глубокий вдох, полный выдох и втяни живот под ребра.";
-  if (btn) btn.textContent = "Старт подхода";
-}
-
-function startVacuumPhase(phase) {
-  clearInterval(vacuumState.interval);
-  vacuumState.active = true;
-  vacuumState.phase = phase;
-
-  const circle = document.getElementById("vac-circle");
-  const txt = document.getElementById("vac-timer-text");
-  const phaseEl = document.getElementById("vac-phase");
-  const instr = document.getElementById("vac-instruction");
-  const btn = document.getElementById("btn-vac-start");
-  const setEl = document.getElementById("vac-set-counter");
-
-  if (setEl) setEl.textContent = `${vacuumState.currentSet}/${vacuumState.maxSets}`;
-  if (btn) btn.textContent = "Стоп";
-
-  if (phase === 'inhale') {
-    vacuumState.timeLeft = 4;
-    circle.className = "w-20 h-20 rounded-full bg-emerald-950/50 border-4 border-emerald-400 flex flex-col items-center justify-center shadow-lg scale-110";
-    phaseEl.textContent = "1. ВДОХ ГРУДЬЮ";
-    instr.textContent = "Медленно наполняй легкие воздухом...";
-    txt.textContent = vacuumState.timeLeft;
-    Sound.beep(440, 0.2);
-  } else if (phase === 'exhale') {
-    vacuumState.timeLeft = 4;
-    circle.className = "w-20 h-20 rounded-full bg-amber-950/50 border-4 border-amber-400 flex flex-col items-center justify-center shadow-lg scale-95";
-    phaseEl.textContent = "2. ПОЛНЫЙ ВЫДОХ";
-    instr.textContent = "Выдохни весь воздух до самого конца!";
-    txt.textContent = vacuumState.timeLeft;
-    Sound.beep(550, 0.2);
-  } else if (phase === 'hold') {
-    vacuumState.timeLeft = vacuumState.duration;
-    circle.className = "w-20 h-20 rounded-full bg-cyan-950/60 border-4 border-cyan-300 flex flex-col items-center justify-center shadow-2xl scale-90";
-    phaseEl.textContent = "3. ДЕРЖИ ВАКУУМ";
-    instr.textContent = "Втяни живот под ребра и удерживай напряжение.";
-    txt.textContent = vacuumState.timeLeft;
-    Sound.finish();
-  } else if (phase === 'rest') {
-    vacuumState.timeLeft = 25;
-    circle.className = "w-20 h-20 rounded-full bg-slate-900 border-4 border-slate-700 flex flex-col items-center justify-center";
-    phaseEl.textContent = `СЕТ ${vacuumState.currentSet} ЗАВЕРШЕН`;
-    instr.textContent = "Отдых между подходами...";
-    txt.textContent = vacuumState.timeLeft;
-    addXP(20);
-    Sound.success();
+  if (reasonLabel) {
+    reasonLabel.textContent = `Под параметры: ${age} года, ${weight} кг, талия/рост: ${waistRatioPct}%, ${appState.goal || 'Рекомпозиция'}`;
   }
 
-  vacuumState.interval = setInterval(() => {
-    if (vacuumState.timeLeft > 1) {
-      vacuumState.timeLeft--;
-      if (txt) txt.textContent = vacuumState.timeLeft;
-    } else {
-      clearInterval(vacuumState.interval);
-      if (vacuumState.phase === 'inhale') startVacuumPhase('exhale');
-      else if (vacuumState.phase === 'exhale') startVacuumPhase('hold');
-      else if (vacuumState.phase === 'hold') {
-        if (vacuumState.currentSet < vacuumState.maxSets) {
-          startVacuumPhase('rest');
-        } else {
-          resetVacuumSession();
-          appState.vacDaysCount = (appState.vacDaysCount || 0) + 1;
-          addXP(50);
-          Sound.finish();
-          Haptic.success();
-          alert("Все 5 подходов вакуума выполнены! (+50 XP).");
-        }
-      } else if (vacuumState.phase === 'rest') {
-        vacuumState.currentSet++;
-        startVacuumPhase('inhale');
+  const stack = [
+    {
+      name: "01. Магний (Глицинат) — за 40 мин до сна",
+      dose: "400 мг",
+      badgeColor: "text-slate-300",
+      reason: injuries.includes("ше") || injuries.includes("лопатк") || injuries.includes("спазм")
+        ? `Снимает мышечный спазм шеи и лопатки, ускоряет фазу глубокого сна и восстановление нервной системы.`
+        : `Восстановление нервной системы и глубокий сон.`
+    },
+    {
+      name: "02. Витамин D3 + K2 — утром с едой",
+      dose: "4000 МЕ",
+      badgeColor: "text-[#c8a97e]",
+      reason: `Поддерживает выработку мужских гормонов для возраста 30+ и компенсирует офисный режим.`
+    },
+    {
+      name: "03. Омега-3 (жирные кислоты) — с едой",
+      dose: "2000 мг",
+      badgeColor: "text-slate-300",
+      reason: `Защита плечевых суставов и связок при жимовых нагрузках.`
+    },
+    {
+      name: "04. Креатин моногидрат — в любое время",
+      dose: "5 г",
+      badgeColor: "text-emerald-400",
+      reason: `Повышает силовую выносливость на 12–15% и защищает мышечную массу от разрушения.`
+    },
+    {
+      name: "05. Цинк хелат — вечером после еды",
+      dose: "25 мг",
+      badgeColor: "text-slate-400",
+      reason: `Синтез гормонов и укрепление иммунитета.`
+    }
+  ];
+
+  if (waistRatioPct >= 50) {
+    stack.push({
+      name: "06. L-Карнитин — перед кардио",
+      dose: "1500 мг",
+      badgeColor: "text-[#c8a97e]",
+      reason: `Ускоряет сжигание жира на животе при аэробной нагрузке низкой интенсивности.`
+    });
+  }
+
+  container.innerHTML = stack.map(item => `
+    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
+      <div class="flex justify-between items-center font-mono">
+        <b class="text-white text-xs uppercase">${item.name}</b>
+        <span class="${item.badgeColor} font-bold text-xs">${item.dose}</span>
+      </div>
+      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
+    </div>
+  `).join("");
+}
+
+// ========================================================
+// 18 ДОСТИЖЕНИЙ
+// ========================================================
+const ACHIEVEMENTS = [
+  { id: "ach_first", cat: "strength", title: "Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
+  { id: "ach_ton_10", cat: "strength", title: "Рубеж 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
+  { id: "ach_ton_50", cat: "strength", title: "Рубеж 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
+  { id: "ach_ton_100", cat: "strength", title: "Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 100000, current: (s) => getTotalTonnage(s), xp: 1000 },
+  { id: "ach_ton_250", cat: "strength", title: "Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
+
+  { id: "ach_strk_3", cat: "streak", title: "Три в ряд", desc: "Серия из 3 тренировок без пропусков", target: 3, current: (s) => (s.streak || 0), xp: 250 },
+  { id: "ach_strk_7", cat: "streak", title: "Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
+  { id: "ach_strk_10", cat: "streak", title: "Стальная декада", desc: "Серия из 10 регулярных тренировок", target: 10, current: (s) => (s.streak || 0), xp: 700 },
+  { id: "ach_strk_30", cat: "streak", title: "Кремень 30", desc: "Серия из 30 тренировок по графику", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
+
+  { id: "ach_vac_1", cat: "body", title: "Первое втягивание", desc: "Выполни 1-ю утреннюю сессию вакуума", target: 1, current: (s) => (s.vacDaysCount || 0), xp: 100 },
+  { id: "ach_vac_5", cat: "body", title: "Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
+  { id: "ach_vac_14", cat: "body", title: "Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 },
+
+  { id: "ach_prot_3", cat: "nutrition", title: "Белковый старт", desc: "Закрой норму 150г белка 3 дня", target: 3, current: (s) => (s.protDaysCount || 0), xp: 200 },
+  { id: "ach_prot_7", cat: "nutrition", title: "Белковый баланс", desc: "Закрой норму 150г белка 7 дней", target: 7, current: (s) => (s.protDaysCount || 0), xp: 400 },
+  { id: "ach_prot_21", cat: "nutrition", title: "Мастер питания", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
+  { id: "ach_water_14", cat: "nutrition", title: "Водный баланс", desc: "Выпей норму воды 14 дней подряд", target: 14, current: (s) => (s.waterDaysCount || 0), xp: 500 },
+
+  { id: "ach_meso_1", cat: "meso", title: "Мастер цикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
+  { id: "ach_meso_3", cat: "meso", title: "Профессор периодизации", desc: "Заверши 3 полных цикла (24 недели)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
+];
+
+function filterAchievements(cat) {
+  currentAchFilter = cat;
+  ['all', 'strength', 'streak', 'body', 'nutrition', 'meso'].forEach(c => {
+    const btn = document.getElementById("btn-ach-" + c);
+    if (btn) {
+      if (c === cat) {
+        btn.className = "px-3 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
+      } else {
+        btn.className = "px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
       }
+    }
+  });
+  renderAchievementsList();
+}
+
+function checkAchievements() {
+  if (!appState.unlockedAchievements) appState.unlockedAchievements = [];
+
+  ACHIEVEMENTS.forEach(ach => {
+    if (!appState.unlockedAchievements.includes(ach.id)) {
+      const curVal = ach.current(appState);
+      if (curVal >= ach.target) {
+        appState.unlockedAchievements.push(ach.id);
+        appState.xp += ach.xp;
+        Sound.finish();
+        Haptic.success();
+      }
+    }
+  });
+
+  renderAchievementsList();
+}
+
+function renderAchievementsList() {
+  const container = document.getElementById("achievements-list");
+  const countEl = document.getElementById("achievements-unlocked-count");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const unlocked = appState.unlockedAchievements || [];
+  if (countEl) countEl.textContent = `${unlocked.length}/${ACHIEVEMENTS.length}`;
+
+  const filtered = ACHIEVEMENTS.filter(a => currentAchFilter === 'all' || a.cat === currentAchFilter);
+
+  filtered.forEach(ach => {
+    const isUnlocked = unlocked.includes(ach.id);
+    const curVal = ach.current(appState);
+    const pct = Math.min(100, Math.round((curVal / ach.target) * 100));
+
+    const card = document.createElement("div");
+    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-[#181b26] border-white/20 text-white' : 'bg-[#12141c] border-white/[0.05] text-slate-400 opacity-75'}`;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start">
+        <div>
+          <h4 class="font-bold text-xs ${isUnlocked ? 'text-[#c8a97e]' : 'text-slate-300'} font-sans">${ach.title}</h4>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
+        </div>
+        <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono ${isUnlocked ? 'bg-[#c8a97e] text-slate-950' : 'bg-[#181b26] text-slate-400 border border-white/5'}">
+          ${isUnlocked ? 'ОТКРЫТО' : `+${ach.xp} XP`}
+        </span>
+      </div>
+
+      <div class="space-y-1 font-mono text-[10px]">
+        <div class="flex justify-between text-slate-400">
+          <span>Прогресс: <b class="${isUnlocked ? 'text-white' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
+          <span>${pct}%</span>
+        </div>
+        <div class="w-full h-1 bg-slate-900 rounded-full overflow-hidden border border-white/5">
+          <div class="h-full ${isUnlocked ? 'bg-[#c8a97e]' : 'bg-slate-700'}" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function renderMesocycleBanner() {
+  const w = appState.mesocycleWeek || 1;
+  const badgeHeader = document.getElementById("meso-header-badge");
+  const weekDisp = document.getElementById("meso-week-display");
+  const descEl = document.getElementById("meso-desc-text");
+
+  if (badgeHeader) badgeHeader.textContent = `Неделя ${w}/8`;
+  if (weekDisp) weekDisp.textContent = w;
+
+  if (!descEl) return;
+
+  if (w <= 3) {
+    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейное повышение рабочих весов (+2.5 кг в базе). 48 часов отдыха между днями тренировок.`;
+  } else if (w <= 6) {
+    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий стимул роста мышц.`;
+  } else if (w === 7) {
+    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных весов перед разгрузкой.`;
+  } else {
+    descEl.innerHTML = `<span class="text-[#c8a97e] font-bold">Разгрузка:</span> 8-недельный цикл завершен. <b>Рекомендуется 1 легкая неделя (-40% весов) для восстановления связок.</b>`;
+  }
+}
+
+function advanceMesocycleWeek() {
+  let w = (appState.mesocycleWeek || 1) + 1;
+  appState.totalMesoWeeks = (appState.totalMesoWeeks || 1) + 1;
+
+  if (w > 8) {
+    if (confirm("Начать новый 8-недельный тренировочный цикл с Недели 1?")) {
+      w = 1;
+      addXP(500);
+      Sound.finish();
+      Haptic.success();
+      alert("Цикл успешно завершен! Начат новый тренировочный блок (+500 XP).");
+    } else {
+      return;
+    }
+  } else {
+    Sound.beep(700, 0.08);
+    Haptic.impact('light');
+  }
+  appState.mesocycleWeek = w;
+  saveState();
+  checkAchievements();
+}
+
+function promptReadinessBeforeWorkout(planKey, targetDate = null) {
+  pendingWorkoutPlanKey = planKey;
+  pendingTargetWorkoutDate = targetDate;
+  updateReadinessScore();
+  openModal('modal-readiness');
+}
+
+function updateReadinessScore() {
+  const energy = parseInt(document.getElementById("readiness-range-energy").value) || 4;
+  const sleep = parseInt(document.getElementById("readiness-range-sleep").value) || 4;
+  const soreness = parseInt(document.getElementById("readiness-range-soreness").value) || 1;
+
+  document.getElementById("readiness-val-energy").textContent = `${energy} / 5`;
+  document.getElementById("readiness-val-sleep").textContent = `${sleep} / 5`;
+  
+  const soreLabels = ["", "1 (Свежий)", "2 (Легкая)", "3 (Умеренная)", "4 (Забитость)", "5 (Сильная)"];
+  document.getElementById("readiness-val-soreness").textContent = soreLabels[soreness] || `${soreness}`;
+
+  const scorePct = Math.round(((energy + sleep + (6 - soreness)) / 15) * 100);
+  const badge = document.getElementById("readiness-total-badge");
+
+  if (scorePct >= 85) {
+    badge.textContent = `${scorePct}% • 100% рабочих весов (Полная нагрузка)`;
+    badge.className = "text-sm font-bold text-white font-mono";
+  } else if (scorePct >= 65) {
+    badge.textContent = `${scorePct}% • Умеренная нагрузка (запас 1-2 повт)`;
+    badge.className = "text-sm font-bold text-[#c8a97e] font-mono";
+  } else {
+    badge.textContent = `${scorePct}% • Авто-снижение весов на 10% (Защита шеи)`;
+    badge.className = "text-sm font-bold text-rose-400 font-mono";
+  }
+}
+
+function confirmReadinessAndStart() {
+  closeModal('modal-readiness');
+  const energy = parseInt(document.getElementById("readiness-range-energy").value) || 4;
+  const sleep = parseInt(document.getElementById("readiness-range-sleep").value) || 4;
+  const soreness = parseInt(document.getElementById("readiness-range-soreness").value) || 1;
+  const scorePct = Math.round(((energy + sleep + (6 - soreness)) / 15) * 100);
+
+  if (pendingWorkoutPlanKey === 'free') {
+    startFreeWorkout(pendingTargetWorkoutDate);
+  } else {
+    startWorkout(pendingWorkoutPlanKey, scorePct, pendingTargetWorkoutDate);
+  }
+}
+
+function skipReadinessAndStart() {
+  closeModal('modal-readiness');
+  if (pendingWorkoutPlanKey === 'free') {
+    startFreeWorkout(pendingTargetWorkoutDate);
+  } else {
+    startWorkout(pendingWorkoutPlanKey, 90, pendingTargetWorkoutDate);
+  }
+}
+
+function startWorkout(planKey, readinessPct = 90, targetDate = null) {
+  Sound.beep(600, 0.08);
+  Haptic.impact('medium');
+  const plan = DEFAULT_PROGRAMS[planKey];
+  activeExpandedExerciseIndex = 0;
+
+  const weightMultiplier = (readinessPct < 65) ? 0.9 : 1.0;
+  const now = new Date();
+  const startTimeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+  if (!appState.weightProgression) appState.weightProgression = {};
+
+  appState.activeWorkout = {
+    key: planKey,
+    name: plan.name,
+    targetDate: targetDate || now.toISOString().split("T")[0],
+    startTimestamp: now.getTime(),
+    startTimeStr: startTimeStr,
+    readiness: readinessPct,
+    exercises: plan.exercises.map(e => {
+      const baseW = appState.weightProgression[e.name] !== undefined ? appState.weightProgression[e.name] : e.w;
+      const scaledWeight = (baseW > 0) ? Math.round((baseW * weightMultiplier) * 2) / 2 : 0;
+      return {
+        name: e.name,
+        muscleGroup: e.muscleGroup || "Все тело",
+        targetMuscles: e.targetMuscles || "Целевые зоны",
+        phases: e.phases || ["01: Опускание 2-3с", "02: Пауза 1с", "03: Выжим"],
+        min: e.min,
+        max: e.max,
+        defaultWeight: scaledWeight,
+        calRate: e.calRate || 10,
+        isTime: !!e.isTime,
+        tip: e.tip,
+        substitutes: e.substitutes || [],
+        sets: Array.from({ length: e.sets }, (_, i) => ({
+          set: i + 1,
+          weight: scaledWeight,
+          reps: e.min,
+          done: false
+        }))
+      };
+    })
+  };
+
+  startWorkoutTimer();
+  renderActiveWorkoutUI();
+  switchTab("workouts");
+}
+
+function startWorkoutTimer() {
+  clearInterval(liveWorkoutTimerInterval);
+  liveWorkoutSeconds = 0;
+  liveWorkoutTimerInterval = setInterval(() => {
+    liveWorkoutSeconds++;
+    const m = Math.floor(liveWorkoutSeconds / 60);
+    const s = liveWorkoutSeconds % 60;
+    const timerEl = document.getElementById("wo-live-timer");
+    if (timerEl) {
+      timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
   }, 1000);
 }
 
-// ========================================================
-// ПИТАНИЕ
-// ========================================================
-function addProtein(p, cal) {
-  if (!appState.nutrition) appState.nutrition = { protein: 0, waterMl: 0, calories: 0, caloriesBurned: 0 };
-  appState.nutrition.protein = (appState.nutrition.protein || 0) + p;
-  appState.nutrition.calories = (appState.nutrition.calories || 0) + (cal || p * 4);
-  if (appState.nutrition.protein >= 150) {
-    appState.protDaysCount = (appState.protDaysCount || 0) + 1;
-  }
-  saveState();
-  renderNutrition();
-  Sound.beep(700, 0.08);
+function toggleExerciseAccordion(exIdx) {
+  activeExpandedExerciseIndex = (activeExpandedExerciseIndex === exIdx) ? -1 : exIdx;
+  Sound.beep(600, 0.05);
   Haptic.impact('light');
+  renderActiveWorkoutUI();
 }
 
-function renderNutrition() {
-  const nut = appState.nutrition || {};
-  const weight = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83;
-  const targetProtein = Math.round(weight * 1.8);
-  const targetWater = (weight * 0.032).toFixed(1);
+function addCustomExerciseToActiveWorkout(e) {
+  e.preventDefault();
+  if (!appState.activeWorkout) {
+    startFreeWorkout();
+  }
 
-  const p = nut.protein || 0;
-  const w = nut.waterMl || 0;
-  const calEaten = nut.calories || 0;
-  const calBurned = nut.caloriesBurned || 0;
+  const name = document.getElementById("cust-ex-name").value.trim();
+  const sets = parseInt(document.getElementById("cust-ex-sets").value) || 3;
+  const reps = parseInt(document.getElementById("cust-ex-reps").value) || 10;
+  const weight = parseFloat(document.getElementById("cust-ex-weight").value) || 0;
+  const muscle = document.getElementById("cust-ex-muscle").value;
+  const tip = document.getElementById("cust-ex-tip").value.trim() || "Подконтрольное движение без раскачки.";
 
-  const pVal = document.getElementById("nut-p-val");
-  const pBar = document.getElementById("nut-p-bar");
-  const wVal = document.getElementById("nut-w-val");
-  const wBar = document.getElementById("nut-w-bar");
-  const elEaten = document.getElementById("nut-cal-eaten");
-  const elBurned = document.getElementById("nut-cal-burned");
+  appState.activeWorkout.exercises.push({
+    name: name,
+    muscleGroup: muscle,
+    targetMuscles: `${muscle} • Индивидуальное`,
+    phases: ["01: Начальная фаза", "02: Рабочее движение", "03: Фиксация 1с"],
+    min: reps,
+    max: reps,
+    defaultWeight: weight,
+    calRate: 10,
+    isTime: false,
+    tip: tip,
+    substitutes: [],
+    sets: Array.from({ length: sets }, (_, i) => ({
+      set: i + 1,
+      weight: weight,
+      reps: reps,
+      done: false
+    }))
+  });
 
-  if (pVal) pVal.textContent = `${p} / ${targetProtein} г`;
-  if (pBar) pBar.style.width = `${Math.min(100, (p / targetProtein) * 100)}%`;
+  saveState();
+  closeModal('modal-add-custom-exercise');
+  activeExpandedExerciseIndex = appState.activeWorkout.exercises.length - 1;
+  renderActiveWorkoutUI();
+  Sound.success();
+  Haptic.success();
+}
 
-  if (wVal) wVal.textContent = `${(w / 1000).toFixed(2)} / ${targetWater} л`;
-  if (wBar) wBar.style.width = `${Math.min(100, (w / (targetWater * 1000)) * 100)}%`;
+function renderMuscleVolumeBreakdown() {
+  const container = document.getElementById("muscle-volume-container");
+  if (!container) return;
 
-  if (elEaten) elEaten.textContent = `${calEaten} ккал`;
-  if (elBurned) elBurned.textContent = `${calBurned} ккал`;
+  const targets = [
+    { group: "Грудь", optimal: 12, current: 8, color: "from-[#c8a97e] to-[#dfc299]" },
+    { group: "Спина", optimal: 14, current: 8, color: "from-slate-400 to-slate-200" },
+    { group: "Ноги", optimal: 12, current: 7, color: "from-amber-600 to-amber-400" },
+    { group: "Плечи", optimal: 8, current: 4, color: "from-slate-500 to-slate-300" },
+    { group: "Руки & Кор", optimal: 10, current: 6, color: "from-emerald-600 to-emerald-400" }
+  ];
+
+  const hist = appState.history || [];
+  const currentWeekLogs = hist.slice(0, 3);
+  let chestSets = 0, backSets = 0, legSets = 0, shoulderSets = 0, armSets = 0;
+
+  currentWeekLogs.forEach(h => {
+    (h.exercises || []).forEach(e => {
+      const setCount = (e.sets.match(/,/g) || []).length + 1;
+      const n = (e.name || "").toLowerCase();
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) chestSets += setCount;
+      else if (n.includes("тяга") || n.includes("спин")) backSets += setCount;
+      else if (n.includes("ног") || n.includes("присед") || n.includes("румын")) legSets += setCount;
+      else if (n.includes("мах") || n.includes("плеч")) shoulderSets += setCount;
+      else armSets += setCount;
+    });
+  });
+
+  if (chestSets > 0) targets[0].current = chestSets;
+  if (backSets > 0) targets[1].current = backSets;
+  if (legSets > 0) targets[2].current = legSets;
+  if (shoulderSets > 0) targets[3].current = shoulderSets;
+  if (armSets > 0) targets[4].current = armSets;
+
+  container.innerHTML = targets.map(t => {
+    const pct = Math.min(100, Math.round((t.current / t.optimal) * 100));
+    const status = pct >= 80 ? 'ОПТИМУМ' : pct >= 50 ? 'В ПРОЦЕССЕ' : 'СТАРТ';
+    return `
+      <div class="space-y-1 bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+        <div class="flex justify-between items-center text-[11px]">
+          <span class="font-bold text-white uppercase">${t.group}</span>
+          <div class="flex items-center space-x-2">
+            <span class="text-slate-400 font-mono">${t.current} / ${t.optimal} сетов</span>
+            <span class="text-[9px] font-bold text-[#c8a97e]">${status}</span>
+          </div>
+        </div>
+        <div class="w-full h-1 bg-[#0e1017] rounded-full overflow-hidden border border-white/5">
+          <div class="h-full bg-gradient-to-r ${t.color}" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// ========================================================
+// ТАБЛИЦА ЛИДЕРОВ
+// ========================================================
+let cachedLeaderboard = [];
+
+async function syncUserToLeaderboard() {
+  try {
+    const myTonnage = getTotalTonnage(appState);
+    const myXP = appState.xp || 0;
+    const myStreak = appState.streak || 0;
+
+    await fetch('/api/sync-leaderboard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tgId: appState.tgId,
+        name: appState.name,
+        xp: myXP,
+        tonnage: myTonnage,
+        streak: myStreak,
+        lastActive: "Сегодня"
+      })
+    });
+  } catch(e) {}
+}
+
+async function fetchLeaderboard() {
+  const container = document.getElementById("leaderboard-container");
+  if (!container) return;
+
+  const myTonnage = getTotalTonnage(appState);
+  const myXP = appState.xp || 0;
+  const myStreak = appState.streak || 0;
+
+  let list = [
+    { id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true }
+  ];
+
+  try {
+    const res = await fetch('/api/leaderboard');
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        list = data.map(u => ({
+          ...u,
+          isMe: (u.id === appState.tgId)
+        }));
+        if (!list.some(u => u.isMe)) {
+          list.push({ id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true });
+        }
+      }
+    }
+  } catch(e) {}
+
+  list.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  list.forEach((u, i) => u.rank = i + 1);
+  cachedLeaderboard = list;
+
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById("leaderboard-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (cachedLeaderboard.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
+        <p class="text-xs font-bold text-slate-300 uppercase">Таблица формируется</p>
+        <p class="text-[11px] text-slate-500 font-sans">Участники клуба будут появляться здесь по мере тренировок.</p>
+      </div>
+    `;
+    return;
+  }
+
+  cachedLeaderboard.forEach(u => {
+    const card = document.createElement("div");
+    const isMe = u.isMe || (u.name && u.name.includes("(Вы)"));
+    card.className = `p-3.5 rounded-2xl border transition-all ${isMe ? 'bg-[#181b26] border-white/20 shadow-md' : 'bg-[#12141c] border-white/[0.06]'}`;
+
+    const badgeColor = u.rank === 1 ? 'bg-[#c8a97e] text-slate-950 font-bold' : u.rank === 2 ? 'bg-slate-300 text-slate-950 font-bold' : u.rank === 3 ? 'bg-amber-700 text-white font-bold' : 'bg-[#181b26] text-slate-400 font-medium border border-white/5';
+
+    card.innerHTML = `
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-6 h-6 rounded-lg ${badgeColor} flex items-center justify-center text-[10px] font-mono">
+            #${u.rank}
+          </span>
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="font-bold text-xs ${isMe ? 'text-white' : 'text-slate-200'} font-sans">${u.name}</span>
+              ${isMe ? '<span class="text-[8px] font-mono px-1.5 py-0.2 bg-white/10 text-[#c8a97e] font-bold rounded uppercase">YOU</span>' : ''}
+            </div>
+            <span class="text-[10px] text-slate-400 font-mono">Тоннаж: <b class="text-white">${(u.tonnage / 1000).toFixed(1)} т</b> • Серия: ${u.streak} дн</span>
+          </div>
+        </div>
+        <div class="text-right font-mono">
+          <span class="text-xs font-bold text-white block">${u.xp.toLocaleString()} XP</span>
+          <span class="text-[9px] text-slate-500">Ур. ${Math.floor(u.xp / 500) + 1}</span>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function openProfileDrawer() {
+  updateProfileDisplay();
+  openModal('modal-profile-drawer');
+}
+
+function updateProfileDisplay() {
+  const nameEl = document.getElementById("prof-disp-name");
+  const ageEl = document.getElementById("prof-disp-age");
+  const goalEl = document.getElementById("prof-disp-goal");
+  const injEl = document.getElementById("prof-disp-injuries");
+
+  if (nameEl) nameEl.textContent = appState.name;
+  if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
+  if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
+  if (injEl) injEl.textContent = appState.injuries || "Нет";
+}
+
+let resetTimerInterval = null;
+let resetSecondsLeft = 15;
+
+function openSafeResetModal() {
+  closeModal('modal-profile-drawer');
+  resetSecondsLeft = 15;
+  clearInterval(resetTimerInterval);
+
+  const btn = document.getElementById("btn-confirm-safe-reset");
+  const txt = document.getElementById("reset-countdown-text");
+
+  btn.disabled = true;
+  btn.className = "flex-1 py-3 bg-[#181b26] text-slate-500 font-bold uppercase rounded-xl cursor-not-allowed transition-all";
+  btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+  txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+
+  openModal('modal-safe-reset');
+
+  resetTimerInterval = setInterval(() => {
+    resetSecondsLeft--;
+    if (resetSecondsLeft > 0) {
+      btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+      txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+    } else {
+      clearInterval(resetTimerInterval);
+      btn.disabled = false;
+      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase rounded-xl cursor-pointer transition-all";
+      btn.textContent = "Подтвердить полный сброс";
+      txt.textContent = "✓ Защита снята: можно выполнить сброс";
+      txt.className = "text-sm font-bold text-rose-400 font-mono";
+      Sound.beep(880, 0.2);
+      Haptic.impact('heavy');
+    }
+  }, 1000);
+}
+
+function executeSafeResetAndReOnboard() {
+  clearInterval(resetTimerInterval);
+  closeModal('modal-safe-reset');
+
+  const currentTgId = appState.tgId;
+  const currentName = appState.name;
+
+  appState = getInitialAccount();
+  appState.tgId = currentTgId;
+  appState.name = currentName;
+
+  saveState();
+  Sound.finish();
+  Haptic.success();
+
+  alert("✓ Профиль успешно сброшен!");
+  openOnboardingModal();
+}
+
+function openOnboardingModal() {
+  closeModal('modal-profile-drawer');
+  document.getElementById("onboard-name").value = appState.name || "Роман";
+  document.getElementById("onboard-age").value = appState.age || 32;
+  document.getElementById("onboard-height").value = appState.height || 178;
+  document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
+  document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
+  document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
+  document.getElementById("onboard-injuries").value = appState.injuries || "";
+
+  openModal('modal-onboarding');
+}
+
+function saveOnboardingProfile(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("onboard-name").value.trim();
+  const age = parseInt(document.getElementById("onboard-age").value) || 32;
+  const height = parseInt(document.getElementById("onboard-height").value) || 178;
+  const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
+  const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
+  const goal = document.getElementById("onboard-goal").value;
+  const injuries = document.getElementById("onboard-injuries").value.trim();
+
+  appState.name = name;
+  appState.age = age;
+  appState.height = height;
+  appState.goal = goal;
+  appState.injuries = injuries;
+
+  if (!appState.currentMetrics) {
+    appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
+  } else {
+    appState.currentMetrics.weight = weight;
+    appState.currentMetrics.waist = waist;
+  }
+
+  const today = new Date().toISOString().split("T")[0];
+  appState.metrics = [
+    { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
+  ];
+
+  const elName = document.getElementById("tg-user-name");
+  if (elName) elName.textContent = name;
+
+  saveState();
+  closeModal('modal-onboarding');
+  Sound.finish();
+  Haptic.success();
+
+  renderMetrics();
+  renderPersonalizedVitamins();
+  renderMonthlyCalendar();
+  renderPersonalRecords();
+  renderMuscleVolumeBreakdown();
+}
+
+function getLastExercisePerformance(exName) {
+  const hist = appState.history || [];
+  for (const h of hist) {
+    if (h.exercises) {
+      const match = h.exercises.find(e => e.name === exName);
+      if (match && match.sets && match.sets !== '0') {
+        return { setsStr: match.sets, date: h.date };
+      }
+    }
+  }
+  return null;
 }
 
 // ========================================================
@@ -2584,8 +2382,8 @@ function renderHistory() {
   const hist = appState.history || [];
   if (hist.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
-        <p class="text-xs font-bold text-slate-200 uppercase">Журнал тренировок пуст</p>
+      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
+        <p class="text-xs font-bold text-slate-200 uppercase">Журнал сессий пуст</p>
         <p class="text-[11px] text-slate-400 font-sans">Начни тренировку во вкладке «Тренинг» или нажми «+ Добавить» выше.</p>
       </div>
     `;
@@ -2594,7 +2392,7 @@ function renderHistory() {
 
   hist.forEach((h, idx) => {
     const card = document.createElement("div");
-    card.className = "p-4 bg-[#090d16] rounded-2xl border border-white/[0.07] space-y-2.5 font-mono text-xs";
+    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.07] space-y-2.5 font-mono text-xs";
 
     const timeString = h.startTimeStr ? `${h.startTimeStr} – ${h.endTimeStr || '...'} (${h.durationMin || 45} мин)` : `${h.timeStr || h.date}`;
 
@@ -2602,8 +2400,8 @@ function renderHistory() {
       <div class="flex justify-between items-center text-[11px] py-1 border-b border-white/[0.04] last:border-0 font-sans">
         <span class="text-slate-300 font-medium">${e.name}</span>
         <div class="text-right font-mono">
-          <span class="text-emerald-400 font-bold block">${e.sets}</span>
-          <span class="text-[10px] text-amber-400">${e.prog || ''}</span>
+          <span class="text-white font-bold block">${e.sets}</span>
+          <span class="text-[10px] text-[#c8a97e]">${e.prog || ''}</span>
         </div>
       </div>
     `).join("");
@@ -2616,19 +2414,19 @@ function renderHistory() {
         </div>
         <div class="flex items-center space-x-2 text-right">
           <div>
-            <span class="text-xs text-emerald-400 font-black">${h.tonnage} кг</span>
+            <span class="text-xs text-white font-bold">${h.tonnage} кг</span>
             <span class="text-[9px] text-slate-400 block uppercase">тоннаж</span>
           </div>
           <div class="border-l border-white/10 pl-2">
-            <span class="text-xs text-amber-400 font-black">${h.calories || 350} ккал</span>
+            <span class="text-xs text-[#c8a97e] font-bold">${h.calories || 350} ккал</span>
             <span class="text-[9px] text-slate-400 block uppercase">расход</span>
           </div>
         </div>
       </div>
       <div class="space-y-0.5 pt-1">${exList}</div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-white/[0.07] text-[10px]">
-        <button onclick="openEditHistoryModal(${idx})" class="px-2.5 py-1 bg-slate-800 text-cyan-300 rounded-lg border border-white/10">Редактировать</button>
-        <button onclick="deleteHistoryItemDirect(${idx})" class="px-2.5 py-1 bg-rose-950 text-rose-300 rounded-lg border border-rose-900">Удалить</button>
+        <button onclick="openEditHistoryModal(${idx})" class="px-2.5 py-1 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Редактировать</button>
+        <button onclick="deleteHistoryItemDirect(${idx})" class="px-2.5 py-1 bg-rose-950/60 text-rose-300 rounded-lg border border-rose-900">Удалить</button>
       </div>
     `;
 
@@ -2656,8 +2454,8 @@ function openEditHistoryModal(idx) {
     const row = document.createElement("div");
     row.className = "grid grid-cols-12 gap-1.5 items-center";
     row.innerHTML = `
-      <input type="text" value="${e.name}" id="edit-ex-name-${eIdx}" class="col-span-6 bg-slate-900 border border-white/10 px-2 py-1 rounded-lg text-white text-xs outline-none">
-      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-slate-900 border border-white/10 px-2 py-1 rounded-lg text-cyan-400 font-mono text-xs outline-none">
+      <input type="text" value="${e.name}" id="edit-ex-name-${eIdx}" class="col-span-6 bg-[#0e1017] border border-white/10 px-2 py-1 rounded-lg text-white text-xs outline-none font-sans">
+      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-[#0e1017] border border-white/10 px-2 py-1 rounded-lg text-[#c8a97e] font-mono text-xs outline-none">
     `;
     exContainer.appendChild(row);
   });
@@ -2705,7 +2503,7 @@ function deleteCurrentEditingHistoryItem() {
     render12MonthsAnnualBreakdown();
     renderMuscleVolumeBreakdown();
     drawTrendChart();
-    Sound.beep(400, 0.1);
+    Sound.beep(400, 0.08);
   }
 }
 
@@ -2718,7 +2516,7 @@ function deleteHistoryItemDirect(idx) {
     render12MonthsAnnualBreakdown();
     renderMuscleVolumeBreakdown();
     drawTrendChart();
-    Sound.beep(400, 0.1);
+    Sound.beep(400, 0.08);
   }
 }
 
@@ -2810,8 +2608,7 @@ ${prsText}
 ${lastWosText}
 
 5. ДИСЦИПЛИНА И ЗДОРОВЬЕ:
-• Выполнено сессий утреннего вакуума: ${appState.vacDaysCount || 0}
-• Дней с закрытием нормы белка (150г+): ${appState.protDaysCount || 0}
+• Выполнено дней утреннего вакуума: ${appState.vacDaysCount || 0}
 • Суммарный тоннаж за все время: ${getTotalTonnage(appState).toLocaleString()} кг
 =============================================`;
 
@@ -2861,8 +2658,8 @@ function switchTab(tabId) {
     switchProgressSubtab('calendar');
   }
   if (tabId === "nutrition") {
-    renderNutrition();
     renderPersonalizedVitamins();
+    updateVacuumBadge();
   }
 }
 
@@ -2876,12 +2673,12 @@ function switchProgressSubtab(subtabId) {
     if (st === subtabId) {
       if (pane) pane.classList.remove("hidden");
       if (btn) {
-        btn.className = "py-2.5 px-1 rounded-xl bg-cyan-400 text-slate-950 font-black transition-all text-center flex items-center justify-center space-x-1.5 shadow-sm";
+        btn.className = "py-2.5 px-1 rounded-xl bg-[#c8a97e] text-slate-950 font-bold transition-all text-center flex items-center justify-center space-x-1.5 shadow-sm";
       }
     } else {
       if (pane) pane.classList.add("hidden");
       if (btn) {
-        btn.className = "py-2.5 px-1 rounded-xl text-slate-400 font-bold transition-all text-center flex items-center justify-center space-x-1.5";
+        btn.className = "py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5";
       }
     }
   });
@@ -2938,7 +2735,7 @@ function calculate1RM() {
   resEl.innerHTML = `
     <div class="flex justify-between items-center pb-1 border-b border-white/[0.07]">
       <span class="text-slate-400 uppercase">Максимум на 1 раз (1ПМ):</span>
-      <span class="text-sm font-bold text-cyan-300 font-mono">${oneRM} кг</span>
+      <span class="text-sm font-bold text-[#c8a97e] font-mono">${oneRM} кг</span>
     </div>
     <div class="flex justify-between text-[11px] pt-1 font-mono">
       <span>80% (Рабочий на 8-10): <b>${eightyPct} кг</b></span>
@@ -2956,10 +2753,10 @@ document.addEventListener("DOMContentLoaded", () => {
   renderXP();
   renderMesocycleBanner();
   renderMetrics();
-  renderNutrition();
   renderPersonalizedVitamins();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
+  updateVacuumBadge();
 });
