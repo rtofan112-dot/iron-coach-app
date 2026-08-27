@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.18 PRO",
+  version: "v2.8.19 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -1390,14 +1390,10 @@ function openExerciseProVisualizer(exNameOrId, originContext = 'active') {
     const catEl = document.getElementById("vis-badge-cat");
     const tierEl = document.getElementById("vis-badge-tier");
     const svgContainer = document.getElementById("vis-svg-container");
-    const tempoEl = document.getElementById("vis-tempo-badge");
-    const breathEl = document.getElementById("vis-breath-cue");
 
     if (nameEl) nameEl.textContent = info.name;
     if (catEl) catEl.textContent = info.category;
     if (tierEl) tierEl.textContent = info.tier;
-    if (tempoEl) tempoEl.textContent = info.tempo;
-    if (breathEl) breathEl.textContent = info.breath;
 
     if (svgContainer) {
       svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
@@ -1452,7 +1448,6 @@ function openExerciseProVisualizer(exNameOrId, originContext = 'active') {
       }
     }
 
-    stopTempoMetronome();
     openModal('modal-exercise-pro-visualizer');
     Sound.beep(600, 0.05);
     Haptic.impact('light');
@@ -1495,82 +1490,7 @@ function selectVisualizerPhase(idx) {
   Haptic.impact('light');
 }
 
-let isMetronomeRunning = false;
-let metronomeState = 'inhale';
-let metronomeSecondsLeft = 3;
-
-function toggleTempoMetronome() {
-  if (isMetronomeRunning) {
-    stopTempoMetronome();
-  } else {
-    startTempoMetronome();
-  }
-}
-
-function startTempoMetronome() {
-  isMetronomeRunning = true;
-  metronomeState = 'inhale';
-  metronomeSecondsLeft = 3;
-  updateMetronomeUI();
-
-  if (tempoMetronomeInterval) clearInterval(tempoMetronomeInterval);
-  tempoMetronomeInterval = setInterval(() => {
-    metronomeSecondsLeft--;
-    if (metronomeSecondsLeft <= 0) {
-      if (metronomeState === 'inhale') {
-        metronomeState = 'pause';
-        metronomeSecondsLeft = 1;
-        Sound.beep(650, 0.05);
-      } else if (metronomeState === 'pause') {
-        metronomeState = 'exhale';
-        metronomeSecondsLeft = 1;
-        Sound.beep(800, 0.08);
-      } else {
-        metronomeState = 'inhale';
-        metronomeSecondsLeft = 3;
-        Sound.beep(500, 0.04);
-      }
-    }
-    updateMetronomeUI();
-  }, 1000);
-  Sound.beep(500, 0.06);
-}
-
-function stopTempoMetronome() {
-  isMetronomeRunning = false;
-  if (tempoMetronomeInterval) {
-    clearInterval(tempoMetronomeInterval);
-    tempoMetronomeInterval = null;
-  }
-  const circle = document.getElementById("vis-metronome-circle");
-  const stateEl = document.getElementById("vis-metro-state");
-  const timerEl = document.getElementById("vis-metro-timer");
-  if (circle) circle.className = "tempo-metronome-circle cursor-pointer select-none active:scale-95 transition-all";
-  if (stateEl) stateEl.textContent = "Темп";
-  if (timerEl) timerEl.textContent = "Пуск ▶";
-}
-
-function updateMetronomeUI() {
-  const circle = document.getElementById("vis-metronome-circle");
-  const stateEl = document.getElementById("vis-metro-state");
-  const timerEl = document.getElementById("vis-metro-timer");
-  if (!circle || !stateEl || !timerEl) return;
-
-  circle.className = `tempo-metronome-circle cursor-pointer select-none active:scale-95 transition-all ${metronomeState}`;
-  if (metronomeState === 'inhale') {
-    stateEl.textContent = "Вдох 💨";
-    timerEl.textContent = `${metronomeSecondsLeft}с`;
-  } else if (metronomeState === 'pause') {
-    stateEl.textContent = "Пауза ⏸️";
-    timerEl.textContent = `${metronomeSecondsLeft}с`;
-  } else {
-    stateEl.textContent = "Выдох 💥";
-    timerEl.textContent = `${metronomeSecondsLeft}с`;
-  }
-}
-
 function actionFromVisualizer() {
-  stopTempoMetronome();
   closeModal('modal-exercise-pro-visualizer');
   if (currentVisualizerOrigin && currentVisualizerOrigin.context === 'catalog' && currentVisualizerOrigin.exId) {
     addExerciseFromCatalogToActiveWorkout(currentVisualizerOrigin.exId);
