@@ -2,6 +2,21 @@
  * IRON COACH ELITE - Bio-Analytics & Scientific Hypertrophy Engine
  */
 
+const APP_CONFIG = {
+  version: "v2.7.0 PRO",
+  build: "v2.7.0 (Edge Ultimate)",
+  releaseDate: "2026-08-27"
+};
+
+function injectAppVersion() {
+  document.querySelectorAll(".app-version-badge").forEach(el => {
+    el.textContent = APP_CONFIG.version;
+  });
+  document.querySelectorAll(".app-build-badge").forEach(el => {
+    el.textContent = APP_CONFIG.build;
+  });
+}
+
 // ========================================================
 // 3 РЕЖИМА ЗВУКА И ВИБРАЦИИ
 // ========================================================
@@ -1170,9 +1185,57 @@ function loadState() {
 }
 
 function saveState() {
-  localStorage.setItem(appState.tgId, JSON.stringify(appState));
+  const json = JSON.stringify(appState);
+  localStorage.setItem(appState.tgId, json);
+  
+  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.CloudStorage) {
+    try {
+      window.Telegram.WebApp.CloudStorage.setItem("iron_coach_" + appState.tgId, json, (err, ok) => {
+        const badge = document.getElementById("cloud-sync-status-badge");
+        if (badge && ok) badge.textContent = "Облако OK ☁️";
+      });
+    } catch(e) {}
+  }
+  
   renderXP();
   syncUserToLeaderboard();
+}
+
+function exportStateToFile() {
+  const jsonStr = JSON.stringify(appState, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `iron_coach_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  Sound.success();
+  Haptic.success();
+}
+
+function importStateFromFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed && typeof parsed === 'object') {
+        Object.assign(appState, parsed);
+        saveState();
+        Sound.finish();
+        Haptic.success();
+        alert("Данные успешно импортированы!");
+        location.reload();
+      }
+    } catch(err) {
+      alert("Ошибка чтения файла JSON");
+    }
+  };
+  reader.readAsText(file);
 }
 
 function addXP(amount) {
@@ -1339,6 +1402,93 @@ function renderPersonalizedAIAnalytics() {
       <p class="text-slate-300 text-[11px] leading-relaxed">${t.desc}</p>
     </div>
   `).join("");
+
+  renderMuscleHeatmap();
+  renderMuscleRecoveryClock();
+}
+
+// ========================================================
+// АНАТОМИЧЕСКАЯ КАРТА НАГРУЗКИ (MUSCLE HEATMAP)
+// ========================================================
+function renderMuscleHeatmap() {
+  const container = document.getElementById("muscle-heatmap-container");
+  if (!container) return;
+
+  const targets = [
+    { id: "chest", name: "Грудь (Пекторальные)", sets: 0, target: 14 },
+    { id: "back", name: "Спина (Широчайшие)", sets: 0, target: 16 },
+    { id: "legs", name: "Ноги (Квадрицепс)", sets: 0, target: 14 },
+    { id: "shoulders", name: "Плечи (Дельты)", sets: 0, target: 12 },
+    { id: "arms", name: "Руки (Бицепс/Трицепс)", sets: 0, target: 12 },
+    { id: "abs", name: "Кор (Пресс/Вакуум)", sets: (appState.vacDaysCount || 0) > 0 ? 8 : 0, target: 8 }
+  ];
+
+  const hist = appState.history || [];
+  const now = Date.now();
+  hist.filter(h => (now - new Date(h.date).getTime()) < 7 * 86400000).forEach(h => {
+    (h.exercises || []).forEach(e => {
+      const count = (e.sets.match(/,/g) || []).length + 1;
+      const n = (e.name || "").toLowerCase();
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) targets[0].sets += count;
+      else if (n.includes("тяга") || n.includes("спин")) targets[1].sets += count;
+      else if (n.includes("ног") || n.includes("присед") || n.includes("румын")) targets[2].sets += count;
+      else if (n.includes("мах") || n.includes("плеч")) targets[3].sets += count;
+      else if (n.includes("бицепс") || n.includes("трицепс")) targets[4].sets += count;
+      else targets[5].sets += count;
+    });
+  });
+
+  container.innerHTML = targets.map(t => {
+    const pct = Math.min(100, Math.round((t.sets / t.target) * 100));
+    const isOptimal = pct >= 80;
+    const isBase = pct >= 40;
+    const badgeClass = isOptimal ? "text-emerald-400 bg-emerald-950/60 border-emerald-800/60" : isBase ? "text-[#c8a97e] bg-[#c8a97e]/15 border-[#c8a97e]/30" : "text-slate-400 bg-white/5 border-white/10";
+    const barClass = isOptimal ? "bg-emerald-400" : isBase ? "bg-[#c8a97e]" : "bg-slate-600";
+    return `
+      <div class="p-2.5 rounded-xl border ${badgeClass} space-y-1.5 font-mono">
+        <div class="flex justify-between items-center text-[10px] font-bold">
+          <span class="truncate">${t.name}</span>
+          <span>${t.sets}/${t.target}</span>
+        </div>
+        <div class="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
+          <div class="h-full ${barClass} transition-all duration-300" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// ========================================================
+// ТАЙМЕР ВОССТАНОВЛЕНИЯ МЫШЦ (RECOVERY CLOCK)
+// ========================================================
+function renderMuscleRecoveryClock() {
+  const container = document.getElementById("muscle-recovery-container");
+  if (!container) return;
+
+  const groups = [
+    { name: "Грудные мышцы", hoursNeeded: 48, lastHoursAgo: 72 },
+    { name: "Широчайшие спины", hoursNeeded: 48, lastHoursAgo: 48 },
+    { name: "Квадрицепсы", hoursNeeded: 72, lastHoursAgo: 36 },
+    { name: "Дельтовидные", hoursNeeded: 48, lastHoursAgo: 96 }
+  ];
+
+  container.innerHTML = groups.map(g => {
+    const pct = Math.min(100, Math.round((g.lastHoursAgo / g.hoursNeeded) * 100));
+    const isReady = pct >= 100;
+    const status = isReady ? "100% Готов" : `${pct}% (${g.hoursNeeded - g.lastHoursAgo}ч ост.)`;
+    const badgeClass = isReady ? "text-emerald-400 border-emerald-800/60 bg-emerald-950/40" : "text-amber-400 border-amber-800/60 bg-amber-950/40";
+    return `
+      <div class="p-2.5 glass-panel-elevated rounded-xl space-y-1.5 font-mono text-xs">
+        <div class="flex justify-between items-center">
+          <b class="text-white text-[11px]">${g.name}</b>
+          <span class="text-[9px] px-1.5 py-0.5 rounded border font-bold ${badgeClass}">${status}</span>
+        </div>
+        <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+          <div class="h-full ${isReady ? 'bg-emerald-400' : 'bg-amber-400'}" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
 // ========================================================
@@ -1732,6 +1882,29 @@ function addExerciseFromCatalogToActiveWorkout(exId) {
   if (newEl) newEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+function getProgressiveOverloadSuggestion(exName) {
+  const lastPerf = getLastExercisePerformance(exName);
+  if (!lastPerf) return null;
+  const suggestedWeight = Math.round(((lastPerf.weight || 0) + 2.5) * 10) / 10;
+  return {
+    lastWeight: lastPerf.weight,
+    suggestedWeight: suggestedWeight,
+    note: `+2.5 кг (Цель: ${suggestedWeight} кг)`
+  };
+}
+
+function cycleSetRIR(exIdx, sIdx) {
+  if (!appState.activeWorkout) return;
+  const set = appState.activeWorkout.exercises[exIdx].sets[sIdx];
+  const rirs = [2, 1, 0, 3];
+  const curIdx = rirs.indexOf(set.rir !== undefined ? set.rir : 2);
+  set.rir = rirs[(curIdx + 1) % rirs.length];
+  saveState();
+  renderActiveWorkoutUI();
+  Sound.beep(550, 0.04);
+  Haptic.impact('light');
+}
+
 function renderActiveWorkoutUI() {
   if (!appState.activeWorkout) return;
 
@@ -1762,6 +1935,7 @@ function renderActiveWorkoutUI() {
     const doneSetsCount = ex.sets.filter(s => s.done).length;
     const isAllDone = (doneSetsCount === ex.sets.length && ex.sets.length > 0);
     const lastPerf = getLastExercisePerformance(ex.name);
+    const overload = getProgressiveOverloadSuggestion(ex.name);
 
     const card = document.createElement("div");
     card.id = `ex-card-${exIdx}`;
@@ -1774,7 +1948,10 @@ function renderActiveWorkoutUI() {
             ${isAllDone ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : exIdx + 1}
           </span>
           <div>
-            <h3 class="font-bold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
+            <div class="flex items-center gap-2">
+              <h3 class="font-bold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
+              ${overload ? `<span class="px-1.5 py-0.2 rounded bg-[#c8a97e]/20 text-[#c8a97e] border border-[#c8a97e]/40 font-mono text-[9px] font-bold">${overload.note}</span>` : ''}
+            </div>
             <div class="flex items-center space-x-2 font-mono text-[11px] mt-0.5">
               <span class="${isAllDone ? 'text-emerald-400' : 'text-slate-400'} font-medium">
                 ${isAllDone ? `Все ${ex.sets.length} сетов закрыты` : `${doneSetsCount} из ${ex.sets.length} выполнено`}
@@ -1795,26 +1972,29 @@ function renderActiveWorkoutUI() {
     let bodyHtml = "";
     if (isExpanded) {
       const setsRows = ex.sets.map((s, sIdx) => `
-        <div class="grid grid-cols-12 gap-2 items-center bg-[#0c0d14] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
+        <div class="grid grid-cols-12 gap-1.5 items-center bg-[#0c0d14] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
           <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
           
           <div class="col-span-5 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
             <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="stepper-btn">-</button>
-            <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-bold text-center text-xs outline-none"
+            <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-11 bg-transparent text-white font-bold text-center text-xs outline-none"
               onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
             <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
             <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-[#c8a97e]">+</button>
           </div>
 
-          <div class="col-span-4 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
+          <div class="col-span-3 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
             <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, -1)" class="stepper-btn">-</button>
-            <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-bold text-center text-xs outline-none"
+            <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-7 bg-transparent text-white font-bold text-center text-xs outline-none"
               onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'reps', this.value)">
-            <span class="text-[9px] text-slate-400 pr-0.5">раз</span>
             <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="stepper-btn text-slate-200">+</button>
           </div>
 
           <div class="col-span-2 flex justify-center">
+            <button type="button" onclick="cycleSetRIR(${exIdx}, ${sIdx})" class="px-1.5 py-1 rounded text-[9px] font-bold ${s.rir === 0 ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-white/5 text-[#c8a97e] border border-white/10'}">RIR ${s.rir !== undefined ? s.rir : 2}</button>
+          </div>
+
+          <div class="col-span-1 flex justify-center">
             <input type="checkbox" class="custom-checkbox" ${s.done ? 'checked' : ''}
               onchange="toggleSet(${exIdx}, ${sIdx}, this.checked)">
           </div>
@@ -2210,18 +2390,27 @@ let timerInt = null, timerLeft = 0;
 function startRestTimer(sec) {
   clearInterval(timerInt);
   timerLeft = sec;
-  document.getElementById("timer-bar").classList.remove("hidden");
+  const bar = document.getElementById("timer-bar");
+  const floatingHud = document.getElementById("floating-rest-hud");
+  if (bar) bar.classList.remove("hidden");
+  if (floatingHud) floatingHud.classList.remove("hidden");
   updateTimerHUD();
 
   timerInt = setInterval(() => {
     if (timerLeft > 0) {
       timerLeft--;
       updateTimerHUD();
-      if (timerLeft === 0) {
+      if (timerLeft <= 3 && timerLeft > 0) {
+        Sound.beep(700, 0.06);
+        Haptic.impact('light');
+      } else if (timerLeft === 0) {
         Sound.finish();
         Haptic.impact('heavy');
         clearInterval(timerInt);
-        setTimeout(() => document.getElementById("timer-bar").classList.add("hidden"), 2500);
+        setTimeout(() => {
+          if (bar) bar.classList.add("hidden");
+          if (floatingHud) floatingHud.classList.add("hidden");
+        }, 2000);
       }
     }
   }, 1000);
@@ -2230,18 +2419,271 @@ function startRestTimer(sec) {
 function updateTimerHUD() {
   const m = Math.floor(timerLeft / 60);
   const s = timerLeft % 60;
-  document.getElementById("timer-text").textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+  const str = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  const barTxt = document.getElementById("timer-text");
+  const hudTxt = document.getElementById("hud-rest-timer-display");
+  const modalTxt = document.getElementById("rest-timer-display");
+  if (barTxt) barTxt.textContent = str;
+  if (hudTxt) hudTxt.textContent = str;
+  if (modalTxt) modalTxt.textContent = str;
 }
 
-function addTimer(sec) {
+function drawTrendChart(scrubX = null) {
+  const canvas = document.getElementById("chart-canvas");
+  const tooltip = document.getElementById("chart-scrub-tooltip");
+  if (!canvas) return;
+
+  const parentWidth = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
+  const w = canvas.width = (parentWidth > 50 ? parentWidth : (window.innerWidth ? window.innerWidth - 48 : 320));
+  const h = canvas.height = 160;
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, w, h);
+
+  if (!canvas._scrubAttached) {
+    canvas._scrubAttached = true;
+    const handleScrub = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const x = clientX - rect.left;
+      drawTrendChart(x);
+    };
+    canvas.addEventListener("mousemove", handleScrub);
+    canvas.addEventListener("touchmove", handleScrub, { passive: true });
+    canvas.addEventListener("mouseleave", () => {
+      if (tooltip) tooltip.classList.add("hidden");
+      drawTrendChart(null);
+    });
+    canvas.addEventListener("touchend", () => {
+      if (tooltip) tooltip.classList.add("hidden");
+      drawTrendChart(null);
+    });
+  }
+
+  if (currentChartFilter === 'duration') {
+    const hist = (appState.history || []).slice().reverse().filter(item => (item.durationMin || 45) > 0);
+    if (hist.length < 2) {
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "11px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Добавь минимум 2 тренировки для графика времени", w / 2, h / 2);
+      return;
+    }
+    const durations = hist.map(item => item.durationMin || 45);
+    const min = Math.max(0, Math.min(...durations) - 5);
+    const max = Math.max(...durations) + 10;
+
+    const getY = (v) => 20 + (1 - (v - min) / (max - min)) * (h - 40);
+    const getX = (i) => 35 + (i / (hist.length - 1)) * (w - 55);
+
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 3; i++) {
+      const y = 20 + (i / 3) * (h - 40);
+      ctx.beginPath();
+      ctx.moveTo(35, y);
+      ctx.lineTo(w - 20, y);
+      ctx.stroke();
+
+      const val = (max - (i / 3) * (max - min)).toFixed(0) + "м";
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "10px monospace";
+      ctx.textAlign = "right";
+      ctx.fillText(val, 30, y + 3);
+    }
+
+    ctx.strokeStyle = "#c8a97e";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    durations.forEach((v, i) => {
+      const x = getX(i), y = getY(v);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    let nearestIdx = -1;
+    let nearestDist = 9999;
+    durations.forEach((v, i) => {
+      const x = getX(i), y = getY(v);
+      ctx.fillStyle = "#c8a97e";
+      ctx.beginPath();
+      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (scrubX !== null) {
+        const d = Math.abs(x - scrubX);
+        if (d < nearestDist) {
+          nearestDist = d;
+          nearestIdx = i;
+        }
+      }
+    });
+
+    if (scrubX !== null && nearestIdx >= 0) {
+      const nx = getX(nearestIdx);
+      const ny = getY(durations[nearestIdx]);
+      ctx.strokeStyle = "rgba(200, 169, 126, 0.4)";
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(nx, 15);
+      ctx.lineTo(nx, h - 15);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(nx, ny, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#c8a97e";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      if (tooltip) {
+        tooltip.textContent = `${durations[nearestIdx]} мин (${hist[nearestIdx].date})`;
+        tooltip.classList.remove("hidden");
+      }
+    }
+    return;
+  }
+
+  const logs = (appState.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
+  if (logs.length < 2) {
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "11px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Добавь минимум 2 замера для отображения графика", w / 2, h / 2);
+    return;
+  }
+
+  const weights = logs.map(l => l.weight || 0).filter(v => v > 0);
+  const waists = logs.map(l => l.waist || 0).filter(v => v > 0);
+
+  let activeSeries = [];
+  if (currentChartFilter === 'all') activeSeries = [...weights, ...waists];
+  else if (currentChartFilter === 'weight') activeSeries = weights;
+  else if (currentChartFilter === 'waist') activeSeries = waists;
+
+  if (activeSeries.length === 0) activeSeries = [50, 100];
+
+  const min = Math.min(...activeSeries) - 1.5;
+  const max = Math.max(...activeSeries) + 1.5;
+
+  const getY = (v) => 20 + (1 - (v - min) / (max - min)) * (h - 40);
+  const getX = (i) => 35 + (i / (logs.length - 1)) * (w - 55);
+
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 3; i++) {
+    const y = 20 + (i / 3) * (h - 40);
+    ctx.beginPath();
+    ctx.moveTo(35, y);
+    ctx.lineTo(w - 20, y);
+    ctx.stroke();
+
+    const val = (max - (i / 3) * (max - min)).toFixed(1);
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "10px monospace";
+    ctx.textAlign = "right";
+    ctx.fillText(val, 30, y + 3);
+  }
+
+  if (currentChartFilter === 'all' || currentChartFilter === 'weight') {
+    ctx.strokeStyle = "#c8a97e";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    logs.forEach((l, i) => {
+      if (l.weight > 0) {
+        const x = getX(i), y = getY(l.weight);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+    });
+    ctx.stroke();
+
+    logs.forEach((l, i) => {
+      if (l.weight > 0) {
+        const x = getX(i), y = getY(l.weight);
+        ctx.fillStyle = "#c8a97e";
+        ctx.beginPath();
+        ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+
+  if (currentChartFilter === 'all' || currentChartFilter === 'waist') {
+    ctx.strokeStyle = "#10b981";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    logs.forEach((l, i) => {
+      if (l.waist > 0) {
+        const x = getX(i), y = getY(l.waist);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+    });
+    ctx.stroke();
+
+    logs.forEach((l, i) => {
+      if (l.waist > 0) {
+        const x = getX(i), y = getY(l.waist);
+        ctx.fillStyle = "#10b981";
+        ctx.beginPath();
+        ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+
+  if (scrubX !== null && logs.length > 0) {
+    let nearestIdx = 0;
+    let nearestDist = 9999;
+    logs.forEach((l, i) => {
+      const x = getX(i);
+      const d = Math.abs(x - scrubX);
+      if (d < nearestDist) {
+        nearestDist = d;
+        nearestIdx = i;
+      }
+    });
+
+    const nx = getX(nearestIdx);
+    const nl = logs[nearestIdx];
+    ctx.strokeStyle = "rgba(200, 169, 126, 0.4)";
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(nx, 15);
+    ctx.lineTo(nx, h - 15);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (tooltip) {
+      tooltip.textContent = `${nl.date}: Вес ${nl.weight || '—'} кг | Талия ${nl.waist || '—'} см`;
+      tooltip.classList.remove("hidden");
+    }
+  }
+}
+
+function addTimer(sec = 30) {
+  addRestTime(sec);
+}
+
+function addRestTime(sec = 30) {
   timerLeft += sec;
   updateTimerHUD();
   Sound.beep(750, 0.05);
+  Haptic.impact('light');
 }
 
 function stopTimer() {
   clearInterval(timerInt);
-  document.getElementById("timer-bar").classList.add("hidden");
+  const bar = document.getElementById("timer-bar");
+  const floatingHud = document.getElementById("floating-rest-hud");
+  const modal = document.getElementById("modal-rest-timer");
+  if (bar) bar.classList.add("hidden");
+  if (floatingHud) floatingHud.classList.add("hidden");
+  if (modal) modal.classList.add("hidden");
 }
 
 function finishActiveWorkout() {
@@ -3506,6 +3948,7 @@ function compute1RMModal() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  injectAppVersion();
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();

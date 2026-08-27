@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
@@ -321,7 +321,7 @@
           <div id="cal-days-grid" class="grid grid-cols-7 gap-1.5"></div>
         </div>
 
-        <!-- РРќРЎРџР•РљРўРћР  Р’Р«Р‘Р РђРќРќРћР“Рћ Р”РќРЇ -->
+        <!-- Р˜РќРЎРџР•РљРўРћР  Р’Р«Р‘Р РђРќРќРћР“Рћ Р”РќРЇ -->
         <div class="p-4 glass-panel space-y-2.5 font-mono text-xs">
           <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
             <span id="cal-insp-date" class="font-bold text-white text-xs">Р§РµС‚РІРµСЂРі, 27 Р°РІРіСѓСЃС‚Р° 2026 Рі.</span>
@@ -355,7 +355,7 @@
         </div>
       </div>
 
-      <!-- РџРћР”Р’РљР›РђР”РљРђ 2: РђРќРђР›РРўРРљРђ -->
+      <!-- РџРћР”Р’РљР›РђР”РљРђ 2: РђРќРђР›Р˜РўР˜РљРђ -->
       <div id="subtab-analytics" class="hidden space-y-3.5">
         <div class="p-4 glass-panel space-y-3 font-mono">
           <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -384,11 +384,29 @@
           <div class="space-y-2 pt-1 font-sans text-xs" id="ai-recommendations-container"></div>
         </div>
 
-        <!-- РћР‘РЄР•Рњ РџРћ РњР«РЁР•Р§РќР«Рњ Р“Р РЈРџРџРђРњ -->
+        <!-- АНАТОМИЧЕСКАЯ КАРТА НАГРУЗКИ (MUSCLE HEATMAP) -->
         <div class="p-4 glass-panel space-y-3 font-mono">
           <div class="flex justify-between items-center">
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">РћР±СЉРµРј РїРѕ РјС‹С€С†Р°Рј (MAV/MEV)</h3>
-            <span class="text-[10px] text-[#c8a97e] font-bold">РЁРєР°Р»Р° РЁС‘РЅС„РµР»СЊРґР°</span>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Анатомическая карта (Heatmap)</h3>
+            <span class="text-[10px] text-[#c8a97e] font-bold">2D Баланс</span>
+          </div>
+          <div id="muscle-heatmap-container" class="grid grid-cols-2 gap-2"></div>
+        </div>
+
+        <!-- ТАЙМЕР ВОССТАНОВЛЕНИЯ МЫШЦ (RECOVERY CLOCK) -->
+        <div class="p-4 glass-panel space-y-3 font-mono">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Таймер восстановления мышц</h3>
+            <span class="text-[10px] text-[#10b981] font-bold">Часы отдыха</span>
+          </div>
+          <div id="muscle-recovery-container" class="grid grid-cols-2 gap-2"></div>
+        </div>
+
+        <!-- ОБЪЕМ ПО МЫШЕЧНЫМ ГРУППАМ -->
+        <div class="p-4 glass-panel space-y-3 font-mono">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Объем по мышцам (MAV/MEV)</h3>
+            <span class="text-[10px] text-[#c8a97e] font-bold">Шкала Шёнфельда</span>
           </div>
           <div id="muscle-volume-container" class="space-y-2"></div>
         </div>
@@ -655,25 +673,25 @@
   </nav>
 
   <!-- ======================================================== -->
-  <!-- РўРђР™РњР•Р  РћРўР”Р«РҐРђ -->
+  <!-- ТАЙМЕР ОТДЫХА / FLOATING REST HUD -->
   <!-- ======================================================== -->
   <div id="timer-bar" class="fixed bottom-20 left-4 right-4 max-w-md mx-auto hidden z-50">
-    <div class="glass-panel-elevated p-3.5 rounded-2xl shadow-2xl flex items-center justify-between font-mono">
+    <div id="floating-rest-hud" class="glass-panel-elevated p-3.5 rounded-2xl shadow-2xl flex items-center justify-between font-mono border border-[#c8a97e]/40">
       <div class="flex items-center space-x-3">
         <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-[#c8a97e]">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         </div>
         <div>
-          <span class="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">РћС‚РґС‹С… РјРµР¶РґСѓ СЃРµС‚Р°РјРё</span>
-          <span id="timer-text" class="text-xl font-bold text-white">01:30</span>
+          <span class="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">Отдых между сетами</span>
+          <span id="timer-text" class="text-xl font-bold text-white"><span id="hud-rest-timer-display">01:30</span></span>
         </div>
       </div>
       <div class="flex items-center space-x-1.5">
         <button onclick="cycleSoundMode()" id="btn-timer-sound" class="px-2.5 py-1.5 glass-panel text-slate-300 text-xs font-bold rounded-lg">
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
         </button>
-        <button onclick="addTimer(30)" class="px-2.5 py-1.5 glass-panel text-slate-300 text-xs font-bold rounded-lg">+30СЃ</button>
-        <button onclick="stopTimer()" class="px-3 py-1.5 bg-rose-950/80 text-rose-300 text-xs font-bold rounded-lg border border-rose-800">вњ•</button>
+        <button onclick="addRestTime(30)" class="px-2.5 py-1.5 glass-panel text-[#c8a97e] text-xs font-bold rounded-lg active:scale-95 transition-all">+30с</button>
+        <button onclick="stopTimer()" class="px-3 py-1.5 bg-rose-950/80 text-rose-300 text-xs font-bold rounded-lg border border-rose-800 active:scale-95 transition-all">✕</button>
       </div>
     </div>
   </div>
