@@ -130,6 +130,19 @@ body {
   background: #0b111e;
 }
 
+/* ВИЗУАЛЬНЫЕ ЧИПЫ ФАЗ УПРАЖНЕНИЯ */
+.ex-phase-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.6rem;
+  background: #0b101d;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #cbd5e1;
+}
+
 /* МОБИЛЬНЫЙ КАЛЕНДАРЬ */
 .cal-day-cell {
   aspect-ratio: 1 / 1;
