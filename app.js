@@ -1182,7 +1182,6 @@ function getInitialAccount() {
     name: "Роман",
     age: 32,
     height: 178,
-    injuries: "Резекция левого легкого, спазм мышцы шеи и лопатки",
     goal: "Рекомпозиция (Сушка жира + Мышечный тонус)",
     mesocycleWeek: 3,
     xp: 0,
@@ -1261,10 +1260,6 @@ function loadState() {
   appState.tgId = tgKey;
   if (!raw) {
     appState.name = tgName;
-  }
-
-  if (appState.injuries && (appState.injuries.includes("levator") || appState.injuries.includes("scapulae"))) {
-    appState.injuries = "Резекция левого легкого, спазм мышцы шеи и лопатки";
   }
 
   const elName = document.getElementById("tg-user-name");
@@ -2839,12 +2834,10 @@ function updateProfileDisplay() {
   const nameEl = document.getElementById("prof-disp-name");
   const ageEl = document.getElementById("prof-disp-age");
   const goalEl = document.getElementById("prof-disp-goal");
-  const injEl = document.getElementById("prof-disp-injuries");
 
   if (nameEl) nameEl.textContent = appState.name;
   if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
   if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
-  if (injEl) injEl.textContent = appState.injuries || "Нет";
 }
 
 let resetTimerInterval = null;
@@ -2910,7 +2903,6 @@ function openOnboardingModal() {
   document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
   document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
   document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
-  document.getElementById("onboard-injuries").value = appState.injuries || "";
 
   openModal('modal-onboarding');
 }
@@ -2924,13 +2916,11 @@ function saveOnboardingProfile(e) {
   const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
   const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
   const goal = document.getElementById("onboard-goal").value;
-  const injuries = document.getElementById("onboard-injuries").value.trim();
 
   appState.name = name;
   appState.age = age;
   appState.height = height;
   appState.goal = goal;
-  appState.injuries = injuries;
 
   if (!appState.currentMetrics) {
     appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
@@ -3368,7 +3358,6 @@ function copyCoachSummary() {
 1. ПРОФИЛЬ И ПАРАМЕТРЫ:
 • Атлет: ${appState.name} | Возраст: ${appState.age || 32} года | Рост: ${appState.height || 178} см
 • Главная цель: ${appState.goal || 'Рекомпозиция (Сушка жира + Мышечный тонус)'}
-• Ограничения/травмы: ${appState.injuries || 'Нет'}
 • Уровень: ${currentLvl} | Всего опыта: ${appState.xp.toLocaleString()} XP
 • Текущая серия: ${appState.streak || 0} дней без срывов
 • Авто-периодизация: Неделя ${appState.mesocycleWeek || 1} из 8
