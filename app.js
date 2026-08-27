@@ -1,5 +1,5 @@
 /**
- * IRON COACH CYBER-PRO - High-Performance Hypertrophy, AI Coach & 52-Week Engine
+ * IRON COACH ELITE - High-Performance Hypertrophy, Focus Workout & 52-Week Engine
  */
 
 const Sound = {
@@ -102,14 +102,14 @@ const DEFAULT_PROGRAMS = {
 // 18+ TIERED ACHIEVEMENTS DATA
 // ========================================================
 const ACHIEVEMENTS = [
-  // STRENGTH & TONNAGE (5)
+  // STRENGTH (5)
   { id: "ach_first", cat: "strength", title: "🥉 Первый импульс", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
   { id: "ach_ton_10", cat: "strength", title: "🏋️ Клуб 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
   { id: "ach_ton_50", cat: "strength", title: "🏋️ Клуб 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
   { id: "ach_ton_100", cat: "strength", title: "🏛️ Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 1000 },
   { id: "ach_ton_250", cat: "strength", title: "👑 Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
 
-  // STREAKS & DISCIPLINE (4)
+  // STREAKS (4)
   { id: "ach_strk_3", cat: "streak", title: "🔥 Три в ряд", desc: "Серия из 3 тренировок подряд", target: 3, current: (s) => (s.streak || 0), xp: 250 },
   { id: "ach_strk_7", cat: "streak", title: "⚡ Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
   { id: "ach_strk_10", cat: "streak", title: "🛡️ Стальная декада", desc: "Серия из 10 тренировок подряд", target: 10, current: (s) => (s.streak || 0), xp: 700 },
@@ -120,13 +120,13 @@ const ACHIEVEMENTS = [
   { id: "ach_vac_5", cat: "body", title: "🌬️ Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
   { id: "ach_vac_14", cat: "body", title: "🛡️ Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 },
 
-  // NUTRITION & MACROS (4)
+  // NUTRITION (4)
   { id: "ach_prot_3", cat: "nutrition", title: "🥩 Белковый старт", desc: "Закрой норму 150г белка 3 дня", target: 3, current: (s) => (s.protDaysCount || 0), xp: 200 },
   { id: "ach_prot_7", cat: "nutrition", title: "🥩 Белковый баланс", desc: "Закрой норму 150г белка 7 дней", target: 7, current: (s) => (s.protDaysCount || 0), xp: 400 },
   { id: "ach_prot_21", cat: "nutrition", title: "🥩 Мастер рекомпозиции", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
   { id: "ach_water_14", cat: "nutrition", title: "💧 Водный баланс", desc: "Выпей норму воды 14 дней подряд", target: 14, current: (s) => (s.waterDaysCount || 0), xp: 500 },
 
-  // MESOCYCLES & PERIODIZATION (2)
+  // MESOCYCLES (2)
   { id: "ach_meso_1", cat: "meso", title: "🏆 Мастер мезоцикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
   { id: "ach_meso_3", cat: "meso", title: "🔬 Профессор периодизации", desc: "Заверши 3 полных мезоцикла (24 нед)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
 ];
@@ -201,6 +201,7 @@ function loadState() {
   saveState();
   checkAchievements();
   renderPersonalizedVitamins();
+  updateProfileDisplay();
 }
 
 function saveState() {
@@ -234,12 +235,33 @@ function renderXP() {
 }
 
 // ========================================================
+// PROFILE DRAWER & ACTIONS
+// ========================================================
+function openProfileDrawer() {
+  updateProfileDisplay();
+  openModal('modal-profile-drawer');
+}
+
+function updateProfileDisplay() {
+  const nameEl = document.getElementById("prof-disp-name");
+  const ageEl = document.getElementById("prof-disp-age");
+  const goalEl = document.getElementById("prof-disp-goal");
+  const injEl = document.getElementById("prof-disp-injuries");
+
+  if (nameEl) nameEl.textContent = appState.name;
+  if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
+  if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
+  if (injEl) injEl.textContent = appState.injuries || "Нет";
+}
+
+// ========================================================
 // ONBOARDING WIZARD & 15-SECOND SAFE ACCOUNT RESET
 // ========================================================
 let resetTimerInterval = null;
 let resetSecondsLeft = 15;
 
 function openSafeResetModal() {
+  closeModal('modal-profile-drawer');
   resetSecondsLeft = 15;
   clearInterval(resetTimerInterval);
 
@@ -247,7 +269,7 @@ function openSafeResetModal() {
   const txt = document.getElementById("reset-countdown-text");
 
   btn.disabled = true;
-  btn.className = "flex-1 py-3 bg-slate-800 text-slate-500 font-black uppercase rounded-xl touch-press cursor-not-allowed transition-all";
+  btn.className = "flex-1 py-3 bg-slate-800 text-slate-500 font-black uppercase rounded-xl cursor-not-allowed transition-all";
   btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
   txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
 
@@ -261,7 +283,7 @@ function openSafeResetModal() {
     } else {
       clearInterval(resetTimerInterval);
       btn.disabled = false;
-      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-black uppercase rounded-xl touch-press cursor-pointer glow-rose transition-all";
+      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-black uppercase rounded-xl cursor-pointer transition-all";
       btn.textContent = "🗑️ Подтвердить полный сброс";
       txt.textContent = "✓ Защита снята: можно выполнить сброс";
       txt.className = "text-sm font-black text-rose-400 font-mono";
@@ -286,11 +308,12 @@ function executeSafeResetAndReOnboard() {
   Sound.finish();
   Haptic.success();
 
-  alert("✓ Профиль успешно сброшен! Запускаем мастер стартовой настройки.");
+  alert("✓ Профиль успешно сброшен!");
   openOnboardingModal();
 }
 
 function openOnboardingModal() {
+  closeModal('modal-profile-drawer');
   document.getElementById("onboard-name").value = appState.name || "Роман";
   document.getElementById("onboard-age").value = appState.age || 32;
   document.getElementById("onboard-height").value = appState.height || 178;
@@ -345,97 +368,6 @@ function saveOnboardingProfile(e) {
   renderNutrition();
   renderPersonalizedVitamins();
   calculateScheduleCompliance();
-
-  alert(`🎉 Профиль атлета «${name}» успешно настроен!\n\nИИ адаптировал целевые калории (${Math.round(weight*24*1.15)} ккал), норму белка (${Math.round(weight*1.8)}г) и персональные витамины.`);
-}
-
-// ========================================================
-// LIVE AI COACH CHAT TERMINAL & CONVERSATION ENGINE
-// ========================================================
-function openAICoachModal() {
-  openModal('modal-ai-coach');
-  const chatInput = document.getElementById("ai-chat-input");
-  if (chatInput) setTimeout(() => chatInput.focus(), 150);
-}
-
-function sendQuickAIPrompt(text) {
-  const input = document.getElementById("ai-chat-input");
-  if (!input) return;
-  input.value = text;
-  handleAIChatSubmit(new Event('submit'));
-}
-
-async function handleAIChatSubmit(e) {
-  if (e && e.preventDefault) e.preventDefault();
-
-  const input = document.getElementById("ai-chat-input");
-  const historyContainer = document.getElementById("ai-chat-history");
-  const typingIndicator = document.getElementById("ai-typing-indicator");
-  const sendBtn = document.getElementById("btn-ai-send");
-
-  if (!input || !historyContainer) return;
-  const promptText = input.value.trim();
-  if (!promptText) return;
-
-  Sound.beep(600, 0.08);
-  Haptic.impact('light');
-
-  // 1. Render User Bubble
-  const userBubble = document.createElement("div");
-  userBubble.className = "p-3 bg-cyan-950/60 rounded-2xl rounded-tr-sm border border-cyan-500/40 text-cyan-100 space-y-1 ml-6";
-  userBubble.innerHTML = `
-    <div class="flex justify-between items-center text-[10px] font-mono text-cyan-400 font-bold">
-      <span>${appState.name || 'Атлет'}</span>
-      <span class="text-slate-500">сейчас</span>
-    </div>
-    <p class="leading-relaxed">${promptText}</p>
-  `;
-  historyContainer.appendChild(userBubble);
-  input.value = "";
-  historyContainer.scrollTop = historyContainer.scrollHeight;
-
-  // 2. Show Typing Indicator
-  if (typingIndicator) typingIndicator.classList.remove("hidden");
-  if (sendBtn) sendBtn.disabled = true;
-
-  try {
-    const res = await fetch("/api/ai-coach", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: promptText,
-        athleteProfile: appState
-      })
-    });
-
-    const data = await res.json();
-    const aiText = (data && data.response) ? data.response : "Извини, не удалось сформировать ответ. Попробуй еще раз.";
-
-    // 3. Render AI Response Bubble
-    const aiBubble = document.createElement("div");
-    aiBubble.className = "p-3.5 bg-slate-900/95 rounded-2xl rounded-tl-sm border border-cyan-500/30 text-slate-200 space-y-1 mr-4 shadow-lg";
-    aiBubble.innerHTML = `
-      <div class="flex items-center space-x-1.5 text-[10px] font-mono text-cyan-400 font-bold">
-        <span>🤖 ИИ-Тренер</span>
-        <span>•</span>
-        <span class="text-slate-500">сейчас</span>
-      </div>
-      <div class="leading-relaxed text-slate-200 text-xs">${aiText}</div>
-    `;
-    historyContainer.appendChild(aiBubble);
-
-    Sound.success();
-    Haptic.success();
-  } catch (err) {
-    const errBubble = document.createElement("div");
-    errBubble.className = "p-3 bg-rose-950/50 rounded-2xl border border-rose-500/40 text-rose-200 text-xs";
-    errBubble.innerHTML = `⚠️ Ошибка связи с сервером ИИ. Проверь интернет-соединение.`;
-    historyContainer.appendChild(errBubble);
-  } finally {
-    if (typingIndicator) typingIndicator.classList.add("hidden");
-    if (sendBtn) sendBtn.disabled = false;
-    historyContainer.scrollTop = historyContainer.scrollHeight;
-  }
 }
 
 // ========================================================
@@ -454,55 +386,55 @@ function renderPersonalizedVitamins() {
   const injuries = (appState.injuries || "").toLowerCase();
 
   if (reasonLabel) {
-    reasonLabel.textContent = `Сгенерировано под профиль: ${age} года, ${weight} кг, WHtR ${whtr}, цель: ${appState.goal || 'Рекомпозиция'}`;
+    reasonLabel.textContent = `Под профиль: ${age} года, ${weight} кг, WHtR ${whtr}, ${appState.goal || 'Рекомпозиция'}`;
   }
 
   const stack = [
     {
-      name: "1. Магний (Глицинат / Цитрат)",
+      name: "1. Магний (Глицинат) — перед сном",
       dose: "400 мг",
       badgeColor: "text-violet-400",
       reason: injuries.includes("ше") || injuries.includes("лопатк") || injuries.includes("спазм")
-        ? `🔥 <b>Персональное показание:</b> Устраняет спазм <i>m. levator scapulae</i>, восстанавливает фазы глубокого сна и снижает гипертонус ЦНС при сидячей работе.`
-        : `Восстановление нервно-мышечной проводимости и глубокий сон (400мг за 40 мин до сна).`
+        ? `Снимает спазм <i>m. levator scapulae</i>, восстанавливает фазы глубокого сна и ЦНС.`
+        : `Восстановление нервно-мышечной проводимости и глубокий сон.`
     },
     {
-      name: "2. Витамин D3 (Холекальциферол) + K2",
+      name: "2. Витамин D3 + K2 — утром",
       dose: "4000 IU",
       badgeColor: "text-amber-400",
-      reason: `☀️ <b>Персональное показание:</b> Для возраста ${age} лет и офисного режима 5/2. Стимулирует рецепторы клеток Лейдига для естественного синтеза тестостерона и плотности костной ткани.`
+      reason: `Стимулирует синтез тестостерона для возраста 30+ и офисного режима 5/2.`
     },
     {
-      name: "3. Омега-3 (Концентрат EPA / DHA)",
+      name: "3. Омега-3 (EPA/DHA) — с едой",
       dose: "2000 мг",
       badgeColor: "text-cyan-400",
-      reason: `🐟 <b>Персональное показание:</b> Защита синовиальной оболочки суставов и связок при жимах 20+ кг, снижение маркеров системного воспаления (CRP).`
+      reason: `Защита суставов и связок плеча при тяжелых жимах.`
     },
     {
-      name: "4. Креатин Моногидрат",
+      name: "4. Креатин Моногидрат — в любое время",
       dose: "5 г",
       badgeColor: "text-emerald-400",
-      reason: `⚡ <b>Персональное показание:</b> При рекомпозиции обеспечивает ресинтез АТФ, повышает силовую выносливость на 12-15% и защищает мышечные волокна от катаболизма.`
+      reason: `Ресинтез АТФ, повышение силовой выносливости на 12-15% и защита мышечной массы.`
     },
     {
-      name: "5. Цинк (Хелат / Пиколинат)",
+      name: "5. Цинк Хелат — вечером",
       dose: "25 мг",
       badgeColor: "text-slate-300",
-      reason: `🛡️ <b>Персональное показание:</b> Необходим для синтеза лютеинизирующего гормона и антиоксидантной защиты мышечных мембран после тяжелых силовых тренировок.`
+      reason: `Синтез анаболических гормонов и иммунитет.`
     }
   ];
 
   if (whtr >= 0.50) {
     stack.push({
-      name: "6. L-Карнитин Тартрат (Перед Зоной 2)",
+      name: "6. L-Карнитин — перед ходьбой Зона 2",
       dose: "1500 мг",
       badgeColor: "text-rose-400",
-      reason: `🔥 <b>Персональное показание (WHtR ${whtr} $\ge$ 0.50):</b> Ускоряет транспортировку длинноцепочечных жирных кислот в митохондрии мышц во время ходьбы в горку (Зона 2).`
+      reason: `Транспорт жирных кислот в митохондрии при повышенном висцеральном жире (WHtR ${whtr}).`
     });
   }
 
   container.innerHTML = stack.map(item => `
-    <div class="p-3 bg-slate-950/90 rounded-xl border border-white/[0.06] space-y-1">
+    <div class="p-3.5 bg-slate-950 rounded-2xl border border-white/[0.06] space-y-1">
       <div class="flex justify-between items-center font-mono">
         <b class="text-white text-xs">${item.name}</b>
         <span class="${item.badgeColor} font-black text-xs">${item.dose}</span>
@@ -521,9 +453,9 @@ function filterAchievements(cat) {
     const btn = document.getElementById("btn-ach-" + c);
     if (btn) {
       if (c === cat) {
-        btn.className = "px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold whitespace-nowrap shadow-sm";
+        btn.className = "px-3 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold whitespace-nowrap shadow-sm";
       } else {
-        btn.className = "px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap";
+        btn.className = "px-3 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap";
       }
     }
   });
@@ -565,20 +497,20 @@ function renderAchievementsList() {
     const pct = Math.min(100, Math.round((curVal / ach.target) * 100));
 
     const card = document.createElement("div");
-    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-cyan-950/30 border-cyan-500/80 shadow-md glow-cyan text-white' : 'bg-slate-950/80 border-white/[0.06] text-slate-400 opacity-75'}`;
+    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-[#101b33] border-cyan-500/80 text-white' : 'bg-slate-950 border-white/[0.06] text-slate-400 opacity-75'}`;
 
     card.innerHTML = `
       <div class="flex justify-between items-start">
         <div>
-          <h4 class="font-black text-xs ${isUnlocked ? 'text-cyan-300' : 'text-slate-300'} font-sans">${ach.title}</h4>
-          <p class="text-[10px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
+          <h4 class="font-bold text-xs ${isUnlocked ? 'text-cyan-300' : 'text-slate-300'} font-sans">${ach.title}</h4>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
         </div>
-        <span class="px-2.5 py-1 rounded-lg text-[10px] font-black font-mono ${isUnlocked ? 'bg-cyan-400 text-slate-950 shadow-sm' : 'bg-slate-900 text-slate-500 border border-white/5'}">
+        <span class="px-2.5 py-1 rounded-lg text-[10px] font-black font-mono ${isUnlocked ? 'bg-cyan-400 text-slate-950' : 'bg-slate-900 text-slate-500 border border-white/5'}">
           ${isUnlocked ? '✓ ОТКРЫТО' : `+${ach.xp} XP`}
         </span>
       </div>
 
-      <div class="space-y-1 font-mono text-[9px]">
+      <div class="space-y-1 font-mono text-[10px]">
         <div class="flex justify-between text-slate-400">
           <span>Прогресс: <b class="${isUnlocked ? 'text-cyan-300' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
           <span>${pct}%</span>
@@ -596,30 +528,9 @@ function renderAchievementsList() {
 // ========================================================
 // 52-WEEK INTERACTIVE YEAR HEATMAP & DAY INSPECTOR
 // ========================================================
-function setScheduleView(view) {
-  ['week', 'month', 'year'].forEach(v => {
-    const el = document.getElementById("sch-view-" + v);
-    const btn = document.getElementById("btn-sch-" + v);
-    if (v === view) {
-      if (el) el.classList.remove("hidden");
-      if (btn) btn.className = "px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold shadow-sm";
-    } else {
-      if (el) el.classList.add("hidden");
-      if (btn) btn.className = "px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 font-bold border border-white/10";
-    }
-  });
-
-  calculateScheduleCompliance();
-  if (view === 'month') renderMonthMatrix();
-  if (view === 'year') render52WeekYearHeatmap();
-}
-
 function render52WeekYearHeatmap() {
   const container = document.getElementById("year-heatmap");
   const totalEl = document.getElementById("year-total-sessions");
-  const tonnageEl = document.getElementById("year-total-tonnage-kpi");
-  const streakEl = document.getElementById("year-best-streak-kpi");
-  const compEl = document.getElementById("year-compliance-kpi");
   if (!container) return;
   container.innerHTML = "";
 
@@ -627,11 +538,7 @@ function render52WeekYearHeatmap() {
   const histMap = new Map();
   hist.forEach(h => histMap.set(h.date, h));
 
-  const totalTonnage = getTotalTonnage(appState);
   if (totalEl) totalEl.textContent = `${hist.length} сессий`;
-  if (tonnageEl) tonnageEl.textContent = `${(totalTonnage / 1000).toFixed(1)} т`;
-  if (streakEl) streakEl.textContent = `🔥${appState.streak || 0} дн`;
-  if (compEl) compEl.textContent = document.getElementById("schedule-compliance-pct") ? document.getElementById("schedule-compliance-pct").textContent : "100%";
 
   const currentDayOfYear = 239; // ~Aug 27, 2026
 
@@ -690,13 +597,13 @@ function inspectHeatmapDay(dateStr, status, woData) {
     `;
   } else if (status === 'missed') {
     inspStatus.innerHTML = `<span class="text-rose-400 font-bold">❌ ПРОПУСК ПЛАНА</span>`;
-    inspDetails.innerHTML = `Запланированная тренировка (Full Body) в этот день не была завершена в архиве.`;
+    inspDetails.innerHTML = `Запланированная тренировка по графику не была закрыта.`;
   } else if (status === 'plan') {
     inspStatus.innerHTML = `<span class="text-slate-300 font-bold">⏳ ЗАПЛАНИРОВАНО</span>`;
-    inspDetails.innerHTML = `Предстоящий тренировочный день по графику. Готовься к прогрессивной перегрузке!`;
+    inspDetails.innerHTML = `Предстоящий тренировочный день по графику.`;
   } else {
     inspStatus.innerHTML = `<span class="text-slate-400 font-bold">⚪ ДЕНЬ ОТДЫХА</span>`;
-    inspDetails.innerHTML = `Восстановление ЦНС, суперкомпенсация мышечных волокон, утренний вакуум и сон 8 часов.`;
+    inspDetails.innerHTML = `Восстановление ЦНС, утренний вакуум и сон 8 часов.`;
   }
 }
 
@@ -744,50 +651,11 @@ function calculateScheduleCompliance() {
 
   if (pctEl) {
     pctEl.textContent = `${compliancePct}% План`;
-    pctEl.className = compliancePct >= 80 ? "text-xs font-black text-cyan-400 bg-cyan-950/80 px-2.5 py-0.5 rounded border border-cyan-700/60 shadow-sm" : "text-xs font-black text-rose-400 bg-rose-950/80 px-2.5 py-0.5 rounded border border-rose-800 shadow-sm";
+    pctEl.className = compliancePct >= 80 ? "text-xs font-black text-cyan-400 bg-cyan-950 px-2.5 py-0.5 rounded-lg border border-cyan-800" : "text-xs font-black text-rose-400 bg-rose-950 px-2.5 py-0.5 rounded-lg border border-rose-800";
   }
   if (statDone) statDone.textContent = doneCount;
   if (statMissed) statMissed.textContent = missedCount;
   if (statPlanned) statPlanned.textContent = plannedCount;
-}
-
-function renderMonthMatrix() {
-  const container = document.getElementById("month-matrix-container");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const histDates = new Set((appState.history || []).map(h => h.date));
-  const currentDay = 27;
-
-  for (let d = 1; d <= 31; d++) {
-    const dateObj = new Date(2026, 7, d);
-    const dayOfWeek = dateObj.getDay();
-    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
-    const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
-
-    const isDone = histDates.has(dStr);
-    const isMissed = isScheduled && (d < currentDay) && !isDone;
-    const isToday = (d === currentDay);
-
-    const cell = document.createElement("div");
-    let cellStyle = "p-2 rounded-xl border ";
-
-    if (isDone) {
-      cellStyle += "bg-emerald-950/80 border-emerald-500/80 text-emerald-300 font-bold";
-    } else if (isMissed) {
-      cellStyle += "bg-rose-950/80 border-rose-500/80 text-rose-300 font-bold";
-    } else if (isToday) {
-      cellStyle += "bg-slate-900 border-cyan-400 text-white font-bold";
-    } else if (isScheduled) {
-      cellStyle += "bg-slate-950/90 border-slate-700 text-slate-300";
-    } else {
-      cellStyle += "bg-slate-950/50 border-white/[0.04] text-slate-600";
-    }
-
-    cell.className = cellStyle;
-    cell.innerHTML = `<span>${d}</span><span class="block text-[8px]">${isDone ? '✓' : isMissed ? '✕' : isScheduled ? '⏳' : ''}</span>`;
-    container.appendChild(cell);
-  }
 }
 
 // ========================================================
@@ -805,7 +673,7 @@ function renderMesocycleBanner() {
   if (!descEl) return;
 
   if (w <= 3) {
-    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейная прогрессия рабочих весов (+2.5 кг). 48 часов отдыха между Full-Body днями.`;
+    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейная прогрессия рабочих весов (+2.5 кг в базе). 48 часов отдыха между Full-Body днями.`;
   } else if (w <= 6) {
     descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий мышечный стимул.`;
   } else if (w === 7) {
@@ -884,7 +752,7 @@ function confirmReadinessAndStart() {
 }
 
 // ========================================================
-// WORKOUT EXECUTION
+// FOCUS WORKOUT EXECUTION MODE (LARGE TOUCH TARGETS)
 // ========================================================
 function startWorkout(planKey, readinessPct = 90) {
   Sound.beep(600, 0.1);
@@ -933,28 +801,31 @@ function renderActiveWorkoutUI() {
 
   wo.exercises.forEach((ex, exIdx) => {
     const card = document.createElement("div");
-    card.className = "card-luxury p-4 space-y-3";
+    card.className = "p-4 bg-[#0e1422] rounded-2xl border border-white/[0.08] space-y-3";
 
     const setsRows = ex.sets.map((s, sIdx) => `
-      <div class="grid grid-cols-12 gap-1.5 items-center bg-slate-950/80 p-2 rounded-xl border ${s.done ? 'border-cyan-400/80 bg-cyan-950/20' : 'border-white/[0.06]'} font-mono text-xs">
-        <div class="col-span-1 text-center font-bold text-slate-400">#${s.set}</div>
+      <div class="grid grid-cols-12 gap-2 items-center bg-slate-950 p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/80 bg-emerald-950/20' : 'border-white/[0.06]'} font-mono text-xs">
+        <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
         
-        <div class="col-span-5 flex items-center bg-slate-900 px-1 py-1 rounded-lg border border-white/10 justify-between">
-          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-slate-300 font-bold rounded-md text-xs touch-press">-</button>
-          <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-bold text-center text-xs outline-none px-0.5"
+        <!-- WEIGHT STEPPER -->
+        <div class="col-span-5 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
+          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="stepper-btn">-</button>
+          <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-12 bg-transparent text-white font-black text-center text-xs outline-none"
             onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
           <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
-          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-cyan-400 font-bold rounded-md text-xs touch-press">+</button>
+          <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-cyan-400">+</button>
         </div>
 
-        <div class="col-span-4 flex items-center bg-slate-900 px-1 py-1 rounded-lg border border-white/10 justify-between">
-          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, -1)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-slate-300 font-bold rounded-md text-xs touch-press">-</button>
-          <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-bold text-center text-xs outline-none px-0.5"
+        <!-- REPS STEPPER -->
+        <div class="col-span-4 flex items-center bg-slate-900 px-1 py-1 rounded-xl border border-white/10 justify-between">
+          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, -1)" class="stepper-btn">-</button>
+          <input type="number" step="1" inputmode="numeric" value="${s.reps}" class="w-10 bg-transparent text-white font-black text-center text-xs outline-none"
             onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'reps', this.value)">
           <span class="text-[9px] text-slate-400 pr-0.5">раз</span>
-          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="w-6 h-7 flex items-center justify-center bg-slate-800 text-emerald-400 font-bold rounded-md text-xs touch-press">+</button>
+          <button type="button" onclick="stepReps(${exIdx}, ${sIdx}, 1)" class="stepper-btn text-emerald-400">+</button>
         </div>
 
+        <!-- CHECKBOX -->
         <div class="col-span-2 flex justify-center">
           <input type="checkbox" class="custom-checkbox" ${s.done ? 'checked' : ''}
             onchange="toggleSet(${exIdx}, ${sIdx}, this.checked)">
@@ -965,19 +836,19 @@ function renderActiveWorkoutUI() {
     card.innerHTML = `
       <div class="flex justify-between items-start">
         <div>
-          <h3 class="font-extrabold text-white text-xs font-sans">${ex.name}</h3>
-          <span class="text-[10px] font-mono text-cyan-400 font-bold">${ex.sets.length} подхода × ${ex.min}-${ex.max} раз</span>
+          <h3 class="font-extrabold text-white text-sm">${ex.name}</h3>
+          <span class="text-xs font-mono text-cyan-400 font-bold">${ex.sets.length} подхода × ${ex.min}-${ex.max} раз</span>
         </div>
-        <div class="flex items-center space-x-1.5 font-mono text-[10px]">
-          <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-1 bg-slate-900 text-rose-300 rounded-lg border border-white/10 touch-press">↺</button>
-          ${ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2 py-1 bg-slate-900 text-slate-300 rounded-lg border border-white/10 touch-press">Замена</button>` : ''}
+        <div class="flex items-center space-x-1.5 font-mono text-xs">
+          <button onclick="resetExerciseSets(${exIdx})" class="px-2.5 py-1 bg-slate-900 text-rose-300 rounded-lg border border-white/10">↺</button>
+          ${ex.substitutes.length > 0 ? `<button onclick="swapExercisePrompt(${exIdx})" class="px-2.5 py-1 bg-slate-900 text-slate-300 rounded-lg border border-white/10">Замена</button>` : ''}
         </div>
       </div>
-      <p class="text-xs text-slate-300 bg-slate-950/80 p-2.5 rounded-xl border border-white/[0.06] font-sans leading-relaxed">${ex.tip}</p>
-      <div class="space-y-1.5">${setsRows}</div>
-      <div class="flex justify-between items-center pt-1 text-[11px] font-mono">
+      <p class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-xl border border-white/[0.06] leading-relaxed">${ex.tip}</p>
+      <div class="space-y-2">${setsRows}</div>
+      <div class="flex justify-between items-center pt-1 text-xs font-mono">
         <button onclick="addSetToExercise(${exIdx})" class="text-cyan-400 font-bold">➕ Добавить подход</button>
-        ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">➖ Убрать подход</button>` : ''}
+        ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">➖ Убрать</button>` : ''}
       </div>
     `;
 
@@ -1200,10 +1071,11 @@ function finishActiveWorkout() {
   Sound.finish();
   Haptic.success();
 
-  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено: ~${caloriesBurned} ккал 🔥\nГотовность: ${wo.readiness}%\n+150 XP получено!`);
+  alert(`🎉 ТРЕНИРОВКА ЗАВЕРШЕНА!\n\nТоннаж: ${Math.round(tonnage)} кг.\nСожжено: ~${caloriesBurned} ккал 🔥\n+150 XP получено!`);
   document.getElementById("workout-active").classList.add("hidden");
   document.getElementById("workout-selector").classList.remove("hidden");
-  switchTab("schedule");
+  switchTab("progress");
+  switchProgressSubtab("archive");
 }
 
 function cancelWorkout() {
@@ -1267,13 +1139,13 @@ function updateWHtRBadge(waist, height = 178) {
   const whtr = (waist / height).toFixed(2);
   if (whtr < 0.49) {
     badge.textContent = `🟢 Норма (${whtr})`;
-    badge.className = "px-2 py-0.5 text-xs font-mono font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800";
+    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800";
   } else if (whtr < 0.54) {
     badge.textContent = `🟡 Умеренный (${whtr})`;
-    badge.className = "px-2 py-0.5 text-xs font-mono font-bold rounded-lg bg-amber-950 text-amber-300 border border-amber-800";
+    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-amber-950 text-amber-300 border border-amber-800";
   } else {
     badge.textContent = `🔴 Риск (${whtr})`;
-    badge.className = "px-2 py-0.5 text-xs font-mono font-bold rounded-lg bg-rose-950 text-rose-300 border border-rose-800";
+    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-rose-950 text-rose-300 border border-rose-800";
   }
 }
 
@@ -1318,7 +1190,7 @@ function saveCurrentTilesAsMeasurement() {
 
 function setChartFilter(filter) {
   currentChartFilter = filter;
-  ['all', 'weight', 'waist', 'biceps'].forEach(f => {
+  ['all', 'weight', 'waist'].forEach(f => {
     const btn = document.getElementById("btn-chart-" + f);
     if (btn) {
       if (f === filter) {
@@ -1337,7 +1209,7 @@ function drawTrendChart() {
 
   const parentWidth = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
   const w = canvas.width = (parentWidth > 50 ? parentWidth : (window.innerWidth ? window.innerWidth - 48 : 320));
-  const h = canvas.height = 170;
+  const h = canvas.height = 160;
 
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, w, h);
@@ -1353,26 +1225,24 @@ function drawTrendChart() {
 
   const weights = logs.map(l => l.weight || 0).filter(v => v > 0);
   const waists = logs.map(l => l.waist || 0).filter(v => v > 0);
-  const biceps = logs.map(l => l.biceps || 0).filter(v => v > 0);
 
   let activeSeries = [];
-  if (currentChartFilter === 'all') activeSeries = [...weights, ...waists, ...biceps];
+  if (currentChartFilter === 'all') activeSeries = [...weights, ...waists];
   else if (currentChartFilter === 'weight') activeSeries = weights;
   else if (currentChartFilter === 'waist') activeSeries = waists;
-  else if (currentChartFilter === 'biceps') activeSeries = biceps;
 
   if (activeSeries.length === 0) activeSeries = [50, 100];
 
   const min = Math.min(...activeSeries) - 1.5;
   const max = Math.max(...activeSeries) + 1.5;
 
-  function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 42); }
-  function getX(i) { return 35 + (i / (logs.length - 1)) * (w - 60); }
+  function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 40); }
+  function getX(i) { return 35 + (i / (logs.length - 1)) * (w - 55); }
 
   ctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
   ctx.lineWidth = 1;
   for (let i = 0; i <= 3; i++) {
-    const y = 20 + (i / 3) * (h - 42);
+    const y = 20 + (i / 3) * (h - 40);
     ctx.beginPath();
     ctx.moveTo(35, y);
     ctx.lineTo(w - 20, y);
@@ -1412,9 +1282,6 @@ function drawTrendChart() {
   if (currentChartFilter === 'all' || currentChartFilter === 'waist') {
     drawLine(logs.map(l => l.waist || 0), "#10b981");
   }
-  if (currentChartFilter === 'all' || currentChartFilter === 'biceps') {
-    drawLine(logs.map(l => l.biceps || 0), "#a855f7");
-  }
 }
 
 // ========================================================
@@ -1450,7 +1317,7 @@ function resetVacuumSession() {
   const instr = document.getElementById("vac-instruction");
   const btn = document.getElementById("btn-vac-start");
 
-  if (circle) circle.className = "w-20 h-20 rounded-full bg-cyan-950/40 border-4 border-cyan-400 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/20";
+  if (circle) circle.className = "w-20 h-20 rounded-full bg-cyan-950/40 border-4 border-cyan-400 flex flex-col items-center justify-center shadow-lg";
   if (txt) txt.textContent = vacuumState.duration;
   if (phaseEl) phaseEl.textContent = "Готов к старту";
   if (instr) instr.textContent = "Нажми «Старт», сделай вдох грудью, выдох и втяни живот.";
@@ -1488,7 +1355,7 @@ function startVacuumPhase(phase) {
     Sound.beep(550, 0.2);
   } else if (phase === 'hold') {
     vacuumState.timeLeft = vacuumState.duration;
-    circle.className = "w-20 h-20 rounded-full bg-cyan-950/60 border-4 border-cyan-300 flex flex-col items-center justify-center shadow-2xl scale-90 vacuum-pulse-active";
+    circle.className = "w-20 h-20 rounded-full bg-cyan-950/60 border-4 border-cyan-300 flex flex-col items-center justify-center shadow-2xl scale-90";
     phaseEl.textContent = "3. ДЕРЖИ ВАКУУМ!";
     instr.textContent = "Втяни живот под ребра и держи.";
     txt.textContent = vacuumState.timeLeft;
@@ -1586,10 +1453,10 @@ function renderHistory() {
   const hist = appState.history || [];
   if (hist.length === 0) {
     container.innerHTML = `
-      <div class="card-luxury p-6 text-center text-slate-400 space-y-2 font-mono">
+      <div class="p-6 bg-slate-950 rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
         <span class="text-2xl block">📋</span>
         <p class="text-xs font-bold text-slate-200">Журнал тренировок пуст</p>
-        <p class="text-[10px] text-slate-400">Начни тренировку во вкладке «Тренинг» или нажми «➕ Добавить» выше.</p>
+        <p class="text-[11px] text-slate-400">Начни тренировку во вкладке «Тренинг» или нажми «➕ Добавить» выше.</p>
       </div>
     `;
     return;
@@ -1597,14 +1464,14 @@ function renderHistory() {
 
   hist.forEach((h, idx) => {
     const card = document.createElement("div");
-    card.className = "card-luxury p-4 space-y-2.5 font-mono text-xs";
+    card.className = "p-4 bg-[#0e1422] rounded-2xl border border-white/[0.08] space-y-2.5 font-mono text-xs";
 
     const exList = (h.exercises || []).map(e => `
       <div class="flex justify-between items-center text-[11px] py-1 border-b border-white/[0.04] last:border-0 font-sans">
         <span class="text-slate-300 font-medium">${e.name}</span>
         <div class="text-right font-mono">
           <span class="text-emerald-400 font-bold block">${e.sets}</span>
-          <span class="text-[9px] text-amber-400">${e.prog || ''}</span>
+          <span class="text-[10px] text-amber-400">${e.prog || ''}</span>
         </div>
       </div>
     `).join("");
@@ -1618,18 +1485,18 @@ function renderHistory() {
         <div class="flex items-center space-x-2 text-right">
           <div>
             <span class="text-xs text-emerald-400 font-black">${h.tonnage} кг</span>
-            <span class="text-[8px] text-slate-400 block">тоннаж</span>
+            <span class="text-[9px] text-slate-400 block">тоннаж</span>
           </div>
           <div class="border-l border-white/10 pl-2">
             <span class="text-xs text-amber-400 font-black">${h.calories || 350} ккал</span>
-            <span class="text-[8px] text-slate-400 block">сожжено 🔥</span>
+            <span class="text-[9px] text-slate-400 block">сожжено 🔥</span>
           </div>
         </div>
       </div>
       <div class="space-y-0.5 pt-1">${exList}</div>
       <div class="flex justify-end space-x-2 pt-2 border-t border-white/[0.08] text-[10px]">
-        <button onclick="openEditHistoryModal(${idx})" class="px-2.5 py-1 bg-slate-800 text-cyan-300 rounded-lg border border-white/10 touch-press">✏️ Редактировать</button>
-        <button onclick="deleteHistoryItemDirect(${idx})" class="px-2.5 py-1 bg-rose-950 text-rose-300 rounded-lg border border-rose-900 touch-press">🗑️ Удалить</button>
+        <button onclick="openEditHistoryModal(${idx})" class="px-2.5 py-1 bg-slate-800 text-cyan-300 rounded-lg border border-white/10">✏️ Редактировать</button>
+        <button onclick="deleteHistoryItemDirect(${idx})" class="px-2.5 py-1 bg-rose-950 text-rose-300 rounded-lg border border-rose-900">🗑️ Удалить</button>
       </div>
     `;
 
@@ -1649,7 +1516,7 @@ function openEditHistoryModal(idx) {
   document.getElementById("edit-h-calories").value = h.calories || 350;
 
   const exContainer = document.getElementById("edit-h-exercises");
-  exContainer.innerHTML = '<span class="text-[9px] text-slate-400 block mb-1">Упражнения:</span>';
+  exContainer.innerHTML = '<span class="text-[10px] text-slate-400 block mb-1">Упражнения:</span>';
 
   (h.exercises || []).forEach((e, eIdx) => {
     const row = document.createElement("div");
@@ -1791,6 +1658,9 @@ async function sendCoachReportToTelegram(reportHtml) {
   } catch(e) {}
 }
 
+// ========================================================
+// 3-TAB NAVIGATION & SUBTAB SWITCHER
+// ========================================================
 function switchTab(tabId) {
   Sound.beep(500, 0.05);
   Haptic.impact('light');
@@ -1804,19 +1674,47 @@ function switchTab(tabId) {
   if (targetPane) targetPane.classList.add("active");
   if (targetNav) targetNav.classList.add("active");
 
-  if (tabId === "schedule") setScheduleView('week');
-  if (tabId === "leaderboard") renderAchievementsList();
-  if (tabId === "metrics") {
-    setTimeout(() => {
-      renderMetrics();
-      drawTrendChart();
-    }, 50);
+  if (tabId === "progress") {
+    switchProgressSubtab('calendar');
   }
   if (tabId === "nutrition") {
     renderNutrition();
     renderPersonalizedVitamins();
   }
-  if (tabId === "history") renderHistory();
+}
+
+function switchProgressSubtab(subtabId) {
+  Sound.beep(550, 0.05);
+  Haptic.impact('light');
+
+  ['calendar', 'metrics', 'achievements', 'archive'].forEach(st => {
+    const pane = document.getElementById("subtab-" + st);
+    const btn = document.getElementById("btn-sub-" + st);
+    if (st === subtabId) {
+      if (pane) pane.classList.remove("hidden");
+      if (btn) btn.className = "flex-1 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm";
+    } else {
+      if (pane) pane.classList.add("hidden");
+      if (btn) btn.className = "flex-1 py-2 rounded-xl text-slate-400 font-bold transition-all";
+    }
+  });
+
+  if (subtabId === 'calendar') {
+    calculateScheduleCompliance();
+    render52WeekYearHeatmap();
+  }
+  if (subtabId === 'metrics') {
+    setTimeout(() => {
+      renderMetrics();
+      drawTrendChart();
+    }, 50);
+  }
+  if (subtabId === 'achievements') {
+    renderAchievementsList();
+  }
+  if (subtabId === 'archive') {
+    renderHistory();
+  }
 }
 
 function openModal(modalId) {
@@ -1848,7 +1746,7 @@ function calculate1RM() {
       <span class="text-slate-400">Одноповторный максимум (1ПМ):</span>
       <span class="text-sm font-bold text-cyan-300 font-mono">${oneRM} кг</span>
     </div>
-    <div class="flex justify-between text-[10px] pt-1 font-mono">
+    <div class="flex justify-between text-[11px] pt-1 font-mono">
       <span>80% (Рабочий 8-10): <b>${eightyPct} кг</b></span>
       <span>70% (12-15): <b>${seventyPct} кг</b></span>
     </div>
@@ -1866,4 +1764,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMetrics();
   renderNutrition();
   renderPersonalizedVitamins();
+  calculateScheduleCompliance();
 });
