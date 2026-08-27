@@ -3993,29 +3993,30 @@ function openRevisionModal() {
 async function checkLiveRevisionUpdate(isManual = true) {
   const btn = document.getElementById("btn-check-revision");
   if (btn && isManual) {
-    btn.innerHTML = `<span class="animate-spin inline-block mr-1">🔄</span> Запрос к Cloudflare Edge...`;
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">🔄</span> Проверка на GitHub & Edge...`;
   }
 
   try {
-    const res = await fetch(`/api/version?_t=${Date.now()}`, {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache' }
+    // 1. Прямая проверка свежей версии с GitHub без кэша
+    const ghRes = await fetch(`https://raw.githubusercontent.com/rtofan112-dot/iron-coach-app/main/bundle.html?_t=${Date.now()}`, {
+      cache: 'no-store'
     });
     
-    if (res.ok) {
-      const data = await res.json();
-      const serverVersion = data.version || APP_CONFIG.version;
-      const isNewer = serverVersion !== APP_CONFIG.version;
-
-      if (isNewer) {
-        if (btn) {
-          btn.className = "w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-98 transition-all flex items-center justify-center space-x-2";
-          btn.innerHTML = `<span>🚀 Доступна ${serverVersion}! Загрузить обновление (1 клик)</span>`;
-          btn.onclick = forceAppReload;
+    if (ghRes.ok) {
+      const htmlText = await ghRes.text();
+      const match = htmlText.match(/version:\s*["']([^"']+)["']/);
+      if (match && match[1]) {
+        const latestVersion = match[1];
+        if (latestVersion !== APP_CONFIG.version) {
+          if (btn) {
+            btn.className = "w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-98 transition-all flex items-center justify-center space-x-2";
+            btn.innerHTML = `<span>🚀 Доступна ${latestVersion}! Загрузить (1 клик)</span>`;
+            btn.onclick = forceAppReload;
+          }
+          Sound.record();
+          Haptic.success();
+          return;
         }
-        Sound.record();
-        Haptic.success();
-        return;
       }
     }
   } catch(e) {}
