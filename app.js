@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.6 PRO",
+  version: "v2.8.7 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -2473,7 +2473,7 @@ function renderActiveWorkoutUI() {
           
           <div class="col-span-5 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
             <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, -2.5)" class="stepper-btn">-</button>
-            <input type="number" step="any" inputmode="decimal" value="${s.weight}" class="w-11 bg-transparent text-white font-bold text-center text-xs outline-none"
+            <input type="number" step="any" inputmode="decimal" id="set-weight-input-${exIdx}-${sIdx}" value="${s.weight}" class="w-11 bg-transparent text-white font-bold text-center text-xs outline-none"
               onclick="this.select()" oninput="updateSet(${exIdx}, ${sIdx}, 'weight', this.value)">
             <span class="text-[9px] text-slate-400 pr-0.5">${ex.isTime ? 'с' : 'кг'}</span>
             <button type="button" onclick="stepWeight(${exIdx}, ${sIdx}, 2.5)" class="stepper-btn text-[#c8a97e]">+</button>
@@ -2580,15 +2580,50 @@ function renderActiveWorkoutUI() {
 function updateSet(exIdx, sIdx, field, val) {
   if (!appState.activeWorkout) return;
   const num = parseFloat(val);
-  appState.activeWorkout.exercises[exIdx].sets[sIdx][field] = isNaN(num) ? 0 : num;
+  const parsedVal = isNaN(num) ? 0 : num;
+  const ex = appState.activeWorkout.exercises[exIdx];
+  const set = ex.sets[sIdx];
+  set[field] = parsedVal;
+
+  // Автоматическое распространение веса на следующие незавершенные подходы
+  if (field === 'weight' && parsedVal > 0) {
+    ex.defaultWeight = parsedVal;
+    if (!appState.weightProgression) appState.weightProgression = {};
+    appState.weightProgression[ex.name] = parsedVal;
+
+    for (let k = sIdx + 1; k < ex.sets.length; k++) {
+      if (!ex.sets[k].done) {
+        ex.sets[k].weight = parsedVal;
+        const nextInput = document.getElementById(`set-weight-input-${exIdx}-${k}`);
+        if (nextInput) nextInput.value = parsedVal;
+      }
+    }
+  }
+
   saveState();
   updateLiveWorkoutStats();
 }
 
 function stepWeight(exIdx, sIdx, delta) {
   if (!appState.activeWorkout) return;
-  const current = appState.activeWorkout.exercises[exIdx].sets[sIdx].weight || 0;
-  appState.activeWorkout.exercises[exIdx].sets[sIdx].weight = Math.max(0, current + delta);
+  const ex = appState.activeWorkout.exercises[exIdx];
+  const current = ex.sets[sIdx].weight || 0;
+  const newW = Math.max(0, current + delta);
+  ex.sets[sIdx].weight = newW;
+
+  // Автоматическое распространение веса на следующие незавершенные подходы
+  if (newW > 0) {
+    ex.defaultWeight = newW;
+    if (!appState.weightProgression) appState.weightProgression = {};
+    appState.weightProgression[ex.name] = newW;
+
+    for (let k = sIdx + 1; k < ex.sets.length; k++) {
+      if (!ex.sets[k].done) {
+        ex.sets[k].weight = newW;
+      }
+    }
+  }
+
   saveState();
   renderActiveWorkoutUI();
   Sound.beep(600, 0.05);
@@ -2610,6 +2645,15 @@ function toggleSet(exIdx, sIdx, done) {
   const ex = appState.activeWorkout.exercises[exIdx];
   const s = ex.sets[sIdx];
   s.done = done;
+
+  // Если подход закрыт — проверяем, чтобы следующий незавершенный подход имел актуальный вес
+  if (done && s.weight > 0 && sIdx + 1 < ex.sets.length) {
+    const nextSet = ex.sets[sIdx + 1];
+    if (!nextSet.done && (!nextSet.weight || nextSet.weight <= 0)) {
+      nextSet.weight = s.weight;
+    }
+  }
+
   saveState();
   updateLiveWorkoutStats();
 
@@ -2664,10 +2708,12 @@ function addSetToExercise(exIdx) {
   if (!appState.activeWorkout) return;
   const ex = appState.activeWorkout.exercises[exIdx];
   const lastSet = ex.sets[ex.sets.length - 1];
+  const inheritWeight = lastSet ? (lastSet.weight || ex.defaultWeight) : ex.defaultWeight;
+  const inheritReps = lastSet ? (lastSet.reps || ex.min) : ex.min;
   ex.sets.push({
     set: ex.sets.length + 1,
-    weight: lastSet ? lastSet.weight : ex.defaultWeight,
-    reps: lastSet ? lastSet.reps : ex.min,
+    weight: inheritWeight,
+    reps: inheritReps,
     done: false
   });
   saveState();
