@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.4 PRO",
+  version: "v2.8.5 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -3869,7 +3869,17 @@ function executeFullReset() {
   Sound.finish();
   Haptic.success();
 
-  alert("✅ Профиль и история успешно сброшены!");
+  renderXP();
+  renderMetrics();
+  renderHealthTabCalculations();
+  renderPersonalizedVitamins();
+  renderMonthlyCalendar();
+  renderPersonalRecords();
+  renderMuscleVolumeBreakdown();
+  renderInteractiveAnatomyMap();
+  renderPersonalizedAIAnalytics();
+  renderHistory();
+
   openOnboardingModal();
 }
 
@@ -3879,27 +3889,47 @@ function executeSafeResetAndReOnboard() {
 
 function openOnboardingModal() {
   closeModal('modal-profile-drawer');
-  document.getElementById("onboard-name").value = appState.name || "Роман";
-  document.getElementById("onboard-age").value = appState.age || 32;
-  document.getElementById("onboard-height").value = appState.height || 178;
-  document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
-  document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
-  document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
+  const nameEl = document.getElementById("onboard-name");
+  const ageEl = document.getElementById("onboard-age");
+  const heightEl = document.getElementById("onboard-height");
+  const weightEl = document.getElementById("onboard-weight");
+  const waistEl = document.getElementById("onboard-waist");
+  const goalEl = document.getElementById("onboard-goal");
+
+  if (nameEl) nameEl.value = appState.name || "Роман";
+  if (ageEl) ageEl.value = appState.age || 32;
+  if (heightEl) heightEl.value = appState.height || 178;
+  if (weightEl) weightEl.value = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83;
+  if (waistEl) waistEl.value = (appState.currentMetrics && appState.currentMetrics.waist) ? appState.currentMetrics.waist : 91.5;
+  if (goalEl) goalEl.value = appState.goal || "Рекомпозиция";
 
   openModal('modal-onboarding');
 }
 
+function saveOnboarding(e) {
+  saveOnboardingProfile(e);
+}
+
 function saveOnboardingProfile(e) {
-  e.preventDefault();
+  if (e && e.preventDefault) {
+    try { e.preventDefault(); } catch(err) {}
+  }
 
-  const name = document.getElementById("onboard-name").value.trim();
-  const age = parseInt(document.getElementById("onboard-age").value) || 32;
-  const height = parseInt(document.getElementById("onboard-height").value) || 178;
-  const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
-  const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
-  const goal = document.getElementById("onboard-goal").value;
+  const nameEl = document.getElementById("onboard-name");
+  const ageEl = document.getElementById("onboard-age");
+  const heightEl = document.getElementById("onboard-height");
+  const weightEl = document.getElementById("onboard-weight");
+  const waistEl = document.getElementById("onboard-waist");
+  const goalEl = document.getElementById("onboard-goal");
 
-  appState.name = name;
+  const name = nameEl ? nameEl.value.trim() : (appState.name || "Роман");
+  const age = parseInt(ageEl ? ageEl.value : 32) || 32;
+  const height = parseInt(heightEl ? heightEl.value : 178) || 178;
+  const weight = parseFloat(weightEl ? weightEl.value : 83.0) || 83.0;
+  const waist = parseFloat(waistEl ? waistEl.value : 91.5) || 91.5;
+  const goal = goalEl ? goalEl.value : "Рекомпозиция";
+
+  appState.name = name || "Роман";
   appState.age = age;
   appState.height = height;
   appState.goal = goal;
@@ -3917,19 +3947,33 @@ function saveOnboardingProfile(e) {
   ];
 
   const elName = document.getElementById("tg-user-name");
-  if (elName) elName.textContent = name;
+  if (elName) elName.textContent = appState.name;
+
+  const elGoal = document.getElementById("athlete-goal-header-badge");
+  if (elGoal) elGoal.textContent = appState.goal;
+
+  const pDispName = document.getElementById("prof-disp-name");
+  if (pDispName) pDispName.textContent = appState.name;
+
+  const pDispAge = document.getElementById("prof-disp-age");
+  if (pDispAge) pDispAge.textContent = `${appState.age} г • ${appState.height} см`;
+
+  const pDispGoal = document.getElementById("prof-disp-goal");
+  if (pDispGoal) pDispGoal.textContent = appState.goal;
 
   saveState();
   closeModal('modal-onboarding');
   Sound.finish();
   Haptic.success();
 
+  renderXP();
   renderMetrics();
   renderHealthTabCalculations();
   renderPersonalizedVitamins();
   renderMonthlyCalendar();
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
+  renderInteractiveAnatomyMap();
   renderPersonalizedAIAnalytics();
 }
 
