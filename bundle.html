@@ -752,7 +752,7 @@ body[data-theme="purple"] {
 .muscle-bar-fill {
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-</style> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[#c8a97e] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded-md">v2.8.23 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[#c8a97e] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[#c8a97e] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
+</style> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[#c8a97e] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded-md">v2.8.24 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[#c8a97e] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[#c8a97e] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
 
     <!-- СВЕТЯЩИЙСЯ ИНДИКАТОР ПОСЛЕДНЕЙ РЕВИЗИИ (LIVE BETA PULSE) -->
     <div onclick="openRevisionModal()" class="max-w-md mx-auto mt-2 px-3 py-1.5 rounded-xl bg-[#080a12] border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:border-emerald-500/60 active:scale-98 transition-all font-mono text-[10px] shadow-sm">
@@ -762,7 +762,7 @@ body[data-theme="purple"] {
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <span class="text-slate-300 font-bold">РЕВИЗИЯ:</span>
-        <span class="app-version-badge text-emerald-400 font-bold">v2.8.23 PRO</span>
+        <span class="app-version-badge text-emerald-400 font-bold">v2.8.24 PRO</span>
         <span class="text-slate-600">•</span>
         <span class="text-slate-400">Live Edge Beta</span>
       </div>
@@ -1043,7 +1043,7 @@ body[data-theme="purple"] {
         <div id="swap-alternatives-list" class="p-3 space-y-2 overflow-y-auto flex-1 max-h-[50vh]"></div>
       </div>
     </div>
-    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[#c8a97e] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[#c8a97e]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[#c8a97e]">v2.8.23 PRO (Interactive Anatomical Model)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[#c8a97e] font-bold rounded-xl border border-white/10 active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
+    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[#c8a97e] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[#c8a97e]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[#c8a97e]">v2.8.24 PRO (Interactive Anatomical Model)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[#c8a97e] font-bold rounded-xl border border-white/10 active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
 
         <!-- PUSH УВЕДОМЛЕНИЯ В TELEGRAM -->
         <div class="p-3.5 bg-[#080a10] rounded-2xl border border-white/10 space-y-2.5 font-mono text-xs">
@@ -1270,6 +1270,8 @@ body[data-theme="purple"] {
           <div id="vis-phase-description-box" class="p-3 bg-[#0f121d] rounded-xl border border-white/[0.06] text-[11px] text-slate-300 font-sans leading-relaxed">
             <!-- Phase description text -->
           </div>
+        </div>
+
         <!-- АНАТОМИЧЕСКАЯ МАТРИЦА ВКЛЮЧЕНИЯ ВОЛОКОН -->
         <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2.5">
           <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Анатомическая карта включения волокон:</span>
@@ -1448,7 +1450,7 @@ body[data-theme="purple"] {
           <span class="text-slate-400 text-[11px]">Текущая версия:</span>
           <span class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-700 font-bold text-[11px] flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <b class="app-version-badge">v2.8.23 PRO</b>
+            <b class="app-version-badge">v2.8.24 PRO</b>
           </span>
         </div>
         <div class="flex justify-between items-center text-[11px]">
@@ -1513,7 +1515,7 @@ if(window.Telegram&&window.Telegram.WebApp){window.Telegram.WebApp.ready();windo
  */
 
 const APP_CONFIG = {
-  version: "v2.8.23 PRO",
+  version: "v2.8.24 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -1712,231 +1714,273 @@ function updateSoundUI() {
 // ========================================================
 // НАУЧНЫЕ БИОМЕХАНИЧЕСКИЕ ИЛЛЮСТРАЦИИ (КАЖДОЕ УПРАЖНЕНИЕ СО СВОЕЙ ТЕХНИКОЙ И ДИАГРАММОЙ)
 // ========================================================
-function getExerciseDiagramSVG(exName, muscleGroup) {
-  const n = (exName || "").toLowerCase();
+// ========================================================
+// PRO EXERCISE BIOMECHANICS & ANATOMICAL VISUALIZER 4.0
+// 100% УНИКАЛЬНАЯ АНАТОМИЧЕСКАЯ И ОБОРУДОВАНИЯ ГРАФИКА ДЛЯ ВСЕХ 48+ УПРАЖНЕНИЙ
+// ========================================================
 
-  // 1. ЖИМ В ТРЕНАЖЕРЕ ХАММЕР (СИДЯ В ТРЕНАЖЕРЕ, КОНВЕРГЕНТНАЯ ДУГА)
-  if (n.includes("хаммер") || n.includes("hammer")) {
+function getExerciseDiagramSVG(exName, muscleGroup) {
+  const n = (exName || "").toLowerCase().trim();
+
+  // ----------------------------------------------------
+  // ГРУДЬ
+  // ----------------------------------------------------
+  if (n.includes("жим гантелей на наклонной") || (n.includes("наклонн") && n.includes("гантел") && n.includes("30°"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Вертикальная спинка и сиденье Хаммера -->
-        <line x1="60" y1="20" x2="60" y2="75" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
-        <line x1="60" y1="75" x2="95" y2="75" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
-        <line x1="75" y1="75" x2="75" y2="84" stroke="#334155" stroke-width="3"/>
-        <line x1="45" y1="84" x2="110" y2="84" stroke="#1e293b" stroke-width="2"/>
+        <!-- Наклонная скамья 30° -->
+        <line x1="25" y1="78" x2="115" y2="40" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="70" x2="45" y2="84" stroke="#334155" stroke-width="3"/>
+        <line x1="105" y1="45" x2="105" y2="84" stroke="#334155" stroke-width="3"/>
+        <line x1="15" y1="84" x2="125" y2="84" stroke="#1e293b" stroke-width="2"/>
+        <!-- Атлет на наклонной скамье 30° -->
+        <circle cx="110" cy="32" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="105" y1="36" x2="58" y2="58" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M96 42 L80 49" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <!-- Руки с раздельными гантелями -->
+        <polyline points="92,44 82,28 78,14" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="78" cy="14" r="4.5" fill="#c8a97e"/>
+        <path d="M84 32 C 82 22, 80 18, 78 14" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
         
-        <!-- Атлет сидит прямо с прижатой спиной -->
-        <circle cx="68" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="68" y1="28" x2="68" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        <line x1="68" y1="65" x2="90" y2="65" stroke="#94a3b8" stroke-width="3.5"/>
-        <line x1="90" y1="65" x2="90" y2="84" stroke="#94a3b8" stroke-width="3"/>
-        
-        <!-- Активная грудная мышца (подсветка золотом) -->
-        <path d="M70 38 L84 38" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <!-- Рычаг Хаммера и руки (выжим вперед по дуге) -->
-        <polyline points="70,38 90,38 115,38" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="120" y1="18" x2="115" y2="38" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="120" cy="18" r="3.5" fill="#475569"/>
-        <circle cx="115" cy="38" r="4" fill="#c8a97e"/>
-        <path d="M95 48 C 105 48, 115 44, 120 38" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
-        
-        <text x="145" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ В ХАММЕРЕ</text>
-        <text x="145" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Посадка: спина в упоре</text>
-        <text x="145" y="52" fill="#64748b" font-size="8" font-family="monospace">Рукояти на уровне груди</text>
-        <text x="145" y="66" fill="#10b981" font-size="8" font-family="monospace">Траектория по дуге</text>
-        <text x="145" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Локти не щелкать</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ ГАНТЕЛЕЙ 30°</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Угол скамьи: 30°</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти 60–70° к телу</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Верх грудных (ключичный пучок)</text>
       </svg>
     `;
   }
 
-  // 2. БАБОЧКА (PEC DECK — СИДЯ С РАЗВЕДЕНИЕМ И СВЕДЕНИЕМ РУК)
+  if (n.includes("жим штанги на наклонной") || (n.includes("наклонн") && n.includes("штанг") && n.includes("30°"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Стойки жима и наклонная скамья -->
+        <line x1="25" y1="78" x2="115" y2="40" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="95" y1="12" x2="95" y2="84" stroke="#334155" stroke-width="3"/>
+        <!-- Атлет -->
+        <circle cx="110" cy="32" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="105" y1="36" x2="58" y2="58" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M96 42 L80 49" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <!-- Олимпийский гриф штанги -->
+        <polyline points="92,44 80,30 76,16" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="55" y1="16" x2="98" y2="16" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="52" y="11" width="4" height="10" rx="1" fill="#c8a97e"/>
+        <rect x="96" y="11" width="4" height="10" rx="1" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ ШТАНГИ 30°</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Опускание: 2см ниже ключиц</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Хват шире плеч, локти 65°</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Верхний пучок груди (база)</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("жим гантелей на горизонтал") || (n.includes("жим гантелей") && !n.includes("наклон") && !n.includes("плеч") && !n.includes("сидя"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Горизонтальная скамья -->
+        <line x1="25" y1="58" x2="120" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="38" y1="58" x2="38" y2="84" stroke="#334155" stroke-width="3"/>
+        <line x1="108" y1="58" x2="108" y2="84" stroke="#334155" stroke-width="3"/>
+        <!-- Атлет лежа горизонтально -->
+        <circle cx="112" cy="48" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="106" y1="53" x2="52" y2="53" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M96 53 L76 53" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <!-- Гантели в руках с независимым схождением -->
+        <polyline points="90,53 85,34 82,14" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="82" cy="14" r="4.5" fill="#c8a97e"/>
+        <path d="M72 38 C 76 28, 80 20, 82 14" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ ГАНТЕЛЕЙ ЛЕЖА</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Глубокая растяжка внизу</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Сведение вверху без удара</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Середина и массив грудных</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("жим штанги лежа") || (n.includes("жим лежа") && !n.includes("узк") && !n.includes("француз"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Стойки и скамья -->
+        <line x1="25" y1="58" x2="120" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="100" y1="12" x2="100" y2="84" stroke="#334155" stroke-width="3"/>
+        <!-- Атлет -->
+        <circle cx="112" cy="48" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="106" y1="53" x2="52" y2="53" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M96 53 L74 53" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <!-- Штанга -->
+        <polyline points="88,53 82,32 82,14" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="56" y1="14" x2="108" y2="14" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="53" y="9" width="4" height="10" rx="1" fill="#c8a97e"/>
+        <rect x="106" y="9" width="4" height="10" rx="1" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ ШТАНГИ ЛЕЖА</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Касание линии сосков</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Лопатки сведены в замок</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Золотая база на грудь</text>
+      </svg>
+    `;
+  }
+
   if (n.includes("бабочк") || n.includes("pec deck") || n.includes("пэк-дек")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Спинка тренажера -->
-        <line x1="55" y1="20" x2="55" y2="75" stroke="#475569" stroke-width="4"/>
-        <line x1="55" y1="75" x2="85" y2="75" stroke="#475569" stroke-width="4"/>
-        <circle cx="63" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="63" y1="28" x2="63" y2="68" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <!-- Рычаги сведения бабочки (дуга к центру груди) -->
-        <path d="M98 32 C 92 40, 82 42, 72 42" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="98" cy="32" r="4.5" fill="#c8a97e"/>
-        <path d="M72 42 L80 42" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <path d="M108 30 C 100 42, 85 45, 78 45" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        <!-- Спинка и сиденье тренажера Pec Deck -->
+        <line x1="50" y1="18" x2="50" y2="76" stroke="#475569" stroke-width="4"/>
+        <line x1="50" y1="76" x2="80" y2="76" stroke="#475569" stroke-width="4"/>
+        <circle cx="58" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="58" y1="28" x2="58" y2="70" stroke="#f1f5f9" stroke-width="4"/>
+        <!-- Подушки и рычаги сведения -->
+        <path d="M96 30 C 88 42, 78 44, 68 44" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+        <rect x="94" y="24" width="6" height="14" rx="2" fill="#c8a97e"/>
+        <path d="M68 44 L78 44" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <path d="M106 28 C 96 42, 82 46, 74 46" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">БАБОЧКА (PEC DECK)</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти на уровне груди</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Сведение с фиксацией 2с</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Глубокая растяжка</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Внутренний пучок груди</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Локти на уровне груди</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Пиковое сжатие 2с в центре</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Изоляция внутренней части</text>
       </svg>
     `;
   }
 
-  // 3. ОТЖИМАНИЯ НА БРУСЬЯХ (АКЦЕНТ НА НИЗ ГРУДНЫХ С НАКЛОНОМ 30°)
-  if (n.includes("брусь") || n.includes("dips") || n.includes("отжимания на брусьях")) {
-    return `
-      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Брусья -->
-        <line x1="40" y1="48" x2="110" y2="48" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
-        <line x1="50" y1="48" x2="50" y2="84" stroke="#334155" stroke-width="3"/>
-        <line x1="100" y1="48" x2="100" y2="84" stroke="#334155" stroke-width="3"/>
-        
-        <!-- Атлет в висе с наклоном вперед 30 градусов -->
-        <circle cx="88" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="84" y1="26" x2="68" y2="58" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        <path d="M78 36 L70 50" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <polyline points="68,58 56,76 48,70" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        
-        <!-- Руки на перекладине с углом в локтях -->
-        <polyline points="80,34 68,48 78,48" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="78" cy="48" r="3.5" fill="#c8a97e"/>
-        
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ОТЖИМАНИЯ НА БРУСЬЯХ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Наклон корпуса вперед: 30°</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти в стороны под 45°</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Опускание до параллели</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Низ грудных + трицепс</text>
-      </svg>
-    `;
-  }
-
-  // 4. КРОССОВЕР НА БЛОКАХ
   if (n.includes("кроссовер")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Блочные стойки по бокам -->
-        <line x1="25" y1="10" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="125" y1="10" x2="125" y2="82" stroke="#334155" stroke-width="3"/>
-        <circle cx="25" cy="20" r="3" fill="#c8a97e"/>
-        <circle cx="125" cy="20" r="3" fill="#c8a97e"/>
+        <!-- Блочные башни кроссовера -->
+        <line x1="20" y1="10" x2="20" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="120" y1="10" x2="120" y2="82" stroke="#334155" stroke-width="3"/>
+        <circle cx="20" cy="18" r="3.5" fill="#c8a97e"/>
+        <circle cx="120" cy="18" r="3.5" fill="#c8a97e"/>
+        <!-- Атлет в центре -->
+        <circle cx="70" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="70" y1="30" x2="66" y2="64" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M70 38 L66 52" stroke="#c8a97e" stroke-width="5"/>
+        <!-- Тросы сходятся вперед по дуге -->
+        <line x1="20" y1="18" x2="64" y2="48" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="3 2"/>
+        <line x1="120" y1="18" x2="74" y2="48" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="3 2"/>
+        <circle cx="69" cy="48" r="4" fill="#c8a97e"/>
         
-        <!-- Атлет в центре в наклоне -->
-        <circle cx="75" cy="25" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="75" y1="31" x2="70" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        <path d="M75 40 L70 54" stroke="#c8a97e" stroke-width="5"/>
-        
-        <!-- Тросы кроссовера сходятся вперед к груди -->
-        <line x1="25" y1="20" x2="68" y2="48" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="3 2"/>
-        <line x1="125" y1="20" x2="78" y2="48" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="3 2"/>
-        <circle cx="73" cy="48" r="4" fill="#c8a97e"/>
-        
-        <text x="145" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КРОССОВЕР НА БЛОКАХ</text>
-        <text x="145" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Корпус слегка вперед</text>
-        <text x="145" y="52" fill="#64748b" font-size="8" font-family="monospace">Сведение по широкой дуге</text>
-        <text x="145" y="66" fill="#10b981" font-size="8" font-family="monospace">Локти чуть согнуты</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КРОССОВЕР НА БЛОКАХ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Корпус слегка вперед</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Сведение по широкой дуге</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Низ и середина груди</text>
       </svg>
     `;
   }
 
-  // 5. НАКЛОННЫЙ ЖИМ (30°)
-  if (n.includes("наклонн") || n.includes("30°")) {
+  if (n.includes("брусь") || n.includes("dips") || (n.includes("отжимания") && n.includes("грудь"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="30" y1="75" x2="135" y2="35" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
-        <line x1="55" y1="65" x2="55" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="120" y1="42" x2="120" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="20" y1="82" x2="145" y2="82" stroke="#1e293b" stroke-width="2"/>
+        <!-- Брусья -->
+        <line x1="35" y1="46" x2="105" y2="46" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="46" x2="45" y2="84" stroke="#334155" stroke-width="3"/>
+        <line x1="95" y1="46" x2="95" y2="84" stroke="#334155" stroke-width="3"/>
+        <!-- Атлет с наклоном 30 градусов -->
+        <circle cx="84" cy="18" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="80" y1="24" x2="64" y2="56" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M74 34 L66 48" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="64,56 52,74 44,68" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+        <!-- Руки на брусьях -->
+        <polyline points="76,32 64,46 74,46" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="74" cy="46" r="3.5" fill="#c8a97e"/>
         
-        <circle cx="125" cy="26" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="120" y1="32" x2="68" y2="56" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        <path d="M108 37 L90 44" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <polyline points="104,39 94,24 90,10" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="90" cy="10" r="4.5" fill="#c8a97e"/>
-        <line x1="94" y1="26" x2="91" y2="12" stroke="#c8a97e" stroke-width="2" stroke-dasharray="2 2"/>
-        
-        <text x="155" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">НАКЛОННЫЙ ЖИМ (30°)</text>
-        <text x="155" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Угол скамьи: 30°</text>
-        <text x="155" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти: 65° к телу</text>
-        <text x="155" y="66" fill="#10b981" font-size="8" font-family="monospace">Шея расслаблена</text>
-        <text x="155" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Верхний пучок груди</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ОТЖИМАНИЯ НА БРУСЬЯХ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Наклон корпуса вперед 30°</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти в стороны под 45°</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Нижний контур грудных</text>
       </svg>
     `;
   }
 
-  // 6. ГОРИЗОНТАЛЬНЫЙ ЖИМ (ГАНТЕЛЕЙ / ШТАНГИ)
-  if (n.includes("жим гантелей") || n.includes("жим лежа") || n.includes("горизонтал") || n.includes("жим штанги")) {
+  if (n.includes("хаммер") || n.includes("hammer")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="30" y1="58" x2="135" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
-        <line x1="45" y1="58" x2="45" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="120" y1="58" x2="120" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="20" y1="82" x2="145" y2="82" stroke="#1e293b" stroke-width="2"/>
+        <!-- Спинка Хаммера -->
+        <line x1="55" y1="18" x2="55" y2="76" stroke="#475569" stroke-width="4"/>
+        <line x1="55" y1="76" x2="88" y2="76" stroke="#475569" stroke-width="4"/>
+        <circle cx="63" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="63" y1="28" x2="63" y2="66" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M65 38 L78 38" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <!-- Рычаги Хаммера с независимой траекторией -->
+        <polyline points="65,38 86,38 112,38" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="116" y1="16" x2="112" y2="38" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="116" cy="16" r="3.5" fill="#475569"/>
+        <circle cx="112" cy="38" r="4" fill="#c8a97e"/>
+        <path d="M92 48 C 102 48, 110 44, 115 38" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
         
-        <circle cx="125" cy="48" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="120" y1="53" x2="60" y2="53" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        <path d="M108 53 L85 53" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <polyline points="100,53 96,32 96,12" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="96" cy="12" r="4.5" fill="#c8a97e"/>
-        
-        <text x="155" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ГОРИЗОНТАЛЬНЫЙ ЖИМ</text>
-        <text x="155" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Лопатки сведены</text>
-        <text x="155" y="52" fill="#64748b" font-size="8" font-family="monospace">Пауза внизу: 1с</text>
-        <text x="155" y="66" fill="#10b981" font-size="8" font-family="monospace">Упор стопами в пол</text>
-        <text x="155" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Массив грудных мышц</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ В ХАММЕРЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Безопасная сходящаяся дуга</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Плавный выжим без рывка</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Максимальный пампинг груди</text>
       </svg>
     `;
   }
 
-  // 7. ТЯГА К ЛИЦУ (FACE PULL — РАЗГРУЗКА ШЕИ И ЛОПАТКИ)
-  if (n.includes("лицу") || n.includes("face pull") || n.includes("ше") || n.includes("лопатк")) {
+  // ----------------------------------------------------
+  // СПИНА
+  // ----------------------------------------------------
+  if (n.includes("горизонтального блока") || (n.includes("к поясу") && n.includes("блок"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Блочный тренажер горизонтальной тяги -->
+        <line x1="25" y1="15" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="25" y1="46" x2="70" y2="46" stroke="#64748b" stroke-width="2" stroke-dasharray="2 2"/>
+        <!-- Атлет сидя с выпрямленной спиной -->
+        <circle cx="112" cy="26" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="112" y1="33" x2="108" y2="60" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="108" y1="60" x2="72" y2="60" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M110 36 L108 54" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="110,36 92,43 70,46" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА БЛОКА К ПОЯСУ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Локти скользят вдоль ребер</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Сведение лопаток в пике</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Толщина широчайших мышц</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("верхнего блока") || n.includes("тяга к груди")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Верхний блок -->
+        <line x1="75" y1="8" x2="75" y2="24" stroke="#475569" stroke-width="3"/>
+        <line x1="48" y1="24" x2="102" y2="24" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Атлет сидя с легким прогибом груди -->
+        <circle cx="75" cy="38" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="44" x2="72" y2="68" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M74 46 L71 62" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="52,24 64,42 74,48" stroke="#94a3b8" stroke-width="2.5"/>
+        <polyline points="98,24 86,42 74,48" stroke="#94a3b8" stroke-width="2.5"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА ВЕРХНЕГО БЛОКА</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Тяга строго к ключицам</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти направлены вниз</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Ширина спины (V-образная)</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("лицу") || n.includes("face pull") || (n.includes("ше") && n.includes("разгрузк"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="25" y1="10" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
         <circle cx="25" cy="30" r="3.5" fill="#c8a97e"/>
         <line x1="25" y1="30" x2="75" y2="30" stroke="#64748b" stroke-width="2" stroke-dasharray="3 3"/>
+        <circle cx="112" cy="24" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="112" y1="31" x2="112" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <polyline points="112,35 98,24 75,30" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="108" cy="32" r="4.5" fill="#c8a97e"/>
         
-        <circle cx="115" cy="24" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="115" y1="31" x2="115" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        <polyline points="115,65 105,82" stroke="#94a3b8" stroke-width="2.5"/>
-        <polyline points="115,65 125,82" stroke="#94a3b8" stroke-width="2.5"/>
-        
-        <polyline points="115,35 100,26 75,30" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="110" cy="34" r="4.5" fill="#c8a97e"/>
-        
-        <text x="145" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА К ЛИЦУ (FACE PULL)</text>
-        <text x="145" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Канат строго к глазам</text>
-        <text x="145" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти выше кистей</text>
-        <text x="145" y="66" fill="#10b981" font-size="8" font-family="monospace">Снятие спазма мышц шеи</text>
-        <text x="145" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Задняя дельта + лопатка</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">FACE PULL (К ЛИЦУ)</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Канат строго к глазам</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти выше кистей, пауза 2с</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Разгрузка шеи + задняя дельта</text>
       </svg>
     `;
   }
 
-  // 8. ТЯГА ВЕРХНЕГО БЛОКА К ГРУДИ
-  if (n.includes("верхнего блока") || n.includes("тяга к груди") || n.includes("вертикальн")) {
-    return `
-      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Тренажер вертикальной тяги -->
-        <line x1="75" y1="8" x2="75" y2="25" stroke="#475569" stroke-width="3"/>
-        <line x1="50" y1="25" x2="100" y2="25" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
-        
-        <!-- Сиденье и упор для колен -->
-        <line x1="60" y1="65" x2="90" y2="65" stroke="#475569" stroke-width="3.5"/>
-        <line x1="75" y1="65" x2="75" y2="82" stroke="#334155" stroke-width="3"/>
-        
-        <!-- Атлет сидя с легким отклонением 15° -->
-        <circle cx="75" cy="38" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="75" y1="44" x2="72" y2="68" stroke="#f1f5f9" stroke-width="4"/>
-        <path d="M74 46 L71 62" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <polyline points="55,25 65,42 74,48" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <polyline points="95,25 85,42 74,48" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА ВЕРХНЕГО БЛОКА</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Тяга строго к ключицам</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти тянут в пол</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Грудь раскрыта</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Ширина спины</text>
-      </svg>
-    `;
-  }
-
-  // 9. ПОДТЯГИВАНИЯ (НА ТУРНИКЕ / В ГРАВИТРОНЕ)
   if (n.includes("подтягиван") || n.includes("турник") || n.includes("гравитрон")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1944,113 +1988,94 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <circle cx="80" cy="26" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="80" y1="32" x2="80" y2="64" stroke="#f1f5f9" stroke-width="4"/>
         <path d="M82 34 L82 54" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
         <polyline points="60,12 68,26 78,34" stroke="#94a3b8" stroke-width="2.5"/>
         <polyline points="100,12 92,26 82,34" stroke="#94a3b8" stroke-width="2.5"/>
-        <polyline points="80,64 72,82" stroke="#94a3b8" stroke-width="3"/>
-        <polyline points="80,64 88,82" stroke="#94a3b8" stroke-width="3"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПОДТЯГИВАНИЯ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Грудь к перекладине</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Лопатки опущены вниз</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Без раскачки тела</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Широчайшие + брахиалис</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Грудь к перекладине</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Лопатки сведены и опущены</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Широчайшие + брахиалис</text>
       </svg>
     `;
   }
 
-  // 10. ТЯГА ГАНТЕЛИ В НАКЛОНЕ (С УПОРОМ В СКАМЬЮ)
   if (n.includes("гантели в наклоне") || n.includes("упором в скамью")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="30" y1="55" x2="105" y2="55" stroke="#475569" stroke-width="4"/>
-        <line x1="40" y1="55" x2="40" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="95" y1="55" x2="95" y2="82" stroke="#334155" stroke-width="3"/>
-        
-        <!-- Упор коленом и рукой -->
         <circle cx="95" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="90" y1="35" x2="45" y2="35" stroke="#f1f5f9" stroke-width="4"/>
-        <line x1="88" y1="38" x2="88" y2="55" stroke="#94a3b8" stroke-width="3"/>
         <polyline points="45,35 45,55 70,55" stroke="#94a3b8" stroke-width="3"/>
-        
-        <!-- Тяга гантели к тазу -->
         <path d="M75 36 L55 36" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
         <polyline points="65,36 60,24 55,42" stroke="#94a3b8" stroke-width="2.5"/>
         <circle cx="55" cy="42" r="4.5" fill="#c8a97e"/>
         
         <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА ГАНТЕЛИ В НАКЛОНЕ</text>
-        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Тяга по дуге к тазу</text>
-        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Спина параллельна полу</text>
-        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Изоляция широчайшей</text>
+        <text x="135" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Тяга по дуге строго к тазу</text>
+        <text x="135" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Спина параллельна полу</text>
+        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Односторонняя изоляция</text>
       </svg>
     `;
   }
 
-  // 11. ТЯГА ГОРИЗОНТАЛЬНОГО БЛОКА К ПОЯСУ (СИДЯ)
-  if (n.includes("горизонтального блока") || n.includes("к поясу") || n.includes("спин")) {
+  if (n.includes("т-гриф") || n.includes("t-bar") || n.includes("упором в грудь")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="25" y1="15" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
-        <line x1="25" y1="46" x2="70" y2="46" stroke="#64748b" stroke-width="2" stroke-dasharray="2 2"/>
+        <!-- Наклонный упор тренажера Т-тяги -->
+        <line x1="35" y1="70" x2="85" y2="35" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="95" cy="26" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="90" y1="30" x2="48" y2="58" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M80 38 L60 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <!-- Рукояти Т-грифа -->
+        <polyline points="72,42 62,28 62,48" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="62" cy="48" r="4" fill="#c8a97e"/>
         
-        <circle cx="115" cy="26" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="115" y1="33" x2="110" y2="60" stroke="#f1f5f9" stroke-width="4"/>
-        <line x1="110" y1="60" x2="75" y2="60" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M113 36 L111 54" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <polyline points="113,36 95,43 70,46" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        
-        <text x="145" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА К ПОЯСУ СИДЯ</text>
-        <text x="145" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти вдоль ребер назад</text>
-        <text x="145" y="52" fill="#64748b" font-size="8" font-family="monospace">Сведение лопаток в пике</text>
-        <text x="145" y="66" fill="#10b981" font-size="8" font-family="monospace">Плечи опущены вниз</text>
-        <text x="145" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Толщина спины</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА Т-ГРИФА В УПОРЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Грудь плотно прижата к подушке</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Поясница полностью разгружена</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Толщина середины спины</text>
       </svg>
     `;
   }
 
-  // 12. ГИПЕРЭКСТЕНЗИЯ
   if (n.includes("гиперэкстензия") || n.includes("разгибател")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Римский стул 45 градусов -->
+        <!-- Римский стул 45° -->
         <line x1="30" y1="75" x2="80" y2="45" stroke="#475569" stroke-width="4"/>
-        <rect x="75" y="40" width="16" height="8" rx="2" fill="#334155" transform="rotate(-30 75 40)"/>
-        
-        <!-- Атлет в подъеме до ровной линии -->
-        <circle cx="120" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="115" y1="26" x2="85" y2="44" stroke="#f1f5f9" stroke-width="4"/>
-        <path d="M100 35 L85 44" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <line x1="85" y1="44" x2="45" y2="68" stroke="#94a3b8" stroke-width="3.5"/>
+        <circle cx="118" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="114" y1="26" x2="84" y2="44" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M98 35 L84 44" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="84" y1="44" x2="45" y2="68" stroke="#94a3b8" stroke-width="3.5"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ГИПЕРЭКСТЕНЗИЯ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Подъем в прямую линию</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Без переразгибания</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Крепкая поясница</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Подъем ровно в прямую линию</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Без опасного переразгибания</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Поясничные разгибатели + ягодицы</text>
       </svg>
     `;
   }
 
-  // 13. ЖИМ НОГАМИ 45° В ТРЕНАЖЕРЕ
+  // ----------------------------------------------------
+  // НОГИ
+  // ----------------------------------------------------
   if (n.includes("жим ногами") || (n.includes("45°") && n.includes("ног"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="35" y1="25" x2="95" y2="75" stroke="#475569" stroke-width="4"/>
         <rect x="30" y="20" width="18" height="8" rx="2" fill="#c8a97e" transform="rotate(-35 30 20)"/>
+        <circle cx="128" cy="40" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
+        <polyline points="124,45 104,62 68,52 45,35" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M104 62 L68 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
         
-        <circle cx="130" cy="40" r="6.5" stroke="#cbd5e1" stroke-width="2"/>
-        <polyline points="125,45 105,62 68,52 45,35" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M105 62 L68 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <text x="150" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ НОГАМИ 45°</text>
-        <text x="150" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Угол в коленях: 90°</text>
-        <text x="150" y="52" fill="#64748b" font-size="8" font-family="monospace">Упор пятками в платформу</text>
-        <text x="150" y="66" fill="#10b981" font-size="8" font-family="monospace">Колени не щелкать</text>
-        <text x="150" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Квадрицепс + ягодицы</text>
+        <text x="145" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ НОГАМИ 45°</text>
+        <text x="145" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Угол в коленях 90°</text>
+        <text x="145" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Упор в середину стопы и пятки</text>
+        <text x="145" y="66" fill="#10b981" font-size="8" font-family="monospace">Квадрицепс + ягодичные</text>
       </svg>
     `;
   }
 
-  // 14. РУМЫНСКАЯ ТЯГА С ГАНТЕЛЯМИ
   if (n.includes("румынск") || n.includes("мертвая")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2058,42 +2083,35 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <line x1="105" y1="26" x2="65" y2="42" stroke="#f1f5f9" stroke-width="4"/>
         <polyline points="65,42 70,64 70,84" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round"/>
         <path d="M65 42 L70 64" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <!-- Гантели вдоль голеней -->
         <line x1="90" y1="32" x2="82" y2="60" stroke="#94a3b8" stroke-width="2.5"/>
         <circle cx="82" cy="60" r="4.5" fill="#c8a97e"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РУМЫНСКАЯ ТЯГА</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Таз максимально назад</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Спина идеально прямая</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Гантели вдоль ног</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Бицепс бедра + ягодицы</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Таз максимально назад (Hinge)</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Спина идеально прямая</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Бицепс бедра (растяжение)</text>
       </svg>
     `;
   }
 
-  // 15. СГИБАНИЯ НОГ В ТРЕНАЖЕРЕ
   if (n.includes("сгибан") && (n.includes("ног") || n.includes("бедра"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="30" y1="55" x2="95" y2="55" stroke="#475569" stroke-width="4"/>
         <circle cx="35" cy="44" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="35" y1="50" x2="75" y2="50" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <!-- Сгибание голени к ягодицам -->
         <polyline points="75,50 95,28" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round"/>
         <circle cx="95" cy="28" r="4.5" fill="#c8a97e"/>
         <path d="M75 50 L95 28" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
         
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СГИБАНИЯ НОГ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Фиксация в сгибании 1с</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Медленный спуск 3 сек</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Бицепс бедра</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СГИБАНИЯ НОГ В ТРЕНАЖЕРЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Фиксация в точке сжатия 1с</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Медленный спуск 3 сек</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Изоляция бицепса бедра</text>
       </svg>
     `;
   }
 
-  // 16. РАЗГИБАНИЯ НОГ В ТРЕНАЖЕРЕ СИДЯ
   if (n.includes("разгибан") && (n.includes("ног") || n.includes("квадрицепс"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2102,25 +2120,21 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <circle cx="58" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="58" y1="28" x2="58" y2="58" stroke="#f1f5f9" stroke-width="4"/>
         <line x1="58" y1="58" x2="80" y2="58" stroke="#94a3b8" stroke-width="4"/>
-        
-        <!-- Выпрямление ноги вверх -->
         <line x1="80" y1="58" x2="110" y2="58" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
         <circle cx="110" cy="58" r="4.5" fill="#c8a97e"/>
         <path d="M58 58 L80 58" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГИБАНИЯ НОГ СИДЯ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Плавный подъем без рывка</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Пиковое сжатие 1 сек</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Плавный подъем без рывка</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Пиковое сжатие 1 сек</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Изоляция квадрицепса</text>
       </svg>
     `;
   }
 
-  // 17. ГАКК-ПРИСЕДАНИЯ
   if (n.includes("гакк") || n.includes("hack") || (n.includes("присед") && n.includes("тренажер"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Наклонная опора Гакка -->
         <line x1="40" y1="20" x2="85" y2="78" stroke="#475569" stroke-width="4"/>
         <circle cx="55" cy="28" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="55" y1="34" x2="78" y2="60" stroke="#f1f5f9" stroke-width="4"/>
@@ -2128,14 +2142,13 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <path d="M78 60 L100 60" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ГАКК-ПРИСЕДАНИЯ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Спина плотно к опоре</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Сед до угла 90° в коленях</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Спина плотно к опоре</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Сед до угла 90° в коленях</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Безопасно для поясницы</text>
       </svg>
     `;
   }
 
-  // 18. ПОДЪЕМ НА НОСКИ (ИКРЫ)
   if (n.includes("носки") || n.includes("икр") || n.includes("голен")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2147,14 +2160,16 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <polyline points="70,76 78,80" stroke="#c8a97e" stroke-width="3"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПОДЪЕМ НА НОСКИ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Максимальная амплитуда</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Пауза 2с в нижней растяжке</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Максимальная амплитуда</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Пауза 2с в нижней растяжке</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Икроножные мышцы</text>
       </svg>
     `;
   }
 
-  // 19. МАХИ ГАНТЕЛЯМИ ЧЕРЕЗ СТОРОНЫ
+  // ----------------------------------------------------
+  // ПЛЕЧИ
+  // ----------------------------------------------------
   if (n.includes("мах") && (n.includes("сторон") || n.includes("плеч") || n.includes("дельт"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2162,49 +2177,39 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <line x1="85" y1="26" x2="85" y2="65" stroke="#f1f5f9" stroke-width="4"/>
         <polyline points="85,65 75,82" stroke="#94a3b8" stroke-width="2.5"/>
         <polyline points="85,65 95,82" stroke="#94a3b8" stroke-width="2.5"/>
-        
-        <!-- Разведение рук в стороны локтями вверх -->
         <polyline points="45,35 65,30 85,30 105,30 125,35" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="45" cy="35" r="4" fill="#c8a97e"/>
         <circle cx="125" cy="35" r="4" fill="#c8a97e"/>
-        <circle cx="68" cy="30" r="4.5" fill="#c8a97e"/>
-        <circle cx="102" cy="30" r="4.5" fill="#c8a97e"/>
         
-        <text x="145" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">МАХИ ЧЕРЕЗ СТОРОНЫ</text>
-        <text x="145" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Подъем локтями до плеч</text>
-        <text x="145" y="52" fill="#64748b" font-size="8" font-family="monospace">Кисти чуть ниже локтей</text>
-        <text x="145" y="66" fill="#10b981" font-size="8" font-family="monospace">Трапецию не зажимать</text>
-        <text x="145" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Ширина плеч (средняя дельта)</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">МАХИ ЧЕРЕЗ СТОРОНЫ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Подъем локтями до плеч</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Кисти чуть ниже локтей</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Средняя дельта (ширина плеч)</text>
       </svg>
     `;
   }
 
-  // 20. ЖИМ ГАНТЕЛЕЙ СИДЯ НА ПЛЕЧИ (СКАМЬЯ 75°)
   if (n.includes("жим гантелей сидя") || (n.includes("жим") && n.includes("плечи")) || n.includes("75°")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="50" y1="20" x2="58" y2="70" stroke="#475569" stroke-width="4"/>
         <line x1="58" y1="70" x2="88" y2="70" stroke="#475569" stroke-width="4"/>
-        
         <circle cx="65" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="65" y1="30" x2="68" y2="65" stroke="#f1f5f9" stroke-width="4"/>
         <path d="M66 32 L68 45" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <!-- Вертикальный жим гантелей над головой -->
         <polyline points="65,34 50,30 50,14" stroke="#94a3b8" stroke-width="2.5"/>
         <polyline points="65,34 80,30 80,14" stroke="#94a3b8" stroke-width="2.5"/>
         <circle cx="50" cy="14" r="4.5" fill="#c8a97e"/>
         <circle cx="80" cy="14" r="4.5" fill="#c8a97e"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ ГАНТЕЛЕЙ НА ПЛЕЧИ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Угол скамьи: 75°</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти слегка вперед</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Без прогиба в пояснице</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Угол скамьи: 75°</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти слегка перед собой</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Передняя и средняя дельта</text>
       </svg>
     `;
   }
 
-  // 21. РАЗВОДКА НА ЗАДНЮЮ ДЕЛЬТУ В НАКЛОНЕ
   if (n.includes("задн") && (n.includes("дельт") || n.includes("развод"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2212,129 +2217,40 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <line x1="90" y1="32" x2="60" y2="48" stroke="#f1f5f9" stroke-width="4"/>
         <polyline points="60,48 65,65 65,82" stroke="#94a3b8" stroke-width="3"/>
         <circle cx="75" cy="38" r="4.5" fill="#c8a97e"/>
-        
         <polyline points="75,38 60,25 45,28" stroke="#94a3b8" stroke-width="2.5"/>
         <circle cx="45" cy="28" r="4" fill="#c8a97e"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗВОДКА НА ЗАДНЮЮ ДЕЛЬТУ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Наклон корпуса 45–60°</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти назад и в стороны</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Наклон корпуса 45–60°</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти назад и в стороны</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Задний пучок дельт</text>
       </svg>
     `;
   }
 
-  // 22. ПРОТЯЖКА НА БЛОКЕ К ПОДБОРОДКУ
   if (n.includes("протяжк") || n.includes("подбородк")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="75" y1="84" x2="75" y2="40" stroke="#64748b" stroke-width="2" stroke-dasharray="3 2"/>
         <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <!-- Подъем грифа локтями вверх -->
         <polyline points="50,30 62,38 88,38 100,30" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
         <line x1="62" y1="38" x2="88" y2="38" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
         <circle cx="50" cy="30" r="4" fill="#c8a97e"/>
         <circle cx="100" cy="30" r="4" fill="#c8a97e"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПРОТЯЖКА К ПОДБОРОДКУ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Хват шире плеч</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти тянут строго вверх</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">До уровня низа груди</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Хват шире плеч</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти тянут строго вверх</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Средняя дельта + верх спины</text>
       </svg>
     `;
   }
 
-  // 23. РАЗГИБАНИЯ РУК НА ВЕРХНЕМ БЛОКЕ (ТРИЦЕПС)
-  if (n.includes("трицепс") || n.includes("разгибания рук") || n.includes("канат")) {
-    return `
-      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="50" y1="10" x2="50" y2="30" stroke="#64748b" stroke-width="2.5"/>
-        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <!-- Локти прижаты к бокам, разгибание вниз -->
-        <line x1="75" y1="32" x2="70" y2="45" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M75 32 L70 45" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <line x1="70" y1="45" x2="50" y2="65" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="50" cy="65" r="4" fill="#c8a97e"/>
-        
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГИБАНИЯ НА ТРИЦЕПС</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти прижаты к ребрам</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Разводка каната внизу</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Пиковое сжатие 1с</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Латеральная головка</text>
-      </svg>
-    `;
-  }
-
-  // 24. ПОДЪЕМ НА БИЦЕПС С СУПИНАЦИЕЙ
-  if (n.includes("бицепс") && !n.includes("молот")) {
-    return `
-      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <!-- Локти у ребер, сгибание с супинацией -->
-        <line x1="75" y1="32" x2="75" y2="48" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M75 32 L75 48" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <line x1="75" y1="48" x2="60" y2="35" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="60" cy="35" r="4.5" fill="#c8a97e"/>
-        
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПОДЪЕМ НА БИЦЕПС</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Супинация кисти вверху</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти неподвижны</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Без раскачки корпусом</text>
-        <text x="140" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Пик двуглавой мышцы</text>
-      </svg>
-    `;
-  }
-
-  // 25. МОЛОТКОВЫЕ СГИБАНИЯ (HAMMER)
-  if (n.includes("молот") || n.includes("hammer curl") || n.includes("брахиалис")) {
-    return `
-      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <line x1="75" y1="32" x2="75" y2="48" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M75 42 L65 42" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <polyline points="75,48 65,36" stroke="#94a3b8" stroke-width="2.5"/>
-        <circle cx="65" cy="36" r="4.5" fill="#c8a97e"/>
-        
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">МОЛОТКОВЫЕ СГИБАНИЯ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Нейтральный хват</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Изоляция брахиалиса</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Толщина предплечья</text>
-      </svg>
-    `;
-  }
-
-  // 26. ФРАНЦУЗСКИЙ ЖИМ С ГАНТЕЛЯМИ / ШТАНГОЙ ЛЕЖА
-  if (n.includes("француз")) {
-    return `
-      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="30" y1="58" x2="110" y2="58" stroke="#475569" stroke-width="4"/>
-        <circle cx="100" cy="48" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="95" y1="53" x2="45" y2="53" stroke="#f1f5f9" stroke-width="4"/>
-        
-        <!-- Локти вертикально, сгибание к вискам -->
-        <line x1="85" y1="53" x2="85" y2="30" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M85 53 L85 30" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <line x1="85" y1="30" x2="100" y2="40" stroke="#94a3b8" stroke-width="2.5"/>
-        <circle cx="100" cy="40" r="4.5" fill="#c8a97e"/>
-        
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ФРАНЦУЗСКИЙ ЖИМ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти смотрят в потолок</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Сгибание строго к вискам</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Длинная головка трицепса</text>
-      </svg>
-    `;
-  }
-
-  // 26.1 ЖИМ ШТАНГИ УЗКИМ ХВАТОМ
-  if (n.includes("узким хват") || n.includes("узким")) {
+  // ----------------------------------------------------
+  // ТРИЦЕПС
+  // ----------------------------------------------------
+  if (n.includes("узким хват") || (n.includes("жим") && n.includes("узким"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="30" y1="58" x2="110" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
@@ -2345,179 +2261,418 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <line x1="65" y1="16" x2="91" y2="16" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
         
         <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЖИМ УЗКИМ ХВАТОМ</text>
-        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Хват: на ширине плеч</text>
-        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти 30-45° к телу</text>
-        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Опускание к низу груди</text>
-        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Тяжелая база на трицепс</text>
+        <text x="135" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Хват строго на ширине плеч</text>
+        <text x="135" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти 30–45° к телу</text>
+        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Тяжелая база на трицепс</text>
       </svg>
     `;
   }
 
-  // 26.2 СГИБАНИЯ НА СКАМЬЕ СКОТТА
-  if (n.includes("скотт") || n.includes("scott")) {
+  if (n.includes("французский жим с гантелями")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="45" y1="70" x2="75" y2="40" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="90" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="85" y1="36" x2="70" y2="60" stroke="#f1f5f9" stroke-width="4"/>
-        <line x1="80" y1="40" x2="60" y2="52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <polyline points="60,52 68,36" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="68" cy="36" r="4.5" fill="#c8a97e"/>
+        <line x1="30" y1="58" x2="110" y2="58" stroke="#475569" stroke-width="4"/>
+        <circle cx="100" cy="48" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="95" y1="53" x2="45" y2="53" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="85" y1="53" x2="85" y2="30" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M85 53 L85 30" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
+        <line x1="85" y1="30" x2="100" y2="40" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="100" cy="40" r="4.5" fill="#c8a97e"/>
         
-        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СКАМЬЯ СКОТТА</text>
-        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти плотно на подушке</text>
-        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Исключен читинг плечами</text>
-        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Внизу не разгибать в хруст</text>
-        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Короткая головка бицепса</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ФРАНЦУЗСКИЙ С ГАНТЕЛЯМИ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Опускание строго к вискам</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Независимая работа двух рук</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Длинная и латеральная головка</text>
       </svg>
     `;
   }
 
-  // 26.3 РАЗГИБАНИЯ ИЗ-ЗА ГОЛОВЫ
-  if (n.includes("из-за головы") || n.includes("overhead")) {
+  if (n.includes("французский жим со штангой") || (n.includes("француз") && n.includes("штанг"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="75" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="75" y1="36" x2="75" y2="70" stroke="#f1f5f9" stroke-width="4"/>
-        <polyline points="75,40 75,14 62,26" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M75 40 L75 18" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="62" cy="26" r="4.5" fill="#c8a97e"/>
+        <line x1="30" y1="58" x2="110" y2="58" stroke="#475569" stroke-width="4"/>
+        <circle cx="100" cy="48" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="95" y1="53" x2="45" y2="53" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="85" y1="53" x2="78" y2="30" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M85 53 L78 30" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="78" y1="30" x2="108" y2="38" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="102" y1="38" x2="114" y2="38" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
         
-        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ИЗ-ЗА ГОЛОВЫ (ТРИЦЕПС)</text>
-        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локти смотрят вверх</text>
-        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Глубокое опускание за шею</text>
-        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Мощная растяжка</text>
-        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Длинная головка трицепса</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ФРАНЦУЗСКИЙ EZ-ШТАНГА</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Опускание за макушку головы</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Плечо отклонено 15° назад</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Растяжение длинной головки</text>
       </svg>
     `;
   }
 
-  // 26.4 КИКБЭК НА ТРИЦЕПС
-  if (n.includes("кикбэк") || n.includes("kickback") || (n.includes("разгибание") && n.includes("назад"))) {
+  if (n.includes("из-за головы") && n.includes("гантел")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="95" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="90" y1="35" x2="50" y2="40" stroke="#f1f5f9" stroke-width="4"/>
-        <line x1="75" y1="37" x2="55" y2="37" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <polyline points="75,37 55,37 30,37" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="30" cy="37" r="4.5" fill="#c8a97e"/>
+        <circle cx="70" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="70" y1="30" x2="70" y2="68" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="70" y1="34" x2="70" y2="12" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M70 34 L70 12" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="70" y1="12" x2="58" y2="28" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="58" cy="28" r="4.5" fill="#c8a97e"/>
         
-        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КИКБЭК (РАЗГИБАНИЕ НАЗАД)</text>
-        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Локоть выше линии спины</text>
-        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Разгибание строго назад</text>
-        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Пиковая пауза 1 сек</text>
-        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Латеральная головка</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГИБАНИЕ ИЗ-ЗА ГОЛОВЫ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Локоть смотрит строго вверх</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Глубокое опускание за шею</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Длинная головка трицепса</text>
       </svg>
     `;
   }
 
-  // 26.4.1 СГИБАНИЯ НА БИЦЕПС НА НАКЛОННОЙ СКАМЬЕ (45°)
-  if ((n.includes("наклонн") || n.includes("45°")) && (n.includes("бицепс") || n.includes("гантел"))) {
+  if (n.includes("блоке из-за головы") || (n.includes("из-за головы") && n.includes("блок"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Наклонная спинка 45 градусов -->
-        <line x1="35" y1="75" x2="90" y2="28" stroke="#475569" stroke-width="4.5" stroke-linecap="round"/>
-        <line x1="90" y1="28" x2="115" y2="28" stroke="#334155" stroke-width="3"/>
-        <line x1="35" y1="75" x2="65" y2="75" stroke="#475569" stroke-width="4"/>
+        <line x1="25" y1="10" x2="25" y2="40" stroke="#475569" stroke-width="3"/>
+        <circle cx="85" cy="28" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="80" y1="32" x2="60" y2="62" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="25" y1="20" x2="72" y2="22" stroke="#64748b" stroke-width="2" stroke-dasharray="2 2"/>
+        <line x1="72" y1="22" x2="105" y2="22" stroke="#c8a97e" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="105" cy="22" r="4" fill="#c8a97e"/>
         
-        <!-- Атлет полулежа на наклонной скамье -->
-        <circle cx="85" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="82" y1="29" x2="48" y2="60" stroke="#f1f5f9" stroke-width="4"/>
-        <polyline points="48,60 55,75 55,85" stroke="#94a3b8" stroke-width="3"/>
-        
-        <!-- Рука отведена назад за корпус с мощным растяжением длинной головки -->
-        <line x1="72" y1="36" x2="60" y2="60" stroke="#94a3b8" stroke-width="3"/>
-        <path d="M72 36 L60 60" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <polyline points="60,60 74,48" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="74" cy="48" r="4.5" fill="#c8a97e"/>
-        <path d="M60 68 C 68 68, 76 60, 78 50" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
-        
-        <text x="135" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">БИЦЕПС НА НАКЛОННОЙ</text>
-        <text x="135" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Угол скамьи: 45°</text>
-        <text x="135" y="52" fill="#64748b" font-size="8" font-family="monospace">Локти отведены назад</text>
-        <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Глубокая растяжка длинной головки</text>
-        <text x="135" y="80" fill="#94a3b8" font-size="8" font-family="monospace">Супинация в верхней трети</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТРИЦЕПС С БЛОКА ИЗ-ЗА ГОЛОВЫ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Корпус в наклоне от стойки</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Разгибание вперед-вверх</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Постоянное натяжение троса</text>
       </svg>
     `;
   }
 
-  // 27. СКРУЧИВАНИЯ НА ПРЕСС / БЛОК
-  if (n.includes("скручиван") || n.includes("пресс") || n.includes("молитва")) {
+  if (n.includes("верхнем блоке с канатом") || (n.includes("разгибания") && n.includes("канат"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Атлет на коленях скручивает корпус -->
-        <circle cx="75" cy="28" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <path d="M75 34 C 65 38, 55 50, 60 68" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        <path d="M68 40 C 60 46, 58 56, 62 65" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <line x1="60" y1="68" x2="85" y2="68" stroke="#94a3b8" stroke-width="4"/>
+        <line x1="50" y1="10" x2="50" y2="30" stroke="#64748b" stroke-width="2.5"/>
+        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="75" y1="32" x2="70" y2="45" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M75 32 L70 45" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="70" y1="45" x2="50" y2="65" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="65" r="4" fill="#c8a97e"/>
+        <circle cx="62" cy="65" r="4" fill="#c8a97e"/>
         
-        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СКРУЧИВАНИЯ НА ПРЕСС</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Скручивание груди к тазу</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Выдох на мощном сжатии</text>
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГИБАНИЯ С КАНАТОМ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Разведение концов каната внизу</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти намертво у ребер</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Латеральная + медиальная</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("прямой / v-рукоятью") || (n.includes("разгибания") && n.includes("рукоят"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="50" y1="10" x2="50" y2="30" stroke="#64748b" stroke-width="2.5"/>
+        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="75" y1="32" x2="72" y2="45" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M75 32 L72 45" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="72" y1="45" x2="54" y2="62" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="48" y1="62" x2="60" y2="62" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГИБАНИЯ С V-РУКОЯТЬЮ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Дави основанием ладоней вниз</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Корпус слегка наклонен</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Латеральная головка трицепса</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("обратные отжимания") || (n.includes("отжимания") && n.includes("скамь"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="55" x2="60" y2="55" stroke="#475569" stroke-width="4"/>
+        <line x1="30" y1="55" x2="30" y2="82" stroke="#334155" stroke-width="3"/>
+        <circle cx="68" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="68" y1="30" x2="68" y2="60" stroke="#f1f5f9" stroke-width="4"/>
+        <polyline points="68,60 95,60 110,80" stroke="#94a3b8" stroke-width="3"/>
+        <polyline points="68,36 56,45 56,55" stroke="#94a3b8" stroke-width="2.5"/>
+        <path d="M68 36 L56 45" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ОБРАТНЫЕ ОТЖИМАНИЯ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Спина скользит вдоль скамьи</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Опускание до 90° в локтях</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Трицепс + передняя дельта</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("кикбэк") || (n.includes("разгибание") && n.includes("назад"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="60" x2="80" y2="60" stroke="#475569" stroke-width="4"/>
+        <circle cx="85" cy="30" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="80" y1="35" x2="40" y2="35" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="65" y1="35" x2="45" y2="30" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M65 35 L45 30" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="45" y1="30" x2="18" y2="30" stroke="#c8a97e" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="18" cy="30" r="4" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КИКБЭК В НАКЛОНЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Плечо зафиксировано выше спины</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Разгибание строго назад</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Пиковая изоляция латеральной</text>
+      </svg>
+    `;
+  }
+
+  // ----------------------------------------------------
+  // БИЦЕПС
+  // ----------------------------------------------------
+  if (n.includes("сгибания рук с гантелями на наклонной скамье") || (n.includes("наклонн") && n.includes("45°") && n.includes("бицепс"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Наклонная скамья 45° -->
+        <line x1="25" y1="78" x2="95" y2="28" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="40" y1="68" x2="40" y2="84" stroke="#334155" stroke-width="3"/>
+        <line x1="85" y1="36" x2="85" y2="84" stroke="#334155" stroke-width="3"/>
+        <circle cx="92" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="88" y1="26" x2="45" y2="58" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="72" y1="38" x2="68" y2="68" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M72 38 L68 68" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="68" y1="68" x2="84" y2="50" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="84" cy="50" r="4.5" fill="#c8a97e"/>
+        <path d="M68 68 C 76 68, 82 60, 84 50" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СГИБАНИЯ НА НАКЛОННОЙ 45°</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Локти отведены назад за спину</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Угол скамьи: 45°</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Растяжение длинной головки</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("молотковые") && n.includes("наклонн")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="78" x2="85" y2="28" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="82" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="78" y1="26" x2="45" y2="58" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="66" y1="38" x2="62" y2="65" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M66 38 L62 65" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="62,65 76,48" stroke="#94a3b8" stroke-width="2.5"/>
+        <rect x="73" y="42" width="6" height="12" rx="1" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">МОЛОТКОВЫЕ НА НАКЛОННОЙ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Нейтральный хват (ладони внутрь)</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Угол скамьи: 60°</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Брахиалис + внешняя часть</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("скамье скотта") || n.includes("scott")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="45" y1="70" x2="80" y2="38" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="95" cy="28" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="90" y1="32" x2="70" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="82" y1="36" x2="55" y2="60" stroke="#94a3b8" stroke-width="3.5"/>
+        <path d="M82 36 L55 60" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="55" y1="60" x2="68" y2="40" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="68" cy="40" r="4.5" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СКАМЬЯ СКОТТА</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Подмышки плотно на пюпитре</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Исключена инерция тела</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Короткая внутренняя головка</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("паучьи") || n.includes("spider")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="35" y1="35" x2="85" y2="70" stroke="#475569" stroke-width="4"/>
+        <circle cx="30" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="34" y1="28" x2="75" y2="58" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="45" y1="36" x2="45" y2="68" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M45 36 L45 68" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="45,68 32,50" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="32" cy="50" r="4.5" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПАУЧЬИ СГИБАНИЯ (SPIDER)</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Лежа грудью на наклонной 45°</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Руки висят вертикально вниз</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Пиковый пампинг и пик бицепса</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("концентрированные") || (n.includes("бицепс") && n.includes("сидя"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="65" x2="90" y2="65" stroke="#475569" stroke-width="4"/>
+        <circle cx="70" cy="24" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="70" y1="30" x2="65" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <polyline points="65,34 50,55 45,35" stroke="#94a3b8" stroke-width="2.5"/>
+        <circle cx="50" cy="55" r="3.5" fill="#475569"/>
+        <path d="M65 34 L50 55" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="45" cy="35" r="4.5" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КОНЦЕНТРИРОВАННЫЙ ПОДЪЕМ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Упор локтем во внутреннее бедро</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Корпус полностью неподвижен</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Пиковая изоляция двуглавой</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("подъем гантелей на бицепс стоя") || (n.includes("гантел") && n.includes("супинац"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="75" y1="32" x2="75" y2="48" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M75 32 L75 48" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="75" y1="48" x2="60" y2="35" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="60" cy="35" r="4.5" fill="#c8a97e"/>
+        <path d="M62 28 C 66 28, 68 32, 66 36" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПОДЪЕМ ГАНТЕЛЕЙ СТОЯ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Супинация кисти (мизинец вверх)</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти прижаты к бокам</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Пик двуглавой мышцы</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("подъем штанги на бицепс") || (n.includes("штанг") && n.includes("бицепс"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="75" y1="32" x2="75" y2="48" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M75 32 L75 48" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="75" y1="48" x2="56" y2="35" stroke="#94a3b8" stroke-width="2.5"/>
+        <line x1="45" y1="35" x2="67" y2="35" stroke="#c8a97e" stroke-width="4" stroke-linecap="round"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПОДЪЕМ ШТАНГИ НА БИЦЕПС</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Золотая база на массу рук</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Без раскачки корпуса (спина прямая)</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Длинная и короткая головка</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("нижнем блоке кроссовера") || (n.includes("блок") && n.includes("бицепс"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="84" x2="30" y2="65" stroke="#475569" stroke-width="3"/>
+        <circle cx="30" cy="78" r="3.5" fill="#c8a97e"/>
+        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="30" y1="78" x2="60" y2="45" stroke="#64748b" stroke-width="2" stroke-dasharray="2 2"/>
+        <polyline points="75,32 75,48 60,45" stroke="#94a3b8" stroke-width="2.5"/>
+        <path d="M75 32 L75 48" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="60" cy="45" r="4" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СГИБАНИЯ НА НИЖНЕМ БЛОКЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Постоянное натяжение троса</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Локти зафиксированы у ребер</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Идеальное пиковое напряжение</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("молотковые") || n.includes("молот") || n.includes("hammer curl")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="75" cy="20" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="75" y1="26" x2="75" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="75" y1="32" x2="75" y2="48" stroke="#94a3b8" stroke-width="3"/>
+        <path d="M75 42 L65 42" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="75,48 65,36" stroke="#94a3b8" stroke-width="2.5"/>
+        <rect x="62" y="30" width="6" height="12" rx="1" fill="#c8a97e"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">МОЛОТКОВЫЕ СГИБАНИЯ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Нейтральный хват (пальцы внутрь)</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Большие пальцы вверх</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Брахиалис (толщина рук)</text>
+      </svg>
+    `;
+  }
+
+  // ----------------------------------------------------
+  // ПРЕСС
+  // ----------------------------------------------------
+  if (n.includes("скручивания") && n.includes("блок")) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="10" x2="30" y2="30" stroke="#475569" stroke-width="3"/>
+        <circle cx="30" cy="25" r="3.5" fill="#c8a97e"/>
+        <circle cx="55" cy="40" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <path d="M55 46 C 65 46, 75 55, 75 68" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M58 48 C 65 50, 70 56, 70 65" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="75,68 75,82 95,82" stroke="#94a3b8" stroke-width="3"/>
+        <line x1="30" y1="25" x2="52" y2="40" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2 2"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СКРУЧИВАНИЯ НА БЛОКЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Канат зафиксирован у лба</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Скручивай ребра к тазу</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Прямая мышца живота</text>
       </svg>
     `;
   }
 
-  // 28. ПОДЪЕМ КОЛЕНЕЙ В ВИСЕ
-  if (n.includes("подъем коленей") || n.includes("висе")) {
+  if (n.includes("коленей") || (n.includes("пресс") && n.includes("брусь"))) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="50" y1="35" x2="80" y2="35" stroke="#475569" stroke-width="4"/>
-        <circle cx="65" cy="18" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="65" y1="24" x2="65" y2="55" stroke="#f1f5f9" stroke-width="4"/>
-        <path d="M65 40 L65 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        
-        <!-- Подкручивание коленей к груди -->
-        <polyline points="65,55 50,48 50,38" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="45" y1="25" x2="45" y2="70" stroke="#475569" stroke-width="4"/>
+        <line x1="45" y1="42" x2="70" y2="42" stroke="#475569" stroke-width="4"/>
+        <circle cx="62" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="62" y1="28" x2="62" y2="58" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M62 44 L62 56" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="62,58 78,50 78,65" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПОДЪЕМ КОЛЕНЕЙ В ВИСЕ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Подкручивание таза вверх</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Выдох в верхней точке</text>
-        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Низ живота и кор</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Подкручивание таза вверху</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Без раскачки корпуса</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Нижний пучок пресса</text>
       </svg>
     `;
   }
 
-  // 29. ПЛАНКА НА ЛОКТЯХ
   if (n.includes("планк")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="40" r="6" stroke="#cbd5e1" stroke-width="2"/>
-        <line x1="95" y1="44" x2="35" y2="52" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
-        <path d="M80 46 L50 50" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
-        <line x1="90" y1="46" x2="90" y2="60" stroke="#94a3b8" stroke-width="3"/>
+        <circle cx="100" cy="44" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="95" y1="48" x2="35" y2="52" stroke="#f1f5f9" stroke-width="4"/>
+        <path d="M80 50 L55 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="92" y1="50" x2="92" y2="60" stroke="#94a3b8" stroke-width="3"/>
         <line x1="35" y1="52" x2="35" y2="60" stroke="#94a3b8" stroke-width="3"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ПЛАНКА НА ЛОКТЯХ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Прямая линия всего тела</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Сжатие ягодиц и пресса</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Прямая линия всего тела</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Сжатие ягодиц и пресса</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Корсет и поперечная мышца</text>
       </svg>
     `;
   }
 
-  // 30. ХОДЬБА В ГОРКУ НА ДОРОЖКЕ
+  // ----------------------------------------------------
+  // КАРДИО
+  // ----------------------------------------------------
   if (n.includes("ходьба") || n.includes("дорожк") || n.includes("горку")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Наклонная беговая дорожка 10% -->
         <line x1="25" y1="78" x2="95" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
-        
         <circle cx="70" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
         <line x1="70" y1="28" x2="68" y2="52" stroke="#f1f5f9" stroke-width="4"/>
         <line x1="68" y1="52" x2="52" y2="70" stroke="#94a3b8" stroke-width="3"/>
         <line x1="68" y1="52" x2="80" y2="62" stroke="#94a3b8" stroke-width="3"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ХОДЬБА В ГОРКУ</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Уклон: 8–10%, 5.5 км/ч</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Пульс: 115–125 уд/мин</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Уклон: 8–10%, 5.5 км/ч</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Пульс: 115–125 уд/мин</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Сушка висцерального жира</text>
       </svg>
     `;
   }
 
-  // 31. ЭЛЛИПТИЧЕСКИЙ ТРЕНАЖЕР
   if (n.includes("эллипс") || n.includes("орбитрек")) {
     return `
       <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2528,8 +2683,8 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <line x1="60" y1="55" x2="75" y2="68" stroke="#94a3b8" stroke-width="3"/>
         
         <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ЭЛЛИПТИЧЕСКИЙ ТРЕНАЖЕР</text>
-        <text x="140" y="38" fill="#94a3b8" font-size="9" font-family="monospace">Без удара по коленям</text>
-        <text x="140" y="52" fill="#64748b" font-size="8" font-family="monospace">Плавная циклическая работа</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Без удара по коленям</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Плавная циклическая работа</text>
         <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Щадящее кардио</text>
       </svg>
     `;
@@ -2551,10 +2706,10 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
 }
 
 // ========================================================
-// PRO EXERCISE BIOMECHANICS & ANATOMICAL VISUALIZER 3.0 ENGINE
+// PRO EXERCISE BIOMECHANICS & ANATOMICAL VISUALIZER 4.0 ENGINE
 // ========================================================
 function getExerciseAnatomyInfo(exName) {
-  const n = (exName || "").toLowerCase();
+  const n = (exName || "").toLowerCase().trim();
   
   let info = {
     name: exName,
@@ -2585,15 +2740,14 @@ function getExerciseAnatomyInfo(exName) {
     ]
   };
 
-  if (n.includes("наклонн") || n.includes("30°")) {
+  if (n.includes("наклонн") && n.includes("груд")) {
     info.category = "Грудь";
-    info.equipment = "Гантели / Наклонная скамья 30°";
+    info.equipment = "Гантели / Штанга / Наклонная скамья 30°";
     info.tier = "Базовое многосуставное";
     info.muscleMatrix = [
       { name: "Ключичная (верхняя) часть большой грудной", percent: 100, role: "Главный агонист" },
       { name: "Передний пучок дельтовидной мышцы", percent: 75, role: "Синергист" },
-      { name: "Латеральная и длинная головки трицепса", percent: 60, role: "Синергист" },
-      { name: "Передняя зубчатая мышца и ротаторы", percent: 35, role: "Стабилизаторы" }
+      { name: "Латеральная и длинная головки трицепса", percent: 60, role: "Синергист" }
     ];
     info.dos = [
       "Угол скамьи строго 30° (угол выше 45° перегружает переднюю дельту).",
@@ -2601,262 +2755,311 @@ function getExerciseAnatomyInfo(exName) {
       "Шея и трапеция полностью расслаблены, голова лежит на спинке."
     ];
     info.donts = [
-      "Не разводи локти под 90° перпендикулярно телу — риск импиджмента плеча.",
-      "Не отрывай таз и поясницу от скамьи в попытке выжать вес 'мостом'.",
-      "Не своди гантели со стуком вверху — это снимает полезное напряжение с груди."
+      "Не разводи локти под 90° перпендикулярно телу — риск травмы плеча.",
+      "Не отрывай таз от скамьи мостом.",
+      "Не своди гантели со стуком вверху — это снимает полезное напряжение."
     ];
-  } else if (n.includes("горизонтал") || (n.includes("жим") && n.includes("лежа") && !n.includes("узким") && !n.includes("француз"))) {
-    info.category = "Грудь";
-    info.equipment = "Гантели / Штанга / Прямая скамья";
-    info.tier = "Тяжелая база";
-    info.muscleMatrix = [
-      { name: "Стернокостальная (средняя) часть грудной мышцы", percent: 100, role: "Главный агонист" },
-      { name: "Передняя дельта", percent: 70, role: "Синергист" },
-      { name: "Трицепс плеча", percent: 65, role: "Синергист" }
-    ];
-    info.dos = [
-      "Лопатки плотно сведены в 'замок' и прижаты к скамье на протяжении всего сета.",
-      "Опускай снаряд на линию сосков (низ/середина груди).",
-      "Мощный упор стопами в пол создает стабилизирующий импульс."
-    ];
-    info.donts = [
-      "Не отбивай гриф от грудной клетки в нижней точке.",
-      "Не отрывай ягодицы от скамьи.",
-      "Не вставляй локти до щелчка в верхней фазе."
-    ];
-  } else if (n.includes("бабочк") || n.includes("pec deck")) {
-    info.category = "Грудь";
-    info.equipment = "Тренажер Pec Deck / Бабочка";
-    info.tier = "Изолирующее";
-    info.muscleMatrix = [
-      { name: "Внутренняя и средняя часть большой грудной", percent: 100, role: "Главный агонист" },
-      { name: "Малая грудная мышца", percent: 80, role: "Синергист" },
-      { name: "Передняя дельта", percent: 35, role: "Ассистент" }
-    ];
-    info.dos = [
-      "Высота сиденья: рукояти строго на уровне середины груди.",
-      "В пиковом сведении фиксируй напряжение на 2 секунды.",
-      "Опускай вес с медленным 3-секундным растяжением волокон."
-    ];
-    info.donts = [
-      "Не сутулься и не округляй плечи вперед при сведении.",
-      "Не уводи локти слишком далеко назад за линию спины (переразгиб связок)."
-    ];
-  } else if (n.includes("брусь") || n.includes("dips")) {
-    info.category = "Грудь / Руки";
-    info.equipment = "Параллельные брусья";
-    info.tier = "Многосуставная база";
-    info.muscleMatrix = [
-      { name: "Нижний (абдоминальный) пучок груди", percent: 90, role: "Агонист" },
-      { name: "Трицепс (все 3 головки)", percent: 85, role: "Агонист" },
-      { name: "Передняя дельта", percent: 65, role: "Синергист" }
-    ];
-    info.dos = [
-      "Для акцента на грудь наклони корпус вперед на 30° и разводи локти под 45°.",
-      "Опускайся до угла 90° в локтях (плечо параллельно полу)."
-    ];
-    info.donts = [
-      "Не проваливайся глубоко ниже 90° при жестких плечевых суставах.",
-      "Не совершай рывков ногами и держи корпус зафиксированным."
-    ];
-  } else if (n.includes("узким хват") || n.includes("узким")) {
-    info.category = "Трицепс";
-    info.equipment = "Штанга / Скамья";
-    info.tier = "Тяжелая база на трицепс";
-    info.muscleMatrix = [
-      { name: "Латеральная, медиальная и длинная головки трицепса", percent: 100, role: "Главный агонист" },
-      { name: "Передняя дельта", percent: 60, role: "Синергист" },
-      { name: "Верхний край грудных мышц", percent: 50, role: "Синергист" }
-    ];
-    info.dos = [
-      "Хват ровно на ширине плеч (расстояние между ладонями 25–35 см).",
-      "При опускании прижимай локти ближе к бокам (угол 30–45°).",
-      "Опускай штангу на нижнюю границу грудных мышц."
-    ];
-    info.donts = [
-      "Не ставь руки вплотную (10 см) — это ломает кистевые суставы.",
-      "Не разводи локти в стороны под 90°."
-    ];
-  } else if (n.includes("француз")) {
-    info.category = "Трицепс";
-    info.equipment = "EZ-штанга / Гантели / Скамья";
-    info.tier = "Изолирующее силовое";
-    info.muscleMatrix = [
-      { name: "Длинная головка трицепса (масса руки)", percent: 100, role: "Главный агонист" },
-      { name: "Латеральная и медиальная головка трицепса", percent: 80, role: "Синергист" },
-      { name: "Мышцы предплечья (стабилизация)", percent: 40, role: "Стабилизаторы" }
-    ];
-    info.dos = [
-      "Наклони плечевые кости на 10–15° назад к голове, чтобы сохранить натяжение.",
-      "Опускай снаряд за макушку головы, а не ко лбу (безопаснее для локтей).",
-      "Локти держи строго параллельно друг другу."
-    ];
-    info.donts = [
-      "Не разводи локти широко в стороны.",
-      "Не двигай плечевым суставом во время разгибания."
-    ];
-  } else if (n.includes("разгибания рук") || (n.includes("блоке") && n.includes("трицепс")) || n.includes("канат") || n.includes("кикбэк") || n.includes("из-за головы")) {
-    info.category = "Трицепс";
-    info.equipment = "Гантели / Блок / Скамья";
-    info.tier = "Изолирующее";
-    info.muscleMatrix = [
-      { name: "Латеральная головка трицепса (подкова)", percent: 100, role: "Главный агонист" },
-      { name: "Медиальная головка трицепса", percent: 85, role: "Синергист" },
-      { name: "Длинная головка трицепса", percent: 65, role: "Синергист" }
-    ];
-    info.dos = [
-      "Локти прижаты к ребрам и неподвижны как на шарнирах.",
-      "В нижней точке полностью разгибай руки и разводи концы каната в стороны.",
-      "Пауза 1 секунда в пиковом сокращении."
-    ];
-    info.donts = [
-      "Не нависай всем весом тела над рукоятью.",
-      "Не уводи локти вперед и назад при движении."
-    ];
-  } else if (n.includes("бицепс") && !n.includes("скотт") && !n.includes("молот") && !n.includes("ног")) {
+  } else if (n.includes("на наклонной скамье 45°") && n.includes("бицепс")) {
     info.category = "Бицепс";
-    info.equipment = "Штанга / Гантели";
-    info.tier = "Золотая база на бицепс";
+    info.equipment = "Гантели / Наклонная скамья 45°";
+    info.tier = "Изолирующее в позиции максимального растяжения";
     info.muscleMatrix = [
-      { name: "Двуглавая мышца плеча (длинная и короткая головка)", percent: 100, role: "Главный агонист" },
-      { name: "Брахиалис (плечевая мышца)", percent: 75, role: "Синергист" },
-      { name: "Плечелучевая мышца и сгибатели кисти", percent: 60, role: "Синергист" }
+      { name: "Длинная (внешняя) головка бицепса", percent: 100, role: "Главный агонист (Растяжение)" },
+      { name: "Короткая (внутренняя) головка бицепса", percent: 75, role: "Синергист" },
+      { name: "Плечелучевая мышца и брахиалис", percent: 55, role: "Синергист" }
     ];
     info.dos = [
-      "Локти прижаты к бокам и слегка выдвинуты вперед на 2–3 см.",
-      "При работе с гантелями выполняй мощную супинацию (разворот кисти наружу).",
-      "Опускай снаряд медленно 3 секунды с полным контролем."
+      "Опусти плечи и локти свободно вниз-назад за плоскость скамьи.",
+      "Начинай подъем с легкой супинацией кисти (разворот мизинца наружу).",
+      "Контролируй эксцентрическую фазу (спуск 3 секунды) для максимальной гипертрофии."
     ];
     info.donts = [
-      "Никакого читинга и раскачки поясницей.",
-      "Не забрасывай локти высоко к плечам вверху (нагрузка уходит в дельты)."
+      "Не выводи локти вперед во время подъема (это крадет нагрузку передней дельтой).",
+      "Не бросай гантели в нижней точке до переразгибания локтевых связок.",
+      "Не отрывай голову и лопатки от спинки скамьи."
     ];
-  } else if (n.includes("скотт") || n.includes("scott")) {
+  } else if (n.includes("молотковые") && n.includes("наклонн")) {
     info.category = "Бицепс";
-    info.equipment = "Скамья Скотта / EZ-гриф";
-    info.tier = "Чистая изоляция";
+    info.equipment = "Гантели / Наклонная скамья 60°";
+    info.tier = "Изолирующее на брахиалис";
     info.muscleMatrix = [
-      { name: "Короткая (внутренняя) головка бицепса", percent: 100, role: "Главный агонист" },
-      { name: "Брахиалис", percent: 70, role: "Синергист" }
-    ];
-    info.dos = [
-      "Подмышки плотно упираются в верхний срез подушки.",
-      "Сгибай руки строго за счет сокращения бицепса без помощи корпуса."
-    ];
-    info.donts = [
-      "Не разгибай руки до конца до блокировки в локтях (риск травмы сухожилия).",
-      "Не отрывай грудь от опоры."
-    ];
-  } else if (n.includes("молот") || n.includes("hammer")) {
-    info.category = "Бицепс";
-    info.equipment = "Гантели / Нейтральный хват";
-    info.tier = "Формирующее базовое";
-    info.muscleMatrix = [
-      { name: "Брахиалис (выталкивает бицепс наружу)", percent: 100, role: "Главный агонист" },
-      { name: "Плечелучевая мышца (Brachioradialis)", percent: 90, role: "Главный агонист" },
+      { name: "Плечевая мышца (Брахиалис)", percent: 100, role: "Главный агонист (Толщина рук)" },
+      { name: "Плечелучевая мышца предплечья", percent: 85, role: "Синергист" },
       { name: "Длинная головка бицепса", percent: 70, role: "Синергист" }
     ];
     info.dos = [
-      "Ладони смотрят строго друг на друга (нейтральный хват) на всем пути.",
-      "Поднимай гантель подконтрольно, задерживая на 1 сек вверху."
+      "Держи строгий нейтральный хват (ладони параллельны друг другу).",
+      "Фиксируй локти в одной точке, работай только предплечьями.",
+      "Сжимай снаряд в пиковой точке подъема на 1 секунду."
     ];
     info.donts = [
-      "Не закручивай кисти внутрь или наружу.",
-      "Не забрасывай вес плечами."
+      "Не супинируй кисти — это переключает нагрузку с брахиалиса на бицепс.",
+      "Не раскачивай корпус для закидывания веса."
     ];
-  } else if ((n.includes("наклонн") || n.includes("45°")) && (n.includes("бицепс") || n.includes("гантел"))) {
+  } else if (n.includes("скамье скотта")) {
+    info.category = "Бицепс";
+    info.equipment = "Скамья Скотта / EZ-гриф / Гантели";
+    info.tier = "Жесткая изоляция короткой головки";
+    info.muscleMatrix = [
+      { name: "Короткая (внутренняя) головка бицепса", percent: 100, role: "Главный агонист" },
+      { name: "Плечевая мышца (Брахиалис)", percent: 75, role: "Синергист" },
+      { name: "Круглый пронатор", percent: 40, role: "Стабилизатор" }
+    ];
+    info.dos = [
+      "Подмышки плотно упри в верхний срез наклонной подушки.",
+      "В нижней точке останавливайся за 5° до полного выпрямления локтя, сохраняя натяжение.",
+      "Подъем выполняй плавно силой бицепса без рывка со старта."
+    ];
+    info.donts = [
+      "Никогда не бросай гриф внизу до удара в суставах — высок риск травмы сухожилия бицепса!",
+      "Не отрывай трицепсы и локти от подушки во время тяги."
+    ];
+  } else if (n.includes("паучьи") || n.includes("spider")) {
     info.category = "Бицепс";
     info.equipment = "Гантели / Наклонная скамья 45°";
-    info.tier = "Формирующее в растянутой позиции";
+    info.tier = "Изолирующее в пиковом сокращении";
     info.muscleMatrix = [
-      { name: "Длинная головка бицепса (внешний пик)", percent: 100, role: "Главный агонист" },
-      { name: "Короткая головка бицепса", percent: 75, role: "Синергист" },
-      { name: "Брахиалис и плечелучевая мышца", percent: 65, role: "Синергист" }
+      { name: "Короткая головка бицепса (Пик)", percent: 100, role: "Главный агонист" },
+      { name: "Брахиалис", percent: 70, role: "Синергист" },
+      { name: "Передняя дельта (стабилизация)", percent: 30, role: "Стабилизатор" }
     ];
     info.dos = [
-      "Угол наклона скамьи 45–60° (создает максимальное предварительное растяжение волокон).",
-      "Локти зафиксированы сзади корпуса и не выносятся вперед при подъеме.",
-      "В нижней точке делай паузу 1 сек с глубоким ощущением натяжения бицепса."
+      "Ложись грудью на наклонную скамью, руки свисают строго перпендикулярно полу.",
+      "Сгибай руки в локтях строго вверх к лицу, не двигая плечевой костью.",
+      "Делай 2-секундную паузу максимального сжатия в верхней точке."
     ];
     info.donts = [
-      "Не выдвигай локти вперед к груди — это ворует нагрузку передней дельтой.",
-      "Не отрывай лопатки и голову от спинки скамьи."
+      "Не закидывай локти назад вдоль скамьи.",
+      "Не запрокидывай шею назад."
     ];
-  } else if (n.includes("блока") && (n.includes("спин") || n.includes("поясу") || n.includes("тяга к груди"))) {
-    info.category = "Спина";
-    info.equipment = "Блочный тренажер / Рукояти";
-    info.tier = "Базовое на спину";
+  } else if (n.includes("концентрированные")) {
+    info.category = "Бицепс";
+    info.equipment = "Гантель / Горизонтальная скамья";
+    info.tier = "Точечная пиковая изоляция";
     info.muscleMatrix = [
-      { name: "Широчайшие мышцы спины", percent: 100, role: "Главный агонист" },
-      { name: "Ромбовидные и средняя часть трапеции", percent: 85, role: "Синергист" },
-      { name: "Бицепс и брахиалис", percent: 65, role: "Синергист" }
+      { name: "Двуглавая мышца плеча (Пик сокращения)", percent: 100, role: "Главный агонист" },
+      { name: "Плечевая мышца (Брахиалис)", percent: 70, role: "Синергист" }
     ];
     info.dos = [
-      "Движение начинается со сведения и опускания лопаток, а не с рывка руками.",
-      "Тяни локти строго назад вдоль корпуса.",
-      "Грудь подавай навстречу рукояти."
+      "Упри локоть рабочей руки в нижнюю треть внутренней поверхности бедра.",
+      "Корпус слегка наклонен вперед и абсолютно неподвижен.",
+      "Выполняй мощную супинацию в верхней точке амплитуды."
     ];
     info.donts = [
-      "Не сутулься и не задирай плечи к ушам.",
-      "Не отклоняйся корпусом назад на 45° (работает инерция вместо спины)."
+      "Не упирай локоть в верхнюю часть бедра или колено сверху.",
+      "Не помогай себе раскачкой плеча или спины."
     ];
-  } else if (n.includes("лицу") || n.includes("face pull")) {
-    info.category = "Спина / Плечи";
-    info.equipment = "Верхний блок / Двойной канат";
-    info.tier = "Лечебно-профилактическое (Здоровье шеи)";
+  } else if (n.includes("подъем гантелей на бицепс стоя")) {
+    info.category = "Бицепс";
+    info.equipment = "Гантели / Стойка";
+    info.tier = "Базовое с супинацией";
     info.muscleMatrix = [
-      { name: "Задняя дельта", percent: 100, role: "Главный агонист" },
-      { name: "Подостная и малая круглая мышцы (ротаторная манжета)", percent: 95, role: "Главный агонист" },
-      { name: "Ромбовидные мышцы (снятие спазма трапеции)", percent: 85, role: "Синергист" }
+      { name: "Двуглавая мышца плеча (Оба пучка)", percent: 100, role: "Главный агонист" },
+      { name: "Брахиалис", percent: 75, role: "Синергист" },
+      { name: "Мышцы кора и предплечья", percent: 45, role: "Стабилизаторы" }
     ];
     info.dos = [
-      "Тяни узел каната строго на уровень глаз/лба.",
-      "В конечной точке разводи кулаки назад за линию ушей (внешняя ротация плеча).",
-      "Фиксируй положение на 2 секунды для включения мышц-стабилизаторов лопатки."
+      "Стартуй из нейтрального хвата, начинай плавную супинацию с середины амплитуды.",
+      "Локти зафиксированы строго у ребер.",
+      "Опускай гантели подконтрольно за 2–3 секунды."
     ];
     info.donts = [
-      "Не бери слишком большой вес, ломающий траекторию.",
-      "Не опускай локти ниже кистей."
+      "Не отклоняй корпус назад при подъеме веса (читинг).",
+      "Не бросай руки вниз по инерции."
     ];
-  } else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк")) {
-    info.category = "Ноги";
-    info.equipment = "Тренажер жим ногами 45° / Гакк";
-    info.tier = "Тяжелая база на ноги";
+  } else if (n.includes("подъем штанги на бицепс")) {
+    info.category = "Бицепс";
+    info.equipment = "Штанга (Прямой или EZ-гриф)";
+    info.tier = "Золотая база на бицепс";
     info.muscleMatrix = [
-      { name: "Четырехглавая мышца бедра (квадрицепс)", percent: 100, role: "Главный агонист" },
-      { name: "Большая ягодичная мышца", percent: 80, role: "Синергист" },
-      { name: "Приводящие мышцы бедра", percent: 60, role: "Стабилизаторы" }
+      { name: "Двуглавая мышца плеча целиком", percent: 100, role: "Главный агонист" },
+      { name: "Брахиалис", percent: 80, role: "Синергист" },
+      { name: "Мышцы кора и поясница", percent: 50, role: "Стабилизаторы" }
     ];
     info.dos = [
-      "Упор стопами в платформу: усилие идет через середину стопы и пятку.",
-      "Колени всегда двигаются строго сонаправленно с носками стоп.",
-      "Опускай платформу до угла 90° в коленях без отрыва поясницы."
+      "Хват на ширине плеч, локти плотно прижаты к бокам.",
+      "Подъем выполняется исключительно силой сгибания локтевых суставов.",
+      "В верхней точке сжимай бицепсы без выведения локтей вперед."
     ];
     info.donts = [
-      "КАТЕГОРИЧЕСКИ НЕ ВСТАВЛЯЙ КОЛЕНИ ДО ЩЕЛЧКА ВВЕРХУ (опасность вывиха).",
-      "Не отрывай таз и крестец от сиденья в нижней точке (риск грыжи поясницы)."
+      "Не забрасывай штангу спиной и тазом.",
+      "Не сгибай запястья внутрь (держи кисть в нейтральной линии)."
     ];
-  } else if (n.includes("румынск")) {
-    info.category = "Ноги";
-    info.equipment = "Гантели / Штанга";
-    info.tier = "Базовое на заднюю цепь";
+  } else if (n.includes("нижнем блоке кроссовера")) {
+    info.category = "Бицепс";
+    info.equipment = "Нижний блок кроссовера / Прямая рукоять или канат";
+    info.tier = "Изолирующее с постоянным натяжением";
     info.muscleMatrix = [
-      { name: "Двуглавая мышца бедра (бицепс бедра)", percent: 100, role: "Главный агонист" },
-      { name: "Большая ягодичная мышца", percent: 90, role: "Главный агонист" },
-      { name: "Разгибатели позвоночника (поясница)", percent: 70, role: "Стабилизаторы" }
+      { name: "Двуглавая мышца плеча", percent: 100, role: "Главный агонист" },
+      { name: "Брахиалис", percent: 70, role: "Синергист" }
     ];
     info.dos = [
-      "Движение начинается с максимального отведения таза назад (петля бедра).",
-      "Спина идеально прямая с естественным прогибом, лопатки собраны.",
-      "Гантели скользят вплотную вдоль передней поверхности бедер и голеней."
+      "Сделай полшага назад от блока для создания стартового натяжения троса.",
+      "Сгибай руки по дуге к плечам, чувствуя постоянное сопротивление.",
+      "Задерживайся на 1 секунду в верхней точке максимального сокращения."
     ];
     info.donts = [
-      "Не горби спину 'колесом'.",
-      "Не приседай вниз коленями (это не приседание, а отвод таза)."
+      "Не допускай соприкосновения весовых плиток в нижней точке.",
+      "Не раскачивайся корпусом."
     ];
-  } else if (n.includes("мах") || (n.includes("дельт") && n.includes("сторон"))) {
+  } else if (n.includes("узким хватом")) {
+    info.category = "Трицепс";
+    info.equipment = "Штанга / Горизонтальная скамья";
+    info.tier = "Тяжелая база на трицепс";
+    info.muscleMatrix = [
+      { name: "Трицепс (Все 3 головки)", percent: 100, role: "Главный агонист" },
+      { name: "Передний пучок дельтовидной", percent: 70, role: "Синергист" },
+      { name: "Верхняя и внутренняя часть грудных", percent: 65, role: "Синергист" }
+    ];
+    info.dos = [
+      "Хват строго на ширине плеч (расстояние между кистями 25–30 см).",
+      "Опускай гриф к нижней границе грудных мышц.",
+      "Держи локти ближе к телу (под углом 30–45°)."
+    ];
+    info.donts = [
+      "Не берись слишком узко (хват в 10 см перегружает лучезапястные суставы!).",
+      "Не разводи локти перпендикулярно в стороны."
+    ];
+  } else if (n.includes("французский жим с гантелями")) {
+    info.category = "Трицепс";
+    info.equipment = "Гантели / Горизонтальная скамья";
+    info.tier = "Изолирующее на длинную и латеральную головки";
+    info.muscleMatrix = [
+      { name: "Длинная и латеральная головки трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Медиальная головка трицепса", percent: 80, role: "Синергист" }
+    ];
+    info.dos = [
+      "Опускай гантели параллельно по бокам от головы к вискам.",
+      "Локти удерживай направленными строго в потолок параллельно друг другу.",
+      "В нижней точке получай глубокое растяжение трицепса."
+    ];
+    info.donts = [
+      "Не разводи локти широко в стороны во время сгибания.",
+      "Не делай рывков из нижней точки растяжения."
+    ];
+  } else if (n.includes("французский жим со штангой")) {
+    info.category = "Трицепс";
+    info.equipment = "EZ-штанга / Горизонтальная скамья";
+    info.tier = "Базово-изолирующее на трицепс";
+    info.muscleMatrix = [
+      { name: "Длинная головка трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Латеральная и медиальная головки", percent: 85, role: "Синергист" }
+    ];
+    info.dos = [
+      "Отклони плечевые кости на 15° назад от вертикали к голове.",
+      "Опускай гриф за макушку головы, а не на лоб.",
+      "Разгибай локти подконтрольно до четкой фиксации."
+    ];
+    info.donts = [
+      "Не опускай гриф на переносицу или лоб.",
+      "Не двигай плечевым суставом вперед-назад (движение только в локтях)."
+    ];
+  } else if (n.includes("из-за головы") && n.includes("гантел")) {
+    info.category = "Трицепс";
+    info.equipment = "Гантель / Скамья с поддержкой спины";
+    info.tier = "Изолирующее в позиции максимального стретчинга";
+    info.muscleMatrix = [
+      { name: "Длинная головка трицепса (Стретч-гипертрофия)", percent: 100, role: "Главный агонист" },
+      { name: "Медиальная головка трицепса", percent: 75, role: "Синергист" }
+    ];
+    info.dos = [
+      "Локоть удерживай направленным вертикально вверх рядом с ухом.",
+      "Опускай снаряд глубоко за шею до полного натяжения трицепса.",
+      "Спина плотно прижата к опоре скамьи, пресс напряжен."
+    ];
+    info.donts = [
+      "Не разводи локоть в сторону от головы.",
+      "Не прогибай поясницу в попытке вытолкнуть вес."
+    ];
+  } else if (n.includes("блоке из-за головы") || (n.includes("из-за головы") && n.includes("блок"))) {
+    info.category = "Трицепс";
+    info.equipment = "Верхний блок / Канатная рукоять";
+    info.tier = "Изолирующее с постоянной растяжкой";
+    info.muscleMatrix = [
+      { name: "Длинная головка трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Латеральная головка", percent: 80, role: "Синергист" }
+    ];
+    info.dos = [
+      "Наклони корпус вперед на 30–45°, стоя спиной к верхнему блоку.",
+      "Разгибай руки вперед-вверх, разводя концы каната в стороны.",
+      "Ощущай постоянное непрерывное растяжение троса в стартовой точке."
+    ];
+    info.donts = [
+      "Не поднимай корпус вверх во время разгибания.",
+      "Не своди локти слишком узко к шее."
+    ];
+  } else if (n.includes("верхнем блоке с канатом")) {
+    info.category = "Трицепс";
+    info.equipment = "Верхний блок / Канатная рукоять";
+    info.tier = "Изолирующее на пиковое сокращение";
+    info.muscleMatrix = [
+      { name: "Латеральная и медиальная головки трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Длинная головка трицепса", percent: 70, role: "Синергист" }
+    ];
+    info.dos = [
+      "Локти зафиксируй намертво по бокам у ребер.",
+      "В нижней точке полностью выпрями руки и разводи кисти в стороны.",
+      "Удерживай пиковое сокращение 1 секунду на каждом повторении."
+    ];
+    info.donts = [
+      "Не выводи локти вперед и не помогай весом корпуса.",
+      "Не поднимай плечи к ушам."
+    ];
+  } else if (n.includes("прямой / v-рукоятью") || (n.includes("разгибания") && n.includes("v-рукоят"))) {
+    info.category = "Трицепс";
+    info.equipment = "Верхний блок / V-образная рукоять";
+    info.tier = "Изолирующее силовое на латеральную головку";
+    info.muscleMatrix = [
+      { name: "Латеральная (внешняя) головка трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Медиальная головка", percent: 85, role: "Синергист" }
+    ];
+    info.dos = [
+      "Жми на V-рукоять основанием ладоней, сохраняя легкий наклон корпуса.",
+      "Локти зафиксированы строго у талии.",
+      "Плавно поднимай рукоять до угла 90° в локтях без потери натяжения."
+    ];
+    info.donts = [
+      "Не закидывай рукоять слишком высоко к подбородку.",
+      "Не наваливайся грудью на снаряд."
+    ];
+  } else if (n.includes("обратные отжимания")) {
+    info.category = "Трицепс";
+    info.equipment = "Горизонтальная скамья / Собственный вес";
+    info.tier = "Базовое с собственным весом";
+    info.muscleMatrix = [
+      { name: "Трицепс плеча целиком", percent: 100, role: "Главный агонист" },
+      { name: "Передний пучок дельтовидной", percent: 65, role: "Синергист" },
+      { name: "Мышцы кора", percent: 40, role: "Стабилизаторы" }
+    ];
+    info.dos = [
+      "Ладони на краю скамьи строго на ширине плеч.",
+      "Спина скользит вниз вплотную к скамье (не удаляй таз вперед!).",
+      "Опускайся до угла 90° в локтевых суставах."
+    ];
+    info.donts = [
+      "Не опускайся слишком глубоко (острее 90°) — это перегружает суставную капсулу плеча.",
+      "Не отводи таз далеко от края скамьи."
+    ];
+  } else if (n.includes("кикбэк")) {
+    info.category = "Трицепс";
+    info.equipment = "Гантель / Скамья для упора";
+    info.tier = "Пиковая изоляция латеральной головки";
+    info.muscleMatrix = [
+      { name: "Латеральная головка трицепса", percent: 100, role: "Главный агонист" },
+      { name: "Длинная головка трицепса", percent: 75, role: "Синергист" }
+    ];
+    info.dos = [
+      "Корпус параллелен полу, плечевая кость зафиксирована параллельно полу чуть выше спины.",
+      "Разгибай предплечье строго назад до идеальной прямой линии.",
+      "Задерживайся в пиковом напряжении на 1 секунду."
+    ];
+    info.donts = [
+      "Не опускай локоть вниз во время движения.",
+      "Не раскачивай гантель маятником."
+    ];
+  } else if (n.includes("мах") && n.includes("сторон")) {
     info.category = "Плечи";
-    info.equipment = "Гантели";
+    info.equipment = "Гантели / Стоя";
     info.tier = "Изолирующее на ширину плеч";
     info.muscleMatrix = [
       { name: "Средний пучок дельтовидной мышцы", percent: 100, role: "Главный агонист" },
@@ -2866,16 +3069,22 @@ function getExerciseAnatomyInfo(exName) {
     info.dos = [
       "Наклони корпус слегка вперед на 5–10°.",
       "Движение ведут локти, кисти всегда чуть ниже локтей.",
-      "Поднимай снаряд строго до параллели с полом (не выше)."
+      "Поднимай снаряд строго до параллели с полом."
     ];
     info.donts = [
       "Не поджимай плечи к ушам (нагрузка забирается верхней трапецией).",
-      "Не задирай кисти выше локтей — это включает переднюю дельту вместо средней."
+      "Не задирай кисти выше локтей."
     ];
   }
 
   return info;
 }
+"@
+
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText("C:\Users\r.tofan\.gemini\antigravity\brain\a66ec815-768f-4f5a-8e6a-0af802481c84\visualizer_code.js", $code, $utf8NoBom)
+Write-Host "visualizer_code.js created!"
+
 
 let tempoMetronomeInterval = null;
 let currentVisualizerPhaseIdx = 0;
