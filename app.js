@@ -916,6 +916,9 @@ function renderHealthTabCalculations() {
   const badge = document.getElementById("active-goal-badge");
   if (badge) badge.textContent = cfg.shortName;
 
+  const headBadge = document.getElementById("athlete-goal-header-badge") || document.getElementById("meso-header-badge");
+  if (headBadge) headBadge.textContent = cfg.shortName;
+
   // Расчет BMR (Mifflin-St Jeor) и TDEE для Роман (32 г, 83 кг, 178 см)
   const weight = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83.0;
   const height = appState.height || 178;

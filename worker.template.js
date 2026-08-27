@@ -97,42 +97,39 @@ export default {
 
     return new Response(html, {
       status: 200,
-      headers: { "Content-Type": "text/html; charset=utf-8" }
+      headers: { 
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0",
+        "Pragma": "no-cache",
+        "Expires": "0",
+        "Surrogate-Control": "no-store"
+      }
     });
   }
 };
 
-async function handleTelegramMessage(msg, appUrl) {
+async function handleTelegramMessage(msg, origin) {
   const chatId = msg.chat.id;
-  const webAppUrl = appUrl.endsWith("/") ? appUrl : appUrl + "/";
+  const text = msg.text || "";
+  const v = Date.now();
+  const webAppUrl = `${origin}/?v=${v}`;
 
-  try {
-    await fetch(API_URL + "/setChatMenuButton", {
+  if (text.startsWith("/start") || text.startsWith("/app")) {
+    const welcome = `🏋️‍♂️ <b>IRON COACH ELITE 2.0</b>\n\nТвой персональный научный AI-тренер и био-аналитическая система.\n\n• Программы А, Б, В и Свободный тренинг\n• Анатомический атлас и видео-траектории\n• Умная замена упражнений\n• Интерактивный календарь и зал рекордов\n• BMR/TDEE расчет и персональные нутрицевтики\n\n👇 <i>Нажми кнопку ниже для входа:</i>`;
+    
+    await fetch(API_URL + "/sendMessage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        menu_button: {
-          type: "web_app",
-          text: "🚀 Приложение",
-          web_app: { url: webAppUrl }
+        text: welcome,
+        parse_mode: "HTML",
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "⚡ ОТКРЫТЬ IRON COACH 2.0 ⚡", web_app: { url: webAppUrl } }]
+          ]
         }
       })
     });
-  } catch(e) {}
-
-  await fetch(API_URL + "/sendMessage", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: "🦾 <b>Приветствую, Роман!</b>\n\nТвое персональное фитнес-приложение <b>IRON COACH ELITE</b> готово к работе!\n\n👇 <b>Нажми на кнопку ниже, чтобы открыть приложение:</b>",
-      parse_mode: "HTML",
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "🚀 Открыть Iron Coach", web_app: { url: webAppUrl } }]
-        ]
-      }
-    })
-  });
+  }
 }
