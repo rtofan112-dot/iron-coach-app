@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.9 PRO",
+  version: "v2.8.10 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -2351,10 +2351,10 @@ function toggleExerciseGuide(exIdx) {
   const isHidden = guideEl.classList.contains("hidden");
   if (isHidden) {
     guideEl.classList.remove("hidden");
-    if (btnEl) btnEl.textContent = "👀 Скрыть схему движения";
+    if (btnEl) btnEl.textContent = "✕ Скрыть схему";
   } else {
     guideEl.classList.add("hidden");
-    if (btnEl) btnEl.textContent = "👀 Схема движения & Техника";
+    if (btnEl) btnEl.textContent = "👀 Схема & Техника";
   }
   Sound.beep(550, 0.04);
   Haptic.impact('light');
@@ -2544,7 +2544,7 @@ function renderActiveWorkoutUI() {
             </div>
             <div class="flex space-x-2">
               <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-[#c8a97e] rounded-lg border border-[#c8a97e]/30 text-[10px] font-bold active:scale-95 transition-all">
-                👀 Скрыть схему движения
+                👀 Схема & Техника
               </button>
               <button type="button" onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-1 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] active:scale-95 transition-all">
                 Замена
@@ -2552,8 +2552,8 @@ function renderActiveWorkoutUI() {
             </div>
           </div>
 
-          <!-- ВИЗУАЛЬНЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И ТЕХНИКИ (ВИДЕН СРАЗУ) -->
-          <div id="ex-guide-${exIdx}" class="pt-2 space-y-3">
+          <!-- ВИЗУАЛЬНЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И ТЕХНИКИ (ПО УМОЛЧАНИЮ СКРЫТ) -->
+          <div id="ex-guide-${exIdx}" class="pt-2 space-y-3 hidden">
             <div class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2">
               ${diagramSvg}
             </div>
@@ -4994,18 +4994,4 @@ function updateSettingsDisplay() {
     const btn = document.getElementById("theme-btn-" + t);
     if (btn) btn.classList.toggle("active", t === curTheme);
   });
-}
-
-function toggleExerciseGuide(exIdx) {
-  const el = document.getElementById("ex-guide-" + exIdx);
-  const btn = document.getElementById("btn-guide-" + exIdx);
-  if (!el) return;
-  const isHidden = el.classList.contains("hidden");
-  el.classList.toggle("hidden", !isHidden);
-  if (btn) {
-    btn.textContent = isHidden ? "✕ Скрыть анатомию" : "👀 Анатомия & Техника";
-    btn.classList.toggle("bg-[#c8a97e]/20", isHidden);
-  }
-  Sound.beep(550, 0.04);
-  Haptic.impact('light');
 }
