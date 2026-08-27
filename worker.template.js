@@ -93,9 +93,22 @@ export default {
       return new Response("OK", { status: 200 });
     }
 
-    // 1. Попытка отдать свежайший бандл с GitHub (Live Auto-Sync)
+    // 1. Попытка отдать свежайший бандл с GitHub (Live Zero-Cache Auto-Sync)
     try {
-      const ghRes = await fetch("https://raw.githubusercontent.com/rtofan112-dot/iron-coach-app/main/bundle.html?v=" + Date.now(), {
+      let fetchUrl = "https://raw.githubusercontent.com/rtofan112-dot/iron-coach-app/main/bundle.html?v=" + Date.now();
+      try {
+        const commitRes = await fetch("https://api.github.com/repos/rtofan112-dot/iron-coach-app/commits/main", {
+          headers: { "User-Agent": "Cloudflare-Worker" }
+        });
+        if (commitRes.ok) {
+          const commitData = await commitRes.json();
+          if (commitData && commitData.sha) {
+            fetchUrl = `https://raw.githubusercontent.com/rtofan112-dot/iron-coach-app/${commitData.sha}/bundle.html`;
+          }
+        }
+      } catch(ce) {}
+
+      const ghRes = await fetch(fetchUrl, {
         headers: { "User-Agent": "Cloudflare-Worker" },
         cf: { cacheTtl: 0 }
       });

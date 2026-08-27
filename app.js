@@ -3,8 +3,8 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.7.0 PRO",
-  build: "v2.7.0 (Edge Ultimate)",
+  version: "v2.7.3 PRO",
+  build: "v2.7.3 (Push Hub & Edge Ultimate)",
   releaseDate: "2026-08-27"
 };
 
