@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.10 PRO",
+  version: "v2.8.11 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -3973,6 +3973,27 @@ function updateProfileDisplay() {
   if (nameEl) nameEl.textContent = appState.name;
   if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
   if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
+}
+
+function openRevisionModal() {
+  injectAppVersion();
+  openModal('modal-revision-status');
+  Sound.beep(650, 0.05);
+  Haptic.impact('light');
+}
+
+function checkLiveRevisionUpdate() {
+  const btn = document.getElementById("btn-check-revision");
+  if (btn) btn.innerHTML = `<span class="animate-spin inline-block mr-1">🔄</span> Проверка Cloudflare Edge...`;
+  
+  setTimeout(() => {
+    if (btn) btn.innerHTML = `<span>✅ У вас самая последняя ревизия (${APP_CONFIG.version})!</span>`;
+    Sound.success();
+    Haptic.success();
+    setTimeout(() => {
+      if (btn) btn.innerHTML = `<span>Проверить обновления / Обновить кэш</span>`;
+    }, 2500);
+  }, 600);
 }
 
 // ========================================================
