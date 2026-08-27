@@ -4161,6 +4161,30 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPersonalizedAIAnalytics();
   updateVacuumBadge();
   updateActiveWorkoutTopPill();
+
+  // Уведомление в Telegram-чат о выходе новой версии
+  const lastVersionSeen = localStorage.getItem("asutp_last_version_seen");
+  if (lastVersionSeen !== APP_CONFIG.version) {
+    localStorage.setItem("asutp_last_version_seen", APP_CONFIG.version);
+    const userId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ? window.Telegram.WebApp.initDataUnsafe.user.id : null;
+    if (userId) {
+      fetch("/api/send-push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatId: userId,
+          text: `🚀 <b>ВЫШЛО ОБНОВЛЕНИЕ IRON COACH ${APP_CONFIG.version}!</b>\n\n` +
+                `✨ <b>Что нового в этой версии:</b>\n` +
+                `• <b>Интуитивная шкала Запаса сил (RIR):</b> понятные бейджи 🟢 <i>Запас 2 (Рост)</i>, 🟠 <i>Запас 1 (Тяжело)</i>, 🔴 <i>Отказ 0</i> и встроенный справочник.\n` +
+                `• <b>Выделенный таб «⚙️ Настройки»:</b> 5 премиум-палитр (Obsidian Gold, Cyber Emerald, Titanium Ice, Ruby, Amethyst), сила вибрации и бэкапы.\n` +
+                `• <b>Состав тела & FFMI:</b> расчет % жира по формуле ВМФ США, сухой мышечной массы и атлетического потенциала.\n` +
+                `• <b>Чистый интерфейс тренировки:</b> сеты на первом плане, скрываемая анатомическая 2D-схема и анимированные векторы движения.\n\n` +
+                `👇 <i>Заходи и оцени обновленный интерфейс:</i>`,
+          withButton: true
+        })
+      }).catch(() => {});
+    }
+  }
 });
 
 
