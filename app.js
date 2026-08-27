@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.12 PRO",
+  version: "v2.8.13 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -3975,25 +3975,62 @@ function updateProfileDisplay() {
   if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
 }
 
+function forceAppReload() {
+  Sound.beep(700, 0.05);
+  Haptic.success();
+  const cleanUrl = window.location.href.split('?')[0];
+  window.location.href = `${cleanUrl}?v=${Date.now()}`;
+}
+
 function openRevisionModal() {
   injectAppVersion();
   openModal('modal-revision-status');
   Sound.beep(650, 0.05);
   Haptic.impact('light');
+  checkLiveRevisionUpdate(false);
 }
 
-function checkLiveRevisionUpdate() {
+async function checkLiveRevisionUpdate(isManual = true) {
   const btn = document.getElementById("btn-check-revision");
-  if (btn) btn.innerHTML = `<span class="animate-spin inline-block mr-1">🔄</span> Проверка Cloudflare Edge...`;
-  
-  setTimeout(() => {
-    if (btn) btn.innerHTML = `<span>✅ У вас самая последняя ревизия (${APP_CONFIG.version})!</span>`;
+  if (btn && isManual) {
+    btn.innerHTML = `<span class="animate-spin inline-block mr-1">🔄</span> Запрос к Cloudflare Edge...`;
+  }
+
+  try {
+    const res = await fetch(`/api/version?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache' }
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      const serverVersion = data.version || APP_CONFIG.version;
+      const isNewer = serverVersion !== APP_CONFIG.version;
+
+      if (isNewer) {
+        if (btn) {
+          btn.className = "w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-98 transition-all flex items-center justify-center space-x-2";
+          btn.innerHTML = `<span>🚀 Доступна ${serverVersion}! Загрузить обновление (1 клик)</span>`;
+          btn.onclick = forceAppReload;
+        }
+        Sound.record();
+        Haptic.success();
+        return;
+      }
+    }
+  } catch(e) {}
+
+  if (btn && isManual) {
+    btn.innerHTML = `<span>✅ Версия актуальна (${APP_CONFIG.version})! Кэш чист</span>`;
     Sound.success();
     Haptic.success();
     setTimeout(() => {
-      if (btn) btn.innerHTML = `<span>Проверить обновления / Обновить кэш</span>`;
+      if (btn) {
+        btn.innerHTML = `<span>Проверить обновления на сервере</span>`;
+        btn.onclick = () => checkLiveRevisionUpdate(true);
+      }
     }, 2500);
-  }, 600);
+  }
 }
 
 // ========================================================

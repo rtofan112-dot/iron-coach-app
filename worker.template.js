@@ -9,6 +9,28 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Получение информации о версии и актуальной ревизии
+    if (url.pathname === "/api/version") {
+      return new Response(JSON.stringify({
+        ok: true,
+        version: "v2.8.13 PRO",
+        buildTimestamp: Date.now(),
+        changelog: [
+          "Реальная проверка обновлений и мгновенная перезагрузка в 1 клик",
+          "Аутентичный боксерский колокол ринга",
+          "Умный адаптивный отдых",
+          "Авто-наследование веса",
+          "Сворачиваемая схема движения"
+        ]
+      }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"
+        }
+      });
+    }
+
     // Получение таблицы лидеров
     if (url.pathname === "/api/leaderboard" && request.method === "GET") {
       return new Response(JSON.stringify(globalLeaderboard), {
@@ -233,7 +255,7 @@ async function handleTelegramMessage(msg, origin) {
 
   if (text.startsWith("/start") || text.startsWith("/app") || text.startsWith("/help")) {
     const caption = `🔥 <b>Привет, ${firstName}!</b> (${username})\n\n` +
-      `Добро пожаловать в <b>IRON COACH ELITE v2.8.12 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
+      `Добро пожаловать в <b>IRON COACH ELITE v2.8.13 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
       `🏛 <b>Что внутри приложения:</b>\n` +
       `• <b>Научный тренинг:</b> Программы А, Б, В по методологии RP Strength & MAV/MEV\n` +
       `• <b>Защита ЦНС & лопаток:</b> Оценка готовности, биомеханические траектории и умная замена упражнений\n` +
