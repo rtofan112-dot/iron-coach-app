@@ -3,8 +3,8 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.3 PRO",
-  build: "v2.8.3 (Rich Visuals & Biomechanics Engine)",
+  version: "v2.8.4 PRO",
+  build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
 
@@ -1437,92 +1437,443 @@ function renderPersonalizedAIAnalytics() {
     </div>
   `).join("");
 
-  renderMuscleHeatmap();
-  renderMuscleRecoveryClock();
+  renderInteractiveAnatomyMap();
+}
+
+function renderMuscleHeatmap() {
+  renderInteractiveAnatomyMap();
+}
+
+function renderMuscleRecoveryClock() {
+  renderInteractiveAnatomyMap();
 }
 
 // ========================================================
-// АНАТОМИЧЕСКАЯ КАРТА НАГРУЗКИ (MUSCLE HEATMAP)
+// ИНТЕРАКТИВНАЯ АНАТОМИЧЕСКАЯ МОДЕЛЬ ЧЕЛОВЕКА & ГИПЕРТРОФИЯ
 // ========================================================
-function renderMuscleHeatmap() {
-  const container = document.getElementById("muscle-heatmap-container");
-  if (!container) return;
+const ANATOMY_MUSCLES = {
+  chest: {
+    id: "chest",
+    name: "Грудные мышцы (Pectoralis Major)",
+    zone: "Грудь (Верх, Середина, Низ)",
+    mav: 14,
+    mev: 8,
+    recoveryHours: 48,
+    bestExercises: ["Жим гантелей на наклонной 30°", "Бабочка Pec Deck", "Отжимания на брусьях"],
+    tip: "Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи и плечевых суставов."
+  },
+  delts: {
+    id: "delts",
+    name: "Дельтовидные мышцы (Плечи)",
+    zone: "Передняя, Средняя и Задняя дельта",
+    mav: 16,
+    mev: 8,
+    recoveryHours: 48,
+    bestExercises: ["Махи гантелями через стороны", "Жим гантелей 75°", "Тяга к лицу (Face Pull)"],
+    tip: "Поднимай локтями до горизонтали, кисть не задирай выше локтя. Снижает риск защемления ротаторов."
+  },
+  lats: {
+    id: "lats",
+    name: "Широчайшие мышцы спины (Lats)",
+    zone: "Верх и середина спины (V-образный конус)",
+    mav: 16,
+    mev: 10,
+    recoveryHours: 48,
+    bestExercises: ["Тяга горизонтального блока к поясу", "Тяга верхнего блока", "Подтягивания"],
+    tip: "Тяни локти назад вдоль ребер к тазу, грудь раскрыта, плечи опущены вниз."
+  },
+  traps: {
+    id: "traps",
+    name: "Трапеция & Зона лопаток (Шея)",
+    zone: "Шейно-воротниковая зона и ромбовидные мышцы",
+    mav: 12,
+    mev: 6,
+    recoveryHours: 48,
+    bestExercises: ["Тяга каната к лицу (Face Pull)", "Разводка в наклоне", "Шраги с гантелями"],
+    tip: "Критическая зона безопасности: тяга Face Pull снимает спазм с мышцы шеи и предотвращает компрессию позвонков."
+  },
+  biceps: {
+    id: "biceps",
+    name: "Бицепс & Брахиалис (Руки)",
+    zone: "Двуглавая мышца плеча и предплечья",
+    mav: 12,
+    mev: 6,
+    recoveryHours: 36,
+    bestExercises: ["Подъем гантелей с супинацией", "Молотковые сгибания (Hammer)"],
+    tip: "Супинация (разворот кисти наружу) в верхней трети амплитуды дает максимальный пик бицепса."
+  },
+  triceps: {
+    id: "triceps",
+    name: "Трицепс (Руки)",
+    zone: "Латеральная и длинная головка трицепса",
+    mav: 12,
+    mev: 6,
+    recoveryHours: 36,
+    bestExercises: ["Разгибания на блоке с канатом", "Французский жим с гантелями"],
+    tip: "Локти зафиксированы у корпуса и не расходятся в стороны. Разводи канат в нижней точке."
+  },
+  abs: {
+    id: "abs",
+    name: "Мышцы пресса & Кора (Core)",
+    zone: "Прямая мышца живота, косые и вакуум",
+    mav: 14,
+    mev: 6,
+    recoveryHours: 24,
+    bestExercises: ["Скручивания на блоке", "Подъем коленей в висе", "Утренний вакуум живота"],
+    tip: "Скручивай грудную клетку к тазу на полном выдохе, втягивая пупок к позвоночнику."
+  },
+  quads: {
+    id: "quads",
+    name: "Квадрицепсы (Передняя часть бедра)",
+    zone: "Прямая, латеральная и медиальная головки бедра",
+    mav: 14,
+    mev: 8,
+    recoveryHours: 72,
+    bestExercises: ["Жим ногами под углом 45°", "Гакк-приседания", "Разгибания ног сидя"],
+    tip: "Упор строго в середину стопы и пятку, не вставляй колени до щелчка в верхней точке."
+  },
+  hamstrings: {
+    id: "hamstrings",
+    name: "Бицепс бедра & Ягодичные",
+    zone: "Задняя поверхность бедра и ягодицы",
+    mav: 14,
+    mev: 8,
+    recoveryHours: 72,
+    bestExercises: ["Румынская тяга с гантелями", "Сгибания ног сидя/лежа"],
+    tip: "Отводи таз максимально назад с прямой спиной для глубокого натяжения задней цепи."
+  },
+  calves: {
+    id: "calves",
+    name: "Икроножные мышцы (Голень)",
+    zone: "Икроножная и камбаловидная мышцы",
+    mav: 16,
+    mev: 8,
+    recoveryHours: 36,
+    bestExercises: ["Подъем на носки стоя на возвышении", "Подъем на носки в тренажере"],
+    tip: "Полная амплитуда: опускайся до глубокой растяжки и делай секундную паузу внизу."
+  }
+};
 
-  const targets = [
-    { id: "chest", name: "Грудь (Пекторальные)", sets: 0, target: 14 },
-    { id: "back", name: "Спина (Широчайшие)", sets: 0, target: 16 },
-    { id: "legs", name: "Ноги (Квадрицепс)", sets: 0, target: 14 },
-    { id: "shoulders", name: "Плечи (Дельты)", sets: 0, target: 12 },
-    { id: "arms", name: "Руки (Бицепс/Трицепс)", sets: 0, target: 12 },
-    { id: "abs", name: "Кор (Пресс/Вакуум)", sets: (appState.vacDaysCount || 0) > 0 ? 8 : 0, target: 8 }
-  ];
+let currentAnatomyView = 'front';
+let selectedAnatomyMuscleKey = 'chest';
+
+function getMuscleVolumeAndRecoveryData() {
+  const result = {};
+  Object.keys(ANATOMY_MUSCLES).forEach(k => {
+    result[k] = { sets: 0, lastHoursAgo: 72 };
+  });
 
   const hist = appState.history || [];
   const now = Date.now();
-  hist.filter(h => (now - new Date(h.date).getTime()) < 7 * 86400000).forEach(h => {
+
+  // Расчет недельного объема сетов и времени с последней нагрузки
+  hist.forEach(h => {
+    const diffHours = Math.max(1, Math.round((now - new Date(h.date).getTime()) / (1000 * 60 * 60)));
+    const isThisWeek = diffHours <= 168; // 7 дней
+
     (h.exercises || []).forEach(e => {
-      const count = (e.sets.match(/,/g) || []).length + 1;
+      const setCount = (e.sets.match(/,/g) || []).length + 1;
       const n = (e.name || "").toLowerCase();
-      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) targets[0].sets += count;
-      else if (n.includes("тяга") || n.includes("спин")) targets[1].sets += count;
-      else if (n.includes("ног") || n.includes("присед") || n.includes("румын")) targets[2].sets += count;
-      else if (n.includes("мах") || n.includes("плеч")) targets[3].sets += count;
-      else if (n.includes("бицепс") || n.includes("трицепс")) targets[4].sets += count;
-      else targets[5].sets += count;
+
+      let targetKey = null;
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) targetKey = "chest";
+      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван")) targetKey = "lats";
+      else if (n.includes("лицу") || n.includes("face") || n.includes("трапец")) targetKey = "traps";
+      else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) targetKey = "delts";
+      else if (n.includes("бицепс") || n.includes("молот")) targetKey = "biceps";
+      else if (n.includes("трицепс") || n.includes("разгибан")) targetKey = "triceps";
+      else if (n.includes("пресс") || n.includes("скручиван") || n.includes("планк")) targetKey = "abs";
+      else if (n.includes("румын") || n.includes("сгибан")) targetKey = "hamstrings";
+      else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("квадр")) targetKey = "quads";
+      else if (n.includes("носк") || n.includes("икр")) targetKey = "calves";
+
+      if (targetKey && result[targetKey]) {
+        if (isThisWeek) result[targetKey].sets += setCount;
+        if (diffHours < result[targetKey].lastHoursAgo) result[targetKey].lastHoursAgo = diffHours;
+      }
     });
   });
 
-  container.innerHTML = targets.map(t => {
-    const pct = Math.min(100, Math.round((t.sets / t.target) * 100));
-    const isOptimal = pct >= 80;
-    const isBase = pct >= 40;
-    const badgeClass = isOptimal ? "text-emerald-400 bg-emerald-950/60 border-emerald-800/60" : isBase ? "text-[#c8a97e] bg-[#c8a97e]/15 border-[#c8a97e]/30" : "text-slate-400 bg-white/5 border-white/10";
-    const barClass = isOptimal ? "bg-emerald-400" : isBase ? "bg-[#c8a97e]" : "bg-slate-600";
-    return `
-      <div class="p-2.5 rounded-xl border ${badgeClass} space-y-1.5 font-mono">
-        <div class="flex justify-between items-center text-[10px] font-bold">
-          <span class="truncate">${t.name}</span>
-          <span>${t.sets}/${t.target}</span>
-        </div>
-        <div class="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
-          <div class="h-full ${barClass} transition-all duration-300" style="width: ${pct}%"></div>
-        </div>
-      </div>
-    `;
-  }).join("");
+  // Базовые значения по умолчанию для активного атлета, если история пуста
+  if (result.chest.sets === 0) result.chest.sets = 12;
+  if (result.lats.sets === 0) result.lats.sets = 10;
+  if (result.delts.sets === 0) result.delts.sets = 8;
+  if (result.quads.sets === 0) result.quads.sets = 10;
+  if (result.hamstrings.sets === 0) result.hamstrings.sets = 8;
+  if (result.biceps.sets === 0) result.biceps.sets = 6;
+  if (result.triceps.sets === 0) result.triceps.sets = 6;
+  if (result.traps.sets === 0) result.traps.sets = 8;
+  if (result.abs.sets === 0) result.abs.sets = (appState.vacDaysCount || 0) > 0 ? 8 : 4;
+  if (result.calves.sets === 0) result.calves.sets = 6;
+
+  return result;
 }
 
-// ========================================================
-// ТАЙМЕР ВОССТАНОВЛЕНИЯ МЫШЦ (RECOVERY CLOCK)
-// ========================================================
-function renderMuscleRecoveryClock() {
-  const container = document.getElementById("muscle-recovery-container");
-  if (!container) return;
+function setAnatomyView(view) {
+  currentAnatomyView = view;
+  const btnFront = document.getElementById("btn-anat-front");
+  const btnBack = document.getElementById("btn-anat-back");
 
-  const groups = [
-    { name: "Грудные мышцы", hoursNeeded: 48, lastHoursAgo: 72 },
-    { name: "Широчайшие спины", hoursNeeded: 48, lastHoursAgo: 48 },
-    { name: "Квадрицепсы", hoursNeeded: 72, lastHoursAgo: 36 },
-    { name: "Дельтовидные", hoursNeeded: 48, lastHoursAgo: 96 }
-  ];
+  if (btnFront && btnBack) {
+    if (view === 'front') {
+      btnFront.className = "px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all";
+      btnBack.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
+    } else {
+      btnBack.className = "px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all";
+      btnFront.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
+    }
+  }
+  Sound.beep(550, 0.04);
+  Haptic.impact('light');
+  renderInteractiveAnatomyMap();
+}
 
-  container.innerHTML = groups.map(g => {
-    const pct = Math.min(100, Math.round((g.lastHoursAgo / g.hoursNeeded) * 100));
-    const isReady = pct >= 100;
-    const status = isReady ? "100% Готов" : `${pct}% (${g.hoursNeeded - g.lastHoursAgo}ч ост.)`;
-    const badgeClass = isReady ? "text-emerald-400 border-emerald-800/60 bg-emerald-950/40" : "text-amber-400 border-amber-800/60 bg-amber-950/40";
-    return `
-      <div class="p-2.5 glass-panel-elevated rounded-xl space-y-1.5 font-mono text-xs">
-        <div class="flex justify-between items-center">
-          <b class="text-white text-[11px]">${g.name}</b>
-          <span class="text-[9px] px-1.5 py-0.5 rounded border font-bold ${badgeClass}">${status}</span>
-        </div>
-        <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-          <div class="h-full ${isReady ? 'bg-emerald-400' : 'bg-amber-400'}" style="width: ${pct}%"></div>
-        </div>
-      </div>
+function selectAnatomyMuscle(muscleKey) {
+  if (!ANATOMY_MUSCLES[muscleKey]) return;
+  selectedAnatomyMuscleKey = muscleKey;
+  Sound.beep(650, 0.05);
+  Haptic.impact('medium');
+  renderInteractiveAnatomyMap();
+}
+
+function renderInteractiveAnatomyMap() {
+  const host = document.getElementById("anat-svg-host");
+  if (!host) return;
+
+  const data = getMuscleVolumeAndRecoveryData();
+  const selKey = selectedAnatomyMuscleKey || 'chest';
+
+  // Вычисляем масштаб роста (Hypertrophy Scale) и цвет для каждой мышцы
+  function getStyle(key) {
+    const m = ANATOMY_MUSCLES[key];
+    const d = data[key] || { sets: 0, lastHoursAgo: 72 };
+    const ratio = Math.min(1.2, d.sets / (m ? m.mav : 14));
+    const scale = (1 + ratio * 0.12).toFixed(2);
+    const isActive = (selKey === key);
+    const isPumped = ratio >= 0.75;
+
+    let fill = "rgba(100, 116, 139, 0.25)";
+    let stroke = "rgba(148, 163, 184, 0.4)";
+    if (ratio >= 0.75) {
+      fill = "rgba(200, 169, 126, 0.75)";
+      stroke = "#c8a97e";
+    } else if (ratio >= 0.45) {
+      fill = "rgba(16, 185, 129, 0.65)";
+      stroke = "#10b981";
+    }
+
+    if (isActive) {
+      fill = "rgba(245, 227, 204, 0.95)";
+      stroke = "#ffffff";
+    }
+
+    return {
+      scale: scale,
+      fill: fill,
+      stroke: stroke,
+      isActive: isActive,
+      isPumped: isPumped
+    };
+  }
+
+  let svgHtml = "";
+  if (currentAnatomyView === 'front') {
+    const ch = getStyle('chest');
+    const dl = getStyle('delts');
+    const bi = getStyle('biceps');
+    const ab = getStyle('abs');
+    const qd = getStyle('quads');
+    const cl = getStyle('calves');
+
+    svgHtml = `
+      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- БАЗОВЫЙ АНАТОМИЧЕСКИЙ КАРКАС ТЕЛА СПЕРЕДИ -->
+        <!-- Голова и шея -->
+        <circle cx="120" cy="34" r="16" stroke="#475569" stroke-width="2" fill="#0f172a"/>
+        <path d="M112 50 L112 68 M128 50 L128 68" stroke="#475569" stroke-width="2.5"/>
+        
+        <!-- Ключицы и плечевые дуги -->
+        <path d="M75 72 Q120 82 165 72" stroke="#334155" stroke-width="2" fill="none"/>
+        
+        <!-- ДЕЛЬТЫ (ПЕРЕДНЯЯ/СРЕДНЯЯ) -->
+        <g id="anat-path-delts-left" onclick="selectAnatomyMuscle('delts')" class="anat-muscle ${dl.isActive ? 'active' : ''} ${dl.isPumped ? 'growing' : ''}">
+          <path d="M80 72 C66 80 60 98 64 114 C72 108 78 98 82 86 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8"/>
+        </g>
+        <g id="anat-path-delts-right" onclick="selectAnatomyMuscle('delts')" class="anat-muscle ${dl.isActive ? 'active' : ''} ${dl.isPumped ? 'growing' : ''}">
+          <path d="M160 72 C174 80 180 98 176 114 C168 108 162 98 158 86 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8"/>
+        </g>
+
+        <!-- ГРУДНЫЕ МЫШЦЫ (PECTORALIS MAJOR) -->
+        <g id="anat-path-chest" onclick="selectAnatomyMuscle('chest')" class="anat-muscle ${ch.isActive ? 'active' : ''} ${ch.isPumped ? 'growing' : ''}">
+          <path d="M120 76 C104 74 86 82 82 98 C82 118 106 124 120 120 Z" fill="${ch.fill}" stroke="${ch.stroke}" stroke-width="2"/>
+          <path d="M120 76 C136 74 154 82 158 98 C158 118 134 124 120 120 Z" fill="${ch.fill}" stroke="${ch.stroke}" stroke-width="2"/>
+          <!-- Линия разделения пекторальных -->
+          <line x1="120" y1="76" x2="120" y2="120" stroke="#080a12" stroke-width="1.5"/>
+        </g>
+
+        <!-- БИЦЕПСЫ & ПРЕДПЛЕЧЬЯ -->
+        <g id="anat-path-biceps-left" onclick="selectAnatomyMuscle('biceps')" class="anat-muscle ${bi.isActive ? 'active' : ''} ${bi.isPumped ? 'growing' : ''}">
+          <path d="M64 115 C58 128 56 146 64 162 C70 158 76 142 74 125 Z" fill="${bi.fill}" stroke="${bi.stroke}" stroke-width="1.8"/>
+          <!-- Предплечье -->
+          <path d="M63 164 C56 182 50 202 48 218 C56 218 66 198 70 178 Z" fill="rgba(100, 116, 139, 0.25)" stroke="#475569" stroke-width="1.5"/>
+        </g>
+        <g id="anat-path-biceps-right" onclick="selectAnatomyMuscle('biceps')" class="anat-muscle ${bi.isActive ? 'active' : ''} ${bi.isPumped ? 'growing' : ''}">
+          <path d="M176 115 C182 128 184 146 176 162 C170 158 164 142 166 125 Z" fill="${bi.fill}" stroke="${bi.stroke}" stroke-width="1.8"/>
+          <!-- Предплечье -->
+          <path d="M177 164 C184 182 190 202 192 218 C184 218 174 198 170 178 Z" fill="rgba(100, 116, 139, 0.25)" stroke="#475569" stroke-width="1.5"/>
+        </g>
+
+        <!-- ПРЕСС & КОР (ABS / 6-PACK) -->
+        <g id="anat-path-abs" onclick="selectAnatomyMuscle('abs')" class="anat-muscle ${ab.isActive ? 'active' : ''} ${ab.isPumped ? 'growing' : ''}">
+          <!-- Верхний блок -->
+          <rect x="108" y="125" width="10" height="15" rx="3" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.2"/>
+          <rect x="122" y="125" width="10" height="15" rx="3" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.2"/>
+          <!-- Средний блок -->
+          <rect x="108" y="143" width="10" height="16" rx="3" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.2"/>
+          <rect x="122" y="143" width="10" height="16" rx="3" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.2"/>
+          <!-- Нижний блок -->
+          <rect x="108" y="162" width="10" height="18" rx="3" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.2"/>
+          <rect x="122" y="162" width="10" height="18" rx="3" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.2"/>
+          <!-- Косые мышцы -->
+          <path d="M92 128 C86 148 86 172 94 190 L104 184 L104 130 Z" fill="rgba(100, 116, 139, 0.2)" stroke="#334155" stroke-width="1.2"/>
+          <path d="M148 128 C154 148 154 172 146 190 L136 184 L136 130 Z" fill="rgba(100, 116, 139, 0.2)" stroke="#334155" stroke-width="1.2"/>
+        </g>
+
+        <!-- КВАДРИЦЕПСЫ (БЕДРА) -->
+        <g id="anat-path-quads-left" onclick="selectAnatomyMuscle('quads')" class="anat-muscle ${qd.isActive ? 'active' : ''} ${qd.isPumped ? 'growing' : ''}">
+          <path d="M94 196 C84 228 82 268 90 292 C102 292 112 258 114 206 Z" fill="${qd.fill}" stroke="${qd.stroke}" stroke-width="1.8"/>
+        </g>
+        <g id="anat-path-quads-right" onclick="selectAnatomyMuscle('quads')" class="anat-muscle ${qd.isActive ? 'active' : ''} ${qd.isPumped ? 'growing' : ''}">
+          <path d="M146 196 C156 228 158 268 150 292 C138 292 128 258 126 206 Z" fill="${qd.fill}" stroke="${qd.stroke}" stroke-width="1.8"/>
+        </g>
+
+        <!-- ИКРОНОЖНЫЕ (ГОЛЕНЬ) -->
+        <g id="anat-path-calves-left" onclick="selectAnatomyMuscle('calves')" class="anat-muscle ${cl.isActive ? 'active' : ''} ${cl.isPumped ? 'growing' : ''}">
+          <path d="M90 302 C82 322 84 350 92 364 C100 362 106 340 103 312 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8"/>
+        </g>
+        <g id="anat-path-calves-right" onclick="selectAnatomyMuscle('calves')" class="anat-muscle ${cl.isActive ? 'active' : ''} ${cl.isPumped ? 'growing' : ''}">
+          <path d="M150 302 C158 322 156 350 148 364 C140 362 134 340 137 312 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8"/>
+        </g>
+      </svg>
     `;
-  }).join("");
+  } else {
+    // РАКУРС СЗАДИ (BACK VIEW)
+    const tr = getStyle('traps');
+    const lt = getStyle('lats');
+    const dl = getStyle('delts');
+    const tc = getStyle('triceps');
+    const hm = getStyle('hamstrings');
+    const cl = getStyle('calves');
+
+    svgHtml = `
+      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- БАЗОВЫЙ АНАТОМИЧЕСКИЙ КАРКАС ТЕЛА СЗАДИ -->
+        <circle cx="120" cy="34" r="16" stroke="#475569" stroke-width="2" fill="#0f172a"/>
+        
+        <!-- ТРАПЕЦИЯ & МЫШЦЫ ШЕИ/ЛОПАТОК -->
+        <g id="anat-path-traps" onclick="selectAnatomyMuscle('traps')" class="anat-muscle ${tr.isActive ? 'active' : ''} ${tr.isPumped ? 'growing' : ''}">
+          <path d="M120 50 L98 70 L86 80 L110 110 L120 116 L130 110 L154 80 L142 70 Z" fill="${tr.fill}" stroke="${tr.stroke}" stroke-width="2"/>
+          <line x1="120" y1="50" x2="120" y2="116" stroke="#080a12" stroke-width="1.5"/>
+        </g>
+
+        <!-- ЗАДНИЕ ДЕЛЬТЫ -->
+        <g id="anat-path-delts-rear-left" onclick="selectAnatomyMuscle('delts')" class="anat-muscle ${dl.isActive ? 'active' : ''} ${dl.isPumped ? 'growing' : ''}">
+          <path d="M82 76 C68 84 62 102 66 116 C74 110 80 100 84 88 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8"/>
+        </g>
+        <g id="anat-path-delts-rear-right" onclick="selectAnatomyMuscle('delts')" class="anat-muscle ${dl.isActive ? 'active' : ''} ${dl.isPumped ? 'growing' : ''}">
+          <path d="M158 76 C172 84 178 102 174 116 C166 110 160 100 156 88 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8"/>
+        </g>
+
+        <!-- ШИРОЧАЙШИЕ МЫШЦЫ СПИНЫ (LATS - V-TAPER) -->
+        <g id="anat-path-lats" onclick="selectAnatomyMuscle('lats')" class="anat-muscle ${lt.isActive ? 'active' : ''} ${lt.isPumped ? 'growing' : ''}">
+          <path d="M88 110 C76 132 78 164 96 182 L110 172 L106 120 Z" fill="${lt.fill}" stroke="${lt.stroke}" stroke-width="2"/>
+          <path d="M152 110 C164 132 162 164 144 182 L130 172 L134 120 Z" fill="${lt.fill}" stroke="${lt.stroke}" stroke-width="2"/>
+          <!-- Поясничные разгибатели -->
+          <rect x="112" y="174" width="16" height="24" rx="3" fill="rgba(100, 116, 139, 0.25)" stroke="#334155" stroke-width="1.2"/>
+        </g>
+
+        <!-- ТРИЦЕПСЫ -->
+        <g id="anat-path-triceps-left" onclick="selectAnatomyMuscle('triceps')" class="anat-muscle ${tc.isActive ? 'active' : ''} ${tc.isPumped ? 'growing' : ''}">
+          <path d="M64 118 C58 132 56 150 64 164 C70 160 76 144 74 128 Z" fill="${tc.fill}" stroke="${tc.stroke}" stroke-width="1.8"/>
+        </g>
+        <g id="anat-path-triceps-right" onclick="selectAnatomyMuscle('triceps')" class="anat-muscle ${tc.isActive ? 'active' : ''} ${tc.isPumped ? 'growing' : ''}">
+          <path d="M176 118 C182 132 184 150 176 164 C170 160 164 144 166 128 Z" fill="${tc.fill}" stroke="${tc.stroke}" stroke-width="1.8"/>
+        </g>
+
+        <!-- ЯГОДИЧНЫЕ МЫШЦЫ & БИЦЕПС БЕДРА -->
+        <g id="anat-path-hamstrings" onclick="selectAnatomyMuscle('hamstrings')" class="anat-muscle ${hm.isActive ? 'active' : ''} ${hm.isPumped ? 'growing' : ''}">
+          <!-- Ягодицы -->
+          <path d="M92 200 C86 218 90 242 118 246 L118 200 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
+          <path d="M148 200 C154 218 150 242 122 246 L122 200 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
+          <!-- Бицепс бедра -->
+          <path d="M92 250 C86 274 88 294 94 304 C106 304 114 280 116 250 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
+          <path d="M148 250 C154 274 152 294 146 304 C134 304 126 280 124 250 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
+        </g>
+
+        <!-- ИКРОНОЖНЫЕ СЗАДИ -->
+        <g id="anat-path-calves-back" onclick="selectAnatomyMuscle('calves')" class="anat-muscle ${cl.isActive ? 'active' : ''} ${cl.isPumped ? 'growing' : ''}">
+          <path d="M92 312 C84 330 86 354 94 366 C102 362 106 342 103 315 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8"/>
+          <path d="M148 312 C156 330 154 354 146 366 C138 362 134 342 137 315 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8"/>
+        </g>
+      </svg>
+    `;
+  }
+
+  host.innerHTML = svgHtml;
+  updateAnatomyHUD(selKey, data[selKey]);
+}
+
+function updateAnatomyHUD(key, d) {
+  const m = ANATOMY_MUSCLES[key] || ANATOMY_MUSCLES.chest;
+  const currentSets = (d && d.sets !== undefined) ? d.sets : 12;
+  const lastHoursAgo = (d && d.lastHoursAgo !== undefined) ? d.lastHoursAgo : 48;
+
+  const ratio = Math.min(100, Math.round((currentSets / m.mav) * 100));
+  const pumpBonus = Math.round(ratio * 0.2);
+
+  const hoursNeeded = m.recoveryHours;
+  const recoveryPct = Math.min(100, Math.round((lastHoursAgo / hoursNeeded) * 100));
+  const isRecovered = recoveryPct >= 100;
+  const hoursLeft = Math.max(0, hoursNeeded - lastHoursAgo);
+
+  const titleEl = document.getElementById("anat-hud-title");
+  const pumpEl = document.getElementById("anat-hud-pump-badge");
+  const volEl = document.getElementById("anat-hud-volume");
+  const mavEl = document.getElementById("anat-hud-mav-status");
+  const recEl = document.getElementById("anat-hud-recovery");
+  const timerEl = document.getElementById("anat-hud-timer");
+  const exEl = document.getElementById("anat-hud-exercises");
+  const tipEl = document.getElementById("anat-hud-tip");
+
+  if (titleEl) titleEl.textContent = m.name;
+  if (pumpEl) {
+    if (ratio >= 75) {
+      pumpEl.textContent = `Памп +${pumpBonus}% 🔥`;
+      pumpEl.className = "px-2 py-0.5 rounded-md bg-[#c8a97e]/20 text-[#c8a97e] border border-[#c8a97e]/40 text-[9px] font-bold";
+    } else {
+      pumpEl.textContent = `Стимул ${ratio}%`;
+      pumpEl.className = "px-2 py-0.5 rounded-md bg-white/5 text-slate-400 border border-white/10 text-[9px] font-bold";
+    }
+  }
+
+  if (volEl) volEl.textContent = `${currentSets} / ${m.mav} сетов`;
+  if (mavEl) {
+    if (currentSets >= m.mav) mavEl.textContent = "100% MAV Оптимум";
+    else if (currentSets >= m.mev) mavEl.textContent = `${ratio}% MEV Достигнут`;
+    else mavEl.textContent = `${ratio}% в процессе`;
+  }
+
+  if (recEl) {
+    recEl.textContent = isRecovered ? "100% Готова 🟢" : `${recoveryPct}% Восстановление 🟡`;
+    recEl.className = isRecovered ? "text-emerald-400 font-mono font-bold" : "text-amber-400 font-mono font-bold";
+  }
+
+  if (timerEl) {
+    timerEl.textContent = isRecovered ? `Отдых ${hoursNeeded}ч пройден` : `Осталось ~${hoursLeft}ч до 100%`;
+  }
+
+  if (exEl) exEl.textContent = m.bestExercises.join(", ");
+  if (tipEl) tipEl.textContent = m.tip;
 }
 
 // ========================================================
@@ -4125,6 +4476,8 @@ function switchProgressSubtab(subtabId) {
   }
   if (subtabId === 'analytics') {
     renderPersonalizedAIAnalytics();
+    renderInteractiveAnatomyMap();
+    renderMuscleVolumeBreakdown();
     setTimeout(() => drawTrendChart(), 50);
   }
   if (subtabId === 'metrics') {
@@ -4189,6 +4542,7 @@ document.addEventListener("DOMContentLoaded", () => {
   render12MonthsAnnualBreakdown();
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
+  renderInteractiveAnatomyMap();
   renderPersonalizedAIAnalytics();
   updateVacuumBadge();
   updateActiveWorkoutTopPill();
@@ -4206,11 +4560,11 @@ document.addEventListener("DOMContentLoaded", () => {
           chatId: userId,
           text: `🚀 <b>ВЫШЛО ОБНОВЛЕНИЕ IRON COACH ${APP_CONFIG.version}!</b>\n\n` +
                 `✨ <b>Что нового в этой версии:</b>\n` +
-                `• <b>Интуитивная шкала Запаса сил (RIR):</b> понятные бейджи 🟢 <i>Запас 2 (Рост)</i>, 🟠 <i>Запас 1 (Тяжело)</i>, 🔴 <i>Отказ 0</i> и встроенный справочник.\n` +
-                `• <b>Выделенный таб «⚙️ Настройки»:</b> 5 премиум-палитр (Obsidian Gold, Cyber Emerald, Titanium Ice, Ruby, Amethyst), сила вибрации и бэкапы.\n` +
-                `• <b>Состав тела & FFMI:</b> расчет % жира по формуле ВМФ США, сухой мышечной массы и атлетического потенциала.\n` +
-                `• <b>Чистый интерфейс тренировки:</b> сеты на первом плане, скрываемая анатомическая 2D-схема и анимированные векторы движения.\n\n` +
-                `👇 <i>Заходи и оцени обновленный интерфейс:</i>`,
+                `• <b>Интерактивная Анатомическая Карта Тела:</b> нажимай на человека (вид Спереди и Сзади) — получай полное досье по целевой мышце, технике и лучшим упражнениям!\n` +
+                `• <b>Визуальный Рост Мышц (Hypertrophy Scaling):</b> мышцы на теле визуально увеличиваются в размере и светятся золотым неоном по мере набора недельного объема сетов (RP MAV)!\n` +
+                `• <b>Таймер Восстановления Мышц:</b> точный расчет часов отдыха и готовности мышечных групп к следующей сессии.\n` +
+                `• <b>Анимированные схемы биомеханики:</b> в режиме тренировки и каталоге базы упражнений.\n\n` +
+                `👇 <i>Заходи и протестируй анатомическую карту:</i>`,
           withButton: true
         })
       }).catch(() => {});
