@@ -752,7 +752,7 @@ body[data-theme="purple"] {
 .muscle-bar-fill {
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-</style> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[#c8a97e] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded-md">v2.8.22 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[#c8a97e] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[#c8a97e] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
+</style> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[#c8a97e] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded-md">v2.8.23 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[#c8a97e] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[#c8a97e] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
 
     <!-- СВЕТЯЩИЙСЯ ИНДИКАТОР ПОСЛЕДНЕЙ РЕВИЗИИ (LIVE BETA PULSE) -->
     <div onclick="openRevisionModal()" class="max-w-md mx-auto mt-2 px-3 py-1.5 rounded-xl bg-[#080a12] border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:border-emerald-500/60 active:scale-98 transition-all font-mono text-[10px] shadow-sm">
@@ -762,7 +762,7 @@ body[data-theme="purple"] {
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <span class="text-slate-300 font-bold">РЕВИЗИЯ:</span>
-        <span class="app-version-badge text-emerald-400 font-bold">v2.8.22 PRO</span>
+        <span class="app-version-badge text-emerald-400 font-bold">v2.8.23 PRO</span>
         <span class="text-slate-600">•</span>
         <span class="text-slate-400">Live Edge Beta</span>
       </div>
@@ -1035,14 +1035,15 @@ body[data-theme="purple"] {
         <div class="p-3 space-y-2 border-b border-white/[0.06] bg-[#070910]">
           <input type="text" id="swap-search-input" oninput="renderSwapExerciseAlternativesList()" placeholder="Поиск точного аналога по названию..." class="w-full bg-[#121522] border border-white/10 px-3 py-2 rounded-xl text-white font-sans text-xs outline-none">
           <div class="flex space-x-1.5 text-[10px]">
-            <button onclick="setSwapCategoryFilter('recommended')" id="btn-swap-cat-rec" class="flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center">🎯 Точные аналоги (Та же мышца)</button>
-            <button onclick="setSwapCategoryFilter('all')" id="btn-swap-cat-all" class="py-1.5 px-3 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">Весь каталог</button>
+            <button onclick="setSwapCategoryFilter('twins')" id="btn-swap-cat-twins" class="flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center">🎯 1-в-1 Аналоги</button>
+            <button onclick="setSwapCategoryFilter('same-group')" id="btn-swap-cat-same" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">Вся группа</button>
+            <button onclick="setSwapCategoryFilter('all')" id="btn-swap-cat-all" class="py-1.5 px-2.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">Весь каталог</button>
           </div>
         </div>
         <div id="swap-alternatives-list" class="p-3 space-y-2 overflow-y-auto flex-1 max-h-[50vh]"></div>
       </div>
     </div>
-    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[#c8a97e] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[#c8a97e]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[#c8a97e]">v2.8.22 PRO (Interactive Anatomical Model)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[#c8a97e] font-bold rounded-xl border border-white/10 active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
+    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[#c8a97e] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[#c8a97e]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[#c8a97e]">v2.8.23 PRO (Interactive Anatomical Model)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[#c8a97e] font-bold rounded-xl border border-white/10 active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
 
         <!-- PUSH УВЕДОМЛЕНИЯ В TELEGRAM -->
         <div class="p-3.5 bg-[#080a10] rounded-2xl border border-white/10 space-y-2.5 font-mono text-xs">
@@ -1447,7 +1448,7 @@ body[data-theme="purple"] {
           <span class="text-slate-400 text-[11px]">Текущая версия:</span>
           <span class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-700 font-bold text-[11px] flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <b class="app-version-badge">v2.8.22 PRO</b>
+            <b class="app-version-badge">v2.8.23 PRO</b>
           </span>
         </div>
         <div class="flex justify-between items-center text-[11px]">
@@ -1512,7 +1513,7 @@ if(window.Telegram&&window.Telegram.WebApp){window.Telegram.WebApp.ready();windo
  */
 
 const APP_CONFIG = {
-  version: "v2.8.22 PRO",
+  version: "v2.8.23 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -3188,6 +3189,7 @@ const EXERCISE_DATABASE = [
   { id: "db_ch_5", name: "Сведения в кроссовере на блоках", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Низ и середина груди", phases: ["01: Наклон вперед", "02: Сведение рук", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 15, calRate: 8, isTime: false, tip: "Локти слегка согнуты и зафиксированы, движение чисто в плечевых суставах." },
   { id: "db_ch_6", name: "Отжимания на брусьях (с акцентом на грудь)", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Нижняя часть грудных • Трицепс", phases: ["01: Наклон 30°", "02: Опускание до 90°", "03: Выжим вверх"], defaultSets: 4, min: 8, max: 10, defaultWeight: 0, calRate: 11, isTime: false, tip: "Корпус наклонен вперед, локти немного разведены в стороны под 45°." },
   { id: "db_ch_7", name: "Жим в тренажере Хаммер на грудь", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Изолированная траектория грудных мышц", phases: ["01: Упор в спинку", "02: Плавный выжим", "03: Медленный возврат"], defaultSets: 4, min: 10, max: 12, defaultWeight: 40, calRate: 10, isTime: false, tip: "Безопасная траектория для суставов при максимальном кровенаполнении." },
+  { id: "db_ch_8", name: "Жим штанги на наклонной скамье 30°", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта • Трицепс", phases: ["01: Угол скамьи 30°", "02: Опускание к верху груди", "03: Мощный выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 55, calRate: 13, isTime: false, tip: "Гриф опускай на 2-3 см ниже ключиц, локти под 60-70° к телу." },
 
   // СПИНА
   { id: "db_bk_1", name: "Тяга горизонтального блока к поясу (нейтральный хват)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы • Ромбовидные • Середина спины", phases: ["01: Локти скользят назад", "02: Сведение лопаток", "03: Растяжка 2с"], defaultSets: 4, min: 10, max: 12, defaultWeight: 45, calRate: 11, isTime: false, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы внизу." },
@@ -3196,6 +3198,7 @@ const EXERCISE_DATABASE = [
   { id: "db_bk_4", name: "Подтягивания на турнике (или в гравитроне)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы • Брахиалис", phases: ["01: Полный вис", "02: Подтягивание к груди", "03: Плавный спуск"], defaultSets: 4, min: 6, max: 10, defaultWeight: 0, calRate: 13, isTime: false, tip: "Грудь тянется к перекладине, плечи опущены, без раскачки." },
   { id: "db_bk_5", name: "Тяга гантели в наклоне с упором в скамью", category: "Спина", muscleGroup: "Спина", targetMuscles: "Односторонняя проработка широчайшей мышцы", phases: ["01: Упор рукой", "02: Тяга к бедру", "03: Растяжка внизу"], defaultSets: 3, min: 10, max: 12, defaultWeight: 22, calRate: 10, isTime: false, tip: "Тяни гантель строго к тазу по дуге, без скручивания позвоночника." },
   { id: "db_bk_6", name: "Гиперэкстензия для разгибателей спины", category: "Спина", muscleGroup: "Спина", targetMuscles: "Поясничные разгибатели • Ягодицы", phases: ["01: Опускание до 90°", "02: Подъем в линию", "03: Без переразгиба"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 8, isTime: false, tip: "Не прогибайся сильно назад вверху, держи корпус в прямую линию." },
+  { id: "db_bk_7", name: "Тяга Т-грифа с упором в грудь", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие • Толщина спины • Ромбовидные", phases: ["01: Упор грудью", "02: Тяга локтями назад", "03: Сведение лопаток"], defaultSets: 4, min: 8, max: 10, defaultWeight: 40, calRate: 12, isTime: false, tip: "Упор грудью полностью разгружает поясницу, позволяя акцентированно нагрузить середину спины." },
 
   // НОГИ
   { id: "db_lg_1", name: "Жим ногами под углом 45° в тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Упор в пятки", "02: Угол в коленях 90°", "03: Без щелчка суставов"], defaultSets: 4, min: 10, max: 12, defaultWeight: 90, calRate: 16, isTime: false, tip: "Колени вверху не вставляй до щелчка, упор в середину стопы и пятки." },
@@ -3222,6 +3225,7 @@ const EXERCISE_DATABASE = [
   { id: "db_tr_6", name: "Разгибания рук на блоке с прямой / V-рукоятью", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Латеральная головка трицепса (боковая часть)", phases: ["01: Упор в рукоять", "02: Полное выпрямление вниз", "03: Плавный подъем до 90°"], defaultSets: 3, min: 10, max: 12, defaultWeight: 25, calRate: 8, isTime: false, tip: "Корпус слегка наклонен вперед, жми рукоять вниз основанием ладоней." },
   { id: "db_tr_7", name: "Отжимания от скамьи сзади (обратные отжимания)", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Трицепс • Передняя дельта", phases: ["01: Упор руками в край скамьи", "02: Опускание до 90°", "03: Выжим"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 9, isTime: false, tip: "Спина скользит вплотную к скамье, плечи не задирай к ушам." },
   { id: "db_tr_8", name: "Разгибание руки назад с гантелью в наклоне (Кикбэк)", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Пиковая изоляция латеральной головки трицепса", phases: ["01: Локоть поднят выше спины", "02: Разгибание назад", "03: Фиксация 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 8, calRate: 6, isTime: false, tip: "Плечевая кость строго параллельна полу, двигается только предплечье." },
+  { id: "db_tr_9", name: "Разгибания на блоке из-за головы с канатом", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Длинная головка трицепса • Постоянное натяжение троса", phases: ["01: Трос за головой", "02: Разгибание вперед-вверх", "03: Разведение кистей"], defaultSets: 3, min: 12, max: 15, defaultWeight: 18, calRate: 7, isTime: false, tip: "Отличное изолированное упражнение для длинной головки трицепса в растянутой позиции." },
 
   // ==========================================
   // БИЦЕПС
@@ -3245,6 +3249,107 @@ const EXERCISE_DATABASE = [
   { id: "db_card_1", name: "Ходьба в горку на дорожке (сжигание жира)", category: "Кардио", muscleGroup: "Кардио", targetMuscles: "Сердечно-сосудистая система • Жиросжигание", phases: ["01: Уклон 8–10%", "02: Скорость 5.5 км/ч", "03: Пульс 115–125"], defaultSets: 1, min: 25, max: 30, defaultWeight: 0, calRate: 200, isTime: true, tip: "Уклон 8-10%, скорость 5.5 км/ч. Пульс 115-125 уд/мин без одышки." },
   { id: "db_card_2", name: "Эллиптический тренажер", category: "Кардио", muscleGroup: "Кардио", targetMuscles: "Все тело • Щадящий режим для коленных суставов", phases: ["01: Ровный темп", "02: Умеренное усилие", "03: Пульс 120"], defaultSets: 1, min: 20, max: 30, defaultWeight: 0, calRate: 180, isTime: true, tip: "Идеально для разогрева и заминки без ударной нагрузки на суставы." }
 ];
+
+// ========================================================
+// ТОЧНАЯ БИОМЕХАНИЧЕСКАЯ МАТРИЦА 1-В-1 ЗАМЕН (ТОЛЬКО ИДЕНТИЧНЫЙ ВЕКТОР)
+// ========================================================
+const EXACT_BIOMECHANICAL_TWINS = {
+  // ГРУДЬ: НАКЛОННЫЙ ЖИМ (ВЕРХ ГРУДИ)
+  "Жим гантелей на наклонной скамье 30°": ["Жим штанги на наклонной скамье 30°", "Жим в тренажере Хаммер на грудь"],
+  "Жим штанги на наклонной скамье 30°": ["Жим гантелей на наклонной скамье 30°", "Жим в тренажере Хаммер на грудь"],
+
+  // ГРУДЬ: ГОРИЗОНТАЛЬНЫЙ ЖИМ (СЕРЕДИНА ГРУДИ)
+  "Жим гантелей на горизонтальной скамье": ["Жим штанги лежа на горизонтальной скамье", "Жим в тренажере Хаммер на грудь"],
+  "Жим штанги лежа на горизонтальной скамье": ["Жим гантелей на горизонтальной скамье", "Жим в тренажере Хаммер на грудь"],
+  "Жим в тренажере Хаммер на грудь": ["Жим гантелей на горизонтальной скамье", "Жим штанги лежа на горизонтальной скамье", "Жим гантелей на наклонной скамье 30°"],
+
+  // ГРУДЬ: ИЗОЛИРОВАННЫЕ СВЕДЕНИЯ
+  "Сведения рук в тренажере бабочка (Pec Deck)": ["Сведения в кроссовере на блоках"],
+  "Сведения в кроссовере на блоках": ["Сведения рук в тренажере бабочка (Pec Deck)"],
+
+  // ГРУДЬ: ОТЖИМАНИЯ НА БРУСЬЯХ
+  "Отжимания на брусьях (с акцентом на грудь)": ["Жим в тренажере Хаммер на грудь"],
+
+  // СПИНА: ГОРИЗОНТАЛЬНАЯ ТЯГА (ТОЛЩИНА СПИНЫ)
+  "Тяга горизонтального блока к поясу (нейтральный хват)": ["Тяга гантели в наклоне с упором в скамью", "Тяга Т-грифа с упором в грудь"],
+  "Тяга гантели в наклоне с упором в скамью": ["Тяга горизонтального блока к поясу (нейтральный хват)", "Тяга Т-грифа с упором в грудь"],
+  "Тяга Т-грифа с упором в грудь": ["Тяга горизонтального блока к поясу (нейтральный хват)", "Тяга гантели в наклоне с упором в скамью"],
+
+  // СПИНА: ВЕРТИКАЛЬНАЯ ТЯГА (ШИРИНА СПИНЫ)
+  "Тяга верхнего блока нейтральным хватом к груди": ["Подтягивания на турнике (или в гравитроне)"],
+  "Подтягивания на турнике (или в гравитроне)": ["Тяга верхнего блока нейтральным хватом к груди"],
+
+  // СПИНА / ПЛЕЧИ: РАЗГРУЗКА ШЕИ И ЗАДНЯЯ ДЕЛЬТА
+  "Тяга каната к лицу (Face Pull — разгрузка шеи)": ["Разводка гантелей в наклоне на заднюю дельту"],
+  "Разводка гантелей в наклоне на заднюю дельту": ["Тяга каната к лицу (Face Pull — разгрузка шеи)"],
+
+  // СПИНА: РАЗГИБАТЕЛИ
+  "Гиперэкстензия для разгибателей спины": ["Румынская тяга с гантелями"],
+
+  // НОГИ: КВАДРИЦЕПС / ЖИМ ПЛАТФОРМЫ
+  "Жим ногами под углом 45° в тренажере": ["Приседания в Гакк-тренажере"],
+  "Приседания в Гакк-тренажере": ["Жим ногами под углом 45° в тренажере"],
+  "Разгибания ног в тренажере сидя": [],
+
+  // НОГИ: БИЦЕПС БЕДРА
+  "Сгибания ног сидя или лежа в тренажере": [],
+  "Румынская тяга с гантелями": ["Гиперэкстензия для разгибателей спины"],
+
+  // НОГИ: ГОЛЕНЬ
+  "Подъем на носки стоя на икроножные": [],
+
+  // ПЛЕЧИ: ИЗОЛЯЦИЯ СРЕДНЕЙ ДЕЛЬТЫ
+  "Махи гантелями через стороны стоя": ["Протяжка на блоке к подбородку (широкий хват)"],
+  "Протяжка на блоке к подбородку (широкий хват)": ["Махи гантелями через стороны стоя"],
+
+  // ПЛЕЧИ: БАЗОВЫЙ ЖИМ
+  "Жим гантелей сидя на плечи (скамья 75°)": [],
+
+  // БИЦЕПС: РАСТЯЖЕНИЕ НА НАКЛОННОЙ СКАМЬЕ (ДЛИННАЯ ГОЛОВКА)
+  "Сгибания рук с гантелями на наклонной скамье 45°": ["Молотковые сгибания с гантелями на наклонной скамье"],
+  "Молотковые сгибания с гантелями на наклонной скамье": ["Сгибания рук с гантелями на наклонной скамье 45°", "Молотковые сгибания с гантелями (Hammer Curls)"],
+
+  // БИЦЕПС: БАЗОВЫЙ ПОДЪЕМ СТОЯ
+  "Подъем гантелей на бицепс стоя с супинацией": ["Подъем штанги на бицепс стоя (прямой или EZ-гриф)", "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)"],
+  "Подъем штанги на бицепс стоя (прямой или EZ-гриф)": ["Подъем гантелей на бицепс стоя с супинацией", "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)"],
+  "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)": ["Подъем гантелей на бицепс стоя с супинацией", "Подъем штанги на бицепс стоя (прямой или EZ-гриф)"],
+
+  // БИЦЕПС: МОЛОТКОВЫЙ ХВАТ (БРАХИАЛИС)
+  "Молотковые сгибания с гантелями (Hammer Curls)": ["Молотковые сгибания с гантелями на наклонной скамье"],
+
+  // БИЦЕПС: ПИКОВОЕ СОКРАЩЕНИЕ / СКАМЬЯ СКОТТА
+  "Сгибания рук на скамье Скотта (со штангой или гантелью)": ["Паучьи сгибания с гантелями (Spider Curls на скамье)", "Концентрированные сгибания с гантелью сидя"],
+  "Паучьи сгибания с гантелями (Spider Curls на скамье)": ["Сгибания рук на скамье Скотта (со штангой или гантелью)", "Концентрированные сгибания с гантелью сидя"],
+  "Концентрированные сгибания с гантелью сидя": ["Сгибания рук на скамье Скотта (со штангой или гантелью)", "Паучьи сгибания с гантелями (Spider Curls на скамье)"],
+
+  // ТРИЦЕПС: РАЗГИБАНИЯ НА БЛОКЕ СТОЯ
+  "Разгибания рук на верхнем блоке с канатом": ["Разгибания рук на блоке с прямой / V-рукоятью"],
+  "Разгибания рук на блоке с прямой / V-рукоятью": ["Разгибания рук на верхнем блоке с канатом"],
+
+  // ТРИЦЕПС: ФРАНЦУЗСКИЙ ЖИМ ЛЕЖА
+  "Французский жим с гантелями лежа на скамье": ["Французский жим со штангой (EZ-гриф) лежа"],
+  "Французский жим со штангой (EZ-гриф) лежа": ["Французский жим с гантелями лежа на скамье"],
+
+  // ТРИЦЕПС: РАЗГИБАНИЯ ИЗ-ЗА ГОЛОВЫ
+  "Разгибание руки с гантелью из-за головы сидя": ["Разгибания на блоке из-за головы с канатом"],
+  "Разгибания на блоке из-за головы с канатом": ["Разгибание руки с гантелью из-за головы сидя"],
+
+  // ТРИЦЕПС: БАЗОВЫЙ ЖИМ
+  "Жим штанги узким хватом лежа": ["Отжимания от скамьи сзади (обратные отжимания)"],
+  "Отжимания от скамьи сзади (обратные отжимания)": ["Жим штанги узким хватом лежа"],
+
+  // ТРИЦЕПС: КИКБЭК
+  "Разгибание руки назад с гантелью в наклоне (Кикбэк)": [],
+
+  // ПРЕСС
+  "Скручивания на блоке с канатом на пресс": ["Подъем коленей в висе на брусьях на пресс"],
+  "Подъем коленей в висе на брусьях на пресс": ["Скручивания на блоке с канатом на пресс"],
+  "Планка на локтях (удержание корсета)": [],
+
+  // КАРДИО
+  "Ходьба в горку на дорожке (сжигание жира)": ["Эллиптический тренажер"],
+  "Эллиптический тренажер": ["Ходьба в горку на дорожке (сжигание жира)"]
+};
 
 const DEFAULT_PROGRAMS = {
   a: {
@@ -4963,7 +5068,7 @@ function jumpToActiveWorkout() {
 }
 
 let currentSwappingExerciseIndex = null;
-let currentSwapFilter = 'recommended';
+let currentSwapFilter = 'twins';
 
 function openSwapExerciseModal(exIdx) {
   if (!appState.activeWorkout) return;
@@ -4979,20 +5084,21 @@ function openSwapExerciseModal(exIdx) {
   const searchInput = document.getElementById("swap-search-input");
   if (searchInput) searchInput.value = "";
 
-  setSwapCategoryFilter('recommended');
+  setSwapCategoryFilter('twins');
   openModal('modal-swap-exercise');
 }
 
 function setSwapCategoryFilter(filter) {
   currentSwapFilter = filter;
-  ['rec', 'all'].forEach(f => {
+  ['twins', 'same', 'all'].forEach(f => {
     const btn = document.getElementById("btn-swap-cat-" + f);
     if (btn) {
-      if ((f === 'rec' && filter === 'recommended') ||
+      if ((f === 'twins' && filter === 'twins') ||
+          (f === 'same' && filter === 'same-group') ||
           (f === 'all' && filter === 'all')) {
         btn.className = "flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center";
       } else {
-        btn.className = "py-1.5 px-3 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center";
+        btn.className = "flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center";
       }
     }
   });
@@ -5001,59 +5107,23 @@ function setSwapCategoryFilter(filter) {
 
 function getExactBiomechanicalSubstitutes(currentEx) {
   if (!currentEx) return [];
-  const currentName = (currentEx.name || "").toLowerCase();
-  const currentGroup = (currentEx.muscleGroup || "").trim();
+  const currentName = currentEx.name || "";
+  
+  // 1. Check exact 1-to-1 biomechanical twins map
+  const twinNames = EXACT_BIOMECHANICAL_TWINS[currentName] || [];
+  if (twinNames.length > 0) {
+    return EXERCISE_DATABASE.filter(dbEx => twinNames.includes(dbEx.name));
+  }
 
-  // Explicit predefined substitutes
-  const explicitNames = (currentEx.substitutes || []).map(n => n.toLowerCase());
+  // 2. If explicit substitutes were manually attached to exercise and exist in twins map
+  const explicitNames = currentEx.substitutes || [];
+  if (explicitNames.length > 0) {
+    const matched = EXERCISE_DATABASE.filter(dbEx => explicitNames.includes(dbEx.name));
+    if (matched.length > 0) return matched;
+  }
 
-  // 1. Strictly filter by target muscle group / biomechanical function
-  let matches = EXERCISE_DATABASE.filter(dbEx => {
-    if (dbEx.name.toLowerCase() === currentName) return false;
-
-    // Strict muscle category matching
-    if (currentGroup === "Бицепс") {
-      return (dbEx.category === "Бицепс" || dbEx.muscleGroup === "Бицепс");
-    }
-    if (currentGroup === "Трицепс") {
-      return (dbEx.category === "Трицепс" || dbEx.muscleGroup === "Трицепс");
-    }
-    if (currentGroup === "Грудь") {
-      return (dbEx.category === "Грудь" || dbEx.muscleGroup === "Грудь");
-    }
-    if (currentGroup === "Спина") {
-      return (dbEx.category === "Спина" || dbEx.muscleGroup === "Спина");
-    }
-    if (currentGroup === "Плечи") {
-      return (dbEx.category === "Плечи" || dbEx.muscleGroup === "Плечи");
-    }
-    if (currentGroup === "Пресс") {
-      return (dbEx.category === "Пресс" || dbEx.muscleGroup === "Пресс");
-    }
-    if (currentGroup === "Кардио") {
-      return (dbEx.category === "Кардио" || dbEx.muscleGroup === "Кардио");
-    }
-
-    if (currentGroup === "Ноги") {
-      const isHamstring = currentName.includes("сгибан") || currentName.includes("румынск");
-      const dbIsHamstring = dbEx.name.toLowerCase().includes("сгибан") || dbEx.name.toLowerCase().includes("румынск");
-      if (isHamstring) {
-        return dbIsHamstring && (dbEx.category === "Ноги" || dbEx.muscleGroup === "Ноги");
-      }
-      return !dbIsHamstring && (dbEx.category === "Ноги" || dbEx.muscleGroup === "Ноги");
-    }
-
-    return (dbEx.muscleGroup === currentGroup || dbEx.category === currentGroup);
-  });
-
-  // 2. Sort so explicitly designated direct movement substitutes appear at the top
-  matches.sort((a, b) => {
-    const aExpl = explicitNames.includes(a.name.toLowerCase()) ? 1 : 0;
-    const bExpl = explicitNames.includes(b.name.toLowerCase()) ? 1 : 0;
-    return bExpl - aExpl;
-  });
-
-  return matches;
+  // If there are NO exact 1-to-1 twins for this unique exercise, return empty array!
+  return [];
 }
 
 function renderSwapExerciseAlternativesList() {
@@ -5066,8 +5136,10 @@ function renderSwapExerciseAlternativesList() {
 
   let list = [];
 
-  if (currentSwapFilter === 'recommended') {
+  if (currentSwapFilter === 'twins') {
     list = getExactBiomechanicalSubstitutes(currentEx);
+  } else if (currentSwapFilter === 'same-group') {
+    list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name && (e.category === currentEx.muscleGroup || e.muscleGroup === currentEx.muscleGroup));
   } else {
     list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name);
   }
@@ -5077,19 +5149,38 @@ function renderSwapExerciseAlternativesList() {
   }
 
   if (list.length === 0) {
-    container.innerHTML = `
-      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
-        <p class="text-xs font-bold text-[#c8a97e] uppercase">Точные аналоги для «${currentEx.muscleGroup}» не найдены</p>
-        <p class="text-[11px] text-slate-400 font-sans">Переключись на «Весь каталог» или введи название в строку поиска.</p>
-      </div>
-    `;
+    if (currentSwapFilter === 'twins') {
+      container.innerHTML = `
+        <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center space-y-2 font-mono">
+          <p class="text-xs font-bold text-[#c8a97e] uppercase">Прямых 1-в-1 аналогов нет</p>
+          <p class="text-[11px] text-slate-300 font-sans leading-relaxed">
+            Это упражнение обладает уникальной изолированной биомеханикой. У него нет идентичного 1-в-1 дубля по углу и вектору.
+          </p>
+          <div class="pt-2 flex justify-center space-x-2">
+            <button onclick="setSwapCategoryFilter('same-group')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-[11px] font-mono">
+              Показать группу «${currentEx.muscleGroup}»
+            </button>
+            <button onclick="setSwapCategoryFilter('all')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-slate-300 rounded-xl text-[11px] font-mono">
+              Весь каталог
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
+          <p class="text-xs font-bold text-slate-300 uppercase">Упражнения не найдены</p>
+          <p class="text-[11px] text-slate-500 font-sans">Попробуй изменить поисковый запрос или выбрать другую вкладку.</p>
+        </div>
+      `;
+    }
     return;
   }
 
   container.innerHTML = list.map(dbEx => {
-    const isExactMuscle = (dbEx.category === currentEx.muscleGroup || dbEx.muscleGroup === currentEx.muscleGroup);
-    const badgeBg = isExactMuscle ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-[#c8a97e] border-white/10';
-    const badgeText = isExactMuscle ? `🎯 ${dbEx.category || dbEx.muscleGroup} • Прямой аналог` : (dbEx.category || dbEx.muscleGroup);
+    const isTwin = (EXACT_BIOMECHANICAL_TWINS[currentEx.name] || []).includes(dbEx.name);
+    const badgeBg = isTwin ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-white/5 text-[#c8a97e] border-white/10';
+    const badgeText = isTwin ? `🎯 1-в-1 Прямой аналог` : (dbEx.category || dbEx.muscleGroup);
 
     return `
       <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
