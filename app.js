@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.11 PRO",
+  version: "v2.8.12 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -4553,10 +4553,10 @@ function saveEditedHistoryItem() {
   if (currentEditingHistoryIndex === null) return;
   const h = appState.history[currentEditingHistoryIndex];
 
-  h.name = document.getElementById("edit-h-name").value;
-  h.date = document.getElementById("edit-h-date").value;
-  h.startTimeStr = document.getElementById("edit-h-starttime").value;
-  h.endTimeStr = document.getElementById("edit-h-endtime").value;
+  h.name = document.getElementById("edit-h-name").value || "Тренировка";
+  h.date = document.getElementById("edit-h-date").value || new Date().toISOString().split("T")[0];
+  h.startTimeStr = document.getElementById("edit-h-starttime").value || "18:00";
+  h.endTimeStr = document.getElementById("edit-h-endtime").value || "19:00";
   h.tonnage = parseFloat(document.getElementById("edit-h-tonnage").value) || 0;
   h.calories = parseFloat(document.getElementById("edit-h-calories").value) || 350;
 
@@ -4577,6 +4577,10 @@ function saveEditedHistoryItem() {
   drawTrendChart();
   Sound.success();
   Haptic.success();
+}
+
+function saveEditedHistory() {
+  saveEditedHistoryItem();
 }
 
 function deleteCurrentEditingHistoryItem() {
@@ -4610,26 +4614,34 @@ function deleteHistoryItemDirect(idx) {
 }
 
 function openAddManualWorkoutModal() {
-  const name = prompt("Название тренировки:", "Тренировка А");
-  if (!name) return;
-  const tonnage = prompt("Общий тоннаж (кг):", "4000");
-  const cals = prompt("Сожжено калорий (ккал):", "380");
+  const dateInput = document.getElementById("manual-wo-date");
+  if (dateInput) {
+    dateInput.value = selectedCalDateStr || new Date().toISOString().split("T")[0];
+  }
+  openModal("modal-add-manual-workout");
+  Sound.beep(550, 0.05);
+  Haptic.impact('light');
+}
 
-  const now = new Date();
-  const startTimeStr = "18:00";
-  const endTimeStr = "18:50";
+function saveManualWorkoutFromModal() {
+  const name = document.getElementById("manual-wo-name").value || "Тренировка А";
+  const date = document.getElementById("manual-wo-date").value || new Date().toISOString().split("T")[0];
+  const tonnage = parseFloat(document.getElementById("manual-wo-tonnage").value) || 0;
+  const cals = parseFloat(document.getElementById("manual-wo-calories").value) || 380;
+  const start = document.getElementById("manual-wo-starttime").value || "18:00";
+  const end = document.getElementById("manual-wo-endtime").value || "18:50";
 
   if (!appState.history) appState.history = [];
   appState.history.unshift({
     id: "wo_" + Date.now(),
-    date: selectedCalDateStr || now.toISOString().split("T")[0],
-    startTimeStr: startTimeStr,
-    endTimeStr: endTimeStr,
+    date: date,
+    startTimeStr: start,
+    endTimeStr: end,
     durationMin: 50,
     name: name,
     readiness: 90,
-    tonnage: parseFloat(tonnage) || 0,
-    calories: parseFloat(cals) || 380,
+    tonnage: tonnage,
+    calories: cals,
     exercises: [
       { name: "Жим на наклонной 30°", sets: "22кг × 10, 10, 10, 10", prog: "Закрыто" },
       { name: "Жим гантелей лежа", sets: "24кг × 8, 8, 8, 8", prog: "Закрыто" }
@@ -4639,6 +4651,7 @@ function openAddManualWorkoutModal() {
   addXP(100);
   calculateAutoMesocycle();
   saveState();
+  closeModal("modal-add-manual-workout");
   renderHistory();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
@@ -4646,6 +4659,7 @@ function openAddManualWorkoutModal() {
   renderPersonalizedAIAnalytics();
   drawTrendChart();
   Sound.success();
+  Haptic.success();
 }
 
 // ========================================================
