@@ -911,6 +911,15 @@ function getActiveGoalKey() {
   return 'recomp';
 }
 
+function onTargetParamsChanged() {
+  const twInput = document.getElementById("input-target-weight");
+  const waistInput = document.getElementById("input-target-waist");
+  if (twInput) appState.targetWeight = parseFloat(twInput.value) || 76.5;
+  if (waistInput) appState.targetWaist = parseFloat(waistInput.value) || 82.0;
+  saveState();
+  renderHealthTabCalculations();
+}
+
 function setHealthGoal(goalKey) {
   const cfg = GOAL_CONFIGS[goalKey] || GOAL_CONFIGS.recomp;
   appState.goal = cfg.title;
@@ -926,12 +935,12 @@ function renderHealthTabCalculations() {
   const goalKey = getActiveGoalKey();
   const cfg = GOAL_CONFIGS[goalKey] || GOAL_CONFIGS.recomp;
 
-  // Обновляем чипсы цели
+  // Обновляем премиум-карточки стратегий
   ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
-    const chip = document.getElementById("goal-chip-" + k);
-    if (chip) {
-      if (k === goalKey) chip.className = "goal-chip active";
-      else chip.className = "goal-chip";
+    const card = document.getElementById("strat-card-" + k);
+    if (card) {
+      if (k === goalKey) card.className = "strategy-card active";
+      else card.className = "strategy-card";
     }
   });
 
@@ -940,8 +949,78 @@ function renderHealthTabCalculations() {
 
   // Расчет BMR (Mifflin-St Jeor) и TDEE для Роман (32 г, 83 кг, 178 см)
   const weight = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83.0;
+  const waist = (appState.currentMetrics && appState.currentMetrics.waist) ? appState.currentMetrics.waist : 91.5;
   const height = appState.height || 178;
   const age = appState.age || 32;
+
+  const targetWeight = appState.targetWeight || 76.5;
+  const targetWaist = appState.targetWaist || 82.0;
+
+  // Обновление целевых ориентиров
+  const curWEl = document.getElementById("cur-weight-val");
+  const curWaistEl = document.getElementById("cur-waist-val");
+  const inputTW = document.getElementById("input-target-weight");
+  const inputTwaist = document.getElementById("input-target-waist");
+  const deltaWEl = document.getElementById("target-weight-delta");
+  const deltaWaistEl = document.getElementById("target-waist-delta");
+  const etaEl = document.getElementById("target-forecast-eta");
+  const progPctEl = document.getElementById("target-progress-pct");
+  const progBar = document.getElementById("target-progress-bar");
+
+  if (curWEl) curWEl.textContent = weight.toFixed(1);
+  if (curWaistEl) curWaistEl.textContent = waist.toFixed(1);
+  if (inputTW && document.activeElement !== inputTW) inputTW.value = targetWeight;
+  if (inputTwaist && document.activeElement !== inputTwaist) inputTwaist.value = targetWaist;
+
+  const weightDelta = (weight - targetWeight);
+  const waistDelta = (waist - targetWaist);
+
+  if (deltaWEl) {
+    if (weightDelta > 0) {
+      deltaWEl.textContent = `-${weightDelta.toFixed(1)} кг`;
+      deltaWEl.className = "text-emerald-400 font-bold";
+    } else if (weightDelta < 0) {
+      deltaWEl.textContent = `+${Math.abs(weightDelta).toFixed(1)} кг`;
+      deltaWEl.className = "text-[#c8a97e] font-bold";
+    } else {
+      deltaWEl.textContent = `Цель достигнута!`;
+      deltaWEl.className = "text-emerald-300 font-bold";
+    }
+  }
+
+  if (deltaWaistEl) {
+    if (waistDelta > 0) {
+      deltaWaistEl.textContent = `-${waistDelta.toFixed(1)} см`;
+      deltaWaistEl.className = "text-emerald-400 font-bold";
+    } else if (waistDelta < 0) {
+      deltaWaistEl.textContent = `+${Math.abs(waistDelta).toFixed(1)} см`;
+      deltaWaistEl.className = "text-[#c8a97e] font-bold";
+    } else {
+      deltaWaistEl.textContent = `Норма`;
+      deltaWaistEl.className = "text-emerald-300 font-bold";
+    }
+  }
+
+  // Расчет срока достижения цели (ETA)
+  if (etaEl) {
+    if (cfg.deficitDelta < 0) {
+      const weeklyLoss = (Math.abs(cfg.deficitDelta) * 7 / 7700);
+      const weeks = Math.max(1, Math.round(weightDelta / weeklyLoss));
+      etaEl.textContent = `Осталось: ~${weightDelta.toFixed(1)} кг (~${weeks} нед при темпе ~${weeklyLoss.toFixed(2)} кг/нед)`;
+    } else if (cfg.deficitDelta > 0) {
+      etaEl.textContent = `Профицит +${cfg.deficitDelta} ккал для качественного набора мышц`;
+    } else {
+      etaEl.textContent = `Режим стабилизации веса и фиксации формы`;
+    }
+  }
+
+  // Прогресс бар
+  const startWeight = 85.0; // Стартовая точка
+  const totalToLose = startWeight - targetWeight;
+  const lostSoFar = startWeight - weight;
+  const pct = Math.min(100, Math.max(12, Math.round((lostSoFar / (totalToLose || 1)) * 100)));
+  if (progPctEl) progPctEl.textContent = `${pct}% пути пройдено`;
+  if (progBar) progBar.style.width = `${pct}%`;
 
   const bmr = Math.round((10 * weight) + (6.25 * height) - (5 * age) + 5);
   // Коэффициент активности 1.35 (силовые 2-3 раза в неделю + бытовая активность)
@@ -1122,6 +1201,8 @@ function getInitialAccount() {
       "Жим ногами под углом 45° в тренажере": { weight: 90, reps: 12, date: "2026-08-25" },
       "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, date: "2026-08-25" }
     },
+    targetWeight: 76.5,
+    targetWaist: 82.0,
     currentMetrics: { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 },
     metrics: [
       { id: "m_init", date: new Date().toISOString().split("T")[0], weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 }

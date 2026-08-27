@@ -236,7 +236,41 @@ body {
   pointer-events: none;
 }
 
-/* ЧИПСЫ ВЫБОРА ЦЕЛИ */
+/* КАРТОЧКИ ВЫБОРА СТРАТЕГИИ И ЦЕЛИ */
+.strategy-card {
+  background: #12141c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  padding: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.strategy-card:hover {
+  background: #181b26;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.strategy-card:active {
+  transform: scale(0.98);
+}
+
+.strategy-card.active {
+  background: linear-gradient(135deg, rgba(200, 169, 126, 0.14), rgba(24, 27, 38, 0.98));
+  border-color: #c8a97e;
+  box-shadow: 0 4px 18px rgba(200, 169, 126, 0.18);
+}
+
+.strategy-card .active-indicator {
+  display: none;
+}
+
+.strategy-card.active .active-indicator {
+  display: flex;
+}
+
 .goal-chip {
   padding: 0.55rem 0.65rem;
   border-radius: 0.85rem;
