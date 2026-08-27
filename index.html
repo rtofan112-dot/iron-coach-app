@@ -204,7 +204,7 @@
     <!-- ======================================================== -->
     <section id="tab-progress" class="tab-pane space-y-4">
       
-      <!-- SUB-NAVIGATION PILL (CALENDAR / METRICS / ACHIEVEMENTS / ARCHIVE) -->
+      <!-- SUB-NAVIGATION PILL -->
       <div class="flex p-1 bg-[#0e1422] rounded-2xl border border-white/[0.08] text-xs font-mono">
         <button onclick="switchProgressSubtab('calendar')" id="btn-sub-calendar" class="flex-1 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm">Календарь</button>
         <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="flex-1 py-2 rounded-xl text-slate-400 font-bold transition-all">Замеры</button>
@@ -212,59 +212,84 @@
         <button onclick="switchProgressSubtab('archive')" id="btn-sub-archive" class="flex-1 py-2 rounded-xl text-slate-400 font-bold transition-all">Архив</button>
       </div>
 
-      <!-- SUBTAB 1: CALENDAR & 52-WEEK HEATMAP -->
-      <div id="subtab-calendar" class="space-y-3.5">
+      <!-- SUBTAB 1: MOBILE-FIRST MONTHLY CALENDAR & ANNUAL BREAKDOWN -->
+      <div id="subtab-calendar" class="space-y-4">
         
-        <!-- COMPLIANCE SCORECARD -->
-        <div class="p-4 rounded-2xl bg-[#0e1422] border border-white/[0.08] space-y-3 font-mono">
-          <div class="flex justify-between items-center">
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">🎯 Дисциплина графика</h3>
-            <span id="schedule-compliance-pct" class="text-xs font-black text-cyan-400 bg-cyan-950 px-2.5 py-0.5 rounded-lg border border-cyan-800">100% План</span>
+        <!-- MONTHLY CALENDAR CARD -->
+        <div class="p-5 rounded-3xl bg-[#0e1422] border border-white/[0.08] space-y-4">
+          
+          <!-- CALENDAR MONTH HEADER & NAVIGATION -->
+          <div class="flex justify-between items-center font-mono">
+            <button onclick="changeCalendarMonth(-1)" class="w-9 h-9 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 flex items-center justify-center text-sm active:scale-90 transition-transform">
+              ‹
+            </button>
+            <div class="text-center">
+              <h3 id="cal-month-name" class="text-sm font-black text-white uppercase tracking-wider">Август 2026</h3>
+              <span id="cal-month-summary-tag" class="text-[10px] text-cyan-400 font-bold">12 тренировок • 100% план</span>
+            </div>
+            <button onclick="changeCalendarMonth(1)" class="w-9 h-9 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 flex items-center justify-center text-sm active:scale-90 transition-transform">
+              ›
+            </button>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="p-2 bg-slate-950 rounded-xl border border-white/[0.06]">
-              <span class="text-[10px] text-slate-400 block">Выполнено:</span>
-              <b id="sch-stat-done" class="text-emerald-400 text-sm font-black">0</b>
-            </div>
-            <div class="p-2 bg-slate-950 rounded-xl border border-white/[0.06]">
-              <span class="text-[10px] text-slate-400 block">Пропущено:</span>
-              <b id="sch-stat-missed" class="text-rose-400 text-sm font-black">0</b>
-            </div>
-            <div class="p-2 bg-slate-950 rounded-xl border border-white/[0.06]">
-              <span class="text-[10px] text-slate-400 block">План:</span>
-              <b id="sch-stat-planned" class="text-cyan-400 text-sm font-black">0</b>
-            </div>
+          <!-- WEEKDAY HEADERS (MON-SUN) -->
+          <div class="grid grid-cols-7 gap-1 text-center font-mono text-[11px] font-bold text-slate-400 pb-1 border-b border-white/[0.06]">
+            <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span class="text-rose-400">Вс</span>
+          </div>
+
+          <!-- DAYS GRID (FILLED DYNAMICALLY) -->
+          <div id="cal-days-grid" class="grid grid-cols-7 gap-1.5 text-center"></div>
+
+          <!-- LEGEND -->
+          <div class="flex justify-between items-center pt-2 border-t border-white/[0.06] font-mono text-[10px] text-slate-400">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> Выполнено</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full border border-dashed border-cyan-400 inline-block"></span> План</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Пропуск</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-800 inline-block"></span> Отдых</span>
           </div>
         </div>
 
-        <!-- 52-WEEK MATRIX -->
-        <div class="p-4 rounded-2xl bg-[#0e1422] border border-white/[0.08] space-y-3">
-          <div class="flex justify-between items-center font-mono text-xs">
-            <span class="text-white font-bold">🗓️ Годовой трекер (52 недели)</span>
-            <span id="year-total-sessions" class="text-cyan-400 font-bold">0 сессий</span>
+        <!-- SELECTED DAY INSPECTOR CARD -->
+        <div id="cal-day-inspector-card" class="p-4 rounded-2xl bg-gradient-to-r from-[#101b33] to-[#0e1422] border border-cyan-500/30 space-y-2">
+          <div class="flex justify-between items-center font-mono">
+            <span id="cal-insp-date" class="text-xs font-black text-white">27 августа 2026 (Сегодня)</span>
+            <span id="cal-insp-badge" class="px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold">✅ ВЫПОЛНЕНО</span>
+          </div>
+          <div id="cal-insp-content" class="text-xs text-slate-300 font-sans space-y-1">
+            <p><b>Вторник: Full Body A</b></p>
+            <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">4 200 кг</b> • Сожжено: <b class="text-amber-400">~430 ккал</b></p>
+          </div>
+        </div>
+
+        <!-- 12-MONTH ANNUAL BREAKDOWN CARDS -->
+        <div class="p-5 rounded-3xl bg-[#0e1422] border border-white/[0.08] space-y-3">
+          <div class="flex justify-between items-center font-mono">
+            <h3 class="text-xs font-black text-white uppercase tracking-wider">📊 Годовой обзор (12 месяцев)</h3>
+            <span id="annual-year-badge" class="text-xs text-cyan-400 font-bold">2026 год</span>
           </div>
 
-          <div class="heatmap-wrapper p-3 bg-slate-950 rounded-xl border border-white/[0.06] space-y-2">
-            <div id="heatmap-month-labels" class="flex text-[8px] text-slate-400 justify-between font-mono px-1">
-              <span>Янв</span><span>Фев</span><span>Мар</span><span>Апр</span><span>Май</span><span>Июн</span><span>Июл</span><span>Авг</span><span>Сен</span><span>Окт</span><span>Ноя</span><span>Дек</span>
+          <!-- 4 KEY ANNUAL STATS PILLS -->
+          <div class="grid grid-cols-2 gap-2 text-center font-mono text-xs">
+            <div class="p-3 bg-slate-950 rounded-2xl border border-white/[0.06]">
+              <span class="text-[10px] text-slate-400 block">Тоннаж года:</span>
+              <b id="year-stat-tonnage" class="text-base font-black text-emerald-400">0 т</b>
             </div>
-            <div class="flex space-x-2">
-              <div class="flex flex-col justify-between text-[8px] text-slate-500 font-mono py-0.5">
-                <span>Пн</span><span>Ср</span><span>Пт</span><span>Вс</span>
-              </div>
-              <div id="year-heatmap" class="heatmap-year-grid"></div>
+            <div class="p-3 bg-slate-950 rounded-2xl border border-white/[0.06]">
+              <span class="text-[10px] text-slate-400 block">Всего сессий:</span>
+              <b id="year-stat-sessions" class="text-base font-black text-cyan-400">0</b>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-2xl border border-white/[0.06]">
+              <span class="text-[10px] text-slate-400 block">Лучший стрик:</span>
+              <b id="year-stat-streak" class="text-base font-black text-amber-400">🔥0 дн</b>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-2xl border border-white/[0.06]">
+              <span class="text-[10px] text-slate-400 block">Точность плана:</span>
+              <b id="year-stat-compliance" class="text-base font-black text-white">100%</b>
             </div>
           </div>
 
-          <!-- DAY INSPECTOR -->
-          <div id="heat-day-inspector" class="p-3 bg-slate-950 rounded-xl border border-cyan-500/30 text-xs space-y-1">
-            <div class="flex justify-between items-center font-bold">
-              <span id="insp-date" class="text-white">Сегодня, 27 августа 2026</span>
-              <span id="insp-status" class="text-cyan-400 font-mono">Выбери день</span>
-            </div>
-            <p id="insp-details" class="text-slate-400 text-[11px]">Нажми на любую ячейку в матрице года выше, чтобы увидеть подробности тренировки.</p>
-          </div>
+          <!-- 12 MONTHS GRID (CLICK TO JUMP) -->
+          <div id="annual-months-grid" class="grid grid-cols-3 gap-2 pt-2"></div>
         </div>
       </div>
 

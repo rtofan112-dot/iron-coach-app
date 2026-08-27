@@ -1,5 +1,5 @@
 /**
- * IRON COACH ELITE - High-Performance Hypertrophy, Focus Workout & 52-Week Engine
+ * IRON COACH ELITE - High-Performance Hypertrophy, Focus Workout & Calendar Hub
  */
 
 const Sound = {
@@ -168,6 +168,20 @@ let appState = getInitialAccount();
 let pendingWorkoutPlanKey = 'a';
 let currentAchFilter = 'all';
 
+// CALENDAR STATE
+let calYear = 2026;
+let calMonth = 7; // August (0-indexed)
+let selectedCalDateStr = "2026-08-27";
+
+const MONTH_NAMES = [
+  "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+  "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+];
+const MONTH_SHORT = [
+  "Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+  "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"
+];
+
 function loadState() {
   let tgKey = "asutp_iron_account_default";
   let tgName = "Роман";
@@ -202,6 +216,8 @@ function loadState() {
   checkAchievements();
   renderPersonalizedVitamins();
   updateProfileDisplay();
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
 }
 
 function saveState() {
@@ -371,6 +387,188 @@ function saveOnboardingProfile(e) {
 }
 
 // ========================================================
+// MOBILE-FIRST MONTHLY CALENDAR ENGINE
+// ========================================================
+function changeCalendarMonth(delta) {
+  calMonth += delta;
+  if (calMonth < 0) {
+    calMonth = 11;
+    calYear--;
+  } else if (calMonth > 11) {
+    calMonth = 0;
+    calYear++;
+  }
+  Sound.beep(650, 0.05);
+  Haptic.impact('light');
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
+}
+
+function jumpToMonth(mIndex) {
+  calMonth = mIndex;
+  calYear = 2026;
+  Sound.beep(650, 0.05);
+  Haptic.impact('light');
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderMonthlyCalendar() {
+  const monthNameEl = document.getElementById("cal-month-name");
+  const summaryTagEl = document.getElementById("cal-month-summary-tag");
+  const gridEl = document.getElementById("cal-days-grid");
+  if (!monthNameEl || !gridEl) return;
+
+  monthNameEl.textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
+  gridEl.innerHTML = "";
+
+  const hist = appState.history || [];
+  const histMap = new Map();
+  hist.forEach(h => histMap.set(h.date, h));
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  const totalDaysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  
+  // Calculate starting blank days (Monday = 0, Sunday = 6)
+  let startDayOfWeek = firstDay.getDay() - 1;
+  if (startDayOfWeek === -1) startDayOfWeek = 6;
+
+  for (let i = 0; i < startDayOfWeek; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.className = "cal-day-cell empty";
+    gridEl.appendChild(emptyCell);
+  }
+
+  let doneCount = 0;
+  let plannedCount = 0;
+  let missedCount = 0;
+  const currentTodayDate = 27; // Aug 27, 2026
+
+  for (let day = 1; day <= totalDaysInMonth; day++) {
+    const curDate = new Date(calYear, calMonth, day);
+    const dayOfWeek = curDate.getDay();
+    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // Tue, Thu
+    const dStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    const woData = histMap.get(dStr);
+    const isDone = !!woData;
+    const isToday = (calYear === 2026 && calMonth === 7 && day === currentTodayDate);
+    const isPast = (calYear < 2026) || (calYear === 2026 && calMonth < 7) || (calYear === 2026 && calMonth === 7 && day < currentTodayDate);
+    const isMissed = isScheduled && isPast && !isDone;
+    const isFuturePlan = isScheduled && !isPast && !isDone;
+
+    if (isDone) doneCount++;
+    if (isMissed) missedCount++;
+    if (isScheduled || isDone) plannedCount++;
+
+    const cell = document.createElement("button");
+    let cls = "cal-day-cell";
+
+    if (isDone) cls += " done";
+    else if (isMissed) cls += " missed";
+    else if (isFuturePlan) cls += " scheduled";
+
+    if (isToday) cls += " today";
+    if (dStr === selectedCalDateStr) cls += " selected";
+
+    cell.className = cls;
+    cell.innerHTML = `<span>${day}</span>`;
+    cell.onclick = () => selectCalendarDay(dStr, isDone ? 'done' : isMissed ? 'missed' : isFuturePlan ? 'plan' : 'rest', woData);
+
+    gridEl.appendChild(cell);
+  }
+
+  if (summaryTagEl) {
+    summaryTagEl.textContent = `${doneCount} закрыто • ${missedCount > 0 ? missedCount + ' пропуск' : '100% дисциплина'}`;
+  }
+
+  selectCalendarDay(selectedCalDateStr, histMap.get(selectedCalDateStr) ? 'done' : 'rest', histMap.get(selectedCalDateStr));
+}
+
+function selectCalendarDay(dateStr, status, woData) {
+  selectedCalDateStr = dateStr;
+
+  document.querySelectorAll(".cal-day-cell").forEach(el => el.classList.remove("selected"));
+
+  const inspDate = document.getElementById("cal-insp-date");
+  const inspBadge = document.getElementById("cal-insp-badge");
+  const inspContent = document.getElementById("cal-insp-content");
+  if (!inspDate || !inspBadge || !inspContent) return;
+
+  const dateObj = new Date(dateStr);
+  const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  inspDate.textContent = formatted;
+
+  if (status === 'done' && woData) {
+    inspBadge.textContent = "✅ ВЫПОЛНЕНО";
+    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `
+      <p><b>${woData.name}</b></p>
+      <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> • Сожжено: <b class="text-amber-400">~${woData.calories || 350} ккал</b> • Готовность: <b>${woData.readiness || 90}%</b></p>
+    `;
+  } else if (status === 'missed') {
+    inspBadge.textContent = "❌ ПРОПУСК";
+    inspBadge.className = "px-2.5 py-0.5 bg-rose-950 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка (Full Body) была пропущена.</p>`;
+  } else if (status === 'plan') {
+    inspBadge.textContent = "⏳ ПЛАН";
+    inspBadge.className = "px-2.5 py-0.5 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику. Готовься к линейной прогрессии весов!</p>`;
+  } else {
+    inspBadge.textContent = "⚪ ОТДЫХ";
+    inspBadge.className = "px-2.5 py-0.5 bg-slate-900 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
+    inspContent.innerHTML = `<p class="text-slate-300">Восстановление ЦНС, суперкомпенсация мышечных волокон, утренний вакуум и сон 8 часов.</p>`;
+  }
+}
+
+// ========================================================
+// 12-MONTH ANNUAL BREAKDOWN & HIGHLIGHTS
+// ========================================================
+function render12MonthsAnnualBreakdown() {
+  const container = document.getElementById("annual-months-grid");
+  const tonEl = document.getElementById("year-stat-tonnage");
+  const sessEl = document.getElementById("year-stat-sessions");
+  const strkEl = document.getElementById("year-stat-streak");
+  const compEl = document.getElementById("year-stat-compliance");
+  if (!container) return;
+
+  const hist = appState.history || [];
+  const totalTonnage = getTotalTonnage(appState);
+  const totalSessions = hist.length;
+
+  if (tonEl) tonEl.textContent = `${(totalTonnage / 1000).toFixed(1)} т`;
+  if (sessEl) sessEl.textContent = `${totalSessions}`;
+  if (strkEl) strkEl.textContent = `🔥${appState.streak || 0} дн`;
+  if (compEl) compEl.textContent = "100%";
+
+  container.innerHTML = "";
+
+  for (let m = 0; m < 12; m++) {
+    const monthStr = String(m + 1).padStart(2, '0');
+    const monthHist = hist.filter(h => h.date && h.date.startsWith(`2026-${monthStr}`));
+    const monthTon = monthHist.reduce((s, h) => s + (h.tonnage || 0), 0);
+    const isActiveMonth = (m === calMonth && calYear === 2026);
+
+    const pill = document.createElement("div");
+    pill.className = `annual-month-pill ${isActiveMonth ? 'active-month' : ''} text-center space-y-1`;
+    pill.onclick = () => jumpToMonth(m);
+
+    pill.innerHTML = `
+      <div class="flex justify-between items-center text-[10px] font-mono">
+        <b class="${isActiveMonth ? 'text-cyan-400' : 'text-white'}">${MONTH_SHORT[m]}</b>
+        <span class="text-slate-400">${monthHist.length} сесс.</span>
+      </div>
+      <div class="text-[11px] font-mono font-black ${monthTon > 0 ? 'text-emerald-400' : 'text-slate-600'}">
+        ${monthTon > 0 ? (monthTon / 1000).toFixed(1) + ' т' : '—'}
+      </div>
+    `;
+
+    container.appendChild(pill);
+  }
+}
+
+// ========================================================
 // PERSONALIZED EVIDENCE-BASED VITAMIN & MINERAL ENGINE
 // ========================================================
 function renderPersonalizedVitamins() {
@@ -523,139 +721,6 @@ function renderAchievementsList() {
 
     container.appendChild(card);
   });
-}
-
-// ========================================================
-// 52-WEEK INTERACTIVE YEAR HEATMAP & DAY INSPECTOR
-// ========================================================
-function render52WeekYearHeatmap() {
-  const container = document.getElementById("year-heatmap");
-  const totalEl = document.getElementById("year-total-sessions");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const hist = appState.history || [];
-  const histMap = new Map();
-  hist.forEach(h => histMap.set(h.date, h));
-
-  if (totalEl) totalEl.textContent = `${hist.length} сессий`;
-
-  const currentDayOfYear = 239; // ~Aug 27, 2026
-
-  for (let week = 0; week < 52; week++) {
-    for (let day = 0; day < 7; day++) {
-      const dayIndex = week * 7 + day;
-      const curDate = new Date(2026, 0, 1 + dayIndex);
-      const dStr = curDate.toISOString().split("T")[0];
-      const dayOfWeek = curDate.getDay();
-      const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
-
-      const woData = histMap.get(dStr);
-      const isDone = !!woData;
-      const isMissed = isScheduled && (dayIndex < currentDayOfYear) && !isDone;
-      const isFuturePlan = isScheduled && (dayIndex >= currentDayOfYear);
-
-      const cell = document.createElement("div");
-      let cls = "heat-day";
-
-      if (isDone) {
-        cls += (woData.tonnage > 6000 ? " heavy" : " done");
-      } else if (isMissed) {
-        cls += " missed";
-      } else if (isFuturePlan) {
-        cls += " future-plan";
-      }
-
-      cell.className = cls;
-      cell.title = `${dStr}: ${isDone ? 'Выполнено' : isMissed ? 'Пропуск' : isFuturePlan ? 'План' : 'Отдых'}`;
-      cell.onclick = () => inspectHeatmapDay(dStr, isDone ? 'done' : isMissed ? 'missed' : isFuturePlan ? 'plan' : 'rest', woData);
-
-      container.appendChild(cell);
-    }
-  }
-}
-
-function inspectHeatmapDay(dateStr, status, woData) {
-  Sound.beep(700, 0.05);
-  Haptic.impact('light');
-
-  const inspDate = document.getElementById("insp-date");
-  const inspStatus = document.getElementById("insp-status");
-  const inspDetails = document.getElementById("insp-details");
-
-  if (!inspDate || !inspStatus || !inspDetails) return;
-
-  const dateObj = new Date(dateStr);
-  const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  inspDate.textContent = formatted;
-
-  if (status === 'done' && woData) {
-    inspStatus.innerHTML = `<span class="text-cyan-400 font-bold">✅ ВЫПОЛНЕНО</span>`;
-    inspDetails.innerHTML = `
-      <b>${woData.name}</b><br>
-      Тоннаж: <b class="text-emerald-400">${woData.tonnage} кг</b> | Сожжено: <b class="text-amber-400">~${woData.calories || 350} ккал</b> | Готовность: <b>${woData.readiness || 90}%</b>
-    `;
-  } else if (status === 'missed') {
-    inspStatus.innerHTML = `<span class="text-rose-400 font-bold">❌ ПРОПУСК ПЛАНА</span>`;
-    inspDetails.innerHTML = `Запланированная тренировка по графику не была закрыта.`;
-  } else if (status === 'plan') {
-    inspStatus.innerHTML = `<span class="text-slate-300 font-bold">⏳ ЗАПЛАНИРОВАНО</span>`;
-    inspDetails.innerHTML = `Предстоящий тренировочный день по графику.`;
-  } else {
-    inspStatus.innerHTML = `<span class="text-slate-400 font-bold">⚪ ДЕНЬ ОТДЫХА</span>`;
-    inspDetails.innerHTML = `Восстановление ЦНС, утренний вакуум и сон 8 часов.`;
-  }
-}
-
-function calculateScheduleCompliance() {
-  const histDates = new Set((appState.history || []).map(h => h.date));
-  const today = new Date();
-  const currentDayOfMonth = today.getDate();
-
-  let plannedCount = 0;
-  let doneCount = 0;
-  let missedCount = 0;
-
-  for (let d = 1; d <= 31; d++) {
-    const dateObj = new Date(2026, 7, d);
-    const dayOfWeek = dateObj.getDay();
-    const isScheduledDay = (dayOfWeek === 2 || dayOfWeek === 4);
-    const dStr = `2026-08-${d < 10 ? '0' + d : d}`;
-
-    if (isScheduledDay) {
-      if (d <= currentDayOfMonth) {
-        if (histDates.has(dStr)) {
-          doneCount++;
-        } else {
-          if (d < currentDayOfMonth) {
-            missedCount++;
-          } else {
-            plannedCount++;
-          }
-        }
-      } else {
-        plannedCount++;
-      }
-    } else if (histDates.has(dStr)) {
-      doneCount++;
-    }
-  }
-
-  const totalPast = doneCount + missedCount;
-  const compliancePct = totalPast > 0 ? Math.round((doneCount / totalPast) * 100) : 100;
-
-  const pctEl = document.getElementById("schedule-compliance-pct");
-  const statDone = document.getElementById("sch-stat-done");
-  const statMissed = document.getElementById("sch-stat-missed");
-  const statPlanned = document.getElementById("sch-stat-planned");
-
-  if (pctEl) {
-    pctEl.textContent = `${compliancePct}% План`;
-    pctEl.className = compliancePct >= 80 ? "text-xs font-black text-cyan-400 bg-cyan-950 px-2.5 py-0.5 rounded-lg border border-cyan-800" : "text-xs font-black text-rose-400 bg-rose-950 px-2.5 py-0.5 rounded-lg border border-rose-800";
-  }
-  if (statDone) statDone.textContent = doneCount;
-  if (statMissed) statMissed.textContent = missedCount;
-  if (statPlanned) statPlanned.textContent = plannedCount;
 }
 
 // ========================================================
@@ -1550,7 +1615,8 @@ function saveEditedHistoryItem() {
   saveState();
   closeModal("modal-edit-history");
   renderHistory();
-  render52WeekYearHeatmap();
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
   Sound.success();
   Haptic.success();
 }
@@ -1562,7 +1628,8 @@ function deleteCurrentEditingHistoryItem() {
     saveState();
     closeModal("modal-edit-history");
     renderHistory();
-    render52WeekYearHeatmap();
+    renderMonthlyCalendar();
+    render12MonthsAnnualBreakdown();
     Sound.beep(400, 0.1);
   }
 }
@@ -1572,7 +1639,8 @@ function deleteHistoryItemDirect(idx) {
     appState.history.splice(idx, 1);
     saveState();
     renderHistory();
-    render52WeekYearHeatmap();
+    renderMonthlyCalendar();
+    render12MonthsAnnualBreakdown();
     Sound.beep(400, 0.1);
   }
 }
@@ -1601,7 +1669,8 @@ function openAddManualWorkoutModal() {
   addXP(100);
   saveState();
   renderHistory();
-  render52WeekYearHeatmap();
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
   Sound.success();
 }
 
@@ -1700,8 +1769,8 @@ function switchProgressSubtab(subtabId) {
   });
 
   if (subtabId === 'calendar') {
-    calculateScheduleCompliance();
-    render52WeekYearHeatmap();
+    renderMonthlyCalendar();
+    render12MonthsAnnualBreakdown();
   }
   if (subtabId === 'metrics') {
     setTimeout(() => {
@@ -1764,5 +1833,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMetrics();
   renderNutrition();
   renderPersonalizedVitamins();
-  calculateScheduleCompliance();
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
 });
