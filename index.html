@@ -13,18 +13,19 @@
         extend: {
           fontFamily: {
             mono: ['JetBrains Mono', 'monospace'],
-            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif']
+            sans: ['Plus Jakarta Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
           },
           colors: {
             luxury: {
               bg: '#0a0b10',
               card: '#12141c',
               cardElevated: '#181b26',
-              border: 'rgba(255, 255, 255, 0.07)',
+              border: 'rgba(255, 255, 255, 0.08)',
               gold: '#c8a97e',
-              platinum: '#e2e8f0',
+              platinum: '#f1f5f9',
               emerald: '#10b981',
-              rose: '#e11d48'
+              rose: '#f43f5e',
+              blue: '#38bdf8'
             }
           }
         }
@@ -36,9 +37,9 @@
 <body class="bg-[#0a0b10] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">
 
   <!-- ======================================================== -->
-  <!-- HEADER: REFINED TITANIUM TELEMETRY -->
+  <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->
   <!-- ======================================================== -->
-  <header class="sticky top-0 z-40 bg-[#0a0b10]/95 border-b border-white/[0.07] px-4 py-3 backdrop-blur-xl">
+  <header class="sticky top-0 z-40 bg-[#0a0b10]/95 border-b border-white/[0.08] px-4 py-3 backdrop-blur-xl">
     <div class="max-w-md mx-auto flex items-center justify-between">
       
       <!-- ПРОФИЛЬ АТЛЕТА -->
@@ -114,7 +115,7 @@
             <span class="px-2.5 py-1 bg-white/5 border border-white/10 text-slate-300 text-[11px] font-mono font-bold rounded-xl">~430 ккал</span>
           </div>
 
-          <p id="hero-today-desc" class="text-xs text-slate-400 leading-relaxed font-sans">
+          <p id="hero-today-desc" class="text-xs text-slate-300 leading-relaxed font-sans">
             Наклонный жим 30°, Горизонтальный жим, Жим ногами 45°, Тяга к поясу, Сгибания ног, Махи в стороны, Трицепс.
           </p>
 
@@ -143,19 +144,17 @@
           </button>
         </div>
 
-        <!-- СТАТУС ПЕРИОДИЗАЦИИ -->
-        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.07] space-y-2">
+        <!-- АВТОМАТИЧЕСКИЙ СТАТУС ПЕРИОДИЗАЦИИ (БЕЗ РУЧНОГО ПРОКЛИКИВАНИЯ) -->
+        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.08] space-y-2">
           <div class="flex justify-between items-center text-xs font-mono">
-            <span class="text-slate-300 font-bold flex items-center gap-1.5">
+            <span class="text-slate-200 font-bold flex items-center gap-1.5">
               <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-              ЦИКЛ: НЕДЕЛЯ <b id="meso-week-display" class="text-[#c8a97e]">3</b> ИЗ 8
+              АВТО-ПЕРИОДИЗАЦИЯ: НЕДЕЛЯ <b id="meso-week-display" class="text-[#c8a97e]">3</b> ИЗ 8
             </span>
-            <button onclick="advanceMesocycleWeek()" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-slate-300 text-[11px] font-bold rounded-lg border border-white/10 active:scale-95 transition-all">
-              +1 Неделя
-            </button>
+            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">Авто-расчет</span>
           </div>
-          <p id="meso-desc-text" class="text-xs text-slate-400 leading-relaxed">
-            <b>Фаза 1 (Накопление):</b> Линейное повышение рабочих весов (+2.5 кг в базе). 48 часов отдыха между тренировочными днями.
+          <p id="meso-desc-text" class="text-xs text-slate-300 leading-relaxed">
+            <b>Фаза 1 (Линейная прогрессия):</b> Автоматический пересчет по выполненным сессиям. Нагрузка рассчитывается по шкале Брэда Шёнфельда (+2.5 кг в базе при закрытии плана).
           </p>
         </div>
 
@@ -167,7 +166,7 @@
           </div>
 
           <!-- ТРЕНИРОВКА А -->
-          <div onclick="promptReadinessBeforeWorkout('a')" class="p-4 rounded-2xl bg-[#12141c] hover:bg-[#181b26] border border-white/[0.07] cursor-pointer active:scale-98 transition-all space-y-1.5">
+          <div onclick="promptReadinessBeforeWorkout('a')" class="p-4 rounded-2xl bg-[#12141c] hover:bg-[#181b26] border border-white/[0.08] cursor-pointer active:scale-98 transition-all space-y-1.5">
             <div class="flex justify-between items-center font-mono">
               <span class="text-xs font-bold text-slate-200">ПРОГРАММА А (БАЗА ВЕРХ + НОГИ)</span>
               <span class="text-[11px] text-slate-400">~430 ккал</span>
@@ -177,7 +176,7 @@
           </div>
 
           <!-- ТРЕНИРОВКА Б -->
-          <div onclick="promptReadinessBeforeWorkout('b')" class="p-4 rounded-2xl bg-[#12141c] hover:bg-[#181b26] border border-white/[0.07] cursor-pointer active:scale-98 transition-all space-y-1.5">
+          <div onclick="promptReadinessBeforeWorkout('b')" class="p-4 rounded-2xl bg-[#12141c] hover:bg-[#181b26] border border-white/[0.08] cursor-pointer active:scale-98 transition-all space-y-1.5">
             <div class="flex justify-between items-center font-mono">
               <span class="text-xs font-bold text-slate-200">ПРОГРАММА Б (БАБОЧКА + БРУСЬЯ + СПИНА)</span>
               <span class="text-[11px] text-slate-400">~450 ккал</span>
@@ -187,7 +186,7 @@
           </div>
 
           <!-- ТРЕНИРОВКА В -->
-          <div onclick="promptReadinessBeforeWorkout('c')" class="p-4 rounded-2xl bg-[#12141c] hover:bg-[#181b26] border border-white/[0.07] cursor-pointer active:scale-98 transition-all space-y-1.5">
+          <div onclick="promptReadinessBeforeWorkout('c')" class="p-4 rounded-2xl bg-[#12141c] hover:bg-[#181b26] border border-white/[0.08] cursor-pointer active:scale-98 transition-all space-y-1.5">
             <div class="flex justify-between items-center font-mono">
               <span class="text-xs font-bold text-slate-200">ПРОГРАММА В (РАЗГРУЗКА ШЕИ + КАРДИО)</span>
               <span class="text-[11px] text-slate-400">Факультатив</span>
@@ -198,10 +197,10 @@
         </div>
 
         <!-- КАЛЬКУЛЯТОР МАКСИМУМА -->
-        <button onclick="openModal('modal-1rm')" class="w-full p-3.5 rounded-2xl bg-[#12141c] border border-white/[0.07] flex items-center justify-between text-xs font-mono active:scale-98 transition-all">
+        <button onclick="openModal('modal-1rm')" class="w-full p-3.5 rounded-2xl bg-[#12141c] border border-white/[0.08] flex items-center justify-between text-xs font-mono active:scale-98 transition-all">
           <span class="text-slate-300 flex items-center gap-2">
             <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
-            Калькулятор максимума на 1 повтор
+            Калькулятор максимума на 1 повтор (1RM)
           </span>
           <span class="text-[#c8a97e] font-bold">Открыть →</span>
         </button>
@@ -215,7 +214,7 @@
           <div>
             <div class="flex items-center space-x-2">
               <span id="wo-active-tag" class="text-[10px] font-mono font-bold text-[#c8a97e] uppercase">СЕССИЯ</span>
-              <span id="wo-live-timer" class="text-[10px] font-mono text-slate-300 bg-[#181b26] px-2 py-0.5 rounded-md border border-white/10">00:00</span>
+              <span id="wo-live-timer" class="text-[10px] font-mono text-slate-200 bg-[#181b26] px-2 py-0.5 rounded-md border border-white/10">00:00</span>
             </div>
             <h2 id="wo-active-title" class="text-base font-bold text-white mt-0.5 tracking-tight">Тренировка</h2>
           </div>
@@ -259,21 +258,21 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- ВКЛАДКА 2: ПРОГРЕСС (СЕТКА 3x2) -->
+    <!-- ВКЛАДКА 2: ПРОГРЕСС И ПЕРСОАНАЛИТИКА (СЕТКА 3x2) -->
     <!-- ======================================================== -->
     <section id="tab-progress" class="tab-pane space-y-4">
       
       <!-- СЕТКА МЕНЮ 3x2 -->
-      <div class="grid grid-cols-3 gap-1.5 p-1.5 bg-[#12141c] rounded-2xl border border-white/[0.07] text-xs font-mono">
+      <div class="grid grid-cols-3 gap-1.5 p-1.5 bg-[#12141c] rounded-2xl border border-white/[0.08] text-xs font-mono">
         
         <button onclick="switchProgressSubtab('calendar')" id="btn-sub-calendar" class="py-2.5 px-1 rounded-xl bg-[#c8a97e] text-slate-950 font-bold transition-all text-center flex items-center justify-center space-x-1.5 shadow-sm">
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
           <span>Календарь</span>
         </button>
 
-        <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-          <span>Замеры</span>
+        <button onclick="switchProgressSubtab('analytics')" id="btn-sub-analytics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+          <span>Аналитика</span>
         </button>
 
         <button onclick="switchProgressSubtab('records')" id="btn-sub-records" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">
@@ -281,9 +280,9 @@
           <span>Рекорды</span>
         </button>
 
-        <button onclick="switchProgressSubtab('leaderboard')" id="btn-sub-leaderboard" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.27-.79 5-3.32 5-6.66V4H6v4c0 3.34 1.73 5.87 5 6.66Z"></path></svg>
-          <span>Лидеры</span>
+        <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+          <span>Замеры</span>
         </button>
 
         <button onclick="switchProgressSubtab('achievements')" id="btn-sub-achievements" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">
@@ -300,7 +299,7 @@
       <!-- ПОДВКЛАДКА 1: КАЛЕНДАРЬ -->
       <div id="subtab-calendar" class="space-y-4">
         
-        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.07] space-y-4">
+        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
           <div class="flex justify-between items-center font-mono">
             <button onclick="changeCalendarMonth(-1)" class="w-8 h-8 rounded-xl bg-[#181b26] hover:bg-white/10 border border-white/10 flex items-center justify-center text-sm active:scale-90 transition-transform">
               ‹
@@ -334,28 +333,28 @@
             <span id="cal-insp-date" class="text-xs font-bold text-white">27 августа 2026</span>
             <span id="cal-insp-badge" class="px-2.5 py-0.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 rounded-lg text-xs font-bold font-mono">ВЫПОЛНЕНО</span>
           </div>
-          <div id="cal-insp-content" class="text-xs text-slate-300 font-sans space-y-1">
+          <div id="cal-insp-content" class="text-xs text-slate-200 font-sans space-y-1">
             <p><b>Вторник: Тренировка А</b></p>
             <p class="text-[11px] text-slate-400 font-mono">Тоннаж: <b class="text-white">4 200 кг</b> • Расход: <b class="text-[#c8a97e]">~430 ккал</b></p>
           </div>
           <div id="cal-insp-actions" class="pt-1"></div>
         </div>
 
-        <!-- НЕДЕЛЬНЫЙ ОБЪЕМ ПО ГРУППАМ МЫШЦ -->
-        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.07] space-y-3 font-mono">
+        <!-- НАУЧНЫЙ НЕДЕЛЬНЫЙ ОБЪЕМ ПО МЫШЦАМ (ШКАЛА ШЁНФЕЛЬДА) -->
+        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-3 font-mono">
           <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-              <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Недельный объем по мышцам</h3>
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Недельный объем по группам мышц</h3>
+              <span class="text-[10px] text-slate-400 font-sans block">Стандарт: Brad Schoenfeld & RP MAV (10–16 рабочих сетов)</span>
             </div>
-            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">Норма: 10-16 сетов</span>
+            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">MAV Оптимум</span>
           </div>
 
           <div id="muscle-volume-container" class="space-y-2 text-xs"></div>
         </div>
 
         <!-- ГОДОВОЙ ОБЗОР (12 МЕСЯЦЕВ) -->
-        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.07] space-y-3">
+        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-3">
           <div class="flex justify-between items-center font-mono">
             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Годовой обзор (12 месяцев)</h3>
             <span id="annual-year-badge" class="text-xs text-[#c8a97e] font-bold">2026 год</span>
@@ -384,10 +383,81 @@
         </div>
       </div>
 
-      <!-- ПОДВКЛАДКА 2: ЗАМЕРЫ ТЕЛА -->
+      <!-- ПОДВКЛАДКА 2: ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК (НОВОЕ) -->
+      <div id="subtab-analytics" class="hidden space-y-4">
+        
+        <!-- СТАТУС ВОССТАНОВЛЕНИЯ И БИОМЕТРИЯ -->
+        <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
+          <div class="flex justify-between items-center font-mono">
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Био-Аналитика и Восстановление</h3>
+              <span class="text-[10px] text-slate-400">Индивидуальный расчет на основе твоих данных</span>
+            </div>
+            <span id="ai-recovery-badge" class="px-2.5 py-1 bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-xs font-mono font-bold rounded-xl">95% Восстановлен</span>
+          </div>
+
+          <!-- МЕТРИКИ АНАЛИТИКИ -->
+          <div class="grid grid-cols-3 gap-2 font-mono text-center text-xs">
+            <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+              <span class="text-[9px] text-slate-400 block uppercase">Баланс Жим/Тяга</span>
+              <b id="ai-pushpull-ratio" class="text-sm font-bold text-white">1.0 : 1.0</b>
+              <span class="text-[9px] text-emerald-400 block">Симметрия</span>
+            </div>
+            <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+              <span class="text-[9px] text-slate-400 block uppercase">Защита лопатки</span>
+              <b id="ai-neck-safety" class="text-sm font-bold text-[#c8a97e]">Безопасно</b>
+              <span class="text-[9px] text-slate-400 block">Без компрессии</span>
+            </div>
+            <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+              <span class="text-[9px] text-slate-400 block uppercase">Объем недели</span>
+              <b id="ai-week-tonnage" class="text-sm font-bold text-white">0 кг</b>
+              <span class="text-[9px] text-slate-400 block">в норме</span>
+            </div>
+          </div>
+
+          <!-- ПЕРСОНАЛЬНЫЕ РЕКОМЕНДАЦИИ ПО ЗДОРОВЬЮ И ТРЕНИНГУ -->
+          <div class="space-y-2 pt-1 font-sans text-xs" id="ai-recommendations-container"></div>
+        </div>
+
+        <!-- ГРАФИК ДИНАМИКИ -->
+        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.08] space-y-3 font-mono">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">График динамики:</h3>
+            <div class="flex space-x-1 bg-[#181b26] p-0.5 rounded-lg border border-white/10 text-[10px]">
+              <button onclick="setChartFilter('all')" id="btn-chart-all" class="px-2 py-0.5 font-bold rounded-md bg-[#c8a97e] text-slate-950">Все</button>
+              <button onclick="setChartFilter('weight')" id="btn-chart-weight" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Вес</button>
+              <button onclick="setChartFilter('waist')" id="btn-chart-waist" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Талия</button>
+              <button onclick="setChartFilter('duration')" id="btn-chart-duration" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Время</button>
+            </div>
+          </div>
+          <div class="w-full bg-[#0c0d14] rounded-xl p-2 border border-white/[0.05]">
+            <canvas id="chart-canvas" class="w-full" style="height: 160px;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ПОДВКЛАДКА 3: ЗАЛ ЛИЧНЫХ РЕКОРДОВ (АВТОМАТИЧЕСКАЯ ФИКСАЦИЯ ПРОРЫВОВ) -->
+      <div id="subtab-records" class="hidden space-y-3">
+        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/10 space-y-2">
+          <div class="flex justify-between items-center font-mono">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <h3 class="font-bold text-xs text-white uppercase">Зал личных рекордов</h3>
+            </div>
+            <span class="text-[10px] text-[#c8a97e] font-bold bg-white/5 px-2 py-0.5 rounded border border-white/10">Авто-регистрация</span>
+          </div>
+          <p class="text-xs text-slate-300">
+            Здесь автоматически фиксируются только реальные силовые прорывы, когда ты превосходишь свой прошлый лучший результат в рабочих подходах.
+          </p>
+        </div>
+
+        <div id="personal-records-container" class="space-y-2 font-mono"></div>
+      </div>
+
+      <!-- ПОДВКЛАДКА 4: ЗАМЕРЫ ТЕЛА -->
       <div id="subtab-metrics" class="hidden space-y-3.5">
         
-        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.07] space-y-3">
+        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.08] space-y-3">
           <div class="flex justify-between items-center">
             <div>
               <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider">Замеры параметров тела</h3>
@@ -429,85 +499,21 @@
             Сохранить замеры в историю (+40 XP)
           </button>
         </div>
-
-        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/[0.07] space-y-3 font-mono">
-          <div class="flex justify-between items-center">
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">График динамики:</h3>
-            <div class="flex space-x-1 bg-[#181b26] p-0.5 rounded-lg border border-white/10 text-[10px]">
-              <button onclick="setChartFilter('all')" id="btn-chart-all" class="px-2 py-0.5 font-bold rounded-md bg-[#c8a97e] text-slate-950">Все</button>
-              <button onclick="setChartFilter('weight')" id="btn-chart-weight" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Вес</button>
-              <button onclick="setChartFilter('waist')" id="btn-chart-waist" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Талия</button>
-              <button onclick="setChartFilter('duration')" id="btn-chart-duration" class="px-2 py-0.5 font-bold rounded-md text-slate-400">Время</button>
-            </div>
-          </div>
-          <div class="w-full bg-[#0e1017] rounded-xl p-2 border border-white/[0.05]">
-            <canvas id="chart-canvas" class="w-full" style="height: 160px;"></canvas>
-          </div>
-        </div>
       </div>
 
-      <!-- ПОДВКЛАДКА 3: РАСШИРЕННЫЙ ХАБ ЛИЧНЫХ РЕКОРДОВ (ВСЕ УПРАЖНЕНИЯ) -->
-      <div id="subtab-records" class="hidden space-y-3">
-        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/10 space-y-2">
-          <div class="flex justify-between items-center font-mono">
-            <div class="flex items-center space-x-2">
-              <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              <h3 class="font-bold text-xs text-white uppercase">Зал личных рекордов</h3>
-            </div>
-            <span class="text-[10px] text-[#c8a97e] font-bold bg-white/5 px-2 py-0.5 rounded border border-white/10">Авто-фиксация</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Максимальные рабочие веса и повторения по всем базовым упражнениям. Можно редактировать вручную или обновлять на тренировках.
-          </p>
-
-          <!-- ФИЛЬТР КАТЕГОРИЙ РЕКОРДОВ -->
-          <div class="flex space-x-1.5 overflow-x-auto pt-1 pb-0.5 text-[10px] font-mono">
-            <button onclick="filterRecordsCategory('all')" id="btn-pr-all" class="px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap">Все (30+)</button>
-            <button onclick="filterRecordsCategory('Грудь')" id="btn-pr-chest" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Грудь</button>
-            <button onclick="filterRecordsCategory('Спина')" id="btn-pr-back" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Спина</button>
-            <button onclick="filterRecordsCategory('Ноги')" id="btn-pr-legs" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Ноги</button>
-            <button onclick="filterRecordsCategory('Плечи')" id="btn-pr-shoulders" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Плечи</button>
-            <button onclick="filterRecordsCategory('Руки')" id="btn-pr-arms" class="px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Руки</button>
-          </div>
-        </div>
-
-        <div id="personal-records-container" class="space-y-2 font-mono"></div>
-      </div>
-
-      <!-- ПОДВКЛАДКА 4: ТАБЛИЦА ЛИДЕРОВ -->
-      <div id="subtab-leaderboard" class="hidden space-y-3">
-        <div class="p-4 rounded-2xl bg-[#12141c] border border-white/10 space-y-2">
-          <div class="flex justify-between items-center font-mono">
-            <div class="flex items-center space-x-2">
-              <svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.27-.79 5-3.32 5-6.66V4H6v4c0 3.34 1.73 5.87 5 6.66Z"></path></svg>
-              <h3 class="font-bold text-xs text-white uppercase">Таблица лидеров клуба</h3>
-            </div>
-            <button onclick="fetchLeaderboard()" class="text-[10px] text-slate-300 font-bold bg-white/5 px-2 py-0.5 rounded border border-white/10 active:scale-90 transition-transform">
-              Обновить
-            </button>
-          </div>
-          <p class="text-xs text-slate-400">
-            Рейтинг реальных участников клуба по уровню опыта (XP), суммарному тоннажу и активности.
-          </p>
-        </div>
-
-        <div id="leaderboard-container" class="space-y-2 font-mono"></div>
-      </div>
-
-      <!-- ПОДВКЛАДКА 5: АЧИВКИ -->
+      <!-- ПОДВКЛАДКА 5: АЧИВКИ (ОЧИЩЕНО ОТ ВОДЫ И ЕДЫ) -->
       <div id="subtab-achievements" class="hidden space-y-3">
         <div class="flex justify-between items-center font-mono text-xs px-1">
-          <span class="text-slate-400">Всего открыто:</span>
-          <span id="achievements-unlocked-count" class="text-[#c8a97e] font-bold bg-white/5 px-2 py-0.5 rounded-lg border border-white/10">0/18</span>
+          <span class="text-slate-400">Открыто достижений:</span>
+          <span id="achievements-unlocked-count" class="text-[#c8a97e] font-bold bg-white/5 px-2 py-0.5 rounded-lg border border-white/10">0/12</span>
         </div>
 
         <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[11px] font-mono">
-          <button onclick="filterAchievements('all')" id="btn-ach-all" class="px-3 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap">Все (18)</button>
-          <button onclick="filterAchievements('strength')" id="btn-ach-strength" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Сила</button>
-          <button onclick="filterAchievements('streak')" id="btn-ach-streak" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Серии</button>
+          <button onclick="filterAchievements('all')" id="btn-ach-all" class="px-3 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap">Все (12)</button>
+          <button onclick="filterAchievements('strength')" id="btn-ach-strength" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Сила & Тоннаж</button>
+          <button onclick="filterAchievements('streak')" id="btn-ach-streak" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Дисциплина</button>
           <button onclick="filterAchievements('body')" id="btn-ach-body" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Вакуум</button>
-          <button onclick="filterAchievements('nutrition')" id="btn-ach-nutrition" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Питание</button>
-          <button onclick="filterAchievements('meso')" id="btn-ach-meso" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Циклы</button>
+          <button onclick="filterAchievements('records')" id="btn-ach-records" class="px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap">Рекорды</button>
         </div>
 
         <div id="achievements-list" class="space-y-2"></div>
@@ -527,14 +533,17 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- ВКЛАДКА 3: ЗДОРОВЬЕ (СПРАВОЧНИК КБЖУ, ВИТАМИНЫ И 1-ТАП ВАКУУМ) -->
+    <!-- ВКЛАДКА 3: ЗДОРОВЬЕ (СПРАВОЧНИК КБЖУ, КЛИНИЧЕСКИЕ ВИТАМИНЫ И 1-ТАП ВАКУУМ) -->
     <!-- ======================================================== -->
     <section id="tab-nutrition" class="tab-pane space-y-4">
 
-      <!-- СУТОЧНАЯ НОРМА КБЖУ (СПРАВОЧНИК БЕЗ РУЧНОГО ВВОДА) -->
-      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.07] space-y-4">
+      <!-- СУТОЧНАЯ НОРМА КБЖУ (ЭТАЛОННЫЙ СПРАВОЧНИК) -->
+      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-4">
         <div class="flex justify-between items-center font-mono">
-          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Суточная норма КБЖУ и Воды</h3>
+          <div>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Суточная норма КБЖУ и Воды</h3>
+            <span class="text-[10px] text-slate-400 font-sans">Рекомпозиция при 83 кг / дефицит -300 ккал</span>
+          </div>
           <span class="text-xs font-bold text-[#c8a97e]">2000 ккал</span>
         </div>
 
@@ -543,43 +552,43 @@
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Белки</span>
             <b class="text-sm font-bold text-white">150 г</b>
-            <span class="text-[9px] text-emerald-400 block">30%</span>
+            <span class="text-[9px] text-emerald-400 block">1.8 г/кг</span>
           </div>
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Жиры</span>
             <b class="text-sm font-bold text-white">65 г</b>
-            <span class="text-[9px] text-amber-400 block">30%</span>
+            <span class="text-[9px] text-amber-400 block">0.8 г/кг</span>
           </div>
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Углеводы</span>
             <b class="text-sm font-bold text-white">200 г</b>
-            <span class="text-[9px] text-slate-300 block">40%</span>
+            <span class="text-[9px] text-slate-300 block">2.4 г/кг</span>
           </div>
           <div class="bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
             <span class="text-[9px] text-slate-400 block uppercase">Вода</span>
             <b class="text-sm font-bold text-cyan-300">2.6 л</b>
-            <span class="text-[9px] text-slate-400 block">чистая</span>
+            <span class="text-[9px] text-slate-400 block">30 мл/кг</span>
           </div>
         </div>
 
-        <!-- ПРИМЕРНЫЙ РЕЖИМ ПРИЕМОВ ПИЩИ -->
+        <!-- РЕЖИМ ПИТАНИЯ -->
         <div class="p-3 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1.5 text-xs">
-          <span class="text-[10px] font-mono text-slate-400 uppercase block font-bold">Оптимальный тайминг питания:</span>
+          <span class="text-[10px] font-mono text-slate-400 uppercase block font-bold">Оптимальный тайминг приемов пищи:</span>
           <p class="text-slate-300 leading-relaxed font-sans text-[11px]">
             • <b>Завтрак:</b> 35г белка (яйца / творог / овсянка)<br>
-            • <b>Обед:</b> 45г белка + сложные углеводы (гречка, рис, куриное филе)<br>
-            • <b>Предтрен (за 1.5ч):</b> Легкие углеводы (банан / тост)<br>
-            • <b>Ужин:</b> 40г белка + клетчатка (рыба / говядина + овощи)
+            • <b>Обед:</b> 45г белка + сложные углеводы (гречка, рис, филе индейки/курицы)<br>
+            • <b>Предтрен (за 1.5ч):</b> Легкие углеводы (банан / рисовые хлебцы)<br>
+            • <b>Ужин:</b> 40г белка + клетчатка (рыба / нежирная говядина + свежие овощи)
           </p>
         </div>
       </div>
 
-      <!-- ВИТАМИННЫЙ КОМПЛЕКС -->
-      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.07] space-y-3">
-        <div class="flex justify-between items-center border-b border-white/[0.07] pb-2 font-mono">
+      <!-- ВИТАМИННЫЙ КОМПЛЕКС С КЛИНИЧЕСКИМИ ДОЗИРОВКАМИ -->
+      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-3">
+        <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 font-mono">
           <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Персональный комплекс витаминов</h3>
-            <span class="text-[10px] text-slate-400 block" id="vitamin-calc-reason">Под параметры: 32 года, 83 кг, талия 91.5 см</span>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Персональный комплекс нутрицевтиков</h3>
+            <span class="text-[10px] text-slate-400 block" id="vitamin-calc-reason">Клинические дозировки под параметры и восстановление</span>
           </div>
           <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-[#c8a97e] border border-white/10 font-bold font-mono">СТЕК</span>
         </div>
@@ -587,8 +596,8 @@
         <div id="personalized-vitamins-container" class="space-y-2"></div>
       </div>
 
-      <!-- УТРЕННИЙ ВАКУУМ (1-ТАП ОТМЕТКА БЕЗ СЛОЖНОГО ТАЙМЕРА) -->
-      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.07] space-y-3">
+      <!-- УТРЕННИЙ ВАКУУМ (1-ТАП ОТМЕТКА) -->
+      <div class="p-5 rounded-3xl bg-[#12141c] border border-white/[0.08] space-y-3">
         <div class="flex justify-between items-center font-mono">
           <div>
             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Утренний Вакуум Живота</h3>
@@ -614,7 +623,7 @@
   <!-- ======================================================== -->
   <!-- НИЖНЯЯ НАВИГАЦИЯ -->
   <!-- ======================================================== -->
-  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#0a0b10]/95 border-t border-white/[0.07] backdrop-blur-2xl pb-[env(safe-area-inset-bottom)]">
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#0a0b10]/95 border-t border-white/[0.08] backdrop-blur-2xl pb-[env(safe-area-inset-bottom)]">
     <div class="max-w-md mx-auto grid grid-cols-3 h-16 font-mono text-xs">
       
       <button id="nav-workouts" onclick="switchTab('workouts')" class="nav-item active flex flex-col items-center justify-center active:scale-95 transition-all">
@@ -665,7 +674,7 @@
     <div class="max-w-md w-full bg-[#12141c] rounded-t-3xl sm:rounded-3xl border border-white/10 shadow-2xl max-h-[85vh] flex flex-col font-mono text-xs">
       
       <!-- ШАПКА КАТАЛОГА -->
-      <div class="p-4 border-b border-white/[0.07] flex justify-between items-center">
+      <div class="p-4 border-b border-white/[0.08] flex justify-between items-center">
         <div class="flex items-center space-x-2.5">
           <div class="w-7 h-7 rounded-lg bg-[#181b26] border border-white/10 flex items-center justify-center text-[#c8a97e]">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg>
@@ -679,7 +688,7 @@
       </div>
 
       <!-- ПОИСК И ФИЛЬТРЫ КАТЕГОРИЙ -->
-      <div class="p-3 space-y-2 border-b border-white/[0.06] bg-[#0e1017]">
+      <div class="p-3 space-y-2 border-b border-white/[0.06] bg-[#0c0d14]">
         <input type="text" id="ex-catalog-search" oninput="filterExerciseDatabase()" placeholder="Поиск по названию или мышцам..." class="w-full bg-[#181b26] border border-white/10 px-3 py-2 rounded-xl text-white font-sans text-xs outline-none">
         
         <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[10px]">
@@ -698,7 +707,7 @@
       <div id="exercise-catalog-list" class="p-3 space-y-2 overflow-y-auto flex-1 font-sans"></div>
 
       <!-- ФУТЕР С КНОПКОЙ СОЗДАНИЯ -->
-      <div class="p-3 border-t border-white/[0.07] bg-[#12141c]">
+      <div class="p-3 border-t border-white/[0.08] bg-[#12141c]">
         <button onclick="closeModal('modal-exercise-database'); openModal('modal-add-custom-exercise')" class="w-full py-2.5 bg-[#181b26] hover:bg-[#202432] text-slate-300 border border-dashed border-white/15 rounded-xl font-mono text-xs font-bold active:scale-98 transition-all">
           + Создать свое упражнение вручную
         </button>
@@ -711,32 +720,32 @@
   <!-- ======================================================== -->
   <div id="modal-add-custom-exercise" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-3 bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl font-mono text-xs">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
         <h3 class="font-bold text-xs text-white uppercase tracking-wider">Свое упражнение</h3>
         <button onclick="closeModal('modal-add-custom-exercise')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
       <form onsubmit="addCustomExerciseToActiveWorkout(event)" class="space-y-2.5">
         <div>
           <label class="text-[9px] text-slate-400 block mb-1 uppercase">Название упражнения:</label>
-          <input type="text" id="cust-ex-name" required placeholder="Например: Подтягивания с весом" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans">
+          <input type="text" id="cust-ex-name" required placeholder="Например: Подтягивания с весом" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans">
         </div>
         <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Подходов:</label>
-            <input type="number" id="cust-ex-sets" value="4" min="1" max="10" required class="w-full bg-[#0e1017] border border-white/10 px-2 py-2 rounded-xl text-white font-bold text-center outline-none">
+            <input type="number" id="cust-ex-sets" value="4" min="1" max="10" required class="w-full bg-[#0c0d14] border border-white/10 px-2 py-2 rounded-xl text-white font-bold text-center outline-none">
           </div>
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Повторов:</label>
-            <input type="number" id="cust-ex-reps" value="10" min="1" max="50" required class="w-full bg-[#0e1017] border border-white/10 px-2 py-2 rounded-xl text-white font-bold text-center outline-none">
+            <input type="number" id="cust-ex-reps" value="10" min="1" max="50" required class="w-full bg-[#0c0d14] border border-white/10 px-2 py-2 rounded-xl text-white font-bold text-center outline-none">
           </div>
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Вес (кг):</label>
-            <input type="number" step="0.5" id="cust-ex-weight" value="20" required class="w-full bg-[#0e1017] border border-white/10 px-2 py-2 rounded-xl text-[#c8a97e] font-bold text-center outline-none">
+            <input type="number" step="0.5" id="cust-ex-weight" value="20" required class="w-full bg-[#0c0d14] border border-white/10 px-2 py-2 rounded-xl text-[#c8a97e] font-bold text-center outline-none">
           </div>
         </div>
         <div>
           <label class="text-[9px] text-slate-400 block mb-1 uppercase">Группа мышц:</label>
-          <select id="cust-ex-muscle" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white outline-none">
+          <select id="cust-ex-muscle" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white outline-none">
             <option value="Грудь">Грудь</option>
             <option value="Спина">Спина</option>
             <option value="Ноги">Ноги</option>
@@ -748,7 +757,7 @@
         </div>
         <div>
           <label class="text-[9px] text-slate-400 block mb-1 uppercase">Техника выполнения:</label>
-          <input type="text" id="cust-ex-tip" placeholder="Лопатки сведены, плавный темп..." class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none font-sans">
+          <input type="text" id="cust-ex-tip" placeholder="Лопатки сведены, плавный темп..." class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none font-sans">
         </div>
         <button type="submit" class="w-full py-3 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl active:scale-98 transition-all shadow-md">
           Добавить в тренировку
@@ -758,51 +767,11 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- МОДАЛКА: РЕДАКТИРОВАНИЕ РЕКОРДА -->
-  <!-- ======================================================== -->
-  <div id="modal-edit-record" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-    <div class="max-w-sm w-full p-5 space-y-3 bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl font-mono text-xs">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2">
-        <h3 class="font-bold text-xs text-white uppercase tracking-wider" id="rec-modal-title">Рекорд</h3>
-        <button onclick="closeModal('modal-edit-record')" class="text-slate-400 hover:text-white font-bold">✕</button>
-      </div>
-      <div class="space-y-3">
-        <div>
-          <label class="text-[9px] text-slate-400 block mb-1 uppercase">Упражнение:</label>
-          <input type="text" id="rec-edit-name" readonly class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-slate-300 font-sans text-xs outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[9px] text-slate-400 block mb-1 uppercase">Максимальный вес (кг):</label>
-            <input type="number" step="0.5" id="rec-edit-weight" onclick="this.select()" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-[#c8a97e] font-bold text-center outline-none">
-          </div>
-          <div>
-            <label class="text-[9px] text-slate-400 block mb-1 uppercase">Повторений (раз):</label>
-            <input type="number" step="1" id="rec-edit-reps" onclick="this.select()" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold text-center outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="text-[9px] text-slate-400 block mb-1 uppercase">Дата фиксации:</label>
-          <input type="date" id="rec-edit-date" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white outline-none">
-        </div>
-      </div>
-      <div class="flex space-x-2 pt-2">
-        <button onclick="saveRecordFromModal()" class="flex-1 py-2.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl">
-          Сохранить рекорд
-        </button>
-        <button onclick="closeModal('modal-edit-record')" class="px-3 py-2.5 bg-[#181b26] text-slate-300 border border-white/10 font-medium text-xs rounded-xl">
-          Отмена
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->
   <!-- ======================================================== -->
   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="max-w-md w-full bg-[#12141c] rounded-t-3xl sm:rounded-3xl border border-white/10 p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-3">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">
         <div class="flex items-center space-x-2.5">
           <div class="w-8 h-8 rounded-xl bg-[#181b26] border border-white/10 flex items-center justify-center text-[#c8a97e] font-mono font-bold text-xs">ID</div>
           <div>
@@ -847,7 +816,7 @@
   <!-- ======================================================== -->
   <div id="modal-date-workout-picker" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-4 bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2 font-mono">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 font-mono">
         <h3 class="font-bold text-xs text-white uppercase tracking-wider" id="picker-modal-title">Тренировка на дату</h3>
         <button onclick="closeModal('modal-date-workout-picker')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
@@ -880,7 +849,7 @@
   <!-- ======================================================== -->
   <div id="modal-safe-reset" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-4 bg-[#12141c] rounded-3xl border border-rose-500/40 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2 text-rose-400 font-mono">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 text-rose-400 font-mono">
         <h3 class="font-bold text-xs uppercase tracking-wider">Подтверждение сброса</h3>
         <button onclick="closeModal('modal-safe-reset')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
@@ -907,7 +876,7 @@
   <!-- ======================================================== -->
   <div id="modal-onboarding" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-4 bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2 font-mono">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 font-mono">
         <h3 class="font-bold text-xs text-white uppercase tracking-wider">Параметры атлета</h3>
         <button onclick="closeModal('modal-onboarding')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
@@ -915,29 +884,29 @@
       <form id="form-onboarding" onsubmit="saveOnboardingProfile(event)" class="space-y-3 font-mono text-xs">
         <div>
           <label class="text-[10px] text-slate-400 block mb-1 uppercase">Имя:</label>
-          <input type="text" id="onboard-name" required placeholder="Роман" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans">
+          <input type="text" id="onboard-name" required placeholder="Роман" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans">
         </div>
         <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="text-[10px] text-slate-400 block mb-1 uppercase">Возраст:</label>
-            <input type="number" id="onboard-age" required placeholder="32" class="w-full bg-[#0e1017] border border-white/10 px-2 py-2 rounded-xl text-white font-bold outline-none">
+            <input type="number" id="onboard-age" required placeholder="32" class="w-full bg-[#0c0d14] border border-white/10 px-2 py-2 rounded-xl text-white font-bold outline-none">
           </div>
           <div>
             <label class="text-[10px] text-slate-400 block mb-1 uppercase">Рост (см):</label>
-            <input type="number" id="onboard-height" required placeholder="178" class="w-full bg-[#0e1017] border border-white/10 px-2 py-2 rounded-xl text-white font-bold outline-none">
+            <input type="number" id="onboard-height" required placeholder="178" class="w-full bg-[#0c0d14] border border-white/10 px-2 py-2 rounded-xl text-white font-bold outline-none">
           </div>
           <div>
             <label class="text-[10px] text-slate-400 block mb-1 uppercase">Вес (кг):</label>
-            <input type="number" step="0.1" id="onboard-weight" required placeholder="83.0" class="w-full bg-[#0e1017] border border-white/10 px-2 py-2 rounded-xl text-white font-bold outline-none">
+            <input type="number" step="0.1" id="onboard-weight" required placeholder="83.0" class="w-full bg-[#0c0d14] border border-white/10 px-2 py-2 rounded-xl text-white font-bold outline-none">
           </div>
         </div>
         <div>
           <label class="text-[10px] text-slate-400 block mb-1 uppercase">Талия по пупку (см):</label>
-          <input type="number" step="0.5" id="onboard-waist" required placeholder="91.5" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-[#c8a97e] font-bold outline-none">
+          <input type="number" step="0.5" id="onboard-waist" required placeholder="91.5" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-[#c8a97e] font-bold outline-none">
         </div>
         <div>
           <label class="text-[10px] text-slate-400 block mb-1 uppercase">Главная цель:</label>
-          <select id="onboard-goal" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans text-xs">
+          <select id="onboard-goal" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans text-xs">
             <option value="Рекомпозиция (Сушка жира + Мышечный тонус)">Рекомпозиция (Сушка жира + Мышечный тонус)</option>
             <option value="Набор мышечной массы">Набор мышечной массы</option>
             <option value="Сушка и сброс веса">Сушка и сброс веса</option>
@@ -946,7 +915,7 @@
         </div>
         <div>
           <label class="text-[10px] text-slate-400 block mb-1 uppercase">Ограничения и травмы:</label>
-          <textarea id="onboard-injuries" rows="2" placeholder="Например: резекция легкого, спазм мышцы шеи/лопатки..." class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none font-sans"></textarea>
+          <textarea id="onboard-injuries" rows="2" placeholder="Например: резекция легкого, спазм мышцы шеи/лопатки..." class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none font-sans"></textarea>
         </div>
         <button type="submit" class="w-full py-3 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl active:scale-98 transition-all shadow-md">
           Сохранить параметры
@@ -960,7 +929,7 @@
   <!-- ======================================================== -->
   <div id="modal-readiness" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-4 bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2 font-mono">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2 font-mono">
         <h3 class="font-bold text-xs text-white uppercase tracking-wider">Авторегуляция нагрузок</h3>
         <button onclick="closeModal('modal-readiness')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
@@ -1010,7 +979,7 @@
   <!-- ======================================================== -->
   <div id="modal-1rm" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-3 bg-[#12141c] rounded-3xl border border-white/10 shadow-2xl font-mono text-xs">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
         <h3 class="font-bold text-xs text-white uppercase tracking-wider">Максимум на 1 повтор</h3>
         <button onclick="closeModal('modal-1rm')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
@@ -1018,11 +987,11 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Рабочий вес (кг)</label>
-            <input type="number" step="0.5" inputmode="decimal" id="rm-calc-weight" value="24" onclick="this.select()" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none" oninput="calculate1RM()">
+            <input type="number" step="0.5" inputmode="decimal" id="rm-calc-weight" value="24" onclick="this.select()" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none" oninput="calculate1RM()">
           </div>
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Повторы (раз)</label>
-            <input type="number" inputmode="numeric" id="rm-calc-reps" value="10" onclick="this.select()" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none" oninput="calculate1RM()">
+            <input type="number" inputmode="numeric" id="rm-calc-reps" value="10" onclick="this.select()" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none" oninput="calculate1RM()">
           </div>
         </div>
         <div id="rm-calc-result" class="p-2.5 bg-[#181b26] rounded-xl text-[11px] space-y-1"></div>
@@ -1035,40 +1004,40 @@
   <!-- ======================================================== -->
   <div id="modal-edit-history" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="max-w-sm w-full p-5 space-y-3 bg-[#12141c] rounded-3xl border border-white/10 max-h-[90vh] overflow-y-auto font-mono text-xs shadow-2xl">
-      <div class="flex justify-between items-center border-b border-white/[0.07] pb-2">
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
         <h3 class="font-bold text-xs text-white uppercase tracking-wider">Редактирование записи</h3>
         <button onclick="closeModal('modal-edit-history')" class="text-slate-400 hover:text-white font-bold">✕</button>
       </div>
       <div class="space-y-3">
         <div>
           <label class="text-[9px] text-slate-400 block mb-1 uppercase">Название:</label>
-          <input type="text" id="edit-h-name" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans">
+          <input type="text" id="edit-h-name" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none font-sans">
         </div>
         <div>
           <label class="text-[9px] text-slate-400 block mb-1 uppercase">Дата:</label>
-          <input type="date" id="edit-h-date" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white outline-none">
+          <input type="date" id="edit-h-date" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white outline-none">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Время начала:</label>
-            <input type="time" id="edit-h-starttime" class="w-full bg-[#0e1017] border border-white/10 px-2 py-1.5 rounded-xl text-white outline-none">
+            <input type="time" id="edit-h-starttime" class="w-full bg-[#0c0d14] border border-white/10 px-2 py-1.5 rounded-xl text-white outline-none">
           </div>
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Время окончания:</label>
-            <input type="time" id="edit-h-endtime" class="w-full bg-[#0e1017] border border-white/10 px-2 py-1.5 rounded-xl text-white outline-none">
+            <input type="time" id="edit-h-endtime" class="w-full bg-[#0c0d14] border border-white/10 px-2 py-1.5 rounded-xl text-white outline-none">
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Тоннаж (кг):</label>
-            <input type="number" inputmode="decimal" id="edit-h-tonnage" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none">
+            <input type="number" inputmode="decimal" id="edit-h-tonnage" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-white font-bold outline-none">
           </div>
           <div>
             <label class="text-[9px] text-slate-400 block mb-1 uppercase">Расход (ккал):</label>
-            <input type="number" inputmode="numeric" id="edit-h-calories" class="w-full bg-[#0e1017] border border-white/10 px-3 py-2 rounded-xl text-[#c8a97e] font-bold outline-none">
+            <input type="number" inputmode="numeric" id="edit-h-calories" class="w-full bg-[#0c0d14] border border-white/10 px-3 py-2 rounded-xl text-[#c8a97e] font-bold outline-none">
           </div>
         </div>
-        <div id="edit-h-exercises" class="space-y-2 pt-2 border-t border-white/[0.07]"></div>
+        <div id="edit-h-exercises" class="space-y-2 pt-2 border-t border-white/[0.08]"></div>
       </div>
       <div class="flex space-x-2 pt-2">
         <button onclick="saveEditedHistoryItem()" class="flex-1 py-2.5 bg-[#c8a97e] text-slate-950 font-bold text-xs uppercase rounded-xl">

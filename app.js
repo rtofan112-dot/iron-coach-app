@@ -1,9 +1,9 @@
 /**
- * IRON COACH ELITE - Swiss Titanium & Velvet Graphite UI Engine
+ * IRON COACH ELITE - Bio-Analytics & Scientific Hypertrophy Engine
  */
 
 // ========================================================
-// 3 РЕЖИМА ЗВУКА И ВИБРАЦИИ: 'sound' | 'vibrate' | 'silent'
+// 3 РЕЖИМА ЗВУКА И ВИБРАЦИИ
 // ========================================================
 const Sound = {
   ctx: null,
@@ -100,7 +100,7 @@ function updateSoundUI() {
 }
 
 // ========================================================
-// КАСТОМНЫЕ ВЕКТОРНЫЕ БИОМЕХАНИЧЕСКИЕ ИЛЛЮСТРАЦИИ (CAD BLUEPRINT)
+// НАУЧНЫЕ БИОМЕХАНИЧЕСКИЕ ИЛЛЮСТРАЦИИ (NSCA / EXRX STANDARD)
 // ========================================================
 function getExerciseDiagramSVG(exName, muscleGroup) {
   const n = (exName || "").toLowerCase();
@@ -108,73 +108,86 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
   // НАКЛОННЫЙ ЖИМ (30°)
   if (n.includes("наклонн") || n.includes("30°")) {
     return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Скамья 30° -->
-        <line x1="40" y1="65" x2="160" y2="25" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
-        <line x1="70" y1="55" x2="70" y2="70" stroke="#334155" stroke-width="2"/>
-        <line x1="140" y1="32" x2="140" y2="70" stroke="#334155" stroke-width="2"/>
-        <line x1="30" y1="70" x2="180" y2="70" stroke="#1e293b" stroke-width="2"/>
-        <!-- Фигура атлета -->
-        <circle cx="150" cy="18" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <line x1="145" y1="24" x2="80" y2="48" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
-        <!-- Подсвеченная верхняя часть груди -->
-        <path d="M125 28 L110 34" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <!-- Рука и вектор жима вверх -->
-        <polyline points="125,30 110,18 105,6" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Гантель -->
-        <circle cx="105" cy="6" r="4" fill="#c8a97e"/>
-        <!-- Векторная стрелка движения -->
-        <path d="M112 18 L106 8" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
-        <text x="180" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">ВЕРХ ГРУДИ</text>
-        <text x="180" y="44" fill="#64748b" font-size="8" font-family="monospace">Угол 30°</text>
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Скамья угол 30 градусов -->
+        <line x1="30" y1="75" x2="150" y2="35" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="65" y1="63" x2="65" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="130" y1="42" x2="130" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="20" y1="82" x2="160" y2="82" stroke="#1e293b" stroke-width="2"/>
+        
+        <!-- Атлет (Анатомическая линия) -->
+        <circle cx="140" cy="26" r="7" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="135" y1="32" x2="75" y2="56" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        
+        <!-- Активный верхний пучок грудных мышц (Clavicular Head) -->
+        <path d="M120 37 L100 44" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        
+        <!-- Фаза движения гантелей: Вектор выжима строго вверх -->
+        <polyline points="115,39 105,24 100,10" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="100" cy="10" r="5" fill="#c8a97e"/>
+        <line x1="105" y1="26" x2="101" y2="12" stroke="#c8a97e" stroke-width="2" stroke-dasharray="2 2"/>
+        
+        <!-- Анатомические маркеры -->
+        <text x="175" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ВЕРХ ГРУДИ</text>
+        <text x="175" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Угол скамьи: 30°</text>
+        <text x="175" y="56" fill="#64748b" font-size="8" font-family="monospace">Локти: 65° к телу</text>
+        <text x="175" y="70" fill="#10b981" font-size="8" font-family="monospace">Шея расслаблена</text>
       </svg>
     `;
   }
   
-  // ГОРИЗОНТАЛЬНЫЙ ЖИМ / БРУСЬЯ / БАБОЧКА
+  // ГОРИЗОНТАЛЬНЫЙ ЖИМ / БАБОЧКА / БРУСЬЯ
   if (n.includes("жим лежа") || n.includes("горизонтал") || n.includes("бабочк") || n.includes("брусь") || n.includes("хаммер")) {
     return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Скамья -->
-        <line x1="40" y1="50" x2="160" y2="50" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
-        <line x1="50" y1="50" x2="50" y2="70" stroke="#334155" stroke-width="2"/>
-        <line x1="150" y1="50" x2="150" y2="70" stroke="#334155" stroke-width="2"/>
-        <!-- Фигура атлета -->
-        <circle cx="150" cy="40" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <line x1="144" y1="44" x2="70" y2="44" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
-        <!-- Подсветка груди -->
-        <path d="M125 44 L105 44" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <!-- Руки с выжимом -->
-        <polyline points="120,44 115,24 115,10" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="115" cy="10" r="4" fill="#c8a97e"/>
-        <!-- Вектор жима -->
-        <line x1="115" y1="35" x2="115" y2="15" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
-        <text x="175" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">ГРУДНЫЕ</text>
-        <text x="175" y="44" fill="#64748b" font-size="8" font-family="monospace">Сведение лопаток</text>
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Горизонтальная скамья -->
+        <line x1="30" y1="58" x2="150" y2="58" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="58" x2="45" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="135" y1="58" x2="135" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="20" y1="82" x2="160" y2="82" stroke="#1e293b" stroke-width="2"/>
+        
+        <!-- Атлет -->
+        <circle cx="140" cy="48" r="7" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="134" y1="53" x2="65" y2="53" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        
+        <!-- Сведение лопаток и подсветка груди -->
+        <path d="M120 53 L95 53" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        
+        <!-- Руки и вертикальный жим -->
+        <polyline points="112,53 108,32 108,12" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="108" cy="12" r="5" fill="#c8a97e"/>
+        
+        <text x="175" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ГРУДНЫЕ МЫШЦЫ</text>
+        <text x="175" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Лопатки сведены</text>
+        <text x="175" y="56" fill="#64748b" font-size="8" font-family="monospace">Пауза внизу: 1с</text>
+        <text x="175" y="70" fill="#10b981" font-size="8" font-family="monospace">Упор стопами в пол</text>
       </svg>
     `;
   }
 
-  // ТЯГА К ЛИЦУ (FACE PULL — РАЗГРУЗКА ШЕИ)
+  // ТЯГА К ЛИЦУ (FACE PULL — РАЗГРУЗКА ШЕИ И ЛОПАТКИ)
   if (n.includes("лицу") || n.includes("face pull") || n.includes("ше") || n.includes("лопатк")) {
     return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Блочная стойка -->
-        <line x1="30" y1="10" x2="30" y2="70" stroke="#334155" stroke-width="3"/>
-        <circle cx="30" cy="25" r="3" fill="#c8a97e"/>
-        <!-- Канатный трос -->
-        <path d="M30 25 L95 25" stroke="#475569" stroke-width="2" stroke-dasharray="3 3"/>
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Блочная рама -->
+        <line x1="25" y1="10" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
+        <circle cx="25" cy="30" r="3.5" fill="#c8a97e"/>
+        <line x1="25" y1="30" x2="85" y2="30" stroke="#64748b" stroke-width="2" stroke-dasharray="3 3"/>
+        
         <!-- Атлет стоя -->
-        <circle cx="130" cy="20" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <line x1="130" y1="27" x2="130" y2="60" stroke="#cbd5e1" stroke-width="4"/>
-        <polyline points="130,60 120,72" stroke="#94a3b8" stroke-width="2.5"/>
-        <polyline points="130,60 140,72" stroke="#94a3b8" stroke-width="2.5"/>
-        <!-- Руки тянут канат к глазам, локти назад -->
-        <polyline points="130,30 115,22 95,25" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- Подсвеченная задняя дельта и трапеция/лопатка -->
-        <circle cx="126" cy="30" r="4" fill="#c8a97e"/>
-        <text x="160" y="28" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">РАЗГРУЗКА ШЕИ</text>
-        <text x="160" y="40" fill="#64748b" font-size="8" font-family="monospace">Лопатки и задн. дельта</text>
+        <circle cx="125" cy="24" r="7" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="125" y1="31" x2="125" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <polyline points="125,65 115,82" stroke="#94a3b8" stroke-width="2.5"/>
+        <polyline points="125,65 135,82" stroke="#94a3b8" stroke-width="2.5"/>
+        
+        <!-- Вектор тяги каната к глазам, локти назад и наружу -->
+        <polyline points="125,35 110,26 85,30" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="120" cy="34" r="4.5" fill="#c8a97e"/>
+        
+        <text x="160" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">РАЗГРУЗКА ШЕИ</text>
+        <text x="160" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Траектория: к глазам</text>
+        <text x="160" y="56" fill="#64748b" font-size="8" font-family="monospace">Локти выше кистей</text>
+        <text x="160" y="70" fill="#10b981" font-size="8" font-family="monospace">Снятие спазма трапеции</text>
       </svg>
     `;
   }
@@ -182,92 +195,86 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
   // ТЯГИ СПИНЫ (ГОРИЗОНТАЛЬНЫЙ / ВЕРТИКАЛЬНЫЙ БЛОК)
   if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван")) {
     return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Блок тренажера -->
-        <line x1="35" y1="10" x2="35" y2="70" stroke="#334155" stroke-width="3"/>
-        <line x1="35" y1="40" x2="90" y2="40" stroke="#475569" stroke-width="2" stroke-dasharray="2 2"/>
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Тренажер тяги -->
+        <line x1="25" y1="15" x2="25" y2="82" stroke="#334155" stroke-width="3"/>
+        <line x1="25" y1="46" x2="75" y2="46" stroke="#64748b" stroke-width="2" stroke-dasharray="2 2"/>
+        
         <!-- Атлет сидя -->
-        <circle cx="125" cy="22" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <line x1="125" y1="29" x2="120" y2="55" stroke="#cbd5e1" stroke-width="4"/>
-        <line x1="120" y1="55" x2="85" y2="55" stroke="#94a3b8" stroke-width="3"/>
-        <!-- Подсвеченные широчайшие спины -->
-        <path d="M123 32 L121 48" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <!-- Руки тянут к поясу -->
-        <polyline points="123,32 105,38 90,40" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <text x="160" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">ШИРОЧАЙШИЕ</text>
-        <text x="160" y="44" fill="#64748b" font-size="8" font-family="monospace">Тяга локтями назад</text>
+        <circle cx="120" cy="26" r="7" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="120" y1="33" x2="115" y2="60" stroke="#f1f5f9" stroke-width="4"/>
+        <line x1="115" y1="60" x2="80" y2="60" stroke="#94a3b8" stroke-width="3"/>
+        
+        <!-- Активная широчайшая мышца (Latissimus Dorsi) -->
+        <path d="M118 36 L116 54" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="118,36 100,43 75,46" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        
+        <text x="160" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ШИРОЧАЙШИЕ СПИНЫ</text>
+        <text x="160" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Тяга локтями назад</text>
+        <text x="160" y="56" fill="#64748b" font-size="8" font-family="monospace">Грудь раскрыта</text>
+        <text x="160" y="70" fill="#10b981" font-size="8" font-family="monospace">Плечи опущены вниз</text>
       </svg>
     `;
   }
 
-  // НОГИ (ЖИМ НОГАМИ 45° / ПРИСЕД / ГАКК / СГИБАНИЯ)
+  // НОГИ (ЖИМ 45°, ПРИСЕД, РУМЫНКА)
   if (n.includes("ног") || n.includes("присед") || n.includes("румын") || n.includes("икр")) {
     return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Платформа тренажера 45° -->
-        <line x1="50" y1="20" x2="110" y2="65" stroke="#334155" stroke-width="3"/>
-        <rect x="40" y="15" width="20" height="8" rx="2" fill="#c8a97e" transform="rotate(-35 40 15)"/>
-        <!-- Атлет в кресле -->
-        <circle cx="150" cy="35" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <polyline points="145,40 120,55 80,45 55,30" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Подсветка квадрицепса и бицепса бедра -->
-        <path d="M120 55 L80 45" stroke="#c8a97e" stroke-width="5" stroke-linecap="round"/>
-        <text x="165" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">КВАДРИЦЕПС</text>
-        <text x="165" y="44" fill="#64748b" font-size="8" font-family="monospace">Упор в пятки</text>
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Платформа 45 градусов -->
+        <line x1="35" y1="25" x2="95" y2="75" stroke="#475569" stroke-width="4"/>
+        <rect x="30" y="20" width="18" height="8" rx="2" fill="#c8a97e" transform="rotate(-35 30 20)"/>
+        
+        <!-- Атлет в кресле тренажера -->
+        <circle cx="140" cy="40" r="7" stroke="#cbd5e1" stroke-width="2"/>
+        <polyline points="135,45 110,62 70,52 45,35" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        
+        <!-- Подсветка квадрицепса -->
+        <path d="M110 62 L70 52" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        
+        <text x="165" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">КВАДРИЦЕПС / НОГИ</text>
+        <text x="165" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Упор в пятки</text>
+        <text x="165" y="56" fill="#64748b" font-size="8" font-family="monospace">Угол в коленях: 90°</text>
+        <text x="165" y="70" fill="#10b981" font-size="8" font-family="monospace">Суставы не вставлять</text>
       </svg>
     `;
   }
 
-  // ПЛЕЧИ / МАХИ / ЖИМ СИДЯ
+  // ПЛЕЧИ И РАЗВЕДЕНИЯ
   if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) {
     return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Фигура атлета -->
-        <circle cx="120" cy="18" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <line x1="120" y1="25" x2="120" y2="60" stroke="#cbd5e1" stroke-width="4"/>
-        <polyline points="120,60 110,72" stroke="#94a3b8" stroke-width="2.5"/>
-        <polyline points="120,60 130,72" stroke="#94a3b8" stroke-width="2.5"/>
-        <!-- Руки в разведении в стороны -->
-        <polyline points="70,30 95,26 120,26 145,26 170,30" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- Гантели -->
-        <circle cx="70" cy="30" r="3.5" fill="#c8a97e"/>
-        <circle cx="170" cy="30" r="3.5" fill="#c8a97e"/>
-        <!-- Подсветка средних дельт -->
-        <circle cx="100" cy="26" r="4" fill="#c8a97e"/>
-        <circle cx="140" cy="26" r="4" fill="#c8a97e"/>
-        <text x="175" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">СРЕДНЯЯ ДЕЛЬТА</text>
-        <text x="175" y="44" fill="#64748b" font-size="8" font-family="monospace">Подъем локтями</text>
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="115" cy="20" r="7" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="115" y1="27" x2="115" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+        <polyline points="115,65 105,82" stroke="#94a3b8" stroke-width="2.5"/>
+        <polyline points="115,65 125,82" stroke="#94a3b8" stroke-width="2.5"/>
+        
+        <!-- Разведение гантелей -->
+        <polyline points="65,35 90,30 115,30 140,30 165,35" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="65" cy="35" r="4" fill="#c8a97e"/>
+        <circle cx="165" cy="35" r="4" fill="#c8a97e"/>
+        <circle cx="95" cy="30" r="4.5" fill="#c8a97e"/>
+        <circle cx="135" cy="30" r="4.5" fill="#c8a97e"/>
+        
+        <text x="175" y="28" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">СРЕДНЯЯ ДЕЛЬТА</text>
+        <text x="175" y="42" fill="#94a3b8" font-size="9" font-family="monospace">Подъем локтями</text>
+        <text x="175" y="56" fill="#64748b" font-size="8" font-family="monospace">Кисти ниже локтей</text>
+        <text x="175" y="70" fill="#10b981" font-size="8" font-family="monospace">Без раскачки корпуса</text>
       </svg>
     `;
   }
 
-  // РУКИ (БИЦЕПС / ТРИЦЕПС)
-  if (n.includes("бицепс") || n.includes("трицепс") || n.includes("молот") || n.includes("руки")) {
-    return `
-      <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="20" r="7" stroke="#94a3b8" stroke-width="2"/>
-        <line x1="100" y1="27" x2="100" y2="60" stroke="#cbd5e1" stroke-width="4"/>
-        <polyline points="100,28 100,42 85,30" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Подсветка руки -->
-        <circle cx="95" cy="36" r="4" fill="#c8a97e"/>
-        <!-- Гантель -->
-        <circle cx="85" cy="30" r="4" fill="#c8a97e"/>
-        <text x="140" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">РУКИ / ИЗОЛЯЦИЯ</text>
-        <text x="140" y="44" fill="#64748b" font-size="8" font-family="monospace">Локти фиксированы</text>
-      </svg>
-    `;
-  }
-
-  // УНИВЕРСАЛЬНЫЙ ДИЗАЙН
+  // УНИВЕРСАЛЬНЫЙ
   return `
-    <svg class="w-full h-full" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="100" cy="22" r="7" stroke="#94a3b8" stroke-width="2"/>
-      <line x1="100" y1="29" x2="100" y2="60" stroke="#cbd5e1" stroke-width="4"/>
-      <polyline points="100,60 90,72" stroke="#94a3b8" stroke-width="2.5"/>
-      <polyline points="100,60 110,72" stroke="#94a3b8" stroke-width="2.5"/>
-      <circle cx="100" cy="38" r="5" fill="#c8a97e"/>
-      <text x="140" y="32" fill="#c8a97e" font-size="9" font-family="monospace" font-weight="bold">${muscleGroup || 'БАЗА'}</text>
-      <text x="140" y="44" fill="#64748b" font-size="8" font-family="monospace">Контроль техники</text>
+    <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="95" cy="24" r="7" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="95" y1="31" x2="95" y2="65" stroke="#f1f5f9" stroke-width="4"/>
+      <polyline points="95,65 85,82" stroke="#94a3b8" stroke-width="2.5"/>
+      <polyline points="95,65 105,82" stroke="#94a3b8" stroke-width="2.5"/>
+      <circle cx="95" cy="40" r="5" fill="#c8a97e"/>
+      <text x="145" y="32" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">${muscleGroup || 'БАЗОВАЯ ТЕХНИКА'}</text>
+      <text x="145" y="46" fill="#94a3b8" font-size="9" font-family="monospace">Контроль амплитуды</text>
+      <text x="145" y="60" fill="#64748b" font-size="8" font-family="monospace">Дыхание: выдох на усилии</text>
     </svg>
   `;
 }
@@ -371,12 +378,9 @@ function getInitialAccount() {
     injuries: "Резекция левого легкого, спазм мышцы шеи и лопатки",
     goal: "Рекомпозиция (Сушка жира + Мышечный тонус)",
     mesocycleWeek: 3,
-    totalMesoWeeks: 3,
     xp: 0,
     streak: 0,
     vacDaysCount: 0,
-    protDaysCount: 0,
-    waterDaysCount: 0,
     soundMode: 'sound',
     weightProgression: {
       "Жим гантелей на наклонной скамье 30°": 22.0,
@@ -384,13 +388,12 @@ function getInitialAccount() {
       "Жим ногами под углом 45° в тренажере": 90.0,
       "Тяга горизонтального блока к поясу (нейтральный хват)": 45.0
     },
+    // Только реальные подтвержденные рекорды (Core Benchmark Lifts)
     personalRecords: {
       "Жим гантелей на наклонной скамье 30°": { weight: 22, reps: 10, date: "2026-08-25" },
       "Жим гантелей на горизонтальной скамье": { weight: 24, reps: 10, date: "2026-08-25" },
       "Жим ногами под углом 45° в тренажере": { weight: 90, reps: 12, date: "2026-08-25" },
-      "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, date: "2026-08-25" },
-      "Сведения рук в тренажере бабочка (Pec Deck)": { weight: 25, reps: 12, date: "2026-08-23" },
-      "Румынская тяга с гантелями": { weight: 22, reps: 12, date: "2026-08-23" }
+      "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, date: "2026-08-25" }
     },
     currentMetrics: { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 },
     metrics: [
@@ -407,7 +410,6 @@ let pendingWorkoutPlanKey = 'a';
 let pendingTargetWorkoutDate = null;
 let currentAchFilter = 'all';
 let currentDbCategory = 'all';
-let currentPrFilter = 'all';
 
 let activeExpandedExerciseIndex = 0;
 let liveWorkoutTimerInterval = null;
@@ -460,6 +462,7 @@ function loadState() {
   const elName = document.getElementById("tg-user-name");
   if (elName) elName.textContent = appState.name;
 
+  calculateAutoMesocycle();
   saveState();
   checkAchievements();
   renderPersonalizedVitamins();
@@ -468,6 +471,7 @@ function loadState() {
   render12MonthsAnnualBreakdown();
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
   fetchLeaderboard();
   updateSoundUI();
   updateVacuumBadge();
@@ -505,7 +509,398 @@ function renderXP() {
 }
 
 // ========================================================
-// 1-ТАП УТРЕННИЙ ВАКУУМ (БЕЗ ТАЙМЕРОВ)
+// АВТОМАТИЧЕСКАЯ ПЕРИОДИЗАЦИЯ (РАСЧЕТ БЕЗ РУЧНОГО КЛИКАНИЯ)
+// ========================================================
+function calculateAutoMesocycle() {
+  const totalSessions = (appState.history || []).length;
+  // 1 неделя = каждые 2-3 завершенные тренировочные сессии
+  let calculatedWeek = Math.floor(totalSessions / 2) + 1;
+  if (calculatedWeek > 8) {
+    calculatedWeek = ((calculatedWeek - 1) % 8) + 1;
+  }
+  appState.mesocycleWeek = calculatedWeek;
+}
+
+function renderMesocycleBanner() {
+  const w = appState.mesocycleWeek || 3;
+  const badgeHeader = document.getElementById("meso-header-badge");
+  const weekDisp = document.getElementById("meso-week-display");
+  const descEl = document.getElementById("meso-desc-text");
+
+  if (badgeHeader) badgeHeader.textContent = `Неделя ${w}/8`;
+  if (weekDisp) weekDisp.textContent = w;
+
+  if (!descEl) return;
+
+  if (w <= 3) {
+    descEl.innerHTML = `<b>Фаза 1 (Накопление объёма):</b> Линейное повышение рабочих весов (+2.5 кг в базе при закрытии плана). 48 часов отдыха между тренировочными днями.`;
+  } else if (w <= 6) {
+    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий стимул мышечной гипертрофии.`;
+  } else if (w === 7) {
+    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных весов перед разгрузкой.`;
+  } else {
+    descEl.innerHTML = `<span class="text-[#c8a97e] font-bold">Фаза 4 (Авто-делоад):</b> Завершение 8-недельного макроцикла. Рекомендуется снизить веса на 40% для разгрузки суставов и ЦНС.`;
+  }
+}
+
+// ========================================================
+// ИНТЕЛЛЕКТУАЛЬНЫЙ АВТО-ДЕТЕКТОР РЕКОРДОВ (PR BREAKTHROUGH)
+// ========================================================
+function checkAndTriggerIntelligentPR(exName, weight, reps) {
+  if (!weight || weight <= 0 || !reps || reps <= 0) return false;
+
+  if (!appState.personalRecords) appState.personalRecords = {};
+  const currentPR = appState.personalRecords[exName];
+
+  // Рекорд регистрируется ТОЛЬКО если превзойден вес или повторы при том же максимальном весе
+  let isBreakthrough = false;
+  if (!currentPR) {
+    // Первичное появление упражнения в базе рекордов
+    isBreakthrough = true;
+  } else if (weight > currentPR.weight) {
+    isBreakthrough = true;
+  } else if (weight === currentPR.weight && reps > currentPR.reps) {
+    isBreakthrough = true;
+  }
+
+  if (isBreakthrough) {
+    appState.personalRecords[exName] = {
+      weight: weight,
+      reps: reps,
+      date: new Date().toISOString().split("T")[0]
+    };
+    addXP(75);
+    Sound.record();
+    Haptic.success();
+    renderPersonalRecords();
+    return true;
+  }
+  return false;
+}
+
+function renderPersonalRecords() {
+  const container = document.getElementById("personal-records-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const prs = appState.personalRecords || {};
+  const prKeys = Object.keys(prs);
+
+  if (prKeys.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.08] text-center text-slate-400 space-y-2 font-mono">
+        <p class="text-xs font-bold text-white uppercase">Рекорды формируются</p>
+        <p class="text-[11px] text-slate-400 font-sans">Система автоматически зафиксирует рекорд, когда ты превзойдешь свой рабочий вес или повторения на тренировке.</p>
+      </div>
+    `;
+    return;
+  }
+
+  prKeys.forEach(exName => {
+    const rec = prs[exName];
+    const card = document.createElement("div");
+    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.08] flex justify-between items-center space-x-3";
+
+    card.innerHTML = `
+      <div class="space-y-1">
+        <div class="flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#c8a97e]"></span>
+          <h4 class="font-bold text-white text-xs font-sans">${exName}</h4>
+        </div>
+        <p class="text-xs text-slate-400 font-mono">
+          Максимум: <b class="text-[#c8a97e] font-bold text-sm">${rec.weight} кг × ${rec.reps}</b>
+        </p>
+      </div>
+      <div class="text-right font-mono">
+        <span class="text-[10px] text-slate-400 block">${rec.date}</span>
+        <span class="text-[9px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60 uppercase">Подтверждено</span>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ========================================================
+// ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК (BIO-ANALYTICS)
+// ========================================================
+function renderPersonalizedAIAnalytics() {
+  const container = document.getElementById("ai-recommendations-container");
+  const recovBadge = document.getElementById("ai-recovery-badge");
+  const pushPullEl = document.getElementById("ai-pushpull-ratio");
+  const neckSafetyEl = document.getElementById("ai-neck-safety");
+  const weekTonEl = document.getElementById("ai-week-tonnage");
+  if (!container) return;
+
+  const hist = appState.history || [];
+  const totalTonnage = getTotalTonnage(appState);
+  const weekTonnage = hist.slice(0, 3).reduce((sum, h) => sum + (h.tonnage || 0), 0);
+
+  if (weekTonEl) weekTonEl.textContent = `${weekTonnage.toLocaleString()} кг`;
+
+  // Расчет соотношения жимов и тяг (Push/Pull)
+  let pushSets = 0, pullSets = 0;
+  hist.slice(0, 4).forEach(h => {
+    (h.exercises || []).forEach(e => {
+      const setCount = (e.sets.match(/,/g) || []).length + 1;
+      const n = (e.name || "").toLowerCase();
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("мах")) pushSets += setCount;
+      if (n.includes("тяга") || n.includes("спин") || n.includes("лицу") || n.includes("подтягиван")) pullSets += setCount;
+    });
+  });
+
+  const ratio = (pullSets > 0) ? (pushSets / pullSets).toFixed(1) : "1.0";
+  if (pushPullEl) pushPullEl.textContent = `${ratio} : 1.0`;
+
+  if (neckSafetyEl) {
+    if (pullSets >= pushSets * 0.9) {
+      neckSafetyEl.textContent = "Безопасно";
+      neckSafetyEl.className = "text-sm font-bold text-emerald-400";
+    } else {
+      neckSafetyEl.textContent = "Внимание";
+      neckSafetyEl.className = "text-sm font-bold text-[#c8a97e]";
+    }
+  }
+
+  // Персональные рекомендации на основе биометрии
+  const tips = [
+    {
+      title: "🫁 Контроль дыхания при резекции легкого",
+      desc: "Полностью исключен маневр Вальсальвы (задержка дыхания при натуживании). Выполняй длинный выдох строго на усилии при выжиме веса. Отдых между базовыми сетами: не менее 90–120 секунд."
+    },
+    {
+      title: "🛡️ Протокол защиты мышцы шеи и лопатки",
+      desc: "Исключены жимы штанги из-за головы и шраги. Обязательно сохраняй в программе тягу каната к лицу (Face Pull) 4х15-20 и нейтральный хват в тягах для снятия тонуса трапециевидной мышцы."
+    },
+    {
+      title: "⚖️ Дефицит калорий при талии 91.5 см (WHtR: 51%)",
+      desc: "Оптимальный суточный дефицит составляет -300 ккал (норма: 2000 ккал/день). Это обеспечивает сушку висцерального жира со скоростью 400-500г в неделю без потери мышечной массы."
+    }
+  ];
+
+  container.innerHTML = tips.map(t => `
+    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
+      <h4 class="font-bold text-white text-xs">${t.title}</h4>
+      <p class="text-slate-300 text-[11px] leading-relaxed">${t.desc}</p>
+    </div>
+  `).join("");
+}
+
+// ========================================================
+// НАУЧНЫЙ ОБЪЕМ ПО МЫШЦАМ (ШКАЛА ШЁНФЕЛЬДА & RP MAV)
+// ========================================================
+function renderMuscleVolumeBreakdown() {
+  const container = document.getElementById("muscle-volume-container");
+  if (!container) return;
+
+  const targets = [
+    { group: "Грудные мышцы", mev: 8, mav: 14, current: 8, color: "from-[#c8a97e] to-[#dfc299]" },
+    { group: "Широчайшие и Спина", mev: 10, mav: 16, current: 8, color: "from-slate-400 to-slate-200" },
+    { group: "Квадрицепс и Ноги", mev: 8, mav: 14, current: 7, color: "from-amber-600 to-amber-400" },
+    { group: "Средняя и Задняя дельта", mev: 6, mav: 12, current: 4, color: "from-slate-500 to-slate-300" },
+    { group: "Руки (Бицепс/Трицепс)", mev: 6, mav: 12, current: 6, color: "from-emerald-600 to-emerald-400" }
+  ];
+
+  const hist = appState.history || [];
+  const currentWeekLogs = hist.slice(0, 3);
+  let chestSets = 0, backSets = 0, legSets = 0, shoulderSets = 0, armSets = 0;
+
+  currentWeekLogs.forEach(h => {
+    (h.exercises || []).forEach(e => {
+      const setCount = (e.sets.match(/,/g) || []).length + 1;
+      const n = (e.name || "").toLowerCase();
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) chestSets += setCount;
+      else if (n.includes("тяга") || n.includes("спин")) backSets += setCount;
+      else if (n.includes("ног") || n.includes("присед") || n.includes("румын")) legSets += setCount;
+      else if (n.includes("мах") || n.includes("плеч")) shoulderSets += setCount;
+      else armSets += setCount;
+    });
+  });
+
+  if (chestSets > 0) targets[0].current = chestSets;
+  if (backSets > 0) targets[1].current = backSets;
+  if (legSets > 0) targets[2].current = legSets;
+  if (shoulderSets > 0) targets[3].current = shoulderSets;
+  if (armSets > 0) targets[4].current = armSets;
+
+  container.innerHTML = targets.map(t => {
+    const pct = Math.min(100, Math.round((t.current / t.mav) * 100));
+    const status = t.current >= t.mav ? 'MAV ОПТИМУМ' : t.current >= t.mev ? 'MEV ДОСТИГНУТ' : 'В ПРОЦЕССЕ';
+    return `
+      <div class="space-y-1 bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
+        <div class="flex justify-between items-center text-[11px]">
+          <span class="font-bold text-white uppercase">${t.group}</span>
+          <div class="flex items-center space-x-2">
+            <span class="text-slate-400 font-mono">${t.current} из ${t.mav} сетов/нед</span>
+            <span class="text-[9px] font-bold text-[#c8a97e]">${status}</span>
+          </div>
+        </div>
+        <div class="w-full h-1 bg-[#0c0d14] rounded-full overflow-hidden border border-white/5">
+          <div class="h-full bg-gradient-to-r ${t.color}" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// ========================================================
+// КЛИНИЧЕСКИЙ ВИТАМИННЫЙ СТЕК С НАУЧНЫМИ ДОЗИРОВКАМИ
+// ========================================================
+function renderPersonalizedVitamins() {
+  const container = document.getElementById("personalized-vitamins-container");
+  const reasonLabel = document.getElementById("vitamin-calc-reason");
+  if (!container) return;
+
+  const stack = [
+    {
+      name: "01. Магний Бисглицинат — за 40 мин до сна",
+      dose: "400 мг (чистый Mg)",
+      badgeColor: "text-[#c8a97e]",
+      reason: `Хелатная форма с глицином. Снимает спастический тонус с мышцы, поднимающей лопатку, и улучшает глубокую фазу сна (NREM).`
+    },
+    {
+      name: "02. Витамин D3 + K2 (MK-7) — утром с едой",
+      dose: "4000 МЕ + 100 мкг",
+      badgeColor: "text-white",
+      reason: `Поддерживает выработку тестостерона при силовых нагрузках и направляет кальций в кости, а не в сосуды.`
+    },
+    {
+      name: "03. Омега-3 Высококонцентрированная — в обед",
+      dose: "2000 мг (EPA > 800 мг)",
+      badgeColor: "text-slate-300",
+      reason: `Снижает системное воспаление суставов и сохраняет эластичность связочного аппарата плеча.`
+    },
+    {
+      name: "04. Креатин Моногидрат — утром или после тренинга",
+      dose: "5 г",
+      badgeColor: "text-emerald-400",
+      reason: `Повышает запас фосфокреатина в мышцах, увеличивая силу на 10-15% в первых повторениях базовых сетов.`
+    },
+    {
+      name: "05. Цинк Хелат (Пиколинат) — после ужина",
+      dose: "25 мг",
+      badgeColor: "text-slate-400",
+      reason: `Синтез белка и поддержание иммунитета.`
+    },
+    {
+      name: "06. L-Теанин — при мышечном напряжении",
+      dose: "200 мг",
+      badgeColor: "text-slate-300",
+      reason: `Мягко снижает гиперактивность нервной системы и гипертонус шейного отдела без сонливости.`
+    }
+  ];
+
+  container.innerHTML = stack.map(item => `
+    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
+      <div class="flex justify-between items-center font-mono">
+        <b class="text-white text-xs uppercase">${item.name}</b>
+        <span class="${item.badgeColor} font-bold text-xs">${item.dose}</span>
+      </div>
+      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
+    </div>
+  `).join("");
+}
+
+// ========================================================
+// ЧИСТЫЕ СИЛОВЫЕ И ДИСЦИПЛИНАРНЫЕ АЧИВКИ (БЕЗ ЕДЫ И ВОДЫ)
+// ========================================================
+const ACHIEVEMENTS = [
+  { id: "ach_first", cat: "strength", title: "Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
+  { id: "ach_ton_10", cat: "strength", title: "Рубеж 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
+  { id: "ach_ton_50", cat: "strength", title: "Рубеж 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
+  { id: "ach_ton_100", cat: "strength", title: "Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 100000, current: (s) => getTotalTonnage(s), xp: 1000 },
+  { id: "ach_ton_250", cat: "strength", title: "Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
+
+  { id: "ach_strk_3", cat: "streak", title: "Три в ряд", desc: "Серия из 3 тренировок по графику", target: 3, current: (s) => (s.streak || 0), xp: 250 },
+  { id: "ach_strk_7", cat: "streak", title: "Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
+  { id: "ach_strk_14", cat: "streak", title: "Стальная декада", desc: "Серия из 14 тренировок", target: 14, current: (s) => (s.streak || 0), xp: 800 },
+  { id: "ach_strk_30", cat: "streak", title: "Кремень 30", desc: "Серия из 30 тренировок", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
+
+  { id: "ach_vac_1", cat: "body", title: "Первое втягивание", desc: "Выполни 1-ю утреннюю сессию вакуума", target: 1, current: (s) => (s.vacDaysCount || 0), xp: 100 },
+  { id: "ach_vac_5", cat: "body", title: "Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
+  { id: "ach_vac_14", cat: "body", title: "Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 }
+];
+
+function filterAchievements(cat) {
+  currentAchFilter = cat;
+  ['all', 'strength', 'streak', 'body', 'records'].forEach(c => {
+    const btn = document.getElementById("btn-ach-" + c);
+    if (btn) {
+      if (c === cat) {
+        btn.className = "px-3 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
+      } else {
+        btn.className = "px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
+      }
+    }
+  });
+  renderAchievementsList();
+}
+
+function checkAchievements() {
+  if (!appState.unlockedAchievements) appState.unlockedAchievements = [];
+
+  ACHIEVEMENTS.forEach(ach => {
+    if (!appState.unlockedAchievements.includes(ach.id)) {
+      const curVal = ach.current(appState);
+      if (curVal >= ach.target) {
+        appState.unlockedAchievements.push(ach.id);
+        appState.xp += ach.xp;
+        Sound.finish();
+        Haptic.success();
+      }
+    }
+  });
+
+  renderAchievementsList();
+}
+
+function renderAchievementsList() {
+  const container = document.getElementById("achievements-list");
+  const countEl = document.getElementById("achievements-unlocked-count");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const unlocked = appState.unlockedAchievements || [];
+  if (countEl) countEl.textContent = `${unlocked.length}/${ACHIEVEMENTS.length}`;
+
+  const filtered = ACHIEVEMENTS.filter(a => currentAchFilter === 'all' || a.cat === currentAchFilter);
+
+  filtered.forEach(ach => {
+    const isUnlocked = unlocked.includes(ach.id);
+    const curVal = ach.current(appState);
+    const pct = Math.min(100, Math.round((curVal / ach.target) * 100));
+
+    const card = document.createElement("div");
+    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-[#181b26] border-white/20 text-white' : 'bg-[#12141c] border-white/[0.05] text-slate-400 opacity-75'}`;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start">
+        <div>
+          <h4 class="font-bold text-xs ${isUnlocked ? 'text-[#c8a97e]' : 'text-slate-300'} font-sans">${ach.title}</h4>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
+        </div>
+        <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono ${isUnlocked ? 'bg-[#c8a97e] text-slate-950' : 'bg-[#181b26] text-slate-400 border border-white/5'}">
+          ${isUnlocked ? 'ОТКРЫТО' : `+${ach.xp} XP`}
+        </span>
+      </div>
+
+      <div class="space-y-1 font-mono text-[10px]">
+        <div class="flex justify-between text-slate-400">
+          <span>Прогресс: <b class="${isUnlocked ? 'text-white' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
+          <span>${pct}%</span>
+        </div>
+        <div class="w-full h-1 bg-slate-900 rounded-full overflow-hidden border border-white/5">
+          <div class="h-full ${isUnlocked ? 'bg-[#c8a97e]' : 'bg-slate-700'}" style="width: ${pct}%"></div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ========================================================
+// 1-ТАП УТРЕННИЙ ВАКУУМ
 // ========================================================
 function checkinMorningVacuum() {
   appState.vacDaysCount = (appState.vacDaysCount || 0) + 1;
@@ -525,120 +920,7 @@ function updateVacuumBadge() {
 }
 
 // ========================================================
-// ПОЛНЫЙ ХАБ ЛИЧНЫХ РЕКОРДОВ (ВСЕ УПРАЖНЕНИЯ ИЗ БАЗЫ)
-// ========================================================
-function filterRecordsCategory(cat) {
-  currentPrFilter = cat;
-  ['all', 'chest', 'back', 'legs', 'shoulders', 'arms'].forEach(c => {
-    const btn = document.getElementById("btn-pr-" + c);
-    if (btn) {
-      const match = (c === 'all' && cat === 'all') ||
-                    (c === 'chest' && cat === 'Грудь') ||
-                    (c === 'back' && cat === 'Спина') ||
-                    (c === 'legs' && cat === 'Ноги') ||
-                    (c === 'shoulders' && cat === 'Плечи') ||
-                    (c === 'arms' && cat === 'Руки');
-      if (match) {
-        btn.className = "px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
-      } else {
-        btn.className = "px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
-      }
-    }
-  });
-  renderPersonalRecords();
-}
-
-function checkAndSavePersonalRecord(exName, weight, reps) {
-  if (!appState.personalRecords) appState.personalRecords = {};
-  const currentPR = appState.personalRecords[exName] || { weight: 0, reps: 0 };
-
-  const isNewRecord = (weight > currentPR.weight) || (weight === currentPR.weight && reps > currentPR.reps);
-
-  if (isNewRecord) {
-    appState.personalRecords[exName] = {
-      weight: weight,
-      reps: reps,
-      date: new Date().toISOString().split("T")[0]
-    };
-    addXP(50);
-    Sound.record();
-    Haptic.success();
-    renderPersonalRecords();
-    return true;
-  }
-  return false;
-}
-
-let currentEditingRecordName = null;
-
-function openEditRecordModal(exName, curWeight, curReps) {
-  currentEditingRecordName = exName;
-  document.getElementById("rec-edit-name").value = exName;
-  document.getElementById("rec-edit-weight").value = curWeight || 0;
-  document.getElementById("rec-edit-reps").value = curReps || 10;
-  document.getElementById("rec-edit-date").value = new Date().toISOString().split("T")[0];
-  openModal("modal-edit-record");
-}
-
-function saveRecordFromModal() {
-  if (!currentEditingRecordName) return;
-  const w = parseFloat(document.getElementById("rec-edit-weight").value) || 0;
-  const r = parseInt(document.getElementById("rec-edit-reps").value) || 0;
-  const d = document.getElementById("rec-edit-date").value || new Date().toISOString().split("T")[0];
-
-  if (w <= 0 || r <= 0) {
-    alert("Укажи корректный вес и повторы");
-    return;
-  }
-
-  if (!appState.personalRecords) appState.personalRecords = {};
-  appState.personalRecords[currentEditingRecordName] = { weight: w, reps: r, date: d };
-  saveState();
-  closeModal("modal-edit-record");
-  renderPersonalRecords();
-  Sound.success();
-  Haptic.success();
-}
-
-function renderPersonalRecords() {
-  const container = document.getElementById("personal-records-container");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const prs = appState.personalRecords || {};
-
-  // Собираем все упражнения базы + пользовательские
-  const allExercises = EXERCISE_DATABASE.filter(ex => {
-    return currentPrFilter === 'all' || ex.category === currentPrFilter;
-  });
-
-  allExercises.forEach((ex, idx) => {
-    const rec = prs[ex.name];
-    const hasRecord = !!rec && rec.weight > 0;
-    const card = document.createElement("div");
-    card.className = "p-3.5 bg-[#12141c] rounded-2xl border border-white/[0.07] flex justify-between items-center space-x-3";
-
-    card.innerHTML = `
-      <div class="space-y-0.5">
-        <div class="flex items-center space-x-1.5">
-          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-slate-300 rounded">${ex.category}</span>
-          <h4 class="font-bold text-white text-xs font-sans">${ex.name}</h4>
-        </div>
-        <p class="text-[11px] text-slate-400 font-mono">
-          ${hasRecord ? `<b class="text-[#c8a97e]">${rec.weight} кг × ${rec.reps}</b> • ${rec.date}` : '<span class="text-slate-500">Рекорд еще не зафиксирован</span>'}
-        </p>
-      </div>
-      <button onclick="openEditRecordModal('${ex.name.replace(/'/g, "\\'")}', ${hasRecord ? rec.weight : ex.defaultWeight}, ${hasRecord ? rec.reps : ex.min})" class="px-2.5 py-1.5 bg-[#181b26] hover:bg-[#202432] text-slate-300 border border-white/10 rounded-xl text-[11px] font-mono font-medium active:scale-95 transition-all whitespace-nowrap">
-        ${hasRecord ? 'Изменить' : '+ Задать'}
-      </button>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-// ========================================================
-// СВОБОДНАЯ ТРЕНИРОВКА И УДАЛЕНИЕ УПРАЖНЕНИЙ
+// ТРЕНИРОВОЧНЫЙ ДВИЖОК
 // ========================================================
 function startFreeWorkout(targetDate = null) {
   Sound.beep(600, 0.08);
@@ -831,7 +1113,7 @@ function renderActiveWorkoutUI() {
 
     const card = document.createElement("div");
     card.id = `ex-card-${exIdx}`;
-    card.className = `ex-card-accordion p-4 rounded-2xl border transition-all ${isExpanded ? 'active-focus' : isAllDone ? 'done-all' : 'bg-[#12141c] border-white/[0.07]'}`;
+    card.className = `ex-card-accordion p-4 rounded-2xl border transition-all ${isExpanded ? 'active-focus' : isAllDone ? 'done-all' : 'bg-[#12141c] border-white/[0.08]'}`;
 
     const headerHtml = `
       <div class="flex justify-between items-center select-none">
@@ -861,7 +1143,7 @@ function renderActiveWorkoutUI() {
     let bodyHtml = "";
     if (isExpanded) {
       const setsRows = ex.sets.map((s, sIdx) => `
-        <div class="grid grid-cols-12 gap-2 items-center bg-[#0e1017] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
+        <div class="grid grid-cols-12 gap-2 items-center bg-[#0c0d14] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
           <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
           
           <div class="col-span-5 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
@@ -896,13 +1178,13 @@ function renderActiveWorkoutUI() {
       bodyHtml = `
         <div class="pt-3 space-y-3 border-t border-white/[0.06] mt-3">
           
-          <!-- ВЕКТОРНАЯ ИЛЛЮСТРАЦИЯ ТЕХНИКИ -->
+          <!-- ВЕКТОРНАЯ АНАТОМИЧЕСКАЯ ИЛЛЮСТРАЦИЯ -->
           <div class="ex-diagram-container">
             ${diagramSvg}
           </div>
 
           <!-- ОПИСАНИЕ И ФАЗЫ -->
-          <div class="p-3 bg-[#0e1017] rounded-2xl border border-white/[0.05] space-y-2">
+          <div class="p-3 bg-[#0c0d14] rounded-2xl border border-white/[0.05] space-y-2">
             <div class="flex justify-between items-center text-[10px] font-mono">
               <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
               <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase">${ex.muscleGroup || 'Группа'}</span>
@@ -974,7 +1256,7 @@ function toggleSet(exIdx, sIdx, done) {
 
   if (done) {
     if (s.weight > 0 && s.reps > 0) {
-      checkAndSavePersonalRecord(ex.name, s.weight, s.reps);
+      checkAndTriggerIntelligentPR(ex.name, s.weight, s.reps);
     }
 
     Sound.success();
@@ -1152,7 +1434,7 @@ function finishActiveWorkout() {
     doneSets.forEach(s => {
       tonnage += (s.weight * s.reps);
       if (s.weight > 0 && s.reps > 0) {
-        checkAndSavePersonalRecord(e.name, s.weight, s.reps);
+        checkAndTriggerIntelligentPR(e.name, s.weight, s.reps);
       }
     });
     const isMaxClosed = doneSets.length === e.sets.length && doneSets.every(s => s.reps >= e.max);
@@ -1183,6 +1465,7 @@ function finishActiveWorkout() {
   addXP(150);
   appState.streak = (appState.streak || 0) + 1;
   appState.activeWorkout = null;
+  calculateAutoMesocycle();
   saveState();
 
   Sound.finish();
@@ -1192,6 +1475,7 @@ function finishActiveWorkout() {
   document.getElementById("workout-active").classList.add("hidden");
   document.getElementById("workout-selector").classList.remove("hidden");
   renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
   switchTab("progress");
   switchProgressSubtab("archive");
 }
@@ -1466,6 +1750,7 @@ function onTileInputChanged() {
   updateWHtRBadge(cur.waist, appState.height || 178);
   saveState();
   renderPersonalizedVitamins();
+  renderPersonalizedAIAnalytics();
 }
 
 function updateWHtRBadge(waist, height = 178) {
@@ -1556,7 +1841,7 @@ function drawTrendChart() {
   if (currentChartFilter === 'duration') {
     const hist = (appState.history || []).slice().reverse().filter(item => (item.durationMin || 45) > 0);
     if (hist.length < 2) {
-      ctx.fillStyle = "#64748b";
+      ctx.fillStyle = "#94a3b8";
       ctx.font = "11px Inter, sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("Добавь минимум 2 тренировки для графика времени", w / 2, h / 2);
@@ -1569,7 +1854,7 @@ function drawTrendChart() {
     function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 40); }
     function getX(i) { return 35 + (i / (hist.length - 1)) * (w - 55); }
 
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
     ctx.lineWidth = 1;
     for (let i = 0; i <= 3; i++) {
       const y = 20 + (i / 3) * (h - 40);
@@ -1579,7 +1864,7 @@ function drawTrendChart() {
       ctx.stroke();
 
       const val = (max - (i / 3) * (max - min)).toFixed(0) + "м";
-      ctx.fillStyle = "#64748b";
+      ctx.fillStyle = "#94a3b8";
       ctx.font = "10px monospace";
       ctx.textAlign = "right";
       ctx.fillText(val, 30, y + 3);
@@ -1607,7 +1892,7 @@ function drawTrendChart() {
 
   const logs = (appState.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
   if (logs.length < 2) {
-    ctx.fillStyle = "#64748b";
+    ctx.fillStyle = "#94a3b8";
     ctx.font = "11px Inter, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("Добавь минимум 2 замера для отображения графика", w / 2, h / 2);
@@ -1630,7 +1915,7 @@ function drawTrendChart() {
   function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 40); }
   function getX(i) { return 35 + (i / (logs.length - 1)) * (w - 55); }
 
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
   ctx.lineWidth = 1;
   for (let i = 0; i <= 3; i++) {
     const y = 20 + (i / 3) * (h - 40);
@@ -1640,7 +1925,7 @@ function drawTrendChart() {
     ctx.stroke();
 
     const val = (max - (i / 3) * (max - min)).toFixed(0);
-    ctx.fillStyle = "#64748b";
+    ctx.fillStyle = "#94a3b8";
     ctx.font = "10px monospace";
     ctx.textAlign = "right";
     ctx.fillText(val, 30, y + 3);
@@ -1668,7 +1953,7 @@ function drawTrendChart() {
   }
 
   if (currentChartFilter === 'all' || currentChartFilter === 'weight') {
-    drawLine(logs.map(l => l.weight || 0), "#e2e8f0");
+    drawLine(logs.map(l => l.weight || 0), "#f1f5f9");
   }
   if (currentChartFilter === 'all' || currentChartFilter === 'waist') {
     drawLine(logs.map(l => l.waist || 0), "#c8a97e");
@@ -1676,228 +1961,149 @@ function drawTrendChart() {
 }
 
 // ========================================================
-// ПЕРСОНАЛЬНЫЙ ВИТАМИННЫЙ КОМПЛЕКС
+// ПРОФИЛЬ АТЛЕТА
 // ========================================================
-function renderPersonalizedVitamins() {
-  const container = document.getElementById("personalized-vitamins-container");
-  const reasonLabel = document.getElementById("vitamin-calc-reason");
-  if (!container) return;
+function openProfileDrawer() {
+  updateProfileDisplay();
+  openModal('modal-profile-drawer');
+}
 
-  const age = appState.age || 32;
-  const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
-  const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
-  const height = appState.height || 178;
-  const waistRatioPct = Math.round((waist / height) * 100);
-  const injuries = (appState.injuries || "").toLowerCase();
+function updateProfileDisplay() {
+  const nameEl = document.getElementById("prof-disp-name");
+  const ageEl = document.getElementById("prof-disp-age");
+  const goalEl = document.getElementById("prof-disp-goal");
+  const injEl = document.getElementById("prof-disp-injuries");
 
-  if (reasonLabel) {
-    reasonLabel.textContent = `Под параметры: ${age} года, ${weight} кг, талия/рост: ${waistRatioPct}%, ${appState.goal || 'Рекомпозиция'}`;
+  if (nameEl) nameEl.textContent = appState.name;
+  if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
+  if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
+  if (injEl) injEl.textContent = appState.injuries || "Нет";
+}
+
+let resetTimerInterval = null;
+let resetSecondsLeft = 15;
+
+function openSafeResetModal() {
+  closeModal('modal-profile-drawer');
+  resetSecondsLeft = 15;
+  clearInterval(resetTimerInterval);
+
+  const btn = document.getElementById("btn-confirm-safe-reset");
+  const txt = document.getElementById("reset-countdown-text");
+
+  btn.disabled = true;
+  btn.className = "flex-1 py-3 bg-[#181b26] text-slate-500 font-bold uppercase rounded-xl cursor-not-allowed transition-all";
+  btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+  txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+
+  openModal('modal-safe-reset');
+
+  resetTimerInterval = setInterval(() => {
+    resetSecondsLeft--;
+    if (resetSecondsLeft > 0) {
+      btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
+      txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
+    } else {
+      clearInterval(resetTimerInterval);
+      btn.disabled = false;
+      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase rounded-xl cursor-pointer transition-all";
+      btn.textContent = "Подтвердить полный сброс";
+      txt.textContent = "✓ Защита снята: можно выполнить сброс";
+      txt.className = "text-sm font-bold text-rose-400 font-mono";
+      Sound.beep(880, 0.2);
+      Haptic.impact('heavy');
+    }
+  }, 1000);
+}
+
+function executeSafeResetAndReOnboard() {
+  clearInterval(resetTimerInterval);
+  closeModal('modal-safe-reset');
+
+  const currentTgId = appState.tgId;
+  const currentName = appState.name;
+
+  appState = getInitialAccount();
+  appState.tgId = currentTgId;
+  appState.name = currentName;
+
+  saveState();
+  Sound.finish();
+  Haptic.success();
+
+  alert("✓ Профиль успешно сброшен!");
+  openOnboardingModal();
+}
+
+function openOnboardingModal() {
+  closeModal('modal-profile-drawer');
+  document.getElementById("onboard-name").value = appState.name || "Роман";
+  document.getElementById("onboard-age").value = appState.age || 32;
+  document.getElementById("onboard-height").value = appState.height || 178;
+  document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
+  document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
+  document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
+  document.getElementById("onboard-injuries").value = appState.injuries || "";
+
+  openModal('modal-onboarding');
+}
+
+function saveOnboardingProfile(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("onboard-name").value.trim();
+  const age = parseInt(document.getElementById("onboard-age").value) || 32;
+  const height = parseInt(document.getElementById("onboard-height").value) || 178;
+  const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
+  const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
+  const goal = document.getElementById("onboard-goal").value;
+  const injuries = document.getElementById("onboard-injuries").value.trim();
+
+  appState.name = name;
+  appState.age = age;
+  appState.height = height;
+  appState.goal = goal;
+  appState.injuries = injuries;
+
+  if (!appState.currentMetrics) {
+    appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
+  } else {
+    appState.currentMetrics.weight = weight;
+    appState.currentMetrics.waist = waist;
   }
 
-  const stack = [
-    {
-      name: "01. Магний (Глицинат) — за 40 мин до сна",
-      dose: "400 мг",
-      badgeColor: "text-slate-300",
-      reason: injuries.includes("ше") || injuries.includes("лопатк") || injuries.includes("спазм")
-        ? `Снимает мышечный спазм шеи и лопатки, ускоряет фазу глубокого сна и восстановление нервной системы.`
-        : `Восстановление нервной системы и глубокий сон.`
-    },
-    {
-      name: "02. Витамин D3 + K2 — утром с едой",
-      dose: "4000 МЕ",
-      badgeColor: "text-[#c8a97e]",
-      reason: `Поддерживает выработку мужских гормонов для возраста 30+ и компенсирует офисный режим.`
-    },
-    {
-      name: "03. Омега-3 (жирные кислоты) — с едой",
-      dose: "2000 мг",
-      badgeColor: "text-slate-300",
-      reason: `Защита плечевых суставов и связок при жимовых нагрузках.`
-    },
-    {
-      name: "04. Креатин моногидрат — в любое время",
-      dose: "5 г",
-      badgeColor: "text-emerald-400",
-      reason: `Повышает силовую выносливость на 12–15% и защищает мышечную массу от разрушения.`
-    },
-    {
-      name: "05. Цинк хелат — вечером после еды",
-      dose: "25 мг",
-      badgeColor: "text-slate-400",
-      reason: `Синтез гормонов и укрепление иммунитета.`
-    }
+  const today = new Date().toISOString().split("T")[0];
+  appState.metrics = [
+    { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
   ];
 
-  if (waistRatioPct >= 50) {
-    stack.push({
-      name: "06. L-Карнитин — перед кардио",
-      dose: "1500 мг",
-      badgeColor: "text-[#c8a97e]",
-      reason: `Ускоряет сжигание жира на животе при аэробной нагрузке низкой интенсивности.`
-    });
-  }
+  const elName = document.getElementById("tg-user-name");
+  if (elName) elName.textContent = name;
 
-  container.innerHTML = stack.map(item => `
-    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
-      <div class="flex justify-between items-center font-mono">
-        <b class="text-white text-xs uppercase">${item.name}</b>
-        <span class="${item.badgeColor} font-bold text-xs">${item.dose}</span>
-      </div>
-      <p class="text-[11px] text-slate-300 leading-relaxed font-sans">${item.reason}</p>
-    </div>
-  `).join("");
-}
-
-// ========================================================
-// 18 ДОСТИЖЕНИЙ
-// ========================================================
-const ACHIEVEMENTS = [
-  { id: "ach_first", cat: "strength", title: "Первый шаг", desc: "Заверши 1-ю тренировку", target: 1, current: (s) => (s.history || []).length, xp: 100 },
-  { id: "ach_ton_10", cat: "strength", title: "Рубеж 10 Тонн", desc: "Подними суммарно 10 000 кг", target: 10000, current: (s) => getTotalTonnage(s), xp: 200 },
-  { id: "ach_ton_50", cat: "strength", title: "Рубеж 50 Тонн", desc: "Подними суммарно 50 000 кг", target: 50000, current: (s) => getTotalTonnage(s), xp: 500 },
-  { id: "ach_ton_100", cat: "strength", title: "Титан 100 Тонн", desc: "Подними суммарно 100 000 кг", target: 100000, current: (s) => getTotalTonnage(s), xp: 1000 },
-  { id: "ach_ton_250", cat: "strength", title: "Легенда 250 Тонн", desc: "Подними суммарно 250 000 кг", target: 250000, current: (s) => getTotalTonnage(s), xp: 2500 },
-
-  { id: "ach_strk_3", cat: "streak", title: "Три в ряд", desc: "Серия из 3 тренировок без пропусков", target: 3, current: (s) => (s.streak || 0), xp: 250 },
-  { id: "ach_strk_7", cat: "streak", title: "Железная неделя", desc: "Серия из 7 тренировок подряд", target: 7, current: (s) => (s.streak || 0), xp: 450 },
-  { id: "ach_strk_10", cat: "streak", title: "Стальная декада", desc: "Серия из 10 регулярных тренировок", target: 10, current: (s) => (s.streak || 0), xp: 700 },
-  { id: "ach_strk_30", cat: "streak", title: "Кремень 30", desc: "Серия из 30 тренировок по графику", target: 30, current: (s) => (s.streak || 0), xp: 2000 },
-
-  { id: "ach_vac_1", cat: "body", title: "Первое втягивание", desc: "Выполни 1-ю утреннюю сессию вакуума", target: 1, current: (s) => (s.vacDaysCount || 0), xp: 100 },
-  { id: "ach_vac_5", cat: "body", title: "Вакуумный монолит", desc: "Выполни 5 дней утреннего вакуума", target: 5, current: (s) => (s.vacDaysCount || 0), xp: 300 },
-  { id: "ach_vac_14", cat: "body", title: "Стальной корсет", desc: "Выполни 14 дней утреннего вакуума", target: 14, current: (s) => (s.vacDaysCount || 0), xp: 800 },
-
-  { id: "ach_prot_3", cat: "nutrition", title: "Белковый старт", desc: "Закрой норму 150г белка 3 дня", target: 3, current: (s) => (s.protDaysCount || 0), xp: 200 },
-  { id: "ach_prot_7", cat: "nutrition", title: "Белковый баланс", desc: "Закрой норму 150г белка 7 дней", target: 7, current: (s) => (s.protDaysCount || 0), xp: 400 },
-  { id: "ach_prot_21", cat: "nutrition", title: "Мастер питания", desc: "Закрой норму белка 21 день", target: 21, current: (s) => (s.protDaysCount || 0), xp: 1200 },
-  { id: "ach_water_14", cat: "nutrition", title: "Водный баланс", desc: "Выпей норму воды 14 дней подряд", target: 14, current: (s) => (s.waterDaysCount || 0), xp: 500 },
-
-  { id: "ach_meso_1", cat: "meso", title: "Мастер цикла", desc: "Заверши 8-недельный цикл", target: 8, current: (s) => (s.mesocycleWeek || 1), xp: 1000 },
-  { id: "ach_meso_3", cat: "meso", title: "Профессор периодизации", desc: "Заверши 3 полных цикла (24 недели)", target: 24, current: (s) => (s.totalMesoWeeks || s.mesocycleWeek || 1), xp: 3000 }
-];
-
-function filterAchievements(cat) {
-  currentAchFilter = cat;
-  ['all', 'strength', 'streak', 'body', 'nutrition', 'meso'].forEach(c => {
-    const btn = document.getElementById("btn-ach-" + c);
-    if (btn) {
-      if (c === cat) {
-        btn.className = "px-3 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
-      } else {
-        btn.className = "px-3 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
-      }
-    }
-  });
-  renderAchievementsList();
-}
-
-function checkAchievements() {
-  if (!appState.unlockedAchievements) appState.unlockedAchievements = [];
-
-  ACHIEVEMENTS.forEach(ach => {
-    if (!appState.unlockedAchievements.includes(ach.id)) {
-      const curVal = ach.current(appState);
-      if (curVal >= ach.target) {
-        appState.unlockedAchievements.push(ach.id);
-        appState.xp += ach.xp;
-        Sound.finish();
-        Haptic.success();
-      }
-    }
-  });
-
-  renderAchievementsList();
-}
-
-function renderAchievementsList() {
-  const container = document.getElementById("achievements-list");
-  const countEl = document.getElementById("achievements-unlocked-count");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const unlocked = appState.unlockedAchievements || [];
-  if (countEl) countEl.textContent = `${unlocked.length}/${ACHIEVEMENTS.length}`;
-
-  const filtered = ACHIEVEMENTS.filter(a => currentAchFilter === 'all' || a.cat === currentAchFilter);
-
-  filtered.forEach(ach => {
-    const isUnlocked = unlocked.includes(ach.id);
-    const curVal = ach.current(appState);
-    const pct = Math.min(100, Math.round((curVal / ach.target) * 100));
-
-    const card = document.createElement("div");
-    card.className = `p-3.5 rounded-2xl border space-y-2 transition-all ${isUnlocked ? 'bg-[#181b26] border-white/20 text-white' : 'bg-[#12141c] border-white/[0.05] text-slate-400 opacity-75'}`;
-
-    card.innerHTML = `
-      <div class="flex justify-between items-start">
-        <div>
-          <h4 class="font-bold text-xs ${isUnlocked ? 'text-[#c8a97e]' : 'text-slate-300'} font-sans">${ach.title}</h4>
-          <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
-        </div>
-        <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono ${isUnlocked ? 'bg-[#c8a97e] text-slate-950' : 'bg-[#181b26] text-slate-400 border border-white/5'}">
-          ${isUnlocked ? 'ОТКРЫТО' : `+${ach.xp} XP`}
-        </span>
-      </div>
-
-      <div class="space-y-1 font-mono text-[10px]">
-        <div class="flex justify-between text-slate-400">
-          <span>Прогресс: <b class="${isUnlocked ? 'text-white' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
-          <span>${pct}%</span>
-        </div>
-        <div class="w-full h-1 bg-slate-900 rounded-full overflow-hidden border border-white/5">
-          <div class="h-full ${isUnlocked ? 'bg-[#c8a97e]' : 'bg-slate-700'}" style="width: ${pct}%"></div>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-function renderMesocycleBanner() {
-  const w = appState.mesocycleWeek || 1;
-  const badgeHeader = document.getElementById("meso-header-badge");
-  const weekDisp = document.getElementById("meso-week-display");
-  const descEl = document.getElementById("meso-desc-text");
-
-  if (badgeHeader) badgeHeader.textContent = `Неделя ${w}/8`;
-  if (weekDisp) weekDisp.textContent = w;
-
-  if (!descEl) return;
-
-  if (w <= 3) {
-    descEl.innerHTML = `<b>Фаза 1 (Накопление):</b> Линейное повышение рабочих весов (+2.5 кг в базе). 48 часов отдыха между днями тренировок.`;
-  } else if (w <= 6) {
-    descEl.innerHTML = `<b>Фаза 2 (Интенсификация):</b> Выход на рабочие веса в диапазоне 8–10 повторений. Высокий стимул роста мышц.`;
-  } else if (w === 7) {
-    descEl.innerHTML = `<b>Фаза 3 (Пик суперкомпенсации):</b> Фиксация максимальных весов перед разгрузкой.`;
-  } else {
-    descEl.innerHTML = `<span class="text-[#c8a97e] font-bold">Разгрузка:</span> 8-недельный цикл завершен. <b>Рекомендуется 1 легкая неделя (-40% весов) для восстановления связок.</b>`;
-  }
-}
-
-function advanceMesocycleWeek() {
-  let w = (appState.mesocycleWeek || 1) + 1;
-  appState.totalMesoWeeks = (appState.totalMesoWeeks || 1) + 1;
-
-  if (w > 8) {
-    if (confirm("Начать новый 8-недельный тренировочный цикл с Недели 1?")) {
-      w = 1;
-      addXP(500);
-      Sound.finish();
-      Haptic.success();
-      alert("Цикл успешно завершен! Начат новый тренировочный блок (+500 XP).");
-    } else {
-      return;
-    }
-  } else {
-    Sound.beep(700, 0.08);
-    Haptic.impact('light');
-  }
-  appState.mesocycleWeek = w;
   saveState();
-  checkAchievements();
+  closeModal('modal-onboarding');
+  Sound.finish();
+  Haptic.success();
+
+  renderMetrics();
+  renderPersonalizedVitamins();
+  renderMonthlyCalendar();
+  renderPersonalRecords();
+  renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
+}
+
+function getLastExercisePerformance(exName) {
+  const hist = appState.history || [];
+  for (const h of hist) {
+    if (h.exercises) {
+      const match = h.exercises.find(e => e.name === exName);
+      if (match && match.sets && match.sets !== '0') {
+        return { setsStr: match.sets, date: h.date };
+      }
+    }
+  }
+  return null;
 }
 
 function promptReadinessBeforeWorkout(planKey, targetDate = null) {
@@ -2067,310 +2273,6 @@ function addCustomExerciseToActiveWorkout(e) {
   Haptic.success();
 }
 
-function renderMuscleVolumeBreakdown() {
-  const container = document.getElementById("muscle-volume-container");
-  if (!container) return;
-
-  const targets = [
-    { group: "Грудь", optimal: 12, current: 8, color: "from-[#c8a97e] to-[#dfc299]" },
-    { group: "Спина", optimal: 14, current: 8, color: "from-slate-400 to-slate-200" },
-    { group: "Ноги", optimal: 12, current: 7, color: "from-amber-600 to-amber-400" },
-    { group: "Плечи", optimal: 8, current: 4, color: "from-slate-500 to-slate-300" },
-    { group: "Руки & Кор", optimal: 10, current: 6, color: "from-emerald-600 to-emerald-400" }
-  ];
-
-  const hist = appState.history || [];
-  const currentWeekLogs = hist.slice(0, 3);
-  let chestSets = 0, backSets = 0, legSets = 0, shoulderSets = 0, armSets = 0;
-
-  currentWeekLogs.forEach(h => {
-    (h.exercises || []).forEach(e => {
-      const setCount = (e.sets.match(/,/g) || []).length + 1;
-      const n = (e.name || "").toLowerCase();
-      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) chestSets += setCount;
-      else if (n.includes("тяга") || n.includes("спин")) backSets += setCount;
-      else if (n.includes("ног") || n.includes("присед") || n.includes("румын")) legSets += setCount;
-      else if (n.includes("мах") || n.includes("плеч")) shoulderSets += setCount;
-      else armSets += setCount;
-    });
-  });
-
-  if (chestSets > 0) targets[0].current = chestSets;
-  if (backSets > 0) targets[1].current = backSets;
-  if (legSets > 0) targets[2].current = legSets;
-  if (shoulderSets > 0) targets[3].current = shoulderSets;
-  if (armSets > 0) targets[4].current = armSets;
-
-  container.innerHTML = targets.map(t => {
-    const pct = Math.min(100, Math.round((t.current / t.optimal) * 100));
-    const status = pct >= 80 ? 'ОПТИМУМ' : pct >= 50 ? 'В ПРОЦЕССЕ' : 'СТАРТ';
-    return `
-      <div class="space-y-1 bg-[#181b26] p-2.5 rounded-xl border border-white/[0.05]">
-        <div class="flex justify-between items-center text-[11px]">
-          <span class="font-bold text-white uppercase">${t.group}</span>
-          <div class="flex items-center space-x-2">
-            <span class="text-slate-400 font-mono">${t.current} / ${t.optimal} сетов</span>
-            <span class="text-[9px] font-bold text-[#c8a97e]">${status}</span>
-          </div>
-        </div>
-        <div class="w-full h-1 bg-[#0e1017] rounded-full overflow-hidden border border-white/5">
-          <div class="h-full bg-gradient-to-r ${t.color}" style="width: ${pct}%"></div>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-// ========================================================
-// ТАБЛИЦА ЛИДЕРОВ
-// ========================================================
-let cachedLeaderboard = [];
-
-async function syncUserToLeaderboard() {
-  try {
-    const myTonnage = getTotalTonnage(appState);
-    const myXP = appState.xp || 0;
-    const myStreak = appState.streak || 0;
-
-    await fetch('/api/sync-leaderboard', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tgId: appState.tgId,
-        name: appState.name,
-        xp: myXP,
-        tonnage: myTonnage,
-        streak: myStreak,
-        lastActive: "Сегодня"
-      })
-    });
-  } catch(e) {}
-}
-
-async function fetchLeaderboard() {
-  const container = document.getElementById("leaderboard-container");
-  if (!container) return;
-
-  const myTonnage = getTotalTonnage(appState);
-  const myXP = appState.xp || 0;
-  const myStreak = appState.streak || 0;
-
-  let list = [
-    { id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true }
-  ];
-
-  try {
-    const res = await fetch('/api/leaderboard');
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        list = data.map(u => ({
-          ...u,
-          isMe: (u.id === appState.tgId)
-        }));
-        if (!list.some(u => u.isMe)) {
-          list.push({ id: appState.tgId, name: `${appState.name} (Вы)`, xp: myXP, tonnage: myTonnage, streak: myStreak, lastActive: "Сегодня", isMe: true });
-        }
-      }
-    }
-  } catch(e) {}
-
-  list.sort((a, b) => (b.xp || 0) - (a.xp || 0));
-  list.forEach((u, i) => u.rank = i + 1);
-  cachedLeaderboard = list;
-
-  renderLeaderboard();
-}
-
-function renderLeaderboard() {
-  const container = document.getElementById("leaderboard-container");
-  if (!container) return;
-  container.innerHTML = "";
-
-  if (cachedLeaderboard.length === 0) {
-    container.innerHTML = `
-      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
-        <p class="text-xs font-bold text-slate-300 uppercase">Таблица формируется</p>
-        <p class="text-[11px] text-slate-500 font-sans">Участники клуба будут появляться здесь по мере тренировок.</p>
-      </div>
-    `;
-    return;
-  }
-
-  cachedLeaderboard.forEach(u => {
-    const card = document.createElement("div");
-    const isMe = u.isMe || (u.name && u.name.includes("(Вы)"));
-    card.className = `p-3.5 rounded-2xl border transition-all ${isMe ? 'bg-[#181b26] border-white/20 shadow-md' : 'bg-[#12141c] border-white/[0.06]'}`;
-
-    const badgeColor = u.rank === 1 ? 'bg-[#c8a97e] text-slate-950 font-bold' : u.rank === 2 ? 'bg-slate-300 text-slate-950 font-bold' : u.rank === 3 ? 'bg-amber-700 text-white font-bold' : 'bg-[#181b26] text-slate-400 font-medium border border-white/5';
-
-    card.innerHTML = `
-      <div class="flex justify-between items-center">
-        <div class="flex items-center space-x-2.5">
-          <span class="w-6 h-6 rounded-lg ${badgeColor} flex items-center justify-center text-[10px] font-mono">
-            #${u.rank}
-          </span>
-          <div>
-            <div class="flex items-center space-x-1.5">
-              <span class="font-bold text-xs ${isMe ? 'text-white' : 'text-slate-200'} font-sans">${u.name}</span>
-              ${isMe ? '<span class="text-[8px] font-mono px-1.5 py-0.2 bg-white/10 text-[#c8a97e] font-bold rounded uppercase">YOU</span>' : ''}
-            </div>
-            <span class="text-[10px] text-slate-400 font-mono">Тоннаж: <b class="text-white">${(u.tonnage / 1000).toFixed(1)} т</b> • Серия: ${u.streak} дн</span>
-          </div>
-        </div>
-        <div class="text-right font-mono">
-          <span class="text-xs font-bold text-white block">${u.xp.toLocaleString()} XP</span>
-          <span class="text-[9px] text-slate-500">Ур. ${Math.floor(u.xp / 500) + 1}</span>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-function openProfileDrawer() {
-  updateProfileDisplay();
-  openModal('modal-profile-drawer');
-}
-
-function updateProfileDisplay() {
-  const nameEl = document.getElementById("prof-disp-name");
-  const ageEl = document.getElementById("prof-disp-age");
-  const goalEl = document.getElementById("prof-disp-goal");
-  const injEl = document.getElementById("prof-disp-injuries");
-
-  if (nameEl) nameEl.textContent = appState.name;
-  if (ageEl) ageEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см`;
-  if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
-  if (injEl) injEl.textContent = appState.injuries || "Нет";
-}
-
-let resetTimerInterval = null;
-let resetSecondsLeft = 15;
-
-function openSafeResetModal() {
-  closeModal('modal-profile-drawer');
-  resetSecondsLeft = 15;
-  clearInterval(resetTimerInterval);
-
-  const btn = document.getElementById("btn-confirm-safe-reset");
-  const txt = document.getElementById("reset-countdown-text");
-
-  btn.disabled = true;
-  btn.className = "flex-1 py-3 bg-[#181b26] text-slate-500 font-bold uppercase rounded-xl cursor-not-allowed transition-all";
-  btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
-  txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
-
-  openModal('modal-safe-reset');
-
-  resetTimerInterval = setInterval(() => {
-    resetSecondsLeft--;
-    if (resetSecondsLeft > 0) {
-      btn.textContent = `Сбросить (${resetSecondsLeft}с)`;
-      txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
-    } else {
-      clearInterval(resetTimerInterval);
-      btn.disabled = false;
-      btn.className = "flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase rounded-xl cursor-pointer transition-all";
-      btn.textContent = "Подтвердить полный сброс";
-      txt.textContent = "✓ Защита снята: можно выполнить сброс";
-      txt.className = "text-sm font-bold text-rose-400 font-mono";
-      Sound.beep(880, 0.2);
-      Haptic.impact('heavy');
-    }
-  }, 1000);
-}
-
-function executeSafeResetAndReOnboard() {
-  clearInterval(resetTimerInterval);
-  closeModal('modal-safe-reset');
-
-  const currentTgId = appState.tgId;
-  const currentName = appState.name;
-
-  appState = getInitialAccount();
-  appState.tgId = currentTgId;
-  appState.name = currentName;
-
-  saveState();
-  Sound.finish();
-  Haptic.success();
-
-  alert("✓ Профиль успешно сброшен!");
-  openOnboardingModal();
-}
-
-function openOnboardingModal() {
-  closeModal('modal-profile-drawer');
-  document.getElementById("onboard-name").value = appState.name || "Роман";
-  document.getElementById("onboard-age").value = appState.age || 32;
-  document.getElementById("onboard-height").value = appState.height || 178;
-  document.getElementById("onboard-weight").value = appState.currentMetrics ? appState.currentMetrics.weight : 83;
-  document.getElementById("onboard-waist").value = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
-  document.getElementById("onboard-goal").value = appState.goal || "Рекомпозиция (Сушка жира + Мышечный тонус)";
-  document.getElementById("onboard-injuries").value = appState.injuries || "";
-
-  openModal('modal-onboarding');
-}
-
-function saveOnboardingProfile(e) {
-  e.preventDefault();
-
-  const name = document.getElementById("onboard-name").value.trim();
-  const age = parseInt(document.getElementById("onboard-age").value) || 32;
-  const height = parseInt(document.getElementById("onboard-height").value) || 178;
-  const weight = parseFloat(document.getElementById("onboard-weight").value) || 83.0;
-  const waist = parseFloat(document.getElementById("onboard-waist").value) || 91.5;
-  const goal = document.getElementById("onboard-goal").value;
-  const injuries = document.getElementById("onboard-injuries").value.trim();
-
-  appState.name = name;
-  appState.age = age;
-  appState.height = height;
-  appState.goal = goal;
-  appState.injuries = injuries;
-
-  if (!appState.currentMetrics) {
-    appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
-  } else {
-    appState.currentMetrics.weight = weight;
-    appState.currentMetrics.waist = waist;
-  }
-
-  const today = new Date().toISOString().split("T")[0];
-  appState.metrics = [
-    { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
-  ];
-
-  const elName = document.getElementById("tg-user-name");
-  if (elName) elName.textContent = name;
-
-  saveState();
-  closeModal('modal-onboarding');
-  Sound.finish();
-  Haptic.success();
-
-  renderMetrics();
-  renderPersonalizedVitamins();
-  renderMonthlyCalendar();
-  renderPersonalRecords();
-  renderMuscleVolumeBreakdown();
-}
-
-function getLastExercisePerformance(exName) {
-  const hist = appState.history || [];
-  for (const h of hist) {
-    if (h.exercises) {
-      const match = h.exercises.find(e => e.name === exName);
-      if (match && match.sets && match.sets !== '0') {
-        return { setsStr: match.sets, date: h.date };
-      }
-    }
-  }
-  return null;
-}
-
 // ========================================================
 // АРХИВ ТРЕНИРОВОК
 // ========================================================
@@ -2392,7 +2294,7 @@ function renderHistory() {
 
   hist.forEach((h, idx) => {
     const card = document.createElement("div");
-    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.07] space-y-2.5 font-mono text-xs";
+    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.08] space-y-2.5 font-mono text-xs";
 
     const timeString = h.startTimeStr ? `${h.startTimeStr} – ${h.endTimeStr || '...'} (${h.durationMin || 45} мин)` : `${h.timeStr || h.date}`;
 
@@ -2407,7 +2309,7 @@ function renderHistory() {
     `).join("");
 
     card.innerHTML = `
-      <div class="flex justify-between items-start pb-2 border-b border-white/[0.07]">
+      <div class="flex justify-between items-start pb-2 border-b border-white/[0.08]">
         <div>
           <h4 class="font-bold text-white text-xs font-sans">${h.name}</h4>
           <span class="text-[10px] text-slate-400">${h.date} • ${timeString}</span>
@@ -2424,7 +2326,7 @@ function renderHistory() {
         </div>
       </div>
       <div class="space-y-0.5 pt-1">${exList}</div>
-      <div class="flex justify-end space-x-2 pt-2 border-t border-white/[0.07] text-[10px]">
+      <div class="flex justify-end space-x-2 pt-2 border-t border-white/[0.08] text-[10px]">
         <button onclick="openEditHistoryModal(${idx})" class="px-2.5 py-1 bg-[#181b26] text-slate-300 rounded-lg border border-white/10">Редактировать</button>
         <button onclick="deleteHistoryItemDirect(${idx})" class="px-2.5 py-1 bg-rose-950/60 text-rose-300 rounded-lg border border-rose-900">Удалить</button>
       </div>
@@ -2454,8 +2356,8 @@ function openEditHistoryModal(idx) {
     const row = document.createElement("div");
     row.className = "grid grid-cols-12 gap-1.5 items-center";
     row.innerHTML = `
-      <input type="text" value="${e.name}" id="edit-ex-name-${eIdx}" class="col-span-6 bg-[#0e1017] border border-white/10 px-2 py-1 rounded-lg text-white text-xs outline-none font-sans">
-      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-[#0e1017] border border-white/10 px-2 py-1 rounded-lg text-[#c8a97e] font-mono text-xs outline-none">
+      <input type="text" value="${e.name}" id="edit-ex-name-${eIdx}" class="col-span-6 bg-[#0c0d14] border border-white/10 px-2 py-1 rounded-lg text-white text-xs outline-none font-sans">
+      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-[#0c0d14] border border-white/10 px-2 py-1 rounded-lg text-[#c8a97e] font-mono text-xs outline-none">
     `;
     exContainer.appendChild(row);
   });
@@ -2487,6 +2389,7 @@ function saveEditedHistoryItem() {
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
   renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
   drawTrendChart();
   Sound.success();
   Haptic.success();
@@ -2502,6 +2405,7 @@ function deleteCurrentEditingHistoryItem() {
     renderMonthlyCalendar();
     render12MonthsAnnualBreakdown();
     renderMuscleVolumeBreakdown();
+    renderPersonalizedAIAnalytics();
     drawTrendChart();
     Sound.beep(400, 0.08);
   }
@@ -2515,6 +2419,7 @@ function deleteHistoryItemDirect(idx) {
     renderMonthlyCalendar();
     render12MonthsAnnualBreakdown();
     renderMuscleVolumeBreakdown();
+    renderPersonalizedAIAnalytics();
     drawTrendChart();
     Sound.beep(400, 0.08);
   }
@@ -2548,15 +2453,20 @@ function openAddManualWorkoutModal() {
   });
 
   addXP(100);
+  calculateAutoMesocycle();
   saveState();
   renderHistory();
   renderMonthlyCalendar();
   render12MonthsAnnualBreakdown();
   renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
   drawTrendChart();
   Sound.success();
 }
 
+// ========================================================
+// ЭКСПОРТ АНАЛИТИЧЕСКОГО ДОСЬЕ
+// ========================================================
 function copyCoachSummary() {
   const m = appState.currentMetrics || {};
   const hist = appState.history || [];
@@ -2591,7 +2501,7 @@ function copyCoachSummary() {
 • Ограничения/травмы: ${appState.injuries || 'Нет'}
 • Уровень: ${currentLvl} | Всего опыта: ${appState.xp.toLocaleString()} XP
 • Текущая серия: ${appState.streak || 0} дней без срывов
-• Периодизация: Неделя ${appState.mesocycleWeek || 1} из 8 (Фаза ${appState.mesocycleWeek <= 3 ? '1: Накопление (+2.5кг)' : appState.mesocycleWeek <= 6 ? '2: Интенсификация (8-10 повт)' : '3: Пик'})
+• Авто-периодизация: Неделя ${appState.mesocycleWeek || 1} из 8 (Фаза ${appState.mesocycleWeek <= 3 ? '1: Накопление (+2.5кг)' : appState.mesocycleWeek <= 6 ? '2: Интенсификация (8-10 повт)' : '3: Пик'})
 
 2. АНТРОПОМЕТРИЯ И ЗАМЕРЫ ТЕЛА:
 • Вес тела: ${m.weight || 83} кг
@@ -2601,7 +2511,7 @@ function copyCoachSummary() {
 • Бедро (нога): ${m.thigh || 59} см
 • Шея: ${m.neck || 39.5} см
 
-3. ЗАЛ ЛИЧНЫХ РЕКОРДОВ (РЕАЛЬНЫЕ ВЕСА И ПОВТОРЕНИЯ):
+3. ЗАЛ ЛИЧНЫХ РЕКОРДОВ (ПОДТВЕРЖДЕННЫЕ ПРОРЫВЫ):
 ${prsText}
 
 4. ПОСЛЕДНИЕ ТРЕНИРОВКИ (С ХРОНОМЕТРАЖЕМ И ВЕСАМИ):
@@ -2641,6 +2551,32 @@ async function sendCoachReportToTelegram(reportHtml) {
   } catch(e) {}
 }
 
+// ========================================================
+// ТАБЛИЦА ЛИДЕРОВ
+// ========================================================
+async function syncUserToLeaderboard() {
+  try {
+    const myTonnage = getTotalTonnage(appState);
+    const myXP = appState.xp || 0;
+    const myStreak = appState.streak || 0;
+
+    await fetch('/api/sync-leaderboard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tgId: appState.tgId,
+        name: appState.name,
+        xp: myXP,
+        tonnage: myTonnage,
+        streak: myStreak,
+        lastActive: "Сегодня"
+      })
+    });
+  } catch(e) {}
+}
+
+async function fetchLeaderboard() {}
+
 function switchTab(tabId) {
   Sound.beep(500, 0.05);
   Haptic.impact('light');
@@ -2667,7 +2603,7 @@ function switchProgressSubtab(subtabId) {
   Sound.beep(550, 0.05);
   Haptic.impact('light');
 
-  ['calendar', 'metrics', 'records', 'leaderboard', 'achievements', 'archive'].forEach(st => {
+  ['calendar', 'analytics', 'records', 'metrics', 'achievements', 'archive'].forEach(st => {
     const pane = document.getElementById("subtab-" + st);
     const btn = document.getElementById("btn-sub-" + st);
     if (st === subtabId) {
@@ -2688,17 +2624,15 @@ function switchProgressSubtab(subtabId) {
     render12MonthsAnnualBreakdown();
     renderMuscleVolumeBreakdown();
   }
+  if (subtabId === 'analytics') {
+    renderPersonalizedAIAnalytics();
+    setTimeout(() => drawTrendChart(), 50);
+  }
   if (subtabId === 'metrics') {
-    setTimeout(() => {
-      renderMetrics();
-      drawTrendChart();
-    }, 50);
+    renderMetrics();
   }
   if (subtabId === 'records') {
     renderPersonalRecords();
-  }
-  if (subtabId === 'leaderboard') {
-    fetchLeaderboard();
   }
   if (subtabId === 'achievements') {
     renderAchievementsList();
@@ -2733,7 +2667,7 @@ function calculate1RM() {
   const seventyPct = Math.round(oneRM * 0.70);
 
   resEl.innerHTML = `
-    <div class="flex justify-between items-center pb-1 border-b border-white/[0.07]">
+    <div class="flex justify-between items-center pb-1 border-b border-white/[0.08]">
       <span class="text-slate-400 uppercase">Максимум на 1 раз (1ПМ):</span>
       <span class="text-sm font-bold text-[#c8a97e] font-mono">${oneRM} кг</span>
     </div>
@@ -2758,5 +2692,6 @@ document.addEventListener("DOMContentLoaded", () => {
   render12MonthsAnnualBreakdown();
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
   updateVacuumBadge();
 });
