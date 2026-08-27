@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.8 PRO",
+  version: "v2.8.9 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -46,19 +46,21 @@ const Sound = {
       osc.stop(this.ctx.currentTime + dur);
     } catch(e) {}
   },
-  chimeTone(freq, dur = 0.9, gainVal = 0.22, type = 'triangle') {
+  boxingBellStrike(dur = 1.0, gainVal = 0.35) {
     if (appState.soundMode !== 'sound') return;
     try {
       this.init();
       if (!this.ctx) return;
       if (this.ctx.state === 'suspended') this.ctx.resume();
-      
+
       const now = this.ctx.currentTime;
-      // Основной фундаментальный тон (Triangle для мягкого басового удара)
+      const fundamental = 800; // 800 Hz - классический чистый тон латунного боксерского колокола
+
+      // 1. Металлический удар молотка по чаше колокола
       const osc1 = this.ctx.createOscillator();
       const gain1 = this.ctx.createGain();
-      osc1.type = type;
-      osc1.frequency.setValueAtTime(freq, now);
+      osc1.type = 'triangle';
+      osc1.frequency.setValueAtTime(fundamental, now);
       gain1.gain.setValueAtTime(gainVal, now);
       gain1.gain.exponentialRampToValueAtTime(0.0001, now + dur);
       osc1.connect(gain1);
@@ -66,17 +68,52 @@ const Sound = {
       osc1.start(now);
       osc1.stop(now + dur);
 
-      // Кристальный обертон колокола (Sine 2.01x для глубокого акустического звона)
+      // 2. Хрустальный высокочастотный металлический звон
       const osc2 = this.ctx.createOscillator();
       const gain2 = this.ctx.createGain();
       osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(freq * 2.01, now);
-      gain2.gain.setValueAtTime(gainVal * 0.55, now);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.85);
+      osc2.frequency.setValueAtTime(fundamental * 2.0, now);
+      gain2.gain.setValueAtTime(gainVal * 0.6, now);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.9);
       osc2.connect(gain2);
       gain2.connect(this.ctx.destination);
       osc2.start(now);
-      osc2.stop(now + dur * 0.85);
+      osc2.stop(now + dur * 0.9);
+
+      const osc3 = this.ctx.createOscillator();
+      const gain3 = this.ctx.createGain();
+      osc3.type = 'sine';
+      osc3.frequency.setValueAtTime(fundamental * 3.0, now);
+      gain3.gain.setValueAtTime(gainVal * 0.35, now);
+      gain3.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.7);
+      osc3.connect(gain3);
+      gain3.connect(this.ctx.destination);
+      osc3.start(now);
+      osc3.stop(now + dur * 0.7);
+
+      // 3. Негармонический колокольный обертон (Inharmonic chime 1130 Hz)
+      const osc4 = this.ctx.createOscillator();
+      const gain4 = this.ctx.createGain();
+      osc4.type = 'sine';
+      osc4.frequency.setValueAtTime(1130, now);
+      gain4.gain.setValueAtTime(gainVal * 0.4, now);
+      gain4.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.8);
+      osc4.connect(gain4);
+      gain4.connect(this.ctx.destination);
+      osc4.start(now);
+      osc4.stop(now + dur * 0.8);
+
+      // 4. Глубокий резонанс корпуса колокола (400 Hz)
+      const osc5 = this.ctx.createOscillator();
+      const gain5 = this.ctx.createGain();
+      osc5.type = 'sine';
+      osc5.frequency.setValueAtTime(400, now);
+      gain5.gain.setValueAtTime(gainVal * 0.25, now);
+      gain5.gain.exponentialRampToValueAtTime(0.0001, now + dur * 1.1);
+      osc5.connect(gain5);
+      gain5.connect(this.ctx.destination);
+      osc5.start(now);
+      osc5.stop(now + dur * 1.1);
     } catch(e) {}
   },
   success() {
@@ -93,26 +130,14 @@ const Sound = {
   },
   restFinish() {
     if (appState.soundMode !== 'sound') return;
-    // МОЩНЫЙ 3-СТУПЕНЧАТЫЙ БОКСЕРСКИЙ ГОНГ ОКОНЧАНИЯ ОТДЫХА (~2.8 СЕКУНДЫ)
-    // 1-й аккорд: Низкий басовый колокол готовности (C4 261.6Hz + G4 392Hz)
-    this.chimeTone(261.63, 0.9, 0.26, 'triangle');
-    this.chimeTone(392.00, 0.9, 0.18, 'sine');
-    
-    // 2-й аккорд (через 0.5с): Повышающий мотивирующий аккорд (E4 329.6Hz + G4 392Hz + B4 493.8Hz)
+    // КЛАССИЧЕСКИЙ БОКСЕРСКИЙ КОЛОКОЛ НА РИНГЕ (3 ЧЕТКИХ УДАРА МОЛОТКА: ДИНЬ - ДИНЬ - ДИИИИНЬ)
+    this.boxingBellStrike(0.7, 0.32);
     setTimeout(() => {
-      this.chimeTone(329.63, 1.0, 0.28, 'triangle');
-      this.chimeTone(493.88, 1.0, 0.20, 'sine');
-      this.chimeTone(659.25, 1.0, 0.15, 'sine');
-    }, 500);
-
-    // 3-й аккорд (через 1.05с): Триумфальный глубокий гонг (C4 + G4 + C5 + E5 + G5 + C6) с затуханием 1.8с
+      this.boxingBellStrike(0.7, 0.35);
+    }, 320);
     setTimeout(() => {
-      this.chimeTone(261.63, 1.6, 0.30, 'triangle');
-      this.chimeTone(523.25, 1.6, 0.24, 'sine');
-      this.chimeTone(659.25, 1.6, 0.20, 'sine');
-      this.chimeTone(783.99, 1.7, 0.18, 'sine');
-      this.chimeTone(1046.50, 1.8, 0.15, 'sine');
-    }, 1050);
+      this.boxingBellStrike(2.2, 0.40);
+    }, 650);
   }
 };
 
@@ -135,16 +160,7 @@ const Haptic = {
     }
   },
   restFinish() {
-    if (appState.soundMode === 'silent' || appState.hapticLevel === 'off') return;
-    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-      const hf = window.Telegram.WebApp.HapticFeedback;
-      hf.notificationOccurred('success');
-      setTimeout(() => hf.impactOccurred('heavy'), 500);
-      setTimeout(() => hf.impactOccurred('heavy'), 1050);
-      setTimeout(() => hf.notificationOccurred('success'), 1500);
-    } else if (navigator.vibrate) {
-      navigator.vibrate([180, 100, 180, 100, 350]);
-    }
+    // Вибрация при гонке отключена (только чистый звон боксерского колокола)
   }
 };
 
