@@ -374,7 +374,7 @@
 
         <!-- ACHIEVEMENT CATEGORY FILTERS -->
         <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[10px]">
-          <button onclick="filterAchievements('all')" id="btn-ach-all" class="px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold whitespace-nowrap">Все (18)</button>
+          <button onclick="filterAchievements('all')" id="btn-ach-all" class="px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-bold whitespace-nowrap shadow-sm">Все (18)</button>
           <button onclick="filterAchievements('strength')" id="btn-ach-strength" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">🏋️ Сила</button>
           <button onclick="filterAchievements('streak')" id="btn-ach-streak" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">🔥 Стрики</button>
           <button onclick="filterAchievements('body')" id="btn-ach-body" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-white/10 font-bold whitespace-nowrap">🌬️ Тело</button>
@@ -634,6 +634,70 @@
   </main>
 
   <!-- ======================================================== -->
+  <!-- MODAL: LIVE AI COACH CHAT TERMINAL -->
+  <!-- ======================================================== -->
+  <div id="modal-ai-coach" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3">
+    <div class="card-luxury max-w-sm w-full p-4 space-y-3 border border-cyan-500/50 bg-slate-950 max-h-[92vh] flex flex-col shadow-2xl">
+      
+      <!-- AI TERMINAL HEADER -->
+      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 to-violet-500 flex items-center justify-center text-sm shadow-md">
+            🤖
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h3 class="font-black text-xs text-white font-mono uppercase">ИИ-ТРЕНЕР PRO</h3>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <p class="text-[9px] text-slate-400 font-sans">Биомеханика, замена упражнений и расчет нагрузок</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-ai-coach')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>
+      </div>
+
+      <!-- QUICK QUESTION PROMPT CHIPS -->
+      <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[10px] font-mono shrink-0">
+        <button onclick="sendQuickAIPrompt('Сделай полный аудит моих тренировок, тоннажа и восстановления')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 rounded-lg text-cyan-300 whitespace-nowrap touch-press">⚡ Полный аудит</button>
+        <button onclick="sendQuickAIPrompt('Чем заменить брусья и наклонный жим при боли в плече?')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-white/10 rounded-lg text-slate-300 whitespace-nowrap touch-press">🔄 Замена упражнений</button>
+        <button onclick="sendQuickAIPrompt('Рассчитай мои точные калории и белок для рекомпозиции')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-white/10 rounded-lg text-slate-300 whitespace-nowrap touch-press">🥩 БЖУ рекомпозиции</button>
+        <button onclick="sendQuickAIPrompt('Как тренироваться при спазме мышцы поднимающей лопатку?')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-violet-500/40 rounded-lg text-violet-300 whitespace-nowrap touch-press">🩺 Спазм шеи/лопатки</button>
+      </div>
+
+      <!-- CHAT CONVERSATION CONTAINER (SCROLLABLE) -->
+      <div id="ai-chat-history" class="flex-1 overflow-y-auto space-y-2.5 p-2 bg-slate-950/90 rounded-xl border border-white/[0.06] text-xs font-sans max-h-[50vh]">
+        <div class="p-3 bg-slate-900/90 rounded-2xl rounded-tl-sm border border-cyan-500/20 text-slate-200 space-y-1">
+          <div class="flex items-center space-x-1.5 text-[10px] font-mono text-cyan-400 font-bold">
+            <span>🤖 ИИ-Тренер</span>
+            <span>•</span>
+            <span class="text-slate-500">только что</span>
+          </div>
+          <p class="leading-relaxed">
+            Привет, <b>Роман</b>! Я твой персональный спортивный ИИ-наставник. Я знаю твои замеры, историю тоннажа, ограничения по здоровью и текущий мезоцикл.
+          </p>
+          <p class="text-[11px] text-slate-400">
+            Задай мне любой вопрос о технике, замене упражнений, боли в связках или питании — я дам точный биомеханический ответ!
+          </p>
+        </div>
+      </div>
+
+      <!-- TYPING INDICATOR -->
+      <div id="ai-typing-indicator" class="hidden flex items-center space-x-2 text-[10px] font-mono text-cyan-400 px-2">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+        <span>ИИ-Тренер анализирует данные...</span>
+      </div>
+
+      <!-- CHAT INPUT BAR -->
+      <form onsubmit="handleAIChatSubmit(event)" class="flex space-x-2 font-mono shrink-0">
+        <input type="text" id="ai-chat-input" placeholder="Спроси о тренировках, питании, травмах..." class="flex-1 bg-slate-900 border border-white/10 px-3 py-2.5 rounded-xl text-white text-xs outline-none focus:border-cyan-400 font-sans">
+        <button type="submit" id="btn-ai-send" class="px-4 py-2.5 bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black rounded-xl touch-press text-xs shadow-md glow-cyan">
+          ➤
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
   <!-- MODAL: SAFE RESET (15 SECONDS COUNTDOWN PROTECTION) -->
   <!-- ======================================================== -->
   <div id="modal-safe-reset" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
@@ -728,44 +792,6 @@
           🤖 Сформировать программу и запустить
         </button>
       </form>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- MODAL: AI COACH AUDIT & ADVISOR -->
-  <!-- ======================================================== -->
-  <div id="modal-ai-coach" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-    <div class="card-luxury max-w-sm w-full p-5 space-y-4 border border-violet-500/40 bg-slate-950 max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">
-        <div class="flex items-center space-x-2">
-          <span class="text-xl">🤖</span>
-          <div>
-            <h3 class="font-extrabold text-xs text-white font-mono uppercase">ИИ-Тренер (Спортивный Аудит)</h3>
-            <p class="text-[10px] text-slate-400">Персональный разбор метрик и адаптация</p>
-          </div>
-        </div>
-        <button onclick="closeModal('modal-ai-coach')" class="text-slate-400 hover:text-white font-mono font-bold">✕</button>
-      </div>
-
-      <div class="space-y-3 font-sans text-xs">
-        <button onclick="runAICoachFullAudit()" class="w-full py-2.5 bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-black text-xs uppercase rounded-xl touch-press font-mono shadow-md">
-          ⚡ Запустить ИИ-Аудит Прогресса
-        </button>
-
-        <div id="ai-audit-output" class="p-3.5 bg-slate-950 rounded-xl border border-violet-500/30 space-y-2 leading-relaxed text-slate-300">
-          <p class="text-slate-400 text-[11px]">Нажми кнопку выше для автоматического анализа твоих тренировок, тоннажа, готовности RPE и здоровья.</p>
-        </div>
-
-        <div class="space-y-1.5 pt-2 border-t border-white/[0.08]">
-          <span class="text-[10px] text-slate-400 font-mono font-bold uppercase block">Задать вопрос ИИ-тренеру:</span>
-          <div class="flex space-x-1.5 font-mono">
-            <input type="text" id="ai-user-question" placeholder="Например: чем заменить брусья?" class="flex-1 bg-slate-900 border border-white/10 px-3 py-2 rounded-xl text-white text-xs outline-none focus:border-violet-500 font-sans">
-            <button onclick="askAICoachQuestion()" class="px-3 py-2 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-xl touch-press text-xs">
-              ➤
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 

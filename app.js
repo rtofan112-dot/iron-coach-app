@@ -350,6 +350,95 @@ function saveOnboardingProfile(e) {
 }
 
 // ========================================================
+// LIVE AI COACH CHAT TERMINAL & CONVERSATION ENGINE
+// ========================================================
+function openAICoachModal() {
+  openModal('modal-ai-coach');
+  const chatInput = document.getElementById("ai-chat-input");
+  if (chatInput) setTimeout(() => chatInput.focus(), 150);
+}
+
+function sendQuickAIPrompt(text) {
+  const input = document.getElementById("ai-chat-input");
+  if (!input) return;
+  input.value = text;
+  handleAIChatSubmit(new Event('submit'));
+}
+
+async function handleAIChatSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+
+  const input = document.getElementById("ai-chat-input");
+  const historyContainer = document.getElementById("ai-chat-history");
+  const typingIndicator = document.getElementById("ai-typing-indicator");
+  const sendBtn = document.getElementById("btn-ai-send");
+
+  if (!input || !historyContainer) return;
+  const promptText = input.value.trim();
+  if (!promptText) return;
+
+  Sound.beep(600, 0.08);
+  Haptic.impact('light');
+
+  // 1. Render User Bubble
+  const userBubble = document.createElement("div");
+  userBubble.className = "p-3 bg-cyan-950/60 rounded-2xl rounded-tr-sm border border-cyan-500/40 text-cyan-100 space-y-1 ml-6";
+  userBubble.innerHTML = `
+    <div class="flex justify-between items-center text-[10px] font-mono text-cyan-400 font-bold">
+      <span>${appState.name || 'Атлет'}</span>
+      <span class="text-slate-500">сейчас</span>
+    </div>
+    <p class="leading-relaxed">${promptText}</p>
+  `;
+  historyContainer.appendChild(userBubble);
+  input.value = "";
+  historyContainer.scrollTop = historyContainer.scrollHeight;
+
+  // 2. Show Typing Indicator
+  if (typingIndicator) typingIndicator.classList.remove("hidden");
+  if (sendBtn) sendBtn.disabled = true;
+
+  try {
+    const res = await fetch("/api/ai-coach", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: promptText,
+        athleteProfile: appState
+      })
+    });
+
+    const data = await res.json();
+    const aiText = (data && data.response) ? data.response : "Извини, не удалось сформировать ответ. Попробуй еще раз.";
+
+    // 3. Render AI Response Bubble
+    const aiBubble = document.createElement("div");
+    aiBubble.className = "p-3.5 bg-slate-900/95 rounded-2xl rounded-tl-sm border border-cyan-500/30 text-slate-200 space-y-1 mr-4 shadow-lg";
+    aiBubble.innerHTML = `
+      <div class="flex items-center space-x-1.5 text-[10px] font-mono text-cyan-400 font-bold">
+        <span>🤖 ИИ-Тренер</span>
+        <span>•</span>
+        <span class="text-slate-500">сейчас</span>
+      </div>
+      <div class="leading-relaxed text-slate-200 text-xs">${aiText}</div>
+    `;
+    historyContainer.appendChild(aiBubble);
+
+    Sound.success();
+    Haptic.success();
+  } catch (err) {
+    const errBubble = document.createElement("div");
+    errBubble.className = "p-3 bg-rose-950/50 rounded-2xl border border-rose-500/40 text-rose-200 text-xs";
+    errBubble.innerHTML = `⚠️ Ошибка связи с сервером ИИ. Проверь интернет-соединение.`;
+    historyContainer.appendChild(errBubble);
+  } finally {
+    if (typingIndicator) typingIndicator.classList.add("hidden");
+    if (sendBtn) sendBtn.disabled = false;
+    historyContainer.scrollTop = historyContainer.scrollHeight;
+  }
+}
+
+// ========================================================
 // PERSONALIZED EVIDENCE-BASED VITAMIN & MINERAL ENGINE
 // ========================================================
 function renderPersonalizedVitamins() {
@@ -403,7 +492,6 @@ function renderPersonalizedVitamins() {
     }
   ];
 
-  // If visceral fat is elevated (WHtR >= 0.50), dynamically add L-Carnitine
   if (whtr >= 0.50) {
     stack.push({
       name: "6. L-Карнитин Тартрат (Перед Зоной 2)",
@@ -545,7 +633,6 @@ function render52WeekYearHeatmap() {
   if (streakEl) streakEl.textContent = `🔥${appState.streak || 0} дн`;
   if (compEl) compEl.textContent = document.getElementById("schedule-compliance-pct") ? document.getElementById("schedule-compliance-pct").textContent : "100%";
 
-  const startDate = new Date(2026, 0, 1); // Jan 1, 2026
   const currentDayOfYear = 239; // ~Aug 27, 2026
 
   for (let week = 0; week < 52; week++) {
@@ -553,7 +640,7 @@ function render52WeekYearHeatmap() {
       const dayIndex = week * 7 + day;
       const curDate = new Date(2026, 0, 1 + dayIndex);
       const dStr = curDate.toISOString().split("T")[0];
-      const dayOfWeek = curDate.getDay(); // 0 = Sun, 2 = Tue, 4 = Thu
+      const dayOfWeek = curDate.getDay();
       const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
 
       const woData = histMap.get(dStr);
@@ -701,108 +788,6 @@ function renderMonthMatrix() {
     cell.innerHTML = `<span>${d}</span><span class="block text-[8px]">${isDone ? '✓' : isMissed ? '✕' : isScheduled ? '⏳' : ''}</span>`;
     container.appendChild(cell);
   }
-}
-
-// ========================================================
-// AI COACH ENGINE
-// ========================================================
-function openAICoachModal() {
-  openModal('modal-ai-coach');
-  runAICoachFullAudit();
-}
-
-function runAICoachFullAudit() {
-  const output = document.getElementById("ai-audit-output");
-  if (!output) return;
-
-  Sound.beep(750, 0.1);
-  Haptic.impact('medium');
-
-  const weight = appState.currentMetrics ? appState.currentMetrics.weight : 83;
-  const waist = appState.currentMetrics ? appState.currentMetrics.waist : 91.5;
-  const height = appState.height || 178;
-  const age = appState.age || 32;
-  const whtr = (waist / height).toFixed(2);
-  const totalTonnage = getTotalTonnage(appState);
-  const workoutsCount = (appState.history || []).length;
-  const injuries = appState.injuries || "Нет";
-
-  let cardioAdvice = "";
-  if (whtr >= 0.50) {
-    cardioAdvice = `⚠️ <b>Висцеральный жир:</b> Индекс WHtR = <b>${whtr}</b> (выше нормы 0.49). Рекомендовано обязательное кардио в Зоне 2 (пульс 115-128 уд/мин, 25-30 мин) после тренировок.`;
-  } else {
-    cardioAdvice = `🟢 <b>Композиция тела:</b> Индекс WHtR = <b>${whtr}</b> в норме. Фокус на силовую гипертрофию.`;
-  }
-
-  let biomechanicsAdvice = "";
-  if (injuries.toLowerCase().includes("легк") || injuries.toLowerCase().includes("лопатк") || injuries.toLowerCase().includes("ше")) {
-    biomechanicsAdvice = `🩺 <b>Защита шеи и лопатки:</b> Учитывая травму/спазм <i>m. levator scapulae</i> — строго исключены жимы из-за головы и тяги за спину. В жимах гантелей держи угол локтей 60–70°, делай депрессию лопаток вниз перед каждым повторением.`;
-  } else {
-    biomechanicsAdvice = `🦾 <b>Биомеханика:</b> Работай в полную амплитуду с контролем негативной фазы 2-3 секунды.`;
-  }
-
-  output.innerHTML = `
-    <div class="space-y-2 text-xs">
-      <div class="flex justify-between items-center border-b border-white/[0.08] pb-1.5 font-mono">
-        <span class="text-violet-300 font-bold">📋 ОТЧЕТ ИИ-АУДИТА</span>
-        <span class="text-cyan-400 font-bold">${appState.name} (${age} года)</span>
-      </div>
-
-      <p>${cardioAdvice}</p>
-      <p>${biomechanicsAdvice}</p>
-
-      <div class="p-2 bg-slate-900 rounded-lg border border-white/[0.06] font-mono text-[10px] space-y-0.5">
-        <p>• Закрыто тренировок: <b>${workoutsCount}</b></p>
-        <p>• Суммарный тоннаж: <b>${Math.round(totalTonnage).toLocaleString()} кг</b></p>
-        <p>• Фаза мезоцикла: <b>Неделя ${appState.mesocycleWeek || 1} из 8</b></p>
-        <p>• Целевой белок: <b>${Math.round(weight * 1.8)} г / день</b></p>
-      </div>
-
-      <p class="text-[11px] text-cyan-300">
-        🎯 <b>Фокус на неделю:</b> Линейная прогрессия +2.5 кг в наклонном жиме и горизонтальной тяге блока.
-      </p>
-    </div>
-  `;
-}
-
-function askAICoachQuestion() {
-  const input = document.getElementById("ai-user-question");
-  const output = document.getElementById("ai-audit-output");
-  if (!input || !output) return;
-
-  const q = input.value.trim();
-  if (!q) return;
-
-  Sound.beep(650, 0.08);
-  Haptic.impact('light');
-
-  const qLower = q.toLowerCase();
-  let ans = "";
-
-  if (qLower.includes("брусь") || qLower.includes("замен")) {
-    ans = `💡 <b>Замена брусьев:</b> Если брусья перегружают плечо, делай <b>Жим в Хаммере с упором</b> или <b>Жим гантелей на скамье с обратным наклоном (-15°)</b> с тем же объемом (4 × 8–10).`;
-  } else if (qLower.includes("плеч") || qLower.includes("бол")) {
-    ans = `⚠️ <b>Защита плечевого сустава:</b> При дискомфорте в жимах уменьши наклон скамьи до 20-30°, сведи лопатки и прижимай локти ближе к ребрам (угол 60° вместо 90°). Добавь Face Pulls (4×20) перед тренировкой.`;
-  } else if (qLower.includes("креатин") || qLower.includes("добавк")) {
-    ans = `💊 <b>Прием креатина:</b> Принимай 5 г креатина моногидрата ежедневно утром или после тренировки с водой/углеводами. Фаза загрузки не требуется.`;
-  } else if (qLower.includes("кардио") || qLower.includes("жир")) {
-    ans = `🏃 <b>Протокол Зоны 2:</b> 25–30 минут ходьбы в горку (уклон 8–10%, скорость 5.5 км/ч) при пульсе 115–128 уд/мин. Делать после силовой или в воскресенье.`;
-  } else if (qLower.includes("сон") || qLower.includes("устал") || qLower.includes("восстанов")) {
-    ans = `😴 <b>Восстановление:</b> Прими 400 мг магния глицината за 40 мин до сна. Снизь интенсивность следующей тренировки на 10%, если индекс готовности < 65%.`;
-  } else {
-    ans = `🤖 <b>Рекомендация ИИ:</b> При твоем весе ${appState.currentMetrics ? appState.currentMetrics.weight : 83} кг и цели «${appState.goal}» ключевой фактор роста — это прогрессивная перегрузка в диапазоне 8-12 повторений с паузой 1 сек в растяжении и закрытие 150г белка.`;
-  }
-
-  output.innerHTML = `
-    <div class="space-y-2 text-xs">
-      <div class="p-2 bg-slate-900 rounded-lg text-slate-400 font-mono text-[10px]">
-        ❓ <i>"${q}"</i>
-      </div>
-      <p class="leading-relaxed text-slate-200">${ans}</p>
-    </div>
-  `;
-
-  input.value = "";
 }
 
 // ========================================================
