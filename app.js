@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.7 PRO",
+  version: "v2.8.8 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -2665,7 +2665,8 @@ function toggleSet(exIdx, sIdx, done) {
     Sound.success();
     Haptic.success();
     addXP(25);
-    startRestTimer(90);
+    const smartRest = calculateSmartDynamicRestTime(ex, s);
+    startRestTimer(smartRest.seconds, smartRest.reason);
 
     const allSetsClosed = ex.sets.every(setObj => setObj.done);
     if (allSetsClosed) {
@@ -2948,11 +2949,64 @@ function executeSwapExercise(targetDbId) {
 
 let timerInt = null, timerLeft = 0;
 
-function startRestTimer(sec) {
+function calculateSmartDynamicRestTime(ex, set) {
+  const n = ((ex && ex.name) || "").toLowerCase();
+  const muscle = ((ex && ex.muscleGroup) || "").toLowerCase();
+  const weight = (set && set.weight) || 0;
+  const rir = (set && set.rir !== undefined) ? set.rir : 2;
+
+  let baseSec = 90;
+  let reason = "Отдых между сетами";
+
+  // 1. Базовое время по биомеханической категории (Тяжелая база vs Изоляция)
+  const isHeavyCompound = n.includes("жим") || n.includes("присед") || n.includes("тяга") || 
+                          n.includes("брусь") || n.includes("румынк") || n.includes("становая") ||
+                          muscle.includes("ноги") || muscle.includes("грудь") || muscle.includes("спина");
+
+  const isIsolation = n.includes("бабочка") || n.includes("разводк") || n.includes("бицепс") || 
+                      n.includes("трицепс") || n.includes("пресс") || n.includes("махи") || n.includes("голен");
+
+  if (isHeavyCompound) {
+    baseSec = 120; // 2:00 база для многосуставных движений
+    reason = "Базовое упражнение (2:00)";
+  } else if (isIsolation) {
+    baseSec = 75; // 1:15 для изолирующих
+    reason = "Изоляция (1:15)";
+  }
+
+  // 2. Влияние веса и интенсивности (Тяжелый рабочий вес)
+  if (weight >= 70) {
+    baseSec += 30; // +30с для тяжелых весов 70+ кг
+    reason = `Тяжелый вес ${weight} кг (+30с)`;
+  } else if (weight >= 35) {
+    baseSec += 15; // +15с для весов 35-69 кг
+    reason = `Рабочий вес ${weight} кг (+15с)`;
+  }
+
+  // 3. Влияние степени отказа (RIR Engine)
+  if (rir === 0) {
+    baseSec += 30; // +30с при полном отказе (RIR 0) для ресинтеза фосфокреатина и ЦНС
+    reason += " • Отказ (RIR 0) 🧠";
+  } else if (rir === 1) {
+    baseSec += 15; // +15с при околоотказе (RIR 1)
+    reason += " • Предел (RIR 1) ⚡";
+  } else if (rir >= 3) {
+    baseSec = Math.max(45, baseSec - 30);
+    reason += " • Разминка (RIR 3+)";
+  }
+
+  // Ограничиваем разумными спортивными рамками (45с - 210с)
+  baseSec = Math.min(210, Math.max(45, Math.round(baseSec / 15) * 15));
+
+  return { seconds: baseSec, reason: reason };
+}
+
+function startRestTimer(sec, reason = "Отдых между сетами") {
   clearInterval(timerInt);
   appState.activeRestTimer = {
     targetTs: Date.now() + sec * 1000,
-    totalSec: sec
+    totalSec: sec,
+    reason: reason
   };
   saveState();
 
@@ -2992,10 +3046,12 @@ function syncActiveRestTimer() {
     const barTxt = document.getElementById("timer-text");
     const hudTxt = document.getElementById("hud-rest-timer-display");
     const modalTxt = document.getElementById("rest-timer-display");
+    const reasonTxt = document.getElementById("timer-reason-text");
     
     if (barTxt) barTxt.textContent = "ПОРА! ⚡";
     if (hudTxt) hudTxt.textContent = "ПОРА! ⚡";
     if (modalTxt) modalTxt.textContent = "ПОРА! ⚡";
+    if (reasonTxt) reasonTxt.textContent = "Готов к следующему сету! 🦾";
 
     if (bar) bar.classList.add("ring-2", "ring-[#c8a97e]", "animate-pulse");
     if (floatingHud) floatingHud.classList.add("ring-2", "ring-[#c8a97e]", "animate-pulse");
@@ -3020,9 +3076,15 @@ function updateTimerHUD() {
   const barTxt = document.getElementById("timer-text");
   const hudTxt = document.getElementById("hud-rest-timer-display");
   const modalTxt = document.getElementById("rest-timer-display");
+  const reasonTxt = document.getElementById("timer-reason-text");
+
   if (barTxt) barTxt.textContent = str;
   if (hudTxt) hudTxt.textContent = str;
   if (modalTxt) modalTxt.textContent = str;
+
+  if (reasonTxt && appState.activeRestTimer && appState.activeRestTimer.reason) {
+    reasonTxt.textContent = appState.activeRestTimer.reason;
+  }
 }
 
 function stopTimer() {
