@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.20 PRO",
+  version: "v2.8.21 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -1741,33 +1741,33 @@ const DEFAULT_PROGRAMS = {
   a: {
     name: "Тренировка А (База Верх + Ноги)",
     exercises: [
-      { name: "Жим гантелей на наклонной скамье 30°", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта", phases: ["01: Опускание 2-3с", "02: Пауза 1с", "03: Выжим"], sets: 4, min: 8, max: 10, w: 22, calRate: 12, tip: "Локти 60-70° к корпусу, лопатки сведены и опущены.", substitutes: ["Жим штанги на наклонной скамье 30°", "Жим в Хаммере на наклонной"] },
-      { name: "Жим гантелей на горизонтальной скамье", muscleGroup: "Грудь", targetMuscles: "Середина груди • Трицепс", phases: ["01: Растяжка 2с", "02: Фиксация", "03: Выжим"], sets: 4, min: 8, max: 10, w: 24, calRate: 12, tip: "Мощный выжим, пауза 1 сек в нижней точке.", substitutes: ["Жим штанги лежа", "Отжимания на брусьях"] },
-      { name: "Жим ногами под углом 45° в тренажере", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Пятки в платформу", "02: Угол 90°", "03: Без щелчка суставов"], sets: 4, min: 10, max: 12, w: 90, calRate: 16, tip: "Колени вверху не вставляй, упор в середину стопы и пятки.", substitutes: ["Приседания в Гакк-тренажере", "Выпады с гантелями"] },
-      { name: "Тяга горизонтального блока к поясу (нейтральный хват)", muscleGroup: "Спина", targetMuscles: "Широчайшие • Середина спины", phases: ["01: Локти назад", "02: Сведение лопаток", "03: Растяжка"], sets: 4, min: 10, max: 12, w: 45, calRate: 11, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы.", substitutes: ["Тяга Т-грифа с упором в грудь", "Тяга гантели в наклоне"] },
+      { name: "Жим гантелей на наклонной скамье 30°", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта", phases: ["01: Опускание 2-3с", "02: Пауза 1с", "03: Выжим"], sets: 4, min: 8, max: 10, w: 22, calRate: 12, tip: "Локти 60-70° к корпусу, лопатки сведены и опущены.", substitutes: ["Жим гантелей на горизонтальной скамье", "Жим штанги лежа на горизонтальной скамье", "Жим в тренажере Хаммер на грудь"] },
+      { name: "Жим гантелей на горизонтальной скамье", muscleGroup: "Грудь", targetMuscles: "Середина груди • Трицепс", phases: ["01: Растяжка 2с", "02: Фиксация", "03: Выжим"], sets: 4, min: 8, max: 10, w: 24, calRate: 12, tip: "Мощный выжим, пауза 1 сек в нижней точке.", substitutes: ["Жим штанги лежа на горизонтальной скамье", "Жим в тренажере Хаммер на грудь", "Отжимания на брусьях (с акцентом на грудь)"] },
+      { name: "Жим ногами под углом 45° в тренажере", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Пятки в платформу", "02: Угол 90°", "03: Без щелчка суставов"], sets: 4, min: 10, max: 12, w: 90, calRate: 16, tip: "Колени вверху не вставляй, упор в середину стопы и пятки.", substitutes: ["Приседания в Гакк-тренажере", "Разгибания ног в тренажере сидя"] },
+      { name: "Тяга горизонтального блока к поясу (нейтральный хват)", muscleGroup: "Спина", targetMuscles: "Широчайшие • Середина спины", phases: ["01: Локти назад", "02: Сведение лопаток", "03: Растяжка"], sets: 4, min: 10, max: 12, w: 45, calRate: 11, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы.", substitutes: ["Тяга гантели в наклоне с упором в скамью", "Тяга верхнего блока нейтральным хватом к груди"] },
       { name: "Сгибания ног сидя или лежа в тренажере", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра", phases: ["01: Сгибание", "02: Пауза 1с", "03: Спуск 3с"], sets: 3, min: 12, max: 15, w: 35, calRate: 8, tip: "Медленное опускание 2–3 сек.", substitutes: ["Румынская тяга с гантелями"] },
-      { name: "Махи гантелями через стороны стоя", muscleGroup: "Плечи", targetMuscles: "Средняя дельта", phases: ["01: Корпус вперед", "02: Подъем локтями", "03: Кисть ниже локтя"], sets: 4, min: 12, max: 15, w: 8, calRate: 7, tip: "Подъем через стороны локтями, кисть не выше локтя.", substitutes: ["Махи в кроссовере на нижнем блоке"] },
-      { name: "Разгибания рук на верхнем блоке с канатом", muscleGroup: "Руки", targetMuscles: "Трицепс", phases: ["01: Фиксация локтей", "02: Разводка каната", "03: Сжатие"], sets: 3, min: 12, max: 15, w: 20, calRate: 6, tip: "Локти прижаты к корпусу, разводи канат внизу.", substitutes: ["Французский жим с гантелями"] }
+      { name: "Махи гантелями через стороны стоя", muscleGroup: "Плечи", targetMuscles: "Средняя дельта", phases: ["01: Корпус вперед", "02: Подъем локтями", "03: Кисть ниже локтя"], sets: 4, min: 12, max: 15, w: 8, calRate: 7, tip: "Подъем через стороны локтями, кисть не выше локтя.", substitutes: ["Протяжка на блоке к подбородку (широкий хват)", "Жим гантелей сидя на плечи (скамья 75°)"] },
+      { name: "Разгибания рук на верхнем блоке с канатом", muscleGroup: "Трицепс", targetMuscles: "Трицепс", phases: ["01: Фиксация локтей", "02: Разводка каната", "03: Сжатие"], sets: 3, min: 12, max: 15, w: 20, calRate: 6, tip: "Локти прижаты к корпусу, разводи канат внизу.", substitutes: ["Разгибания рук на блоке с прямой / V-рукоятью", "Французский жим с гантелями лежа на скамье", "Французский жим со штангой (EZ-гриф) лежа", "Разгибание руки с гантелью из-за головы сидя"] }
     ]
   },
   b: {
     name: "Тренировка Б (Бабочка + Брусья + Спина)",
     exercises: [
-      { name: "Сведения рук в тренажере бабочка (Pec Deck)", muscleGroup: "Грудь", targetMuscles: "Изоляция грудных мышц", phases: ["01: Растяжка 2с", "02: Сведение", "03: Пиковое сжатие"], sets: 4, min: 10, max: 12, w: 25, calRate: 9, tip: "Глубокая растяжка грудных и фиксация 2 сек в сведении.", substitutes: ["Сведения в кроссовере"] },
-      { name: "Отжимания на брусьях (или жим в Хаммере)", muscleGroup: "Грудь", targetMuscles: "Низ груди • Трицепс", phases: ["01: Наклон 30°", "02: Угол 90°", "03: Выжим"], sets: 4, min: 8, max: 10, w: 0, calRate: 11, tip: "Корпус слегка наклонен вперед для акцента на грудь.", substitutes: ["Жим гантелей на полу", "Жим штанги узким хватом"] },
-      { name: "Румынская тяга с гантелями", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Ягодицы", phases: ["01: Таз назад", "02: Прямая спина", "03: Растяжение"], sets: 4, min: 10, max: 12, w: 22, calRate: 15, tip: "Таз максимально назад, колени слегка согнуты.", substitutes: ["Сгибания ног лежа"] },
-      { name: "Тяга верхнего блока нейтральным хватом к груди", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы", phases: ["01: Растяжка", "02: Тяга к груди", "03: Опускание лопаток"], sets: 4, min: 10, max: 12, w: 50, calRate: 12, tip: "Симметричная тяга к верху груди, лопатки вниз.", substitutes: ["Подтягивания нейтральным хватом"] },
-      { name: "Приседания в Гакк-тренажере", muscleGroup: "Ноги", targetMuscles: "Квадрицепс", phases: ["01: Спина к опоре", "02: Сед 90°", "03: Подъем пятками"], sets: 3, min: 10, max: 12, w: 35, calRate: 13, tip: "Плавное движение по направлению носков.", substitutes: ["Жим ногами 45°"] },
-      { name: "Подъем гантелей на бицепс с разворотом кисти", muscleGroup: "Бицепс", targetMuscles: "Бицепс", phases: ["01: Локти у ребер", "02: Супинация", "03: Сжатие"], sets: 3, min: 10, max: 12, w: 12, calRate: 6, tip: "Разворот кисти наружу в верхней точке.", substitutes: ["Молотковые сгибания"] }
+      { name: "Сведения рук в тренажере бабочка (Pec Deck)", muscleGroup: "Грудь", targetMuscles: "Изоляция грудных мышц", phases: ["01: Растяжка 2с", "02: Сведение", "03: Пиковое сжатие"], sets: 4, min: 10, max: 12, w: 25, calRate: 9, tip: "Глубокая растяжка грудных и фиксация 2 сек в сведении.", substitutes: ["Сведения в кроссовере на блоках", "Жим в тренажере Хаммер на грудь", "Жим гантелей на горизонтальной скамье"] },
+      { name: "Отжимания на брусьях (с акцентом на грудь)", muscleGroup: "Грудь", targetMuscles: "Низ груди • Трицепс", phases: ["01: Наклон 30°", "02: Угол 90°", "03: Выжим"], sets: 4, min: 8, max: 10, w: 0, calRate: 11, tip: "Корпус слегка наклонен вперед для акцента на грудь.", substitutes: ["Жим в тренажере Хаммер на грудь", "Жим гантелей на горизонтальной скамье", "Сведения в кроссовере на блоках"] },
+      { name: "Румынская тяга с гантелями", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Ягодицы", phases: ["01: Таз назад", "02: Прямая спина", "03: Растяжение"], sets: 4, min: 10, max: 12, w: 22, calRate: 15, tip: "Таз максимально назад, колени слегка согнуты.", substitutes: ["Сгибания ног сидя или лежа в тренажере", "Гиперэкстензия для разгибателей спины"] },
+      { name: "Тяга верхнего блока нейтральным хватом к груди", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы", phases: ["01: Растяжка", "02: Тяга к груди", "03: Опускание лопаток"], sets: 4, min: 10, max: 12, w: 50, calRate: 12, tip: "Симметричная тяга к верху груди, лопатки вниз.", substitutes: ["Подтягивания на турнике (или в гравитроне)", "Тяга горизонтального блока к поясу (нейтральный хват)"] },
+      { name: "Приседания в Гакк-тренажере", muscleGroup: "Ноги", targetMuscles: "Квадрицепс", phases: ["01: Спина к опоре", "02: Сед 90°", "03: Подъем пятками"], sets: 3, min: 10, max: 12, w: 35, calRate: 13, tip: "Плавное движение по направлению носков.", substitutes: ["Жим ногами под углом 45° в тренажере", "Разгибания ног в тренажере сидя"] },
+      { name: "Подъем гантелей на бицепс стоя с супинацией", muscleGroup: "Бицепс", targetMuscles: "Бицепс", phases: ["01: Локти у ребер", "02: Супинация", "03: Сжатие"], sets: 3, min: 10, max: 12, w: 12, calRate: 6, tip: "Разворот кисти наружу в верхней точке.", substitutes: ["Сгибания рук с гантелями на наклонной скамье 45°", "Молотковые сгибания с гантелями (Hammer Curls)", "Сгибания рук на скамье Скотта (со штангой или гантелью)", "Подъем штанги на бицепс стоя (прямой или EZ-гриф)"] }
     ]
   },
   c: {
     name: "Восстановление и Пампинг (Разгрузка шеи + Руки)",
     exercises: [
-      { name: "Тяга каната к лицу (Face Pull — разгрузка шеи)", muscleGroup: "Спина", targetMuscles: "Задняя дельта • Мышцы лопатки", phases: ["01: Канат к глазам", "02: Локти врозь", "03: Пауза 2с"], sets: 4, min: 15, max: 20, w: 15, calRate: 8, tip: "Канат к глазам, локти разводи назад, пауза 2 сек.", substitutes: ["Разводка на заднюю дельту"] },
-      { name: "Жим гантелей сидя на плечи (скамья 75°)", muscleGroup: "Плечи", targetMuscles: "Передняя/средняя дельта", phases: ["01: Локти перед собой", "02: Выжим", "03: Плавный спуск"], sets: 3, min: 10, max: 12, w: 14, calRate: 8, tip: "Плавный жим над головой без резкого прогиба.", substitutes: ["Махи в стороны"] },
-      { name: "Молотковые сгибания с гантелями (Hammer)", muscleGroup: "Бицепс", targetMuscles: "Брахиалис • Бицепс", phases: ["01: Нейтральный хват", "02: Подъем", "03: Контроль"], sets: 3, min: 10, max: 12, w: 14, calRate: 7, tip: "Утолщает предплечья и выталкивает бицепс.", substitutes: ["Сгибания на бицепс со штангой"] },
-      { name: "Французский жим с гантелями лежа на скамье", muscleGroup: "Трицепс", targetMuscles: "Трицепс", phases: ["01: Локти параллельно", "02: К вискам", "03: Выжим"], sets: 3, min: 10, max: 12, w: 10, calRate: 6, tip: "Локти не разводи широко в стороны.", substitutes: ["Разгибания на блоке"] },
+      { name: "Тяга каната к лицу (Face Pull — разгрузка шеи)", muscleGroup: "Спина", targetMuscles: "Задняя дельта • Мышцы лопатки", phases: ["01: Канат к глазам", "02: Локти врозь", "03: Пауза 2с"], sets: 4, min: 15, max: 20, w: 15, calRate: 8, tip: "Канат к глазам, локти разводи назад, пауза 2 сек.", substitutes: ["Разводка гантелей в наклоне на заднюю дельту", "Тяга горизонтального блока к поясу (нейтральный хват)"] },
+      { name: "Жим гантелей сидя на плечи (скамья 75°)", muscleGroup: "Плечи", targetMuscles: "Передняя/средняя дельта", phases: ["01: Локти перед собой", "02: Выжим", "03: Плавный спуск"], sets: 3, min: 10, max: 12, w: 14, calRate: 8, tip: "Плавный жим над головой без резкого прогиба.", substitutes: ["Махи гантелями через стороны стоя", "Протяжка на блоке к подбородку (широкий хват)"] },
+      { name: "Молотковые сгибания с гантелями (Hammer Curls)", muscleGroup: "Бицепс", targetMuscles: "Брахиалис • Бицепс", phases: ["01: Нейтральный хват", "02: Подъем", "03: Контроль"], sets: 3, min: 10, max: 12, w: 14, calRate: 7, tip: "Утолщает предплечья и выталкивает бицепс.", substitutes: ["Молотковые сгибания с гантелями на наклонной скамье", "Сгибания рук с гантелями на наклонной скамье 45°", "Подъем гантелей на бицепс стоя с супинацией", "Концентрированные сгибания с гантелью сидя"] },
+      { name: "Французский жим с гантелями лежа на скамье", muscleGroup: "Трицепс", targetMuscles: "Трицепс", phases: ["01: Локти параллельно", "02: К вискам", "03: Выжим"], sets: 3, min: 10, max: 12, w: 10, calRate: 6, tip: "Локти не разводи широко в стороны.", substitutes: ["Французский жим со штангой (EZ-гриф) лежа", "Разгибания рук на верхнем блоке с канатом", "Разгибание руки с гантелью из-за головы сидя", "Жим штанги узким хватом лежа"] },
       { name: "Ходьба в горку на дорожке (сжигание жира)", muscleGroup: "Кардио", targetMuscles: "Сердце • Жиросжигание", phases: ["01: Уклон 8-10%", "02: 5.5 км/ч", "03: Пульс 115-125"], sets: 1, min: 25, max: 30, w: 0, calRate: 200, isTime: true, tip: "Пульс 115-125 уд/мин без одышки.", substitutes: ["Эллиптический тренажер"] }
     ]
   }
@@ -3462,7 +3462,10 @@ function openSwapExerciseModal(exIdx) {
   const ex = appState.activeWorkout.exercises[exIdx];
 
   const titleEl = document.getElementById("swap-modal-current-name");
-  if (titleEl) titleEl.textContent = `Текущее: ${ex.name}`;
+  if (titleEl) titleEl.textContent = ex.name;
+
+  const badgeEl = document.getElementById("swap-modal-target-badge");
+  if (badgeEl) badgeEl.textContent = `🎯 ${ex.muscleGroup}`;
 
   const searchInput = document.getElementById("swap-search-input");
   if (searchInput) searchInput.value = "";
@@ -3473,19 +3476,75 @@ function openSwapExerciseModal(exIdx) {
 
 function setSwapCategoryFilter(filter) {
   currentSwapFilter = filter;
-  ['rec', 'same', 'all'].forEach(f => {
+  ['rec', 'all'].forEach(f => {
     const btn = document.getElementById("btn-swap-cat-" + f);
     if (btn) {
       if ((f === 'rec' && filter === 'recommended') ||
-          (f === 'same' && filter === 'same-group') ||
           (f === 'all' && filter === 'all')) {
-        btn.className = "px-2.5 py-1 rounded-lg bg-[#c8a97e] text-slate-950 font-bold whitespace-nowrap shadow-sm";
+        btn.className = "flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center";
       } else {
-        btn.className = "px-2.5 py-1 rounded-lg bg-[#181b26] text-slate-400 border border-white/10 font-medium whitespace-nowrap";
+        btn.className = "py-1.5 px-3 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center";
       }
     }
   });
   renderSwapExerciseAlternativesList();
+}
+
+function getExactBiomechanicalSubstitutes(currentEx) {
+  if (!currentEx) return [];
+  const currentName = (currentEx.name || "").toLowerCase();
+  const currentGroup = (currentEx.muscleGroup || "").trim();
+
+  // Explicit predefined substitutes
+  const explicitNames = (currentEx.substitutes || []).map(n => n.toLowerCase());
+
+  // 1. Strictly filter by target muscle group / biomechanical function
+  let matches = EXERCISE_DATABASE.filter(dbEx => {
+    if (dbEx.name.toLowerCase() === currentName) return false;
+
+    // Strict muscle category matching
+    if (currentGroup === "Бицепс") {
+      return (dbEx.category === "Бицепс" || dbEx.muscleGroup === "Бицепс");
+    }
+    if (currentGroup === "Трицепс") {
+      return (dbEx.category === "Трицепс" || dbEx.muscleGroup === "Трицепс");
+    }
+    if (currentGroup === "Грудь") {
+      return (dbEx.category === "Грудь" || dbEx.muscleGroup === "Грудь");
+    }
+    if (currentGroup === "Спина") {
+      return (dbEx.category === "Спина" || dbEx.muscleGroup === "Спина");
+    }
+    if (currentGroup === "Плечи") {
+      return (dbEx.category === "Плечи" || dbEx.muscleGroup === "Плечи");
+    }
+    if (currentGroup === "Пресс") {
+      return (dbEx.category === "Пресс" || dbEx.muscleGroup === "Пресс");
+    }
+    if (currentGroup === "Кардио") {
+      return (dbEx.category === "Кардио" || dbEx.muscleGroup === "Кардио");
+    }
+
+    if (currentGroup === "Ноги") {
+      const isHamstring = currentName.includes("сгибан") || currentName.includes("румынск");
+      const dbIsHamstring = dbEx.name.toLowerCase().includes("сгибан") || dbEx.name.toLowerCase().includes("румынск");
+      if (isHamstring) {
+        return dbIsHamstring && (dbEx.category === "Ноги" || dbEx.muscleGroup === "Ноги");
+      }
+      return !dbIsHamstring && (dbEx.category === "Ноги" || dbEx.muscleGroup === "Ноги");
+    }
+
+    return (dbEx.muscleGroup === currentGroup || dbEx.category === currentGroup);
+  });
+
+  // 2. Sort so explicitly designated direct movement substitutes appear at the top
+  matches.sort((a, b) => {
+    const aExpl = explicitNames.includes(a.name.toLowerCase()) ? 1 : 0;
+    const bExpl = explicitNames.includes(b.name.toLowerCase()) ? 1 : 0;
+    return bExpl - aExpl;
+  });
+
+  return matches;
 }
 
 function renderSwapExerciseAlternativesList() {
@@ -3499,52 +3558,46 @@ function renderSwapExerciseAlternativesList() {
   let list = [];
 
   if (currentSwapFilter === 'recommended') {
-    const explicitNames = currentEx.substitutes || [];
-    const explicitMatches = EXERCISE_DATABASE.filter(e => explicitNames.includes(e.name));
-    const sameGroup = EXERCISE_DATABASE.filter(e => e.muscleGroup === currentEx.muscleGroup && e.name !== currentEx.name);
-    
-    const combined = [...explicitMatches];
-    sameGroup.forEach(e => {
-      if (!combined.some(c => c.id === e.id)) {
-        combined.push(e);
-      }
-    });
-    list = combined;
-  } else if (currentSwapFilter === 'same-group') {
-    list = EXERCISE_DATABASE.filter(e => e.muscleGroup === currentEx.muscleGroup && e.name !== currentEx.name);
+    list = getExactBiomechanicalSubstitutes(currentEx);
   } else {
     list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name);
   }
 
   if (query) {
-    list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name && (e.name.toLowerCase().includes(query) || (e.targetMuscles || '').toLowerCase().includes(query)));
+    list = EXERCISE_DATABASE.filter(e => e.name !== currentEx.name && (e.name.toLowerCase().includes(query) || (e.targetMuscles || '').toLowerCase().includes(query) || (e.category || '').toLowerCase().includes(query)));
   }
 
   if (list.length === 0) {
     container.innerHTML = `
       <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
-        <p class="text-xs font-bold text-slate-300 uppercase">Альтернативы не найдены</p>
-        <p class="text-[11px] text-slate-500 font-sans">Попробуй изменить поисковый запрос или выбрать другую категорию.</p>
+        <p class="text-xs font-bold text-[#c8a97e] uppercase">Точные аналоги для «${currentEx.muscleGroup}» не найдены</p>
+        <p class="text-[11px] text-slate-400 font-sans">Переключись на «Весь каталог» или введи название в строку поиска.</p>
       </div>
     `;
     return;
   }
 
-  container.innerHTML = list.map(dbEx => `
-    <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
-      <div class="space-y-1 pr-1">
-        <div class="flex items-center space-x-1.5">
-          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-white/10 rounded uppercase">${dbEx.category || dbEx.muscleGroup}</span>
-          <h4 class="font-bold text-xs text-white leading-tight">${dbEx.name}</h4>
+  container.innerHTML = list.map(dbEx => {
+    const isExactMuscle = (dbEx.category === currentEx.muscleGroup || dbEx.muscleGroup === currentEx.muscleGroup);
+    const badgeBg = isExactMuscle ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-white/5 text-[#c8a97e] border-white/10';
+    const badgeText = isExactMuscle ? `🎯 ${dbEx.category || dbEx.muscleGroup} • Прямой аналог` : (dbEx.category || dbEx.muscleGroup);
+
+    return `
+      <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
+        <div class="space-y-1 pr-1 flex-1 min-w-0">
+          <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
+            <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 border rounded uppercase ${badgeBg}">${badgeText}</span>
+            <h4 class="font-bold text-xs text-white leading-tight">${dbEx.name}</h4>
+          </div>
+          <p class="text-[11px] text-slate-400 font-mono">${dbEx.targetMuscles || ''}</p>
+          <p class="text-[10px] text-slate-500 font-sans truncate max-w-[260px]">💡 ${dbEx.tip || ''}</p>
         </div>
-        <p class="text-[11px] text-slate-400 font-mono">${dbEx.targetMuscles || ''}</p>
-        <p class="text-[10px] text-slate-500 font-sans truncate max-w-[240px]">💡 ${dbEx.tip || ''}</p>
+        <button onclick="executeSwapExercise('${dbEx.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+          Заменить
+        </button>
       </div>
-      <button onclick="executeSwapExercise('${dbEx.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
-        Заменить
-      </button>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 function executeSwapExercise(targetDbId) {
@@ -3560,7 +3613,7 @@ function executeSwapExercise(targetDbId) {
     : dbEx.defaultWeight;
 
   currentEx.name = dbEx.name;
-  currentEx.muscleGroup = dbEx.muscleGroup;
+  currentEx.muscleGroup = dbEx.muscleGroup || dbEx.category;
   currentEx.targetMuscles = dbEx.targetMuscles;
   currentEx.phases = dbEx.phases;
   currentEx.tip = dbEx.tip;
