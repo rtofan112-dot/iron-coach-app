@@ -989,6 +989,35 @@ function renderHealthTabCalculations() {
   if (elCarb) elCarb.textContent = `${carbGrams} г`;
   if (elCarbSub) elCarbSub.textContent = `${cfg.carbsPerKg} г/кг`;
   if (elWater) elWater.textContent = `${waterLiters} л`;
+
+  // РАСЧЕТ СОСТАВА ТЕЛА ПО ФОРМУЛЕ ВМФ США (US NAVY BODY COMPOSITION)
+  const waist = (appState.currentMetrics && appState.currentMetrics.waist) ? appState.currentMetrics.waist : 91.5;
+  const neck = (appState.currentMetrics && appState.currentMetrics.neck) ? appState.currentMetrics.neck : 39.5;
+  let bodyFatPct = 16.8;
+  if (waist > neck && height > 100) {
+    const rawBf = 495 / (1.0324 - 0.19077 * Math.log10(Math.max(1, waist - neck)) + 0.15456 * Math.log10(height)) - 450;
+    bodyFatPct = Math.max(6, Math.min(45, Math.round(rawBf * 10) / 10));
+  }
+  const fatMass = Math.round(weight * (bodyFatPct / 100) * 10) / 10;
+  const leanMass = Math.round((weight - fatMass) * 10) / 10;
+  const heightM = height / 100;
+  const ffmi = Math.round((leanMass / (heightM * heightM)) * 10) / 10;
+
+  const bfBadge = document.getElementById("health-bodyfat-badge");
+  const lmVal = document.getElementById("health-lean-mass-val");
+  const fmVal = document.getElementById("health-fat-mass-val");
+  const ffmiVal = document.getElementById("health-ffmi-val");
+  const ffmiSub = document.getElementById("health-ffmi-sub-val");
+
+  if (bfBadge) bfBadge.textContent = `${bodyFatPct}% жира`;
+  if (lmVal) lmVal.textContent = `${leanMass} кг`;
+  if (fmVal) fmVal.textContent = `${fatMass} кг`;
+  if (ffmiVal) ffmiVal.textContent = `${ffmi}`;
+  if (ffmiSub) {
+    if (ffmi >= 22) ffmiSub.textContent = "Превосходно";
+    else if (ffmi >= 20) ffmiSub.textContent = "Атлетичный";
+    else ffmiSub.textContent = "Базовый";
+  }
 }
 
 // ========================================================
@@ -1182,6 +1211,11 @@ function loadState() {
   renderPersonalizedAIAnalytics();
   updateSoundUI();
   updateVacuumBadge();
+  if (appState.theme) {
+    document.body.setAttribute("data-theme", appState.theme === "gold" ? "" : appState.theme);
+  }
+  initPushSettings();
+  updateSettingsDisplay();
 }
 
 function saveState() {
@@ -2008,52 +2042,59 @@ function renderActiveWorkoutUI() {
       const diagramSvg = getExerciseDiagramSVG(ex.name, ex.muscleGroup);
 
       bodyHtml = `
-        <div class="pt-3 space-y-3 border-t border-white/[0.06] mt-3">
+        <div class="pt-3 space-y-2.5 border-t border-white/[0.06] mt-3">
           
-          <div class="ex-diagram-container">
-            ${diagramSvg}
+          <!-- СЕТЫ И ВЕСА (ПЕРВЫМ ПЛАНОМ ДЛЯ МАКСИМАЛЬНОГО УДОБСТВА) -->
+          <div class="space-y-1.5">${setsRows}</div>
+
+          <!-- ПАНЕЛЬ ДЕЙСТВИЙ СЕТОВ -->
+          <div class="flex justify-between items-center text-xs font-mono pt-1">
+            <div class="flex space-x-2">
+              <button type="button" onclick="addSetToExercise(${exIdx})" class="text-[#c8a97e] font-bold text-[11px] hover:underline">+ Подход</button>
+              ${ex.sets.length > 1 ? `<button type="button" onclick="removeSetFromExercise(${exIdx})" class="text-slate-500 text-[11px] hover:underline">- Подход</button>` : ''}
+            </div>
+            <div class="flex space-x-2">
+              <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-[#c8a97e] rounded-lg border border-[#c8a97e]/30 text-[10px] font-bold active:scale-95 transition-all">
+                👀 Анатомия & Техника
+              </button>
+              <button type="button" onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-1 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] active:scale-95 transition-all">
+                Замена
+              </button>
+            </div>
           </div>
 
-          <!-- БЛОК ГЛУБОКИХ РЕКОМЕНДАЦИЙ И БИОМЕХАНИКИ -->
-          <div class="p-3.5 bg-[#0c0d14] rounded-2xl border border-white/[0.06] space-y-2.5">
-            <div class="flex justify-between items-center text-[10px] font-mono">
-              <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
-              <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold">${ex.muscleGroup || 'Группа'}</span>
+          <!-- СКРЫВАЕМЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И СОВЕТОВ -->
+          <div id="ex-guide-${exIdx}" class="hidden pt-2 space-y-3">
+            <div class="ex-diagram-container">
+              ${diagramSvg}
             </div>
-            
-            <div class="flex flex-wrap gap-1.5">${phasesBadges}</div>
-            
-            <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/[0.05]">
-              <div>
-                <b class="text-white">ТЕХНИКА:</b> ${ex.tip}
+
+            <div class="p-3.5 bg-[#0c0d14] rounded-2xl border border-white/[0.06] space-y-2.5">
+              <div class="flex justify-between items-center text-[10px] font-mono">
+                <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
+                <span class="text-slate-400 bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold">${ex.muscleGroup || 'Группа'}</span>
               </div>
-              <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[10px] text-slate-300">
-                <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
-                  <span class="text-slate-400 block uppercase">ДЫХАНИЕ:</span>
-                  <span class="text-white">Вдох 2–3с на спуске, выдох на мощном выжиме (без задержек).</span>
+              
+              <div class="flex flex-wrap gap-1.5">${phasesBadges}</div>
+              
+              <div class="space-y-1.5 text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/[0.05]">
+                <div>
+                  <b class="text-white">ТЕХНИКА:</b> ${ex.tip}
                 </div>
-                <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
-                  <span class="text-slate-400 block uppercase">ТЕМП & RIR:</span>
-                  <span class="text-[#c8a97e] font-bold">Темп: 3-1-1-0</span> • <span class="text-slate-300">Запас: 1–2 повт (RIR 1-2)</span>
+                <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[10px] text-slate-300">
+                  <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
+                    <span class="text-slate-400 block uppercase">ДЫХАНИЕ:</span>
+                    <span class="text-white">Вдох 2–3с на спуске, выдох на мощном выжиме (без задержек).</span>
+                  </div>
+                  <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
+                    <span class="text-slate-400 block uppercase">ТЕМП & RIR:</span>
+                    <span class="text-[#c8a97e] font-bold">Темп: 3-1-1-0</span> • <span class="text-slate-300">Запас: 1–2 повт (RIR 1-2)</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-            <span>Сеты и веса:</span>
-            <div class="flex space-x-1.5">
-              <button onclick="resetExerciseSets(${exIdx})" class="px-2 py-0.5 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 active:scale-95 transition-all">Сброс</button>
-              <button onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-0.5 bg-[#181b26] hover:bg-white/10 text-[#c8a97e] rounded-lg border border-white/10 active:scale-95 transition-all">Замена</button>
-            </div>
-          </div>
-
-          <div class="space-y-2">${setsRows}</div>
-
-          <div class="flex justify-between items-center pt-1 text-xs font-mono">
-            <button onclick="addSetToExercise(${exIdx})" class="text-[#c8a97e] font-bold">+ Добавить подход</button>
-            ${ex.sets.length > 1 ? `<button onclick="removeSetFromExercise(${exIdx})" class="text-slate-500">- Убрать подход</button>` : ''}
-          </div>
         </div>
       `;
     }
@@ -3972,6 +4013,9 @@ function switchTab(tabId) {
     renderPersonalizedVitamins();
     updateVacuumBadge();
   }
+  if (tabId === "settings") {
+    updateSettingsDisplay();
+  }
 
   updateActiveWorkoutTopPill();
 }
@@ -4071,3 +4115,100 @@ document.addEventListener("DOMContentLoaded", () => {
   updateVacuumBadge();
   updateActiveWorkoutTopPill();
 });
+
+
+// ========================================================
+// УПРАВЛЕНИЕ ТЕМАМИ И НАСТРОЙКАМИ ИНТЕРФЕЙСА
+// ========================================================
+function setAppTheme(themeName) {
+  appState.theme = themeName;
+  document.body.setAttribute("data-theme", themeName === "gold" ? "" : themeName);
+  
+  const themes = ['gold', 'emerald', 'cyan', 'ruby', 'purple'];
+  themes.forEach(t => {
+    const btn = document.getElementById("theme-btn-" + t);
+    if (btn) btn.classList.toggle("active", t === themeName);
+  });
+
+  const nameEl = document.getElementById("active-theme-name");
+  const names = {
+    gold: "Obsidian Gold",
+    emerald: "Cyber Emerald",
+    cyan: "Ice Cyan / Titanium",
+    ruby: "Crimson Ruby",
+    purple: "Amethyst Neon"
+  };
+  if (nameEl) nameEl.textContent = names[themeName] || "Obsidian Gold";
+
+  saveState();
+  Sound.beep(600, 0.05);
+  Haptic.impact('light');
+}
+
+function setHapticLevel(lvl) {
+  appState.hapticLevel = lvl;
+  saveState();
+  
+  const lvls = ['light', 'medium', 'heavy', 'off'];
+  lvls.forEach(l => {
+    const btn = document.getElementById("haptic-btn-" + l);
+    if (btn) {
+      if (l === lvl) btn.className = "py-2 bg-[#c8a97e] text-slate-950 rounded-xl font-bold";
+      else btn.className = "py-2 glass-panel rounded-xl text-slate-300 font-bold";
+    }
+  });
+
+  const labelEl = document.getElementById("active-haptic-label");
+  const labels = { light: "Легкий", medium: "Средний", heavy: "Сильный", off: "Выкл" };
+  if (labelEl) labelEl.textContent = labels[lvl] || "Средний";
+
+  if (lvl !== 'off') {
+    Haptic.impact(lvl === 'light' ? 'light' : lvl === 'heavy' ? 'heavy' : 'medium');
+  }
+}
+
+function updateSettingsDisplay() {
+  const ps = appState.pushSettings || { enabled: true, workouts: true, vacuum: true, reports: true };
+  const masterEl = document.getElementById("settings-push-toggle-master");
+  const subEl = document.getElementById("settings-push-suboptions");
+  const woEl = document.getElementById("settings-push-opt-workouts");
+  const vacEl = document.getElementById("settings-push-opt-vacuum");
+  const repEl = document.getElementById("settings-push-opt-reports");
+
+  if (masterEl) masterEl.checked = !!ps.enabled;
+  if (subEl) {
+    subEl.classList.toggle("opacity-30", !ps.enabled);
+    subEl.classList.toggle("pointer-events-none", !ps.enabled);
+  }
+  if (woEl) woEl.checked = !!ps.workouts;
+  if (vacEl) vacEl.checked = !!ps.vacuum;
+  if (repEl) repEl.checked = !!ps.reports;
+
+  const nameEl = document.getElementById("settings-disp-name");
+  const metricsEl = document.getElementById("settings-disp-metrics");
+  const goalEl = document.getElementById("settings-disp-goal");
+
+  if (nameEl) nameEl.textContent = appState.name;
+  if (metricsEl) metricsEl.textContent = `${appState.age || 32} г • ${appState.height || 178} см • ${(appState.currentMetrics && appState.currentMetrics.weight) || 83} кг`;
+  if (goalEl) goalEl.textContent = appState.goal || "Рекомпозиция";
+
+  const curTheme = appState.theme || "gold";
+  ['gold', 'emerald', 'cyan', 'ruby', 'purple'].forEach(t => {
+    const btn = document.getElementById("theme-btn-" + t);
+    if (btn) btn.classList.toggle("active", t === curTheme);
+  });
+}
+
+function toggleExerciseGuide(exIdx) {
+  const el = document.getElementById("ex-guide-" + exIdx);
+  const btn = document.getElementById("btn-guide-" + exIdx);
+  if (!el) return;
+  const isHidden = el.classList.contains("hidden");
+  el.classList.toggle("hidden", !isHidden);
+  if (btn) {
+    btn.textContent = isHidden ? "✕ Скрыть анатомию" : "👀 Анатомия & Техника";
+    btn.classList.toggle("bg-[#c8a97e]/20", isHidden);
+  }
+  Sound.beep(550, 0.04);
+  Haptic.impact('light');
+}

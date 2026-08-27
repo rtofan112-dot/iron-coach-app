@@ -509,3 +509,85 @@ html, body {
   background: rgba(255, 255, 255, 0.18);
   border-radius: 4px;
 }
+
+
+/* ======================================================== */
+/* 5 ДИНАМИЧЕСКИХ ПРЕМИУМ-ТЕМ ОФОРМЛЕНИЯ */
+/* ======================================================== */
+body[data-theme="emerald"] {
+  --gold-primary: #10b981;
+  --gold-light: #34d399;
+  --gold-bright: #6ee7b7;
+  --gold-dark: #059669;
+  --gold-glow: rgba(16, 185, 129, 0.35);
+  --border-gold: rgba(16, 185, 129, 0.55);
+}
+
+body[data-theme="cyan"] {
+  --gold-primary: #38bdf8;
+  --gold-light: #7dd3fc;
+  --gold-bright: #bae6fd;
+  --gold-dark: #0284c7;
+  --gold-glow: rgba(56, 189, 248, 0.35);
+  --border-gold: rgba(56, 189, 248, 0.55);
+}
+
+body[data-theme="ruby"] {
+  --gold-primary: #f43f5e;
+  --gold-light: #fb7185;
+  --gold-bright: #fda4af;
+  --gold-dark: #e11d48;
+  --gold-glow: rgba(244, 63, 94, 0.35);
+  --border-gold: rgba(244, 63, 94, 0.55);
+}
+
+body[data-theme="purple"] {
+  --gold-primary: #a855f7;
+  --gold-light: #c084fc;
+  --gold-bright: #e9d5ff;
+  --gold-dark: #7e22ce;
+  --gold-glow: rgba(168, 85, 247, 0.35);
+  --border-gold: rgba(168, 85, 247, 0.55);
+}
+
+/* АНИМАЦИЯ БИОМЕХАНИКИ И ВЕКТОРНОГО ДВИЖЕНИЯ */
+@keyframes biomech-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px var(--gold-primary)); }
+}
+
+@keyframes biomech-stroke-flow {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.biomech-target-muscle {
+  animation: biomech-pulse 2.2s infinite ease-in-out;
+  transform-origin: center;
+}
+
+.biomech-motion-path {
+  stroke-dasharray: 4, 3;
+  animation: biomech-stroke-flow 1.2s infinite linear;
+}
+
+.theme-pill-btn {
+  padding: 0.5rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.theme-pill-btn.active {
+  border-color: var(--gold-primary);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
