@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Space Grotesk', 'SF Mono', Consolas, monospace;
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Barlow Condensed', 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   
   /* $1,000,000 LUXURY TITANIUM & OBSIDIAN PALETTE */
   --bg-abyss: #000000;
@@ -804,4 +805,324 @@ body[data-theme="purple"] {
   border-radius: 50%;
   background: #c8a97e;
   box-shadow: 0 0 6px #c8a97e;
+}
+
+/* ======================================================== */
+/* FORGED TELEMETRY — PREMIUM FITNESS VISUAL SYSTEM          */
+/* ======================================================== */
+:root {
+  --bg-abyss: #08090a;
+  --bg-card: rgba(20, 22, 24, 0.86);
+  --bg-card-hover: rgba(29, 32, 35, 0.92);
+  --bg-card-active: rgba(35, 39, 43, 0.96);
+  --bg-input: #0e1012;
+  --border-subtle: rgba(255, 255, 255, 0.075);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-gold: rgba(215, 174, 116, 0.58);
+  --text-primary: #f6f5f0;
+  --text-secondary: #d5d8d4;
+  --text-muted: #909a9b;
+  --gold-primary: #d7ae74;
+  --gold-light: #f0cf9b;
+  --gold-bright: #ffedcd;
+  --gold-dark: #8f6a3a;
+  --gold-glow: rgba(215, 174, 116, 0.26);
+  --signal-mint: #67dcb4;
+  --signal-mint-glow: rgba(103, 220, 180, 0.22);
+  --shadow-lift: 0 18px 44px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-press: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.32);
+}
+
+body.font-sans {
+  background:
+    radial-gradient(90rem 52rem at 112% -9%, rgba(215, 174, 116, 0.14), transparent 46%),
+    radial-gradient(42rem 30rem at -12% 38%, rgba(65, 94, 89, 0.11), transparent 58%),
+    linear-gradient(150deg, #0d0f10 0%, #090a0b 47%, #070808 100%);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  letter-spacing: -0.018em;
+}
+
+body.font-sans::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 5px 5px;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+}
+
+body.font-sans h1,
+body.font-sans h2,
+body.font-sans h3,
+body.font-sans h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+}
+
+body.font-sans .font-mono {
+  font-family: var(--font-mono) !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.035em;
+}
+
+body.font-sans header.sticky {
+  background: linear-gradient(180deg, rgba(12, 14, 15, 0.93), rgba(12, 14, 15, 0.77)) !important;
+  border-color: rgba(255, 255, 255, 0.075) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(22px) saturate(128%);
+  -webkit-backdrop-filter: blur(22px) saturate(128%);
+}
+
+body.font-sans main {
+  max-width: 29rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.5rem;
+}
+
+.app-version-badge {
+  border-radius: 999px !important;
+  letter-spacing: 0.055em !important;
+}
+
+/* Header controls stay thumb-friendly without turning the telemetry bar into a toolbar. */
+body.font-sans header .max-w-md > .font-mono > button {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  border-radius: 0.95rem !important;
+}
+
+body.font-sans header .max-w-md > .font-mono > div {
+  min-height: 2.75rem;
+  border-radius: 0.95rem !important;
+}
+
+.glass-panel,
+.glass-panel-elevated {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.05), transparent 32%),
+    linear-gradient(155deg, rgba(28, 31, 34, 0.94), rgba(16, 18, 20, 0.91)) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 1.35rem !important;
+  box-shadow: var(--shadow-lift), var(--shadow-press) !important;
+  backdrop-filter: blur(16px) saturate(118%);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  transition: transform 220ms var(--ease-luxury), border-color 220ms var(--ease-luxury), background 220ms var(--ease-luxury), box-shadow 220ms var(--ease-luxury);
+}
+
+.glass-panel:hover,
+.glass-panel-elevated:hover {
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.07), transparent 34%),
+    linear-gradient(155deg, rgba(34, 38, 41, 0.96), rgba(18, 20, 22, 0.94)) !important;
+}
+
+.glass-panel:active,
+.glass-panel-elevated:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+/* The session card is the visual anchor: a forged edge and a soft medal glow. */
+#workout-selector > .glass-panel:first-child {
+  overflow: hidden;
+  border-color: rgba(215, 174, 116, 0.32) !important;
+  background:
+    radial-gradient(24rem 16rem at 102% -18%, rgba(215, 174, 116, 0.3), transparent 58%),
+    linear-gradient(135deg, rgba(40, 38, 31, 0.98), rgba(22, 24, 24, 0.96) 52%, rgba(14, 16, 17, 0.96)) !important;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 244, 220, 0.1) !important;
+}
+
+#workout-selector > .glass-panel:first-child::before {
+  content: '';
+  position: absolute;
+  inset: 1rem auto 1rem 0;
+  width: 3px;
+  border-radius: 0 999px 999px 0;
+  background: linear-gradient(180deg, transparent, var(--gold-light) 22%, var(--gold-primary) 76%, transparent);
+  box-shadow: 0 0 18px var(--gold-glow);
+}
+
+#workout-selector > .glass-panel:first-child::after {
+  content: '';
+  position: absolute;
+  width: 13rem;
+  height: 13rem;
+  right: -8rem;
+  bottom: -9rem;
+  border: 1px solid rgba(215, 174, 116, 0.24);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.2rem rgba(215, 174, 116, 0.04), 0 0 0 2.5rem rgba(215, 174, 116, 0.025);
+  pointer-events: none;
+}
+
+#workout-selector > .glass-panel:first-child > * {
+  position: relative;
+  z-index: 1;
+}
+
+#workout-selector > .glass-panel:first-child h2 {
+  max-width: 18rem;
+  font-size: 1.34rem;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+#workout-selector > .glass-panel:first-child [id='hero-today-desc'] {
+  max-width: 26rem;
+  color: rgba(235, 237, 231, 0.76) !important;
+}
+
+.btn-gold {
+  min-height: 3.15rem;
+  background: linear-gradient(105deg, #ba8d4e, #e2bc83 55%, #f4d3a1) !important;
+  border: 1px solid rgba(255, 240, 209, 0.34) !important;
+  border-radius: 1rem !important;
+  color: #16110a !important;
+  box-shadow: 0 10px 26px rgba(107, 76, 37, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.48) !important;
+  letter-spacing: 0.075em;
+}
+
+.btn-gold:hover {
+  filter: brightness(1.045);
+  box-shadow: 0 13px 30px rgba(141, 100, 49, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.52) !important;
+}
+
+.btn-gold:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.btn-dark-pill,
+.stepper-btn,
+.phase-step-btn {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+
+.stepper-btn {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border-radius: 0.95rem;
+}
+
+.bottom-dock {
+  background: linear-gradient(180deg, rgba(17, 19, 20, 0.82), rgba(9, 10, 11, 0.96)) !important;
+  border-top-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 -16px 36px rgba(0, 0, 0, 0.24) !important;
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+}
+
+.nav-item {
+  min-width: 3rem;
+  min-height: 3rem;
+  border-radius: 1rem;
+}
+
+.nav-item.active {
+  background: rgba(215, 174, 116, 0.1);
+  color: var(--text-primary);
+}
+
+.nav-item.active::after {
+  top: auto;
+  bottom: 0.1rem;
+  width: 1.15rem;
+  height: 0.16rem;
+  background: var(--gold-light);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+.active-workout-top-pill {
+  border-color: rgba(215, 174, 116, 0.34) !important;
+  background: linear-gradient(105deg, rgba(64, 50, 31, 0.75), rgba(22, 25, 25, 0.92)) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 234, 198, 0.09) !important;
+}
+
+.pulse-dot {
+  background-color: var(--signal-mint);
+  box-shadow: 0 0 0 0 var(--signal-mint-glow);
+}
+
+.ex-card-accordion,
+.goal-card-selectable,
+.vitamin-card-item,
+.anat-hud-card {
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-press) !important;
+}
+
+.ex-card-accordion.active-focus,
+.goal-card-selectable.active {
+  border-color: rgba(215, 174, 116, 0.64) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(215, 174, 116, 0.08), var(--shadow-press) !important;
+}
+
+.goal-segment-bar {
+  background: rgba(0, 0, 0, 0.28);
+  border-color: rgba(255, 255, 255, 0.07);
+  padding: 0.3rem;
+}
+
+.goal-segment-btn.active {
+  background: linear-gradient(160deg, rgba(215, 174, 116, 0.18), rgba(255, 255, 255, 0.055)) !important;
+  border-color: rgba(215, 174, 116, 0.36) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 237, 205, 0.1);
+}
+
+.cal-day-cell {
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.cal-day-cell.today,
+.cal-day-cell.today-cell {
+  box-shadow: 0 0 0 1px var(--gold-primary), 0 0 16px var(--gold-glow) !important;
+}
+
+button,
+[role='button'],
+.nav-item,
+.glass-panel {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+[role='button']:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.nav-item:focus-visible {
+  outline: 2px solid var(--gold-light) !important;
+  outline-offset: 3px;
+}
+
+@media (max-width: 390px) {
+  body.font-sans main {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
+
+  #workout-selector > .glass-panel:first-child h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
