@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="ru" class="dark"> <head>   <meta charset="UTF-8">   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">   <title>IRON COACH ELITE — Ultimate Fitness Intelligence</title>   <script src="https://telegram.org/js/telegram-web-app.js"></script>   <script src="https://cdn.tailwindcss.com"></script>   <script>     tailwind.config = {       darkMode: 'class',       theme: {         extend: {           fontFamily: {             mono: ['JetBrains Mono', 'monospace'],             sans: ['Plus Jakarta Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']           },           colors: {             luxury: {               bg: '#040507',               card: 'rgba(14, 17, 26, 0.78)',               cardElevated: 'rgba(20, 24, 38, 0.88)',               border: 'rgba(255, 255, 255, 0.08)',               gold: '#c8a97e',               platinum: '#f1f5f9',               emerald: '#10b981',               rose: '#f43f5e',               blue: '#38bdf8'             }           }         }       }     }   </script>   <link rel="stylesheet" href="styles.css"> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[#c8a97e] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded-md">v2.8.24 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[#c8a97e] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[#c8a97e] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
+<!DOCTYPE html> <html lang="ru" class="dark"> <head>   <meta charset="UTF-8">   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">   <title>IRON COACH ELITE — Ultimate Fitness Intelligence</title>   <script src="https://telegram.org/js/telegram-web-app.js"></script>   <script src="https://cdn.tailwindcss.com"></script>   <script>     tailwind.config = {       darkMode: 'class',       theme: {         extend: {           fontFamily: {             mono: ['JetBrains Mono', 'monospace'],             sans: ['Plus Jakarta Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']           },           colors: {             luxury: {               bg: '#040507',               card: 'rgba(14, 17, 26, 0.78)',               cardElevated: 'rgba(20, 24, 38, 0.88)',               border: 'rgba(255, 255, 255, 0.08)',               gold: '#c8a97e',               platinum: '#f1f5f9',               emerald: '#10b981',               rose: '#f43f5e',               blue: '#38bdf8'             }           }         }       }     }   </script>   <link rel="stylesheet" href="styles.css"> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[#c8a97e] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30 rounded-md">v2.8.25 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[#c8a97e] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[#c8a97e] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
 
     <!-- СВЕТЯЩИЙСЯ ИНДИКАТОР ПОСЛЕДНЕЙ РЕВИЗИИ (LIVE BETA PULSE) -->
     <div onclick="openRevisionModal()" class="max-w-md mx-auto mt-2 px-3 py-1.5 rounded-xl bg-[#080a12] border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:border-emerald-500/60 active:scale-98 transition-all font-mono text-[10px] shadow-sm">
@@ -8,7 +8,7 @@
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <span class="text-slate-300 font-bold">РЕВИЗИЯ:</span>
-        <span class="app-version-badge text-emerald-400 font-bold">v2.8.24 PRO</span>
+        <span class="app-version-badge text-emerald-400 font-bold">v2.8.25 PRO</span>
         <span class="text-slate-600">•</span>
         <span class="text-slate-400">Live Edge Beta</span>
       </div>
@@ -494,52 +494,92 @@
         <button onclick="closeModal('modal-exercise-pro-visualizer')" class="text-slate-400 hover:text-white font-bold px-2 py-1 text-sm">✕</button>
       </div>
 
+      <!-- ТАБЫ ВИЗУАЛИЗАТОРА -->
+      <div class="px-4 pt-3 pb-1 bg-[#070912] border-b border-white/[0.06] flex space-x-1.5 text-[10px]">
+        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center">📐 Биомеханика</button>
+        <button type="button" onclick="switchVisualizerTab('science')" id="vis-tab-btn-science" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">📚 Наука & PubMed</button>
+        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">✅ Чек-лист</button>
+      </div>
+
       <!-- СКРОЛЛИРУЕМОЕ СОДЕРЖИМОЕ -->
       <div class="p-4 space-y-4 overflow-y-auto flex-1 bg-[#06080e]">
         
-        <!-- БОЛЬШОЙ ХОЛСТ СХЕМЫ -->
-        <div class="visualizer-canvas-hero p-3">
-          <div id="vis-svg-container" class="w-full flex items-center justify-center">
-            <!-- Dynamic SVG inserted here -->
+        <!-- СЕКЦИЯ 1: БИОМЕХАНИКА & ВЕКТОРЫ -->
+        <div id="vis-panel-bio" class="space-y-4">
+          <!-- БОЛЬШОЙ ХОЛСТ СХЕМЫ -->
+          <div class="visualizer-canvas-hero p-3">
+            <div id="vis-svg-container" class="w-full flex items-center justify-center">
+              <!-- Dynamic SVG inserted here -->
+            </div>
+          </div>
+
+          <!-- ИНТЕРАКТИВНЫЕ ФАЗЫ ДВИЖЕНИЯ (STEPPER) -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-[10px]">
+              <span class="text-slate-400 font-bold uppercase tracking-wider">Фазы движения & Натяжение:</span>
+              <span id="vis-current-phase-hint" class="text-[#c8a97e] font-bold">Фаза 1: Эксцентрика</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5" id="vis-phase-buttons-container">
+              <!-- Dynamic Phase Buttons -->
+            </div>
+            <div id="vis-phase-description-box" class="p-3 bg-[#0f121d] rounded-xl border border-white/[0.06] text-[11px] text-slate-300 font-sans leading-relaxed">
+              <!-- Phase description text -->
+            </div>
+          </div>
+
+          <!-- АНАТОМИЧЕСКАЯ МАТРИЦА ВКЛЮЧЕНИЯ ВОЛОКОН -->
+          <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2.5">
+            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Анатомическая карта включения волокон:</span>
+            <div id="vis-muscle-matrix-container" class="space-y-2">
+              <!-- Dynamic muscle progress bars -->
+            </div>
           </div>
         </div>
 
-        <!-- ИНТЕРАКТИВНЫЕ ФАЗЫ ДВИЖЕНИЯ (STEPPER) -->
-        <div class="space-y-2">
-          <div class="flex justify-between items-center text-[10px]">
-            <span class="text-slate-400 font-bold uppercase tracking-wider">Фазы движения & Натяжение:</span>
-            <span id="vis-current-phase-hint" class="text-[#c8a97e] font-bold">Фаза 1: Эксцентрика</span>
+        <!-- СЕКЦИЯ 2: ДОКАЗАТЕЛЬНАЯ НАУКА & ИССЛЕДОВАНИЯ (PUBMED / JSCR / RP) -->
+        <div id="vis-panel-science" class="space-y-3 hidden">
+          <div class="p-3.5 bg-[#0a0d18] rounded-2xl border border-[#c8a97e]/30 space-y-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-base">🧬</span>
+              <h4 class="font-bold text-xs text-[#c8a97e] uppercase">Стретч-опосредованная гипертрофия</h4>
+            </div>
+            <p id="vis-science-stretch" class="text-[11px] text-slate-300 font-sans leading-relaxed">
+              <!-- Science stretch info -->
+            </p>
           </div>
-          <div class="grid grid-cols-3 gap-1.5" id="vis-phase-buttons-container">
-            <!-- Dynamic Phase Buttons -->
+
+          <div class="p-3.5 bg-[#080c16] rounded-2xl border border-white/[0.08] space-y-2.5">
+            <div class="flex justify-between items-center text-[10px] font-mono">
+              <span class="text-slate-400 font-bold uppercase">Электромиография (EMG / % MVC):</span>
+              <span class="text-emerald-400 font-bold">ЭМГ-пик</span>
+            </div>
+            <div id="vis-science-emg-container" class="space-y-2">
+              <!-- EMG bars -->
+            </div>
           </div>
-          <div id="vis-phase-description-box" class="p-3 bg-[#0f121d] rounded-xl border border-white/[0.06] text-[11px] text-slate-300 font-sans leading-relaxed">
-            <!-- Phase description text -->
+
+          <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2">
+            <h4 class="font-bold text-[10px] text-slate-400 uppercase tracking-wider">📚 Научные публикации & Цитаты:</h4>
+            <div id="vis-science-citations-container" class="space-y-2">
+              <!-- Citations -->
+            </div>
           </div>
         </div>
 
-        <!-- АНАТОМИЧЕСКАЯ МАТРИЦА ВКЛЮЧЕНИЯ ВОЛОКОН -->
-        <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2.5">
-          <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Анатомическая карта включения волокон:</span>
-          <div id="vis-muscle-matrix-container" class="space-y-2">
-            <!-- Dynamic muscle progress bars -->
-          </div>
-        </div>
-
-        <!-- ЧЕК-ЛИСТ ТЕХНИКИ: СЕКРЕТЫ PRO VS ОПАСНЫЕ ОШИБКИ -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-sans text-xs">
-          <div class="p-3 bg-emerald-950/20 rounded-xl border border-emerald-800/40 space-y-1.5">
-            <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1">
-              <span>✅</span> Ключи идеальной техники
+        <!-- СЕКЦИЯ 3: ЧЕК-ЛИСТ ТЕХНИКИ: СЕКРЕТЫ PRO VS ОПАСНЫЕ ОШИБКИ -->
+        <div id="vis-panel-keys" class="space-y-3 hidden">
+          <div class="p-3.5 bg-emerald-950/20 rounded-2xl border border-emerald-800/40 space-y-2">
+            <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1.5">
+              <span>✅</span> Ключи идеальной биомеханики
             </span>
-            <ul id="vis-dos-list" class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+            <ul id="vis-dos-list" class="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside font-sans">
             </ul>
           </div>
-          <div class="p-3 bg-rose-950/20 rounded-xl border border-rose-800/40 space-y-1.5">
-            <span class="text-[10px] font-mono font-bold text-rose-400 uppercase flex items-center gap-1">
-              <span>❌</span> Риск травмы & Ошибки
+          <div class="p-3.5 bg-rose-950/20 rounded-2xl border border-rose-800/40 space-y-2">
+            <span class="text-[10px] font-mono font-bold text-rose-400 uppercase flex items-center gap-1.5">
+              <span>❌</span> Травмоопасные ошибки & Потеря нагрузки
             </span>
-            <ul id="vis-donts-list" class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+            <ul id="vis-donts-list" class="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside font-sans">
             </ul>
           </div>
         </div>
@@ -693,45 +733,45 @@
       <!-- КАРТОЧКА ТЕКУЩЕГО БИЛДА -->
       <div class="p-4 bg-[#080a12] rounded-2xl border border-emerald-500/30 space-y-2.5">
         <div class="flex justify-between items-center">
-          <span class="text-slate-400 text-[11px]">Текущая версия:</span>
-          <span class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-700 font-bold text-[11px] flex items-center gap-1.5">
+          <span class="text-slate-400 text-[11px]">Установлена:</span>
+          <span id="revision-status-badge" class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-700 font-bold text-[11px] flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <b class="app-version-badge">v2.8.24 PRO</b>
+            <b class="app-version-badge">v2.8.25 PRO</b>
           </span>
         </div>
         <div class="flex justify-between items-center text-[11px]">
-          <span class="text-slate-400">Статус ревизии:</span>
-          <span class="text-white font-bold">🟢 Актуальная (Самая свежая)</span>
+          <span class="text-slate-400">Сервер Cloudflare / GitHub:</span>
+          <span id="revision-server-ver" class="text-[#c8a97e] font-bold">Проверка...</span>
         </div>
         <div class="flex justify-between items-center text-[11px]">
-          <span class="text-slate-400">Cloudflare Edge:</span>
-          <span class="text-[#c8a97e] font-bold">Синхронизировано ⚡</span>
+          <span class="text-slate-400">Канал доставки:</span>
+          <span class="text-white font-bold">Direct Edge Worker (0ms API) ⚡</span>
         </div>
         <div class="flex justify-between items-center text-[11px]">
-          <span class="text-slate-400">Режим:</span>
-          <span class="text-slate-300 font-bold">Production Beta (Fast Sync)</span>
+          <span class="text-slate-400">Кэш браузера:</span>
+          <span id="revision-cache-status" class="text-emerald-400 font-bold">Синхронизирован</span>
         </div>
       </div>
 
       <!-- ЧТО ВКЛЮЧЕНО В ПОСЛЕДНИЕ РЕВИЗИИ -->
       <div class="space-y-2">
-        <h4 class="text-[11px] font-bold text-[#c8a97e] uppercase tracking-wider">⚡ Включено в актуальную ревизию:</h4>
-        <div class="p-3 bg-[#0a0c16] rounded-xl border border-white/[0.06] space-y-2 text-[11px] text-slate-300 font-sans leading-relaxed">
+        <h4 class="text-[11px] font-bold text-[#c8a97e] uppercase tracking-wider">⚡ Журнал изменений & Научная база:</h4>
+        <div id="revision-live-changelog" class="p-3 bg-[#0a0c16] rounded-xl border border-white/[0.06] space-y-2 text-[11px] text-slate-300 font-sans leading-relaxed">
           <div class="flex items-start gap-2">
             <span class="text-emerald-400 font-mono font-bold">●</span>
-            <span><b>Аутентичный боксерский колокол ринга:</b> Чистый трехкратный звон (Динь-Динь-Диинь) без вибрации.</span>
+            <span><b>Доказательная база науки (PubMed/JSCR/RP):</b> Интеграция исследований Brad Schoenfeld, Mike Israetel, Maeo et al., ЭМГ (% MVC) и стретч-гипертрофии.</span>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-emerald-400 font-mono font-bold">●</span>
+            <span><b>Мгновенная проверка ревизий:</b> Прямой API-канал с сервера Cloudflare Edge без блокировок CORS и кэша.</span>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-emerald-400 font-mono font-bold">●</span>
+            <span><b>100% Уникальные векторные чертежи (Engine 4.0):</b> Индивидуальная геометрия оборудования и углов для всех 48+ упражнений.</span>
           </div>
           <div class="flex items-start gap-2">
             <span class="text-emerald-400 font-mono font-bold">●</span>
             <span><b>Умный адаптивный отдых (RP / NSCA):</b> Автоматический расчет времени отдыха по весу, базе и отказу RIR.</span>
-          </div>
-          <div class="flex items-start gap-2">
-            <span class="text-emerald-400 font-mono font-bold">●</span>
-            <span><b>Авто-наследование веса:</b> Ввод рабочего веса автоматически дублируется на все следующие сеты.</span>
-          </div>
-          <div class="flex items-start gap-2">
-            <span class="text-emerald-400 font-mono font-bold">●</span>
-            <span><b>Сворачиваемая схема движения:</b> Экран чистый и компактный, схема открывается кнопкой по желанию.</span>
           </div>
           <div class="flex items-start gap-2">
             <span class="text-emerald-400 font-mono font-bold">●</span>

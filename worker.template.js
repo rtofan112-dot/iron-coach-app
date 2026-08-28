@@ -13,19 +13,21 @@ export default {
     if (url.pathname === "/api/version") {
       return new Response(JSON.stringify({
         ok: true,
-        version: "v2.8.24 PRO",
+        version: "v2.8.25 PRO",
         buildTimestamp: Date.now(),
         changelog: [
-          "Реальная проверка обновлений и мгновенная перезагрузка в 1 клик",
-          "Аутентичный боксерский колокол ринга",
-          "Умный адаптивный отдых",
-          "Авто-наследование веса",
-          "Сворачиваемая схема движения"
+          "Интеграция базы доказательной науки и исследований (PubMed, JSCR, Brad Schoenfeld, RP)",
+          "Исправлена и ускорена проверка обновлений и ревизий (0ms Edge Worker API + GitHub Tags)",
+          "Данные электромиографии (% MVC ЭМГ) и стретч-гипертрофии для каждого движения",
+          "3-вкладочный интерактивный визуализатор: Биомеханика • Наука & PubMed • Чек-лист PRO",
+          "100% уникальные векторные схемы оборудования и анатомии"
         ]
       }), {
         status: 200,
         headers: {
           "Content-Type": "application/json; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, OPTIONS",
           "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"
         }
       });
