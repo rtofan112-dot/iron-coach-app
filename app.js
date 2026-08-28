@@ -1567,11 +1567,6 @@ function getExerciseAnatomyInfo(exName) {
 
   return info;
 }
-"@
-
-$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-[System.IO.File]::WriteAllText("C:\Users\r.tofan\.gemini\antigravity\brain\a66ec815-768f-4f5a-8e6a-0af802481c84\visualizer_code.js", $code, $utf8NoBom)
-Write-Host "visualizer_code.js created!"
 
 
 // ========================================================
@@ -2456,6 +2451,49 @@ function selectVisualizerPhase(idx) {
 function actionFromVisualizer() {
   closeModal('modal-exercise-pro-visualizer');
 }
+
+const GOAL_CONFIGS = {
+  recomp: {
+    title: "Рекомпозиция (Сушка жира + Мышечный тонус)",
+    shortName: "Рекомпозиция",
+    deficitDelta: -360,
+    protPerKg: 1.85,
+    fatPerKg: 0.80,
+    carbsPerKg: 2.50,
+    waterPerKg: 31,
+    summary: "Сжигание висцерального жира (~0.35 кг/нед) при сохранении мышечной массы и силовых показателей."
+  },
+  fatloss: {
+    title: "Сушка и активный сброс веса",
+    shortName: "Сушка",
+    deficitDelta: -550,
+    protPerKg: 2.00,
+    fatPerKg: 0.65,
+    carbsPerKg: 2.10,
+    waterPerKg: 34,
+    summary: "Ускоренное топление жировой ткани (~0.55 кг/нед) при повышенной защите мышц белком."
+  },
+  hypertrophy: {
+    title: "Набор чистой мышечной массы",
+    shortName: "Набор массы",
+    deficitDelta: +250,
+    protPerKg: 1.80,
+    fatPerKg: 0.90,
+    carbsPerKg: 4.10,
+    waterPerKg: 33,
+    summary: "Рост силовых показателей и сухой мышечной массы за счет стабильного профицита энергии."
+  },
+  maintenance: {
+    title: "Сила, Здоровая осанка и Поддержание",
+    shortName: "Поддержание",
+    deficitDelta: 0,
+    protPerKg: 1.70,
+    fatPerKg: 0.85,
+    carbsPerKg: 3.60,
+    waterPerKg: 30,
+    summary: "Фиксация формы, разгрузка ЦНС, укрепление связочного аппарата и стабильный вес."
+  }
+};
 
 function getActiveGoalKey() {
   const g = (appState.goal || "").toLowerCase();
@@ -6877,13 +6915,12 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({
           chatId: userId,
           text: `🚀 <b>ВЫШЛО ОБНОВЛЕНИЕ IRON COACH ${APP_CONFIG.version}!</b>\n\n` +
-                `🏛 <b>Что нового в этой версии:</b>\n` +
-                `• <b>База доказательной науки (PubMed & JSCR):</b> ЭМГ-активация (% MVC), исследования Maeo, Schoenfeld, Pedrosa и стретч-гипертрофия волокон.\n` +
-                `• <b>3-вкладочный модальный экран:</b> [📐 Биомеханика] • [📚 Наука & PubMed] • [✅ Чек-лист PRO].\n` +
-                `• <b>100% уникальные векторные схемы:</b> Индивидуальная геометрия оборудования и скамей для всех 48+ упражнений.\n` +
-                `• <b>Боксерский колокол ринга:</b> Аутентичный трехкратный звон окончания отдыха.\n` +
-                `• <b>Мгновенная проверка ревизий:</b> Прямой Edge API (0 мс задержка) и сброс кэша в 1 клик.\n\n` +
-                `👇 <i>Заходи и протестируй обновленный IRON COACH:</i>`,
+                `✨ <b>Что нового в этой версии:</b>\n` +
+                `• <b>Интерактивная Анатомическая Карта Тела:</b> нажимай на человека (вид Спереди и Сзади) — получай полное досье по целевой мышце, технике и лучшим упражнениям!\n` +
+                `• <b>Визуальный Рост Мышц (Hypertrophy Scaling):</b> мышцы на теле визуально увеличиваются в размере и светятся золотым неоном по мере набора недельного объема сетов (RP MAV)!\n` +
+                `• <b>Таймер Восстановления Мышц:</b> точный расчет часов отдыха и готовности мышечных групп к следующей сессии.\n` +
+                `• <b>Анимированные схемы биомеханики:</b> в режиме тренировки и каталоге базы упражнений.\n\n` +
+                `👇 <i>Заходи и протестируй анатомическую карту:</i>`,
           withButton: true
         })
       }).catch(() => {});
