@@ -751,3 +751,60 @@ body[data-theme="purple"] {
 .muscle-bar-fill {
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* ======================================================== */
+/* LUXURY UI 6.0: GOAL CARDS, VITAMINS & CALENDAR TODAY */
+/* ======================================================== */
+.goal-card-selectable {
+  background: rgba(14, 18, 28, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 0.85rem;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.goal-card-selectable:hover {
+  border-color: rgba(200, 169, 126, 0.4);
+  background: rgba(20, 26, 40, 0.85);
+}
+
+.goal-card-selectable.active {
+  border-color: #c8a97e;
+  background: linear-gradient(135deg, rgba(200, 169, 126, 0.18) 0%, rgba(14, 18, 28, 0.9) 100%);
+  box-shadow: 0 0 16px rgba(200, 169, 126, 0.25);
+  transform: translateY(-1px);
+}
+
+.vitamin-card-item {
+  background: rgba(12, 16, 26, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.vitamin-card-item.taken {
+  border-color: rgba(16, 185, 129, 0.45);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(10, 14, 22, 0.85) 100%);
+}
+
+.cal-day-cell.today-cell {
+  border: 1.8px solid #c8a97e !important;
+  box-shadow: 0 0 14px rgba(200, 169, 126, 0.4) !important;
+  position: relative;
+}
+
+.cal-day-cell.today-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #c8a97e;
+  box-shadow: 0 0 6px #c8a97e;
+}

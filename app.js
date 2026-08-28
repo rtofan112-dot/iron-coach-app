@@ -3,7 +3,7 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.8.26 PRO",
+  version: "v2.9.0 PRO",
   build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
   releaseDate: "2026-08-27"
 };
@@ -20,188 +20,478 @@ function injectAppVersion() {
 // ========================================================
 // 3 РЕЖИМА ЗВУКА И ВИБРАЦИИ
 // ========================================================
+// ========================================================
+// 3 РЕЖИМА ЗВУКА И ВИБРАЦИИ (SOUND ENGINE 3.0)
+// Режимы: 'full' (Звук + Вибрация), 'silent' (Только Вибрация), 'mute' (Без звука)
+// ========================================================
 const Sound = {
   ctx: null,
+  getMode() {
+    return (appState && appState.soundMode) ? appState.soundMode : 'full';
+  },
   init() {
     if (!this.ctx) {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (AudioContext) this.ctx = new AudioContext();
     }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
   },
-  beep(freq = 660, dur = 0.15, type = 'sine') {
-    if (appState.soundMode !== 'sound') return;
+  beep(freq = 440, duration = 0.08, type = 'sine', gainVal = 0.12) {
+    const mode = this.getMode();
+    if (mode === 'silent' || mode === 'mute') return;
     try {
       this.init();
       if (!this.ctx) return;
-      if (this.ctx.state === 'suspended') this.ctx.resume();
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = type;
       osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-      gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+      gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start();
-      osc.stop(this.ctx.currentTime + dur);
-    } catch(e) {}
+      osc.stop(this.ctx.currentTime + duration);
+    } catch (e) {}
   },
-  boxingBellStrike(dur = 1.0, gainVal = 0.35) {
-    if (appState.soundMode !== 'sound') return;
+  click() {
+    this.beep(420, 0.04, 'sine', 0.08);
+  },
+  start() {
+    this.beep(587.33, 0.1, 'triangle', 0.15);
+    setTimeout(() => this.beep(880, 0.18, 'triangle', 0.18), 110);
+  },
+  success() {
+    this.beep(523.25, 0.08, 'sine', 0.12);
+    setTimeout(() => this.beep(659.25, 0.08, 'sine', 0.12), 90);
+    setTimeout(() => this.beep(783.99, 0.14, 'sine', 0.15), 180);
+  },
+  record() {
+    this.beep(659.25, 0.09, 'triangle', 0.15);
+    setTimeout(() => this.beep(880, 0.09, 'triangle', 0.16), 100);
+    setTimeout(() => this.beep(1046.5, 0.22, 'triangle', 0.2), 200);
+  },
+  gong() {
+    const mode = this.getMode();
+    if (mode === 'silent' || mode === 'mute') return;
     try {
       this.init();
       if (!this.ctx) return;
-      if (this.ctx.state === 'suspended') this.ctx.resume();
-
-      const now = this.ctx.currentTime;
-      const fundamental = 800; // 800 Hz - классический чистый тон латунного боксерского колокола
-
-      // 1. Металлический удар молотка по чаше колокола
-      const osc1 = this.ctx.createOscillator();
-      const gain1 = this.ctx.createGain();
-      osc1.type = 'triangle';
-      osc1.frequency.setValueAtTime(fundamental, now);
-      gain1.gain.setValueAtTime(gainVal, now);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-      osc1.connect(gain1);
-      gain1.connect(this.ctx.destination);
-      osc1.start(now);
-      osc1.stop(now + dur);
-
-      // 2. Хрустальный высокочастотный металлический звон
-      const osc2 = this.ctx.createOscillator();
-      const gain2 = this.ctx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(fundamental * 2.0, now);
-      gain2.gain.setValueAtTime(gainVal * 0.6, now);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.9);
-      osc2.connect(gain2);
-      gain2.connect(this.ctx.destination);
-      osc2.start(now);
-      osc2.stop(now + dur * 0.9);
-
-      const osc3 = this.ctx.createOscillator();
-      const gain3 = this.ctx.createGain();
-      osc3.type = 'sine';
-      osc3.frequency.setValueAtTime(fundamental * 3.0, now);
-      gain3.gain.setValueAtTime(gainVal * 0.35, now);
-      gain3.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.7);
-      osc3.connect(gain3);
-      gain3.connect(this.ctx.destination);
-      osc3.start(now);
-      osc3.stop(now + dur * 0.7);
-
-      // 3. Негармонический колокольный обертон (Inharmonic chime 1130 Hz)
-      const osc4 = this.ctx.createOscillator();
-      const gain4 = this.ctx.createGain();
-      osc4.type = 'sine';
-      osc4.frequency.setValueAtTime(1130, now);
-      gain4.gain.setValueAtTime(gainVal * 0.4, now);
-      gain4.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.8);
-      osc4.connect(gain4);
-      gain4.connect(this.ctx.destination);
-      osc4.start(now);
-      osc4.stop(now + dur * 0.8);
-
-      // 4. Глубокий резонанс корпуса колокола (400 Hz)
-      const osc5 = this.ctx.createOscillator();
-      const gain5 = this.ctx.createGain();
-      osc5.type = 'sine';
-      osc5.frequency.setValueAtTime(400, now);
-      gain5.gain.setValueAtTime(gainVal * 0.25, now);
-      gain5.gain.exponentialRampToValueAtTime(0.0001, now + dur * 1.1);
-      osc5.connect(gain5);
-      gain5.connect(this.ctx.destination);
-      osc5.start(now);
-      osc5.stop(now + dur * 1.1);
+      [587.33, 880, 1174.66].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+        const startGain = 0.15 / (idx + 1);
+        gain.gain.setValueAtTime(startGain, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.2);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 1.2);
+      });
     } catch(e) {}
   },
-  success() {
-    this.beep(587.33, 0.08);
-    setTimeout(() => this.beep(880, 0.2), 80);
-  },
-  record() {
-    this.beep(523.25, 0.08);
-    setTimeout(() => this.beep(659.25, 0.08), 90);
-    setTimeout(() => this.beep(783.99, 0.15), 180);
-  },
   finish() {
-    this.restFinish();
-  },
-  restFinish() {
-    if (appState.soundMode !== 'sound') return;
-    // КЛАССИЧЕСКИЙ БОКСЕРСКИЙ КОЛОКОЛ НА РИНГЕ (3 ЧЕТКИХ УДАРА МОЛОТКА: ДИНЬ - ДИНЬ - ДИИИИНЬ)
-    this.boxingBellStrike(0.7, 0.32);
-    setTimeout(() => {
-      this.boxingBellStrike(0.7, 0.35);
-    }, 320);
-    setTimeout(() => {
-      this.boxingBellStrike(2.2, 0.40);
-    }, 650);
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, i) => {
+      setTimeout(() => {
+        this.beep(freq, 0.25, 'triangle', 0.16);
+      }, i * 110);
+    });
   }
 };
 
 const Haptic = {
-  impact(style = 'medium') {
-    if (appState.soundMode === 'silent' || appState.hapticLevel === 'off') return;
-    const effStyle = appState.hapticLevel === 'heavy' ? 'heavy' : appState.hapticLevel === 'light' ? 'light' : style;
+  trigger(type = 'light') {
+    const mode = Sound.getMode();
+    if (mode === 'mute') return;
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-      window.Telegram.WebApp.HapticFeedback.impactOccurred(effStyle);
+      try {
+        const hf = window.Telegram.WebApp.HapticFeedback;
+        if (type === 'selection') hf.selectionChanged();
+        else if (type === 'success' || type === 'finish') hf.notificationOccurred('success');
+        else if (type === 'warning') hf.notificationOccurred('warning');
+        else if (type === 'error') hf.notificationOccurred('error');
+        else hf.impactOccurred(type);
+      } catch (e) {}
     } else if (navigator.vibrate) {
-      navigator.vibrate(35);
+      try {
+        if (type === 'heavy') navigator.vibrate(40);
+        else if (type === 'medium') navigator.vibrate(25);
+        else if (type === 'success' || type === 'finish') navigator.vibrate([30, 40, 50]);
+        else navigator.vibrate(12);
+      } catch(e) {}
     }
   },
-  success() {
-    if (appState.soundMode === 'silent' || appState.hapticLevel === 'off') return;
-    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-      window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-    } else if (navigator.vibrate) {
-      navigator.vibrate([35, 50, 70]);
-    }
-  },
-  restFinish() {
-    // Вибрация при гонке отключена (только чистый звон боксерского колокола)
-  }
-};
-
-const SVG_ICONS = {
-  soundOn: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`,
-  soundVibrate: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line><path d="M1 9l2 3-2 3M23 9l-2 3 2 3"></path></svg>`,
-  soundMute: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`
+  impact(type = 'medium') { this.trigger(type); },
+  light() { this.trigger('light'); },
+  medium() { this.trigger('medium'); },
+  heavy() { this.trigger('heavy'); },
+  success() { this.trigger('success'); },
+  selection() { this.trigger('selection'); }
 };
 
 function cycleSoundMode() {
-  if (appState.soundMode === 'sound') {
-    appState.soundMode = 'vibrate';
-  } else if (appState.soundMode === 'vibrate') {
-    appState.soundMode = 'silent';
-  } else {
-    appState.soundMode = 'sound';
-  }
+  const current = Sound.getMode();
+  let next = 'full';
+  if (current === 'full') next = 'silent';
+  else if (current === 'silent') next = 'mute';
+  else next = 'full';
+
+  appState.soundMode = next;
   saveState();
-  updateSoundUI();
-  Sound.beep(700, 0.08);
-  Haptic.impact('light');
+  updateSoundModeUI();
+
+  if (next === 'full') {
+    Sound.beep(659.25, 0.12, 'sine', 0.15);
+    Haptic.success();
+  } else if (next === 'silent') {
+    Haptic.medium();
+  }
 }
 
-function updateSoundUI() {
+function updateSoundModeUI() {
+  const mode = Sound.getMode();
   const btnHead = document.getElementById("btn-header-sound");
   const btnTimer = document.getElementById("btn-timer-sound");
-  
-  let iconSvg = SVG_ICONS.soundOn;
-  if (appState.soundMode === 'vibrate') iconSvg = SVG_ICONS.soundVibrate;
-  if (appState.soundMode === 'silent') iconSvg = SVG_ICONS.soundMute;
+  const labelSettings = document.getElementById("active-haptic-label");
+
+  let iconSvg = '';
+  let labelText = '';
+
+  if (mode === 'full') {
+    iconSvg = '<svg class="w-4 h-4 text-[#c8a97e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
+    labelText = 'Звук + Вибрация 🔊';
+  } else if (mode === 'silent') {
+    iconSvg = '<svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>';
+    labelText = 'Тихий зал (Вибро) 📳';
+  } else {
+    iconSvg = '<svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+    labelText = 'Без звука 🔇';
+  }
 
   if (btnHead) btnHead.innerHTML = iconSvg;
   if (btnTimer) btnTimer.innerHTML = iconSvg;
+  if (labelSettings) labelSettings.textContent = labelText;
 }
 
+
 // ========================================================
-// НАУЧНЫЕ БИОМЕХАНИЧЕСКИЕ ИЛЛЮСТРАЦИИ (NSCA / EXRX STANDARD)
+// ДИНАМИЧЕСКИЙ РАСЧЕТ ЗДОРОВЬЯ, КБЖУ & ИИ-ВРАЧ / ТРЕНЕР
 // ========================================================
-// ========================================================
-// НАУЧНЫЕ БИОМЕХАНИЧЕСКИЕ ИЛЛЮСТРАЦИИ (КАЖДОЕ УПРАЖНЕНИЕ СО СВОЕЙ ТЕХНИКОЙ И ДИАГРАММОЙ)
-// ========================================================
+
+const CORE_VITAMINS_DATABASE = [
+  {
+    id: "creatine",
+    name: "Креатин моногидрат",
+    dose: "5 г",
+    timing: "🌅 Утро или после тренировки",
+    purpose: "Накопление фосфокреатина, рост силовых на 10-15%, гидратация мышечной клетки",
+    docAdvice: "Принимать ежедневно без перерывов для поддержания 100% пула энергии в мышцах."
+  },
+  {
+    id: "magnesium",
+    name: "Магний глицинат",
+    dose: "400 мг",
+    timing: "🌙 За 40 мин до сна",
+    purpose: "Снятие спазма с мышц шеи и трапеции, глубокая фаза сна (REM), защита ЦНС",
+    docAdvice: "Форма глицината не раздражает ЖКТ и напрямую расслабляет шейно-воротниковую зону."
+  },
+  {
+    id: "omega3",
+    name: "Омега-3 (EPA / DHA)",
+    dose: "2000 мг",
+    timing: "🥗 С завтраком или обедом",
+    purpose: "Эластичность связок и плечевых суставов, снижение воспаления, здоровье сосудов",
+    docAdvice: "Особенно важна при силовых нагрузках для защиты суставной сумки плеча."
+  },
+  {
+    id: "vitamind",
+    name: "Витамин D3 + K2",
+    dose: "4000 ME",
+    timing: "🌅 Утром с жиросодержащей едой",
+    purpose: "Синтез тестостерона, плотность костей, иммунитет и восстановление мышц",
+    docAdvice: "K2 направляет кальций в кости, а не в сосуды. Принимать в первой половине дня."
+  },
+  {
+    id: "zinc",
+    name: "Цинк хелат (бисглицинат)",
+    dose: "25 мг",
+    timing: "🍽 Вечером после еды",
+    purpose: "Ферментативный синтез белка, гормональный баланс, регенерация микроразрывов",
+    docAdvice: "Хелатная форма усваивается на 80% лучше оксида. Не принимать на пустой желудок."
+  }
+];
+
+function getTodayDateKey() {
+  const now = new Date();
+  return now.toISOString().split('T')[0];
+}
+
+function getActiveGoalKey() {
+  const g = (appState.goal || "").toLowerCase();
+  if (g.includes("сушк") || g.includes("жир") || g.includes("сброс")) return "fatloss";
+  if (g.includes("масс") || g.includes("набор") || g.includes("рост")) return "hypertrophy";
+  if (g.includes("баланс") || g.includes("поддерж") || g.includes("осанк")) return "maintenance";
+  return "recomp";
+}
+
+function setHealthGoal(goalKey) {
+  const map = {
+    recomp: "Рекомпозиция",
+    fatloss: "Сушка и сброс",
+    hypertrophy: "Набор массы",
+    maintenance: "Поддержание"
+  };
+  appState.goal = map[goalKey] || "Рекомпозиция";
+  saveState();
+
+  // Обновляем селектор целей
+  ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
+    const btn = document.getElementById("goal-seg-" + k);
+    if (btn) {
+      if (k === goalKey) btn.classList.add("active");
+      else btn.classList.remove("active");
+    }
+  });
+
+  const badge = document.getElementById("active-goal-badge");
+  if (badge) badge.textContent = appState.goal;
+
+  const headerGoal = document.getElementById("athlete-goal-header-badge");
+  if (headerGoal) headerGoal.textContent = appState.goal;
+
+  renderHealthTabCalculations();
+  Sound.click();
+  Haptic.selection();
+}
+
+function selectOnboardingGoal(goalKey) {
+  const map = {
+    recomp: "Рекомпозиция",
+    fatloss: "Сушка и сброс",
+    hypertrophy: "Набор массы",
+    maintenance: "Поддержание"
+  };
+  const goalName = map[goalKey] || "Рекомпозиция";
+  const hiddenInput = document.getElementById("onboard-goal");
+  if (hiddenInput) hiddenInput.value = goalName;
+
+  ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
+    const card = document.getElementById("onb-goal-" + k);
+    if (card) {
+      if (k === goalKey) card.classList.add("active");
+      else card.classList.remove("active");
+    }
+  });
+
+  Sound.click();
+  Haptic.selection();
+}
+
+function renderHealthTabCalculations() {
+  const weight = (appState.currentMetrics && appState.currentMetrics.weight) ? parseFloat(appState.currentMetrics.weight) : 83.0;
+  const waist = (appState.currentMetrics && appState.currentMetrics.waist) ? parseFloat(appState.currentMetrics.waist) : 91.5;
+  const height = appState.height ? parseInt(appState.height) : 178;
+  const age = appState.age ? parseInt(appState.age) : 32;
+  const goalKey = getActiveGoalKey();
+
+  // Расчет BMR (Mifflin-St Jeor)
+  const bmr = Math.round(10 * weight + 6.25 * height - 5 * age + 5);
+  // TDEE (Коэффициент активности 1.35x)
+  const tdee = Math.round(bmr * 1.35);
+
+  // Оценка процента жира (ВМФ США формула для мужчин)
+  const neck = 39.0;
+  let bodyFatPct = 16.8;
+  try {
+    const val = 495 / (1.0324 - 0.19077 * Math.log10(Math.max(10, waist - neck)) + 0.15456 * Math.log10(height)) - 450;
+    if (!isNaN(val) && val > 5 && val < 50) bodyFatPct = Math.round(val * 10) / 10;
+  } catch(e) {}
+
+  const fatMass = Math.round(weight * (bodyFatPct / 100) * 10) / 10;
+  const leanMass = Math.round((weight - fatMass) * 10) / 10;
+  const hM = height / 100;
+  const ffmi = Math.round((leanMass / (hM * hM)) * 10) / 10;
+
+  // Расчет целевых калорий и БЖУ
+  let targetCal = tdee;
+  let diffBadgeText = "Баланс калорий";
+  let diffClass = "text-sky-400 border-sky-800 bg-sky-950/80";
+  let protG = Math.round(weight * 2.0);
+  let fatG = Math.round(weight * 0.85);
+  let carbG = Math.round((targetCal - (protG * 4 + fatG * 9)) / 4);
+
+  if (goalKey === "fatloss") {
+    targetCal = Math.round(tdee - 500);
+    diffBadgeText = "Дефицит -500 ккал 🔥";
+    diffClass = "text-rose-400 border-rose-800 bg-rose-950/80";
+    protG = Math.round(weight * 2.2);
+    fatG = Math.round(weight * 0.75);
+    carbG = Math.max(80, Math.round((targetCal - (protG * 4 + fatG * 9)) / 4));
+  } else if (goalKey === "hypertrophy") {
+    targetCal = Math.round(tdee + 250);
+    diffBadgeText = "Профицит +250 ккал ⚡";
+    diffClass = "text-amber-400 border-amber-800 bg-amber-950/80";
+    protG = Math.round(weight * 1.9);
+    fatG = Math.round(weight * 0.9);
+    carbG = Math.round((targetCal - (protG * 4 + fatG * 9)) / 4);
+  } else if (goalKey === "recomp") {
+    targetCal = Math.round(tdee - 350);
+    diffBadgeText = "Дефицит -350 ккал (Рекомпозиция)";
+    diffClass = "text-emerald-400 border-emerald-800 bg-emerald-950/80";
+    protG = Math.round(weight * 2.0);
+    fatG = Math.round(weight * 0.8);
+    carbG = Math.round((targetCal - (protG * 4 + fatG * 9)) / 4);
+  }
+
+  const waterL = Math.round(weight * 0.033 * 10) / 10;
+
+  // Обновляем элементы интерфейса
+  const elBf = document.getElementById("health-bodyfat-badge");
+  const elLean = document.getElementById("health-lean-mass-val");
+  const elFat = document.getElementById("health-fat-mass-val");
+  const elFfmi = document.getElementById("health-ffmi-val");
+  const elTargetCal = document.getElementById("health-target-calories");
+  const elTdee = document.getElementById("health-tdee-val");
+  const elDiff = document.getElementById("health-diff-badge");
+  const elProt = document.getElementById("health-prot-val");
+  const elFatVal = document.getElementById("health-fat-val");
+  const elCarb = document.getElementById("health-carb-val");
+  const elWater = document.getElementById("health-water-val");
+  const elSummary = document.getElementById("health-strategy-summary");
+
+  if (elBf) elBf.textContent = `${bodyFatPct}% жира`;
+  if (elLean) elLean.textContent = `${leanMass} кг`;
+  if (elFat) elFat.textContent = `${fatMass} кг`;
+  if (elFfmi) elFfmi.textContent = `${ffmi}`;
+  if (elTargetCal) elTargetCal.textContent = targetCal.toLocaleString();
+  if (elTdee) elTdee.textContent = tdee.toLocaleString();
+  
+  if (elDiff) {
+    elDiff.textContent = diffBadgeText;
+    elDiff.className = `inline-block px-2.5 py-1 rounded-xl border font-bold text-xs ${diffClass}`;
+  }
+
+  if (elProt) elProt.textContent = `${protG} г`;
+  if (elFatVal) elFatVal.textContent = `${fatG} г`;
+  if (elCarb) elCarb.textContent = `${carbG} г`;
+  if (elWater) elWater.textContent = `${waterL} л`;
+
+  if (elSummary) {
+    if (goalKey === "recomp") {
+      elSummary.innerHTML = `<b>Цель: Рекомпозиция.</b> Дефицит 350 ккал при высоком белке (${protG}г = 2.0г/кг) сжигает жировую прослойку на животе при сохранении и уплотнении мышц груди и спины.`;
+    } else if (goalKey === "fatloss") {
+      elSummary.innerHTML = `<b>Цель: Сушка.</b> Акцент на максимальное сжигание висцерального и подкожного жира при белке ${protG}г для предотвращения потери мышечной ткани.`;
+    } else if (goalKey === "hypertrophy") {
+      elSummary.innerHTML = `<b>Цель: Набор массы.</b> Профицит +250 ккал обеспечивает постоянный анаболизм, прогрессию весов и быстрый рост объема мышц.`;
+    } else {
+      elSummary.innerHTML = `<b>Цель: Поддержание.</b> Оптимальный баланс калорий (${targetCal} ккал) для стабильного веса, высокой энергии и тонуса.`;
+    }
+  }
+
+  renderPersonalizedVitamins();
+}
+
+function renderPersonalizedVitamins() {
+  const container = document.getElementById("vitamins-interactive-checklist") || document.getElementById("personalized-vitamins-container");
+  const verdictEl = document.getElementById("vitamin-doctor-verdict");
+  const streakBadge = document.getElementById("vitamin-streak-badge");
+  if (!container) return;
+
+  if (!appState.vitaminsLog) appState.vitaminsLog = {};
+  const todayKey = getTodayDateKey();
+  const todayTaken = appState.vitaminsLog[todayKey] || [];
+
+  // Подсчет стрика
+  let streak = 0;
+  const d = new Date();
+  for (let i = 0; i < 30; i++) {
+    const k = d.toISOString().split('T')[0];
+    const taken = appState.vitaminsLog[k];
+    if (taken && taken.length >= 4) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  if (streakBadge) {
+    streakBadge.textContent = `Стрик приема: ${streak} дн 🔥`;
+  }
+
+  container.innerHTML = CORE_VITAMINS_DATABASE.map(v => {
+    const isTaken = todayTaken.includes(v.id);
+    return `
+      <div class="vitamin-card-item ${isTaken ? 'taken' : ''} flex items-center justify-between gap-3">
+        <div class="space-y-0.5 flex-1">
+          <div class="flex items-center gap-2">
+            <b class="text-white text-xs font-sans">${v.name}</b>
+            <span class="px-2 py-0.5 bg-white/5 border border-white/10 text-[#c8a97e] font-mono text-[10px] rounded-md font-bold">${v.dose}</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-sans">${v.timing}</p>
+          <p class="text-[9px] text-slate-500 font-sans leading-tight">${v.purpose}</p>
+        </div>
+        <button type="button" onclick="toggleVitaminTaken('${v.id}')" class="flex-shrink-0 px-3 py-2 rounded-xl font-bold text-xs transition-all active:scale-90 ${isTaken ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20' : 'bg-white/10 text-slate-300 hover:bg-white/15 border border-white/10'}">
+          ${isTaken ? '✓ Принято' : '+ Принять'}
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  if (verdictEl) {
+    const count = todayTaken.length;
+    let statusColor = "text-[#c8a97e]";
+    let statusText = "Принято: " + count + " из " + CORE_VITAMINS_DATABASE.length;
+    let advice = "Регулярный прием добавок гарантирует максимальную производительность связок и ЦНС.";
+
+    if (count === CORE_VITAMINS_DATABASE.length) {
+      statusColor = "text-emerald-400";
+      statusText = "Все добавки на сегодня приняты (100% норма) 🌟";
+      advice = "Пул фосфокреатина и магния насыщен. Связки и нервная система защищены от перетренированности.";
+    } else if (count === 0) {
+      statusColor = "text-amber-400";
+      statusText = "Добавки сегодня еще не отмечены ⏳";
+      advice = "Не забудь выпить креатин и омега-3 в первой половине дня, а магний глицинат за 40 мин до сна.";
+    }
+
+    verdictEl.innerHTML = `
+      <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono text-[11px]">
+        <span class="text-slate-300 font-bold">🩺 Заключение спортивного врача:</span>
+        <b class="${statusColor}">${statusText}</b>
+      </div>
+      <p class="text-slate-300 text-xs font-sans mt-1 leading-relaxed">${advice}</p>
+    `;
+  }
+}
+
+function toggleVitaminTaken(vitId) {
+  if (!appState.vitaminsLog) appState.vitaminsLog = {};
+  const todayKey = getTodayDateKey();
+  if (!appState.vitaminsLog[todayKey]) appState.vitaminsLog[todayKey] = [];
+
+  const list = appState.vitaminsLog[todayKey];
+  const idx = list.indexOf(vitId);
+  if (idx !== -1) {
+    list.splice(idx, 1);
+    Sound.click();
+    Haptic.light();
+  } else {
+    list.push(vitId);
+    addXP(15);
+    Sound.success();
+    Haptic.success();
+  }
+
+  saveState();
+  renderPersonalizedVitamins();
+}
+
+
 // ========================================================
 // PRO EXERCISE BIOMECHANICS & ANATOMICAL VISUALIZER 4.0
 // 100% УНИКАЛЬНАЯ АНАТОМИЧЕСКАЯ И ОБОРУДОВАНИЯ ГРАФИКА ДЛЯ ВСЕХ 48+ УПРАЖНЕНИЙ
@@ -5315,7 +5605,7 @@ function finishActiveWorkout() {
     exercises: exSummaries,
     rating: (typeof selectedWorkoutRating !== 'undefined' ? selectedWorkoutRating : 4),
     ratingEmoji: (typeof selectedWorkoutRatingEmoji !== 'undefined' ? selectedWorkoutRatingEmoji : "вљЎ"),
-    ratingLabel: (typeof selectedWorkoutRatingLabel !== 'undefined' ? selectedWorkoutRatingLabel : "Р Р°Р±РѕС‡РёР№ С‚РµРјРї / Р’ СЏР±Р»РѕС‡РєРѕ"),
+    ratingLabel: (typeof selectedWorkoutRatingLabel !== 'undefined' ? selectedWorkoutRatingLabel : "Р Р°Р±РѕС‡РёР№ С‚РµРјРї"),
     rpe: (typeof selectedWorkoutRPE !== 'undefined' ? selectedWorkoutRPE : 8),
     note: ""
   };
@@ -5378,7 +5668,7 @@ function finishActiveWorkout() {
     `).join('');
   }
 
-  selectWorkoutRating(4, 'вљЎ', 'Р Р°Р±РѕС‡РёР№ С‚РµРјРї / Р’ СЏР±Р»РѕС‡РєРѕ', 'RPE 8-8.5');
+  selectWorkoutRating(4, 'вљЎ', 'Р Р°Р±РѕС‡РёР№ С‚РµРјРї', 'RPE 8');
 
   Sound.finish();
   Haptic.success();
@@ -5415,7 +5705,7 @@ function confirmAndSaveWorkoutSummary() {
 function skipAndSaveWorkoutSummary() {
   closeModal('modal-workout-completion-rating');
   saveState();
-  Sound.beep(500, 0.04);
+  Sound.click();
 }
 
 function cancelWorkout() {
@@ -5507,21 +5797,30 @@ function renderMonthlyCalendar() {
     gridEl.appendChild(emptyCell);
   }
 
+  const now = new Date();
+  const realCurrentYear = now.getFullYear();
+  const realCurrentMonth = now.getMonth();
+  const realCurrentDay = now.getDate();
+  const todayStr = `${realCurrentYear}-${String(realCurrentMonth + 1).padStart(2, '0')}-${String(realCurrentDay).padStart(2, '0')}`;
+
+  if (!selectedCalDateStr) {
+    selectedCalDateStr = todayStr;
+  }
+
   let doneCount = 0;
   let plannedCount = 0;
   let missedCount = 0;
-  const currentTodayDate = 27;
 
   for (let day = 1; day <= totalDaysInMonth; day++) {
     const curDate = new Date(calYear, calMonth, day);
     const dayOfWeek = curDate.getDay();
-    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4);
+    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // Р’Рў / Р§Рў
     const dStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
     const woData = histMap.get(dStr);
     const isDone = !!woData;
-    const isToday = (calYear === 2026 && calMonth === 7 && day === currentTodayDate);
-    const isPast = (calYear < 2026) || (calYear === 2026 && calMonth < 7) || (calYear === 2026 && calMonth === 7 && day < currentTodayDate);
+    const isToday = (calYear === realCurrentYear && calMonth === realCurrentMonth && day === realCurrentDay);
+    const isPast = (calYear < realCurrentYear) || (calYear === realCurrentYear && calMonth < realCurrentMonth) || (calYear === realCurrentYear && calMonth === realCurrentMonth && day < realCurrentDay);
     const isMissed = isScheduled && isPast && !isDone;
     const isFuturePlan = isScheduled && !isPast && !isDone;
 
@@ -5536,7 +5835,7 @@ function renderMonthlyCalendar() {
     else if (isMissed) cls += " missed";
     else if (isFuturePlan) cls += " scheduled";
 
-    if (isToday) cls += " today";
+    if (isToday) cls += " today-cell today";
     if (dStr === selectedCalDateStr) cls += " selected";
 
     cell.className = cls;
@@ -5547,7 +5846,7 @@ function renderMonthlyCalendar() {
   }
 
   if (summaryTagEl) {
-    summaryTagEl.textContent = `${doneCount} закрыто • ${missedCount > 0 ? missedCount + ' пропуск' : '100% дисциплина'}`;
+    summaryTagEl.textContent = `${doneCount} РІС‹РїРѕР»РЅРµРЅРѕ вЂў ${missedCount > 0 ? missedCount + ' РїСЂРѕРїСѓСЃРє' : '100% РґРёСЃС†РёРїР»РёРЅР°'}`;
   }
 
   selectCalendarDay(selectedCalDateStr, histMap.get(selectedCalDateStr) ? 'done' : 'rest', histMap.get(selectedCalDateStr));
@@ -5564,49 +5863,53 @@ function selectCalendarDay(dateStr, status, woData) {
   const inspActions = document.getElementById("cal-insp-actions");
   if (!inspDate || !inspBadge || !inspContent) return;
 
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const isToday = (dateStr === todayStr);
+
   const dateObj = new Date(dateStr);
   const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  inspDate.textContent = formatted;
+  inspDate.textContent = formatted + (isToday ? " (РЎРµРіРѕРґРЅСЏ)" : "");
 
   if (status === 'done' && woData) {
-    inspBadge.textContent = "ВЫПОЛНЕНО";
+    inspBadge.textContent = "Р’Р«РџРћР›РќР•РќРћ вњ“";
     inspBadge.className = "px-2.5 py-0.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 rounded-lg text-xs font-bold font-mono";
-    const timeInfo = woData.startTimeStr ? `${woData.startTimeStr} – ${woData.endTimeStr || '...'} (${woData.durationMin || 45} мин)` : `~45 мин`;
+    const timeInfo = woData.startTimeStr ? `${woData.startTimeStr} вЂ“ ${woData.endTimeStr || '...'} (${woData.durationMin || 45} РјРёРЅ)` : `~45 РјРёРЅ`;
     inspContent.innerHTML = `
       <p><b>${woData.name}</b></p>
-      <p class="text-[11px] text-slate-400 font-mono">${timeInfo} • Тоннаж: <b class="text-white">${woData.tonnage} кг</b> • <b class="text-[#c8a97e]">~${woData.calories || 350} ккал</b></p>
+      <p class="text-[11px] text-slate-400 font-mono">${timeInfo} вЂў РўРѕРЅРЅР°Р¶: <b class="text-white">${woData.tonnage} РєРі</b> вЂў <b class="text-[#c8a97e]">~${woData.calories || 350} РєРєР°Р»</b></p>
     `;
     if (inspActions) inspActions.innerHTML = "";
   } else if (status === 'missed') {
-    inspBadge.textContent = "ПРОПУСК";
-    inspBadge.className = "px-2.5 py-0.5 bg-rose-950/60 text-rose-400 border border-rose-800/60 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированная тренировка была пропущена. Ты можешь провести ее в любой день!</p>`;
+    inspBadge.textContent = "РџР РћРџРЈРЎРљ";
+    inspBadge.className = "px-2.5 py-0.5 bg-rose-950/80 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.textContent = "РџР»Р°РЅРѕРІР°СЏ С‚СЂРµРЅРёСЂРѕРІРєР° РЅРµ Р±С‹Р»Р° РІС‹РїРѕР»РЅРµРЅР°. РњРѕР¶РЅРѕ РїСЂРѕРІРµСЃС‚Рё РІРЅРµРїР»Р°РЅРѕРІРѕ:";
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-sm">
-          Записать тренировку на ${dateStr}
+        <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-[#c8a97e] border border-[#c8a97e]/30 rounded-xl font-bold font-mono text-xs">
+          в–¶ РќР°С‡Р°С‚СЊ С‚СЂРµРЅРёСЂРѕРІРєСѓ Р·Р° СЌС‚РѕС‚ РґРµРЅСЊ
         </button>
       `;
     }
   } else if (status === 'plan') {
-    inspBadge.textContent = "ПЛАН";
-    inspBadge.className = "px-2.5 py-0.5 bg-white/5 text-slate-300 border border-white/10 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">Запланированный день тренировки по графику. Готовься к прогрессии весов!</p>`;
+    inspBadge.textContent = "РџРћ РџР›РђРќРЈ";
+    inspBadge.className = "px-2.5 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-800 rounded-lg text-xs font-bold font-mono";
+    inspContent.textContent = "РџР»Р°РЅРѕРІС‹Р№ С‚СЂРµРЅРёСЂРѕРІРѕС‡РЅС‹Р№ РґРµРЅСЊ РїРµСЂСЃРѕРЅР°Р»СЊРЅРѕРіРѕ РіСЂР°С„РёРєР° (Р’Рў / Р§Рў).";
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-98 transition-all shadow-sm">
-          Начать тренировку на эту дату
+        <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 btn-gold font-bold font-mono text-xs rounded-xl">
+          в–¶ РќР°С‡Р°С‚СЊ РїР»Р°РЅРѕРІСѓСЋ С‚СЂРµРЅРёСЂРѕРІРєСѓ
         </button>
       `;
     }
   } else {
-    inspBadge.textContent = "ОТДЫХ";
-    inspBadge.className = "px-2.5 py-0.5 bg-[#181b26] text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
-    inspContent.innerHTML = `<p class="text-slate-300">День отдыха. Пришел в зал вне графика? Выбирай программу или свободную тренировку:</p>`;
+    inspBadge.textContent = "РћРўР”Р«РҐ";
+    inspBadge.className = "px-2.5 py-0.5 bg-white/5 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
+    inspContent.textContent = "Р”РµРЅСЊ СЃСѓРїРµСЂРєРѕРјРїРµРЅСЃР°С†РёРё Рё РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РјС‹С€С†.";
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openDateWorkoutPickerModal('${dateStr}')" class="w-full py-2.5 bg-[#181b26] hover:bg-[#202432] text-slate-300 font-bold text-xs uppercase rounded-xl border border-white/10 font-mono active:scale-98 transition-all">
-          + Провести тренировку в этот день
+        <button onclick="openModal('modal-date-workout-picker')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 rounded-xl font-bold font-mono text-xs">
+          + РџСЂРѕРІРµСЃС‚Рё РІРЅРµРїР»Р°РЅРѕРІСѓСЋ С‚СЂРµРЅРёСЂРѕРІРєСѓ
         </button>
       `;
     }
@@ -5943,96 +6246,39 @@ function openRevisionModal() {
 
 async function checkLiveRevisionUpdate(isManual = true) {
   const btn = document.getElementById("btn-check-revision");
-  const badgeEl = document.getElementById("revision-status-badge");
   const serverVerEl = document.getElementById("revision-server-ver");
   const cacheStatusEl = document.getElementById("revision-cache-status");
-  const changelogContainer = document.getElementById("revision-live-changelog");
 
   if (btn && isManual) {
-    btn.innerHTML = '<span class="animate-spin inline-block mr-1">рџ”„</span> РџСЂРѕРІРµСЂРєР° СЃРµСЂРІРµСЂРѕРІ Cloudflare Edge & GitHub...';
+    btn.innerHTML = '<span class="animate-spin inline-block mr-1">рџ”„</span> РџСЂРѕРІРµСЂРєР° СЃРµСЂРІРµСЂРѕРІ...';
   }
 
   let latestVersion = null;
-  let changelog = [];
 
-  // Tier 1: Cloudflare Worker live API endpoint (0ms latency, zero CORS)
   try {
     const origin = (window.location && window.location.origin && window.location.origin.startsWith('http')) 
       ? window.location.origin 
       : "https://iron-coach-bot.r-tofan112.workers.dev";
     
-    const res = await fetch(origin + "/api/version?_t=" + Date.now(), {
-      cache: 'no-store'
-    });
+    const res = await fetch(origin + "/api/version?_t=" + Date.now(), { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
-      if (data && data.version) {
-        latestVersion = data.version;
-        changelog = data.changelog || [];
-      }
+      if (data && data.version) latestVersion = data.version;
     }
-  } catch (e) {
-    console.warn("Worker version check fallback:", e);
-  }
-
-  // Tier 2: GitHub API tags endpoint fallback
-  if (!latestVersion) {
-    try {
-      const ghRes = await fetch("https://api.github.com/repos/rtofan112-dot/iron-coach-app/tags?_t=" + Date.now(), {
-        cache: 'no-store'
-      });
-      if (ghRes.ok) {
-        const tags = await ghRes.json();
-        if (tags && tags.length > 0 && tags[0].name) {
-          latestVersion = tags[0].name.startsWith('v') ? tags[0].name + " PRO" : "v" + tags[0].name + " PRO";
-        }
-      }
-    } catch (e) {
-      console.warn("GitHub API tags check fallback:", e);
-    }
-  }
-
-  // Tier 3: GitHub Raw bundle fallback
-  if (!latestVersion) {
-    try {
-      const rawRes = await fetch("https://raw.githubusercontent.com/rtofan112-dot/iron-coach-app/main/bundle.html?_t=" + Date.now(), {
-        cache: 'no-store'
-      });
-      if (rawRes.ok) {
-        const htmlText = await rawRes.text();
-        const match = htmlText.match(/version:\s*["']([^"']+)["']/);
-        if (match && match[1]) {
-          latestVersion = match[1];
-        }
-      }
-    } catch (e) {}
-  }
+  } catch (e) {}
 
   if (serverVerEl) {
     serverVerEl.textContent = latestVersion || (APP_CONFIG.version + " (OK)");
   }
 
-  if (changelog && changelog.length > 0 && changelogContainer) {
-    changelogContainer.innerHTML = changelog.map(item => `
-      <div class="flex items-start gap-2">
-        <span class="text-emerald-400 font-mono font-bold">в—Џ</span>
-        <span>${item}</span>
-      </div>
-    `).join('');
-  }
-
   if (latestVersion && latestVersion !== APP_CONFIG.version) {
     if (btn) {
-      btn.className = "w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-98 transition-all flex items-center justify-center space-x-2";
-      btn.innerHTML = `<span>рџљЂ Р”РѕСЃС‚СѓРїРЅР° РЅРѕРІР°СЏ ${latestVersion}! Р—Р°РіСЂСѓР·РёС‚СЊ (1 РєР»РёРє)</span>`;
+      btn.className = "w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-98 transition-all flex items-center justify-center space-x-2";
+      btn.innerHTML = `<span>рџљЂ Р”РѕСЃС‚СѓРїРЅР° ${latestVersion}! РћР±РЅРѕРІРёС‚СЊ (1 РєР»РёРє)</span>`;
       btn.onclick = forceAppReload;
     }
-    if (badgeEl) {
-      badgeEl.className = "px-2.5 py-0.5 rounded-lg bg-amber-950/80 text-amber-300 border border-amber-700 font-bold text-[11px] flex items-center gap-1.5";
-      badgeEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span><b>РћР±РЅРѕРІР»РµРЅРёРµ: ${latestVersion}</b>`;
-    }
     if (cacheStatusEl) {
-      cacheStatusEl.textContent = "РўСЂРµР±СѓРµС‚СЃСЏ РѕР±РЅРѕРІР»РµРЅРёРµ";
+      cacheStatusEl.textContent = "Р”РѕСЃС‚СѓРїРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ рџљЂ";
       cacheStatusEl.className = "text-amber-400 font-bold";
     }
     Sound.record();
@@ -6041,7 +6287,7 @@ async function checkLiveRevisionUpdate(isManual = true) {
   }
 
   if (btn && isManual) {
-    btn.innerHTML = `<span>вњ… Р’РµСЂСЃРёСЏ Р°РєС‚СѓР°Р»СЊРЅР° (${APP_CONFIG.version})! РљСЌС€ С‡РёСЃС‚</span>`;
+    btn.innerHTML = `<span>вњ… Р’РµСЂСЃРёСЏ Р°РєС‚СѓР°Р»СЊРЅР° (${APP_CONFIG.version})</span>`;
     Sound.success();
     Haptic.success();
     setTimeout(() => {
@@ -6218,12 +6464,22 @@ function openOnboardingModal() {
   const waistEl = document.getElementById("onboard-waist");
   const goalEl = document.getElementById("onboard-goal");
 
-  if (nameEl) nameEl.value = appState.name || "Роман";
+  if (nameEl) nameEl.value = appState.name || "Р РѕРјР°РЅ";
   if (ageEl) ageEl.value = appState.age || 32;
   if (heightEl) heightEl.value = appState.height || 178;
   if (weightEl) weightEl.value = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83;
   if (waistEl) waistEl.value = (appState.currentMetrics && appState.currentMetrics.waist) ? appState.currentMetrics.waist : 91.5;
-  if (goalEl) goalEl.value = appState.goal || "Рекомпозиция";
+  if (goalEl) goalEl.value = appState.goal || "Р РµРєРѕРјРїРѕР·РёС†РёСЏ";
+
+  // РџРѕРґСЃРІРµС‡РёРІР°РµРј Р°РєС‚РёРІРЅСѓСЋ РєР°СЂС‚РѕС‡РєСѓ С†РµР»Рё
+  const currentGoalKey = getActiveGoalKey();
+  ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
+    const card = document.getElementById("onb-goal-" + k);
+    if (card) {
+      if (k === currentGoalKey) card.classList.add("active");
+      else card.classList.remove("active");
+    }
+  });
 
   openModal('modal-onboarding');
 }
@@ -6244,44 +6500,23 @@ function saveOnboardingProfile(e) {
   const waistEl = document.getElementById("onboard-waist");
   const goalEl = document.getElementById("onboard-goal");
 
-  const name = nameEl ? nameEl.value.trim() : (appState.name || "Роман");
+  const name = nameEl ? nameEl.value.trim() : (appState.name || "Р РѕРјР°РЅ");
   const age = parseInt(ageEl ? ageEl.value : 32) || 32;
   const height = parseInt(heightEl ? heightEl.value : 178) || 178;
   const weight = parseFloat(weightEl ? weightEl.value : 83.0) || 83.0;
   const waist = parseFloat(waistEl ? waistEl.value : 91.5) || 91.5;
-  const goal = goalEl ? goalEl.value : "Рекомпозиция";
+  const goal = goalEl ? goalEl.value : "Р РµРєРѕРјРїРѕР·РёС†РёСЏ";
 
-  appState.name = name || "Роман";
+  appState.name = name || "Р РѕРјР°РЅ";
   appState.age = age;
   appState.height = height;
   appState.goal = goal;
 
   if (!appState.currentMetrics) {
-    appState.currentMetrics = { weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 };
-  } else {
-    appState.currentMetrics.weight = weight;
-    appState.currentMetrics.waist = waist;
+    appState.currentMetrics = { weight: 83.0, waist: 91.5, neck: 39.0, chest: 104.0, arm: 37.0 };
   }
-
-  const today = new Date().toISOString().split("T")[0];
-  appState.metrics = [
-    { id: "m_init_" + Date.now(), date: today, weight, waist, biceps: 38.5, chest: 104, thigh: 59, neck: 39.5 }
-  ];
-
-  const elName = document.getElementById("tg-user-name");
-  if (elName) elName.textContent = appState.name;
-
-  const elGoal = document.getElementById("athlete-goal-header-badge");
-  if (elGoal) elGoal.textContent = appState.goal;
-
-  const pDispName = document.getElementById("prof-disp-name");
-  if (pDispName) pDispName.textContent = appState.name;
-
-  const pDispAge = document.getElementById("prof-disp-age");
-  if (pDispAge) pDispAge.textContent = `${appState.age} г • ${appState.height} см`;
-
-  const pDispGoal = document.getElementById("prof-disp-goal");
-  if (pDispGoal) pDispGoal.textContent = appState.goal;
+  appState.currentMetrics.weight = weight;
+  appState.currentMetrics.waist = waist;
 
   saveState();
   closeModal('modal-onboarding');
