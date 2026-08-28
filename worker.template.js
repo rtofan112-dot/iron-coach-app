@@ -57,7 +57,7 @@ export default {
     if (url.pathname === "/api/version") {
       return new Response(JSON.stringify({
         ok: true,
-        version: "v2.9.0 PRO",
+        version: "v2.10.0 PRO",
         buildTimestamp: Date.now(),
         changelog: [
           "Персональные занятия: График на Вторник / Четверг с целевым сплитом",

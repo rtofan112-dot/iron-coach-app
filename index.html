@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="ru" class="dark"> <head>   <meta charset="UTF-8">   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">   <title>IRON COACH ELITE — Ultimate Fitness Intelligence</title>   <script src="https://telegram.org/js/telegram-web-app.js"></script>   <script src="https://cdn.tailwindcss.com"></script>   <script>     tailwind.config = {       darkMode: 'class',       theme: {         extend: {           fontFamily: {             mono: ['JetBrains Mono', 'monospace'],             sans: ['Plus Jakarta Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']           },           colors: {             luxury: {               bg: '#040507',               card: 'rgba(14, 17, 26, 0.78)',               cardElevated: 'rgba(20, 24, 38, 0.88)',               border: 'rgba(255, 255, 255, 0.08)',               gold: '#c8a97e',               platinum: '#f1f5f9',               emerald: '#10b981',               rose: '#f43f5e',               blue: '#38bdf8'             }           }         }       }     }   </script>   <link rel="stylesheet" href="styles.css"> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[var(--gold-primary)] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[var(--gold-primary)] border border-[#c8a97e]/30 rounded-md">v2.9.0 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[var(--gold-primary)] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[var(--gold-primary)] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
+<!DOCTYPE html> <html lang="ru" class="dark"> <head>   <meta charset="UTF-8">   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">   <title>IRON COACH ELITE — Ultimate Fitness Intelligence</title>   <script src="https://telegram.org/js/telegram-web-app.js"></script>   <script src="https://cdn.tailwindcss.com"></script>   <script>     tailwind.config = {       darkMode: 'class',       theme: {         extend: {           fontFamily: {             mono: ['JetBrains Mono', 'monospace'],             sans: ['Plus Jakarta Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']           },           colors: {             luxury: {               bg: '#040507',               card: 'rgba(14, 17, 26, 0.78)',               cardElevated: 'rgba(20, 24, 38, 0.88)',               border: 'rgba(255, 255, 255, 0.08)',               gold: '#c8a97e',               platinum: '#f1f5f9',               emerald: '#10b981',               rose: '#f43f5e',               blue: '#38bdf8'             }           }         }       }     }   </script>   <link rel="stylesheet" href="styles.css"> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[var(--gold-primary)] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[var(--gold-primary)] border border-[#c8a97e]/30 rounded-md">v2.10.0 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[var(--gold-primary)] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[var(--gold-primary)] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
 
     <!-- СВЕТЯЩИЙСЯ ИНДИКАТОР ПОСЛЕДНЕЙ РЕВИЗИИ (LIVE BETA PULSE) -->
     <div onclick="openRevisionModal()" class="max-w-md mx-auto mt-2 px-3 py-1.5 rounded-xl bg-black border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:border-emerald-500/60 active:scale-98 transition-all font-mono text-[10px] shadow-sm">
@@ -8,7 +8,7 @@
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <span class="text-slate-300 font-bold">РЕВИЗИЯ:</span>
-        <span class="app-version-badge text-emerald-400 font-bold">v2.9.0 PRO</span>
+        <span class="app-version-badge text-emerald-400 font-bold">v2.10.0 PRO</span>
         <span class="text-slate-600">•</span>
         <span class="text-slate-400">Live Edge Beta</span>
       </div>
@@ -58,44 +58,60 @@
           </div>
 
           <!-- ANATOMY MODULE -->
-          <div class="p-4 glass-panel flex flex-col justify-between relative overflow-hidden">
+          <div class="p-4 glass-panel flex flex-col justify-between relative overflow-hidden anatomy-entry-card">
             <div class="z-10 space-y-2">
-              <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase font-mono">АНАТОМИЯ</span>
-              <h3 class="text-sm font-bold text-white leading-tight">Атлас 7.0</h3>
-              <p class="text-[10px] text-slate-400">Объем и Тонус</p>
+              <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase font-mono">MUSCLE LAB</span>
+              <h3 class="text-sm font-bold text-white leading-tight">Карта нагрузки</h3>
+              <p class="text-[10px] text-slate-400">Только реальные сеты</p>
             </div>
             <div class="mt-4 flex space-x-1 z-10">
-              <button type="button" onclick="setAnatomyView('front')" id="btn-anat-front" class="flex-1 py-2 font-bold text-[10px] rounded-lg bg-[var(--gold-primary)] text-black transition-all">ПРЕД</button>
-              <button type="button" onclick="setAnatomyView('back')" id="btn-anat-back" class="flex-1 py-2 font-bold text-[10px] rounded-lg bg-[#222222] text-white transition-all">ЗАД</button>
+              <button type="button" onclick="setAnatomyView('front')" id="btn-anat-front" data-anatomy-view="front" aria-pressed="true" class="anatomy-view-btn active flex-1 py-2 font-bold text-[10px] rounded-lg transition-all">ПЕРЕД</button>
+              <button type="button" onclick="setAnatomyView('back')" id="btn-anat-back" data-anatomy-view="back" aria-pressed="false" class="anatomy-view-btn flex-1 py-2 font-bold text-[10px] rounded-lg transition-all">СПИНА</button>
             </div>
           </div>
         </div>
 
         <!-- ANATOMY RENDER TARGET -->
-        <div class="p-4 glass-panel space-y-3 font-mono">
-          <div class="anat-body-wrapper flex justify-center items-center h-[280px]">
-            <div id="anat-svg-host" class="w-full h-full flex items-center justify-center"></div>
-          </div>
-          <!-- HUD -->
-          <div id="anat-hud-card" class="anat-hud-card p-3 space-y-2 text-xs">
-            <div class="flex justify-between items-center border-b border-[#222222] pb-1.5">
-              <div class="flex items-center space-x-1.5">
-                <span class="w-2 h-2 rounded-full bg-[var(--gold-primary)] animate-ping"></span>
-                <b id="anat-hud-title" class="text-white text-[11px] font-sans">Мышца</b>
-              </div>
-              <span id="anat-hud-pump-badge" class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 text-[9px] font-bold">ОТДЫХ</span>
+        <div class="glass-panel anatomy-lab-card font-mono overflow-hidden">
+          <div class="anatomy-lab-heading">
+            <div>
+              <span class="anatomy-overline">WEEKLY LOAD / BODY MAP</span>
+              <h3>Анатомия нагрузки</h3>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-[10px]">
-              <div class="bg-black p-2 rounded-xl border border-white/[0.04]">
-                <span class="text-[9px] text-slate-400 block uppercase">Объем</span>
-                <b id="anat-hud-volume" class="text-white font-mono">0 / 0</b>
-                <span id="anat-hud-mav-status" class="text-[8px] text-[var(--gold-primary)] block">0% MAV</span>
+            <span class="anatomy-data-badge"><i></i> LIVE DATA</span>
+          </div>
+          <div class="anatomy-lab-stage">
+            <div class="anat-body-wrapper">
+              <div class="anatomy-stage-axis" aria-hidden="true"><span>SUPERIOR</span><i></i><span>INFERIOR</span></div>
+              <div id="anat-svg-host" class="anat-svg-host" data-anatomy-host></div>
+              <div class="anatomy-legend" aria-label="Легенда нагрузки">
+                <span><i class="legend-base"></i>Нет объёма</span>
+                <span><i class="legend-work"></i>Рабочий</span>
+                <span><i class="legend-high"></i>Высокий</span>
               </div>
-              <div class="bg-black p-2 rounded-xl border border-white/[0.04]">
-                <span class="text-[9px] text-slate-400 block uppercase">Статус</span>
-                <b id="anat-hud-recovery" class="text-emerald-400 font-mono">100%</b>
-                <span id="anat-hud-soreness" class="text-[8px] text-slate-400 block">Без боли</span>
+            </div>
+            <!-- HUD -->
+            <div id="anat-hud-card" class="anat-hud-card anatomy-inspector text-xs">
+              <div class="anatomy-inspector-head">
+                <div>
+                  <span class="anatomy-overline">SELECTED REGION</span>
+                  <b id="anat-hud-title" data-anat-field="title" class="text-white font-sans">Мышца</b>
+                </div>
+                <span id="anat-hud-pump-badge" data-anat-field="badge" class="anatomy-status-badge">НЕТ ДАННЫХ</span>
               </div>
+              <div class="anatomy-metric-grid">
+                <div class="anatomy-metric">
+                  <span>НЕДЕЛЬНЫЙ ОБЪЁМ</span>
+                  <b id="anat-hud-volume" data-anat-field="volume">0 сетов</b>
+                  <small id="anat-hud-mav-status" data-anat-field="mav">MEV 0 · MAV 0</small>
+                </div>
+                <div class="anatomy-metric">
+                  <span>ГОТОВНОСТЬ*</span>
+                  <b id="anat-hud-recovery" data-anat-field="recovery">Нет данных</b>
+                  <small id="anat-hud-timer" data-anat-field="timer">Нужна тренировка</small>
+                </div>
+              </div>
+              <p class="anatomy-disclaimer">*Оценка по времени после последней нагрузки, не медицинский показатель.</p>
             </div>
           </div>
         </div>
@@ -136,54 +152,54 @@
 
       </div>
       <div id="workout-active" class="hidden space-y-4">                  <!-- ПАНЕЛЬ ТЕЛЕМЕТРИИ ТРЕНИРОВКИ -->         <div class="p-4 glass-panel-elevated flex justify-between items-center shadow-2xl">           <div>             <div class="flex items-center space-x-2">               <span id="wo-active-tag" class="text-[10px] font-mono font-bold text-[var(--gold-primary)] uppercase">СЕССИЯ</span>               <span id="wo-live-timer" class="text-[10px] font-mono text-slate-200 bg-white/10 px-2 py-0.5 rounded-md border border-[#222222]">00:00</span>             </div>             <h2 id="wo-active-title" class="text-base font-bold text-white mt-0.5 tracking-tight">Тренировка</h2>           </div>           <div class="flex items-center space-x-3 text-right font-mono">             <div>               <span id="wo-live-tonnage" class="text-sm font-bold text-white block">0 кг</span>               <span class="text-[9px] text-slate-400 uppercase">тоннаж</span>             </div>             <div class="border-l border-[#222222] pl-3">               <span id="wo-live-calories" class="text-sm font-bold text-[var(--gold-primary)] block">0 ккал</span>               <span class="text-[9px] text-slate-400 uppercase">расход</span>             </div>           </div>         </div>          <!-- КНОПКА ДОБАВЛЕНИЯ ИЗ БАЗЫ КАТАЛОГА -->         <button onclick="openExerciseDatabaseModal()" class="w-full py-3 glass-panel hover:bg-white/10 rounded-2xl text-slate-200 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2 shadow-sm">           <svg class="w-4 h-4 text-[var(--gold-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg>           <span>Выбрать упражнение из каталога (30+ упр.)</span>         </button>          <!-- КОНТЕЙНЕР УПРАЖНЕНИЙ -->         <div id="active-exercises-container" class="space-y-3"></div>          <!-- КНОПКА РУЧНОГО СОЗДАНИЯ УПРАЖНЕНИЯ -->         <button onclick="openModal('modal-add-custom-exercise')" class="w-full py-2.5 glass-panel border-dashed text-slate-400 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>+ Создать свое упражнение вручную</span>         </button>          <!-- КНОПКИ ДЕЙСТВИЯ -->         <div class="space-y-2 pt-2">           <button onclick="finishActiveWorkout()" class="w-full py-4 btn-gold font-bold text-xs uppercase tracking-wider rounded-2xl active:scale-98 transition-all flex items-center justify-center space-x-2 font-mono">             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>             <span>Завершить тренировку</span>           </button>           <button onclick="cancelWorkout()" class="w-full py-2 text-xs text-rose-400 font-bold hover:text-rose-300 font-mono">             Отменить тренировку           </button>         </div>       </div>     </section>      <!-- ======================================================== -->     <!-- ВКЛАДКА 2: ПРОГРЕСС И ПЕРСОАНАЛИТИКА -->     <!-- ======================================================== -->     <section id="tab-progress" class="tab-pane space-y-4">              <!-- СЕТКА МЕНЮ 3x2 -->       <div class="grid grid-cols-3 gap-1.5 p-1.5 glass-panel text-xs font-mono">                  <button onclick="switchProgressSubtab('calendar')" id="btn-sub-calendar" class="py-2.5 px-1 rounded-xl bg-[#c8a97e] text-slate-950 font-bold transition-all text-center flex items-center justify-center space-x-1.5 shadow-sm">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>           <span>Календарь</span>         </button>          <button onclick="switchProgressSubtab('analytics')" id="btn-sub-analytics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>           <span>Аналитика</span>         </button>          <button onclick="switchProgressSubtab('records')" id="btn-sub-records" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>           <span>Рекорды</span>         </button>          <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>           <span>Замеры</span>         </button>          <button onclick="switchProgressSubtab('achievements')" id="btn-sub-achievements" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>           <span>Ачивки</span>         </button>          <button onclick="switchProgressSubtab('archive')" id="btn-sub-archive" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>           <span>Архив</span>         </button>       </div>        <!-- ПОДВКЛАДКА 1: КАЛЕНДАРЬ -->       <div id="subtab-calendar" class="space-y-3.5">         <div class="p-4 glass-panel space-y-3 font-mono">           <div class="flex justify-between items-center">             <button onclick="changeCalendarMonth(-1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-[#222222] text-slate-300 active:scale-90 transition-transform">‹</button>             <div class="text-center">               <h3 id="cal-month-name" class="font-bold text-sm text-white uppercase tracking-wider">Сентябрь 2026</h3>               <span id="cal-month-summary-tag" class="text-[10px] text-[var(--gold-primary)] font-bold">100% дисциплина</span>             </div>             <button onclick="changeCalendarMonth(1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-[#222222] text-slate-300 active:scale-90 transition-transform">›</button>           </div>            <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-slate-500 font-bold">             <div>ПН</div><div>ВТ</div><div>СР</div><div>ЧТ</div><div>ПТ</div><div>СБ</div><div class="text-[var(--gold-primary)]">ВС</div>           </div>            <div id="cal-days-grid" class="grid grid-cols-7 gap-1.5"></div>         </div>          <!-- ИНСПЕКТОР ВЫБРАННОГО ДНЯ -->         <div class="p-4 glass-panel space-y-2.5 font-mono text-xs">           <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">             <span id="cal-insp-date" class="font-bold text-white text-xs">Четверг, 27 августа 2026 г.</span>             <span id="cal-insp-badge" class="px-2.5 py-0.5 rounded-lg text-xs font-bold font-mono bg-white/5 text-slate-300">ПЛАН</span>           </div>           <div id="cal-insp-content" class="text-slate-300 text-xs"></div>           <div id="cal-insp-actions" class="pt-1"></div>         </div>          <!-- ГОДОВОЙ ОБЗОР 12 МЕСЯЦЕВ -->         <div class="p-4 glass-panel space-y-3 font-mono">           <div class="flex justify-between items-center">             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Годовой обзор 2026</h3>             <span id="year-stat-compliance" class="text-[10px] text-[var(--gold-primary)] font-bold">100% норма</span>           </div>           <div class="grid grid-cols-3 gap-2 text-center text-xs">             <div class="glass-panel-elevated p-2 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Сессий</span>               <b id="year-stat-sessions" class="text-sm font-bold text-white">0</b>             </div>             <div class="glass-panel-elevated p-2 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Тоннаж</span>               <b id="year-stat-tonnage" class="text-sm font-bold text-[var(--gold-primary)]">0 т</b>             </div>             <div class="glass-panel-elevated p-2 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Стрик</span>               <b id="year-stat-streak" class="text-sm font-bold text-emerald-400">0 дн</b>             </div>           </div>           <div id="annual-months-grid" class="grid grid-cols-4 gap-1.5 text-center text-[10px]"></div>         </div>       </div>        <!-- ПОДВКЛАДКА 2: АНАЛИТИКА -->       <div id="subtab-analytics" class="hidden space-y-3.5">         <div class="p-4 glass-panel space-y-3 font-mono">           <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">             <svg class="w-4 h-4 text-[var(--gold-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>             Персональный AI-Анализ ЦНС & Мышц           </h3>                      <div class="grid grid-cols-3 gap-2 text-center text-xs">             <div class="glass-panel-elevated p-2.5 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Готовность ЦНС</span>               <b id="ai-readiness-val" class="text-sm font-bold text-[#10b981]">100%</b>               <span class="text-[9px] text-slate-400 block">Оптимально</span>             </div>             <div class="glass-panel-elevated p-2.5 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Защита лопатки</span>               <b id="ai-neck-safety" class="text-sm font-bold text-[var(--gold-primary)]">Безопасно</b>               <span class="text-[9px] text-slate-400 block">Без компрессии</span>             </div>             <div class="glass-panel-elevated p-2.5 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Объем недели</span>               <b id="ai-week-tonnage" class="text-sm font-bold text-white">0 кг</b>               <span class="text-[9px] text-slate-400 block">в норме</span>             </div>           </div>            <div class="space-y-2 pt-1 font-sans text-xs" id="ai-recommendations-container"></div>         </div>                          <!-- ИНТЕРАКТИВНАЯ АНАТОМИЧЕСКАЯ МОДЕЛЬ ЧЕЛОВЕКА & ГИПЕРТРОФИЯ -->
-        <div class="p-4 glass-panel space-y-3.5 font-mono">
+        <div class="p-4 glass-panel space-y-3.5 font-mono anatomy-analytics-card">
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
-              <span class="text-base">🧬</span>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Анатомическая карта & Объем</h3>
+              <svg class="w-4 h-4 text-[var(--gold-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2v20M8 4.5c2 2.2 2 4.2 0 6.2s-2 4 0 6.2M16 4.5c-2 2.2-2 4.2 0 6.2s2 4 0 6.2"/><path d="M7 8h10M7 16h10"/></svg>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Muscle Load Atlas</h3>
             </div>
             <!-- ПЕРЕКЛЮЧАТЕЛЬ РАКУРСА СПЕРЕДИ / СЗАДИ -->
             <div class="flex space-x-1 bg-white/5 p-0.5 rounded-lg border border-[#222222] text-[10px]">
-              <button type="button" onclick="setAnatomyView('front')" id="btn-anat-front" class="px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all">Спереди</button>
-              <button type="button" onclick="setAnatomyView('back')" id="btn-anat-back" class="px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all">Сзади</button>
+              <button type="button" onclick="setAnatomyView('front')" data-anatomy-view="front" aria-pressed="true" class="anatomy-view-btn active px-2.5 py-1 font-bold rounded-md transition-all">Перед</button>
+              <button type="button" onclick="setAnatomyView('back')" data-anatomy-view="back" aria-pressed="false" class="anatomy-view-btn px-2.5 py-1 font-bold rounded-md transition-all">Спина</button>
             </div>
           </div>
 
           <p class="text-[11px] text-slate-400 font-sans leading-relaxed">
-            Нажми на любую мышцу на теле атлета: размер увеличивается по мере выполнения недельного объема (Шкала RP MAV).
+            Выбери мышечную область, чтобы сверить фактический недельный объём с ориентировочным диапазоном MEV–MAV.
           </p>
 
           <!-- SVG ИНТЕРАКТИВНЫЙ СИЛУЭТ ЧЕЛОВЕКА -->
           <div class="anat-body-wrapper flex justify-center items-center">
-            <div id="anat-svg-host" class="w-full max-w-[280px] h-[360px] flex items-center justify-center"></div>
+            <div class="anat-svg-host w-full max-w-[300px] h-[400px] flex items-center justify-center" data-anatomy-host></div>
           </div>
 
           <!-- ИНТЕРАКТИВНЫЙ HUD-ИНСПЕКТОР ВЫБРАННОЙ МЫШЦЫ -->
-          <div id="anat-hud-card" class="anat-hud-card p-3.5 space-y-2 text-xs">
+          <div class="anat-hud-card p-3.5 space-y-2 text-xs">
             <div class="flex justify-between items-center border-b border-[#222222] pb-1.5">
               <div class="flex items-center space-x-1.5">
                 <span class="w-2 h-2 rounded-full bg-[#c8a97e] animate-ping"></span>
-                <b id="anat-hud-title" class="text-white text-xs font-sans">Грудные мышцы (Pectoralis Major)</b>
+                <b data-anat-field="title" class="text-white text-xs font-sans">Грудные мышцы</b>
               </div>
-              <span id="anat-hud-pump-badge" class="px-2 py-0.5 rounded-md bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[9px] font-bold">Памп +15%</span>
+              <span data-anat-field="badge" class="anatomy-status-badge">НЕТ ДАННЫХ</span>
             </div>
 
             <div class="grid grid-cols-2 gap-2 text-[11px]">
               <div class="bg-black p-2 rounded-xl border border-white/[0.04] space-y-0.5">
                 <span class="text-[9px] text-slate-400 block uppercase">Недельный объем</span>
-                <b id="anat-hud-volume" class="text-white font-mono">12 / 14 сетов</b>
-                <span id="anat-hud-mav-status" class="text-[8px] text-[var(--gold-primary)] block">85% MAV Оптимум</span>
+                <b data-anat-field="volume" class="text-white font-mono">0 сетов</b>
+                <span data-anat-field="mav" class="text-[8px] text-[var(--gold-primary)] block">MEV 0 · MAV 0</span>
               </div>
               <div class="bg-black p-2 rounded-xl border border-white/[0.04] space-y-0.5">
                 <span class="text-[9px] text-slate-400 block uppercase">Восстановление</span>
-                <b id="anat-hud-recovery" class="text-emerald-400 font-mono">100% Готова</b>
-                <span id="anat-hud-timer" class="text-[8px] text-slate-400 block">Отдых 48ч пройден</span>
+                <b data-anat-field="recovery" class="text-slate-200 font-mono">Нет данных</b>
+                <span data-anat-field="timer" class="text-[8px] text-slate-400 block">Нужна тренировка</span>
               </div>
             </div>
 
             <div class="text-[11px] text-slate-300 font-sans space-y-1 pt-1">
-              <div><b class="text-white">Лучшие упражнения:</b> <span id="anat-hud-exercises" class="text-slate-300">Жим гантелей 30°, Бабочка Pec Deck</span></div>
-              <div class="text-[10px] text-slate-400 bg-black p-2 rounded-xl border border-white/[0.04]"><b class="text-[var(--gold-primary)]">СОВЕТ:</b> <span id="anat-hud-tip">Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи.</span></div>
+              <div><b class="text-white">Упражнения:</b> <span data-anat-field="exercises" class="text-slate-300">—</span></div>
+              <div class="text-[10px] text-slate-400 bg-black p-2 rounded-xl border border-white/[0.04]"><b class="text-[var(--gold-primary)]">ТЕХНИКА:</b> <span data-anat-field="tip">—</span></div>
             </div>
           </div>
         </div>
@@ -408,7 +424,7 @@
         <div id="swap-alternatives-list" class="p-3 space-y-2 overflow-y-auto flex-1 max-h-[50vh]"></div>
       </div>
     </div>
-    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[var(--gold-primary)] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[var(--gold-primary)]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[var(--gold-primary)]">v2.9.0 PRO (Interactive Anatomical Model)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[var(--gold-primary)] font-bold rounded-xl border border-[#222222] active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
+    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[var(--gold-primary)] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[var(--gold-primary)]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[var(--gold-primary)]">v2.10.0 (Motion Lab & Anatomical Load Atlas)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[var(--gold-primary)] font-bold rounded-xl border border-[#222222] active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
 
         <!-- PUSH УВЕДОМЛЕНИЯ В TELEGRAM -->
         <div class="p-3.5 bg-[#111111] rounded-2xl border border-[#222222] space-y-2.5 font-mono text-xs">
@@ -668,45 +684,52 @@
   <!-- МОДАЛКА: ПРО-ВИЗУАЛИЗАТОР БИОМЕХАНИКИ & АНАТОМИИ 3.0 -->
   <!-- ======================================================== -->
   <div id="modal-exercise-pro-visualizer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4">
-    <div class="max-w-md w-full glass-panel-elevated rounded-3xl shadow-2xl max-h-[92vh] flex flex-col font-mono text-xs overflow-hidden">
+    <div class="motion-lab-modal max-w-md w-full rounded-3xl shadow-2xl max-h-[94vh] flex flex-col font-mono text-xs overflow-hidden">
       
       <!-- ШАПКА ВИЗУАЛИЗАТОРА -->
-      <div class="p-4 border-b border-white/[0.08] flex justify-between items-center bg-[#070912]">
+      <div class="motion-lab-header p-4 flex justify-between items-center">
         <div class="flex items-center space-x-2.5">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#c8a97e]/20 to-[#c8a97e]/5 border border-[#c8a97e]/40 flex items-center justify-center text-[var(--gold-primary)]">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+          <div class="motion-lab-mark">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 19V5m0 14h16"/><path d="m7 15 4-5 3 2 4-6"/><circle cx="11" cy="10" r="1.4"/><circle cx="18" cy="6" r="1.4"/></svg>
           </div>
           <div>
+            <span class="motion-lab-kicker">BIOMECHANICS / MOTION STUDY</span>
             <div class="flex items-center gap-1.5">
-              <span id="vis-badge-cat" class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[var(--gold-primary)] border border-[#c8a97e]/30 rounded uppercase">Грудь</span>
-              <span id="vis-badge-tier" class="text-[9px] font-mono px-1.5 py-0.2 bg-white/5 text-slate-300 border border-[#222222] rounded">Базовое</span>
+              <span id="vis-badge-cat" class="motion-chip primary">Грудь</span>
+              <span id="vis-badge-tier" class="motion-chip">Базовое</span>
             </div>
-            <h3 id="vis-ex-name" class="font-bold text-xs sm:text-sm text-white tracking-wide font-sans">Жим гантелей на наклонной скамье 30°</h3>
+            <h3 id="vis-ex-name" class="motion-lab-title">Жим гантелей на наклонной скамье 30°</h3>
           </div>
         </div>
-        <button onclick="closeModal('modal-exercise-pro-visualizer')" class="text-slate-400 hover:text-white font-bold px-2 py-1 text-sm">✕</button>
+        <button onclick="closeModal('modal-exercise-pro-visualizer')" class="motion-close-btn" aria-label="Закрыть визуализацию"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button>
       </div>
 
       <!-- 2 ПРОСТЫХ ПОНЯТНЫХ ТАБА -->
-      <div class="px-4 pt-3 pb-1 bg-[#070912] border-b border-white/[0.06] flex space-x-2 text-[11px]">
-        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="flex-1 py-2 rounded-xl bg-[#c8a97e] text-slate-950 font-bold text-center">📐 Техника и Схема</button>
-        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="flex-1 py-2 rounded-xl bg-white/5 text-slate-400 border border-[#222222] font-medium text-center">🎯 Секреты PRO & Ошибки</button>
+      <div class="motion-lab-tabs" role="tablist" aria-label="Разделы визуализации">
+        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="motion-lab-tab active" role="tab" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Движение</span></button>
+        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="motion-lab-tab" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg><span>Техника и ошибки</span></button>
       </div>
 
       <!-- СОДЕРЖИМОЕ -->
-      <div class="p-4 space-y-4 overflow-y-auto flex-1 bg-[#06080e]">
+      <div class="motion-lab-scroll p-4 space-y-4 overflow-y-auto flex-1">
         
         <!-- ТАБ 1: ТЕХНИКА И СХЕМА -->
         <div id="vis-panel-bio" class="space-y-4">
           <!-- СХЕМА УПРАЖНЕНИЯ -->
-          <div class="visualizer-canvas-hero p-3">
-            <div id="vis-svg-container" class="w-full flex items-center justify-center"></div>
+          <div class="visualizer-canvas-hero">
+            <div class="motion-canvas-head"><span>KINEMATIC PROFILE</span><span>START <i></i> END</span></div>
+            <div id="vis-svg-container" class="motion-svg-container"></div>
+            <div class="motion-data-rail">
+              <div><span>ПЛОСКОСТЬ</span><b id="vis-motion-plane">Сагиттальная</b></div>
+              <div><span>СУСТАВ</span><b id="vis-motion-joint">Плечевой</b></div>
+              <div><span>НАМЕРЕНИЕ</span><b id="vis-motion-intent">Контроль</b></div>
+            </div>
           </div>
 
           <!-- НАГЛЯДНЫЙ ПОШАГОВЫЙ ТЕМП (БЕЗ ЛИШНИХ КЛИКОВ) -->
           <div class="space-y-2">
-            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Темп выполнения (3 шага):</span>
-            <div class="grid grid-cols-3 gap-2 text-center" id="vis-tempo-steps-grid">
+            <div class="motion-section-label"><span>ПРОТОКОЛ ПОВТОРА</span><small id="vis-tempo-code">3 · 1 · 1</small></div>
+            <div class="motion-phase-grid" id="vis-tempo-steps-grid">
               <div class="p-2.5 bg-[#0e121e] rounded-2xl border border-[#222222] space-y-1">
                 <span class="text-[9px] text-[var(--gold-primary)] font-bold block uppercase">1. Спуск</span>
                 <b class="text-xs text-white block">3 сек</b>
@@ -726,33 +749,33 @@
           </div>
 
           <!-- ВКЛЮЧЕНИЕ МЫШЦ -->
-          <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2.5">
-            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Распределение нагрузки по мышцам:</span>
+          <div class="motion-muscle-panel">
+            <div class="motion-section-label"><span>ВКЛАД МЫШЕЧНЫХ ГРУПП</span><small>ОЦЕНКА</small></div>
             <div id="vis-muscle-matrix-container" class="space-y-2"></div>
           </div>
         </div>
 
         <!-- ТАБ 2: СЕКРЕТЫ PRO & ОШИБКИ -->
         <div id="vis-panel-keys" class="space-y-3 hidden">
-          <div class="p-3.5 bg-emerald-950/25 rounded-2xl border border-emerald-800/50 space-y-2">
-            <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1.5">
-              <span>✅</span> Как делать правильно (Секреты техники):
+          <div class="motion-guidance-card positive">
+            <span class="motion-guidance-title">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> Контрольные точки
             </span>
-            <ul id="vis-dos-list" class="space-y-1.5 text-slate-200 text-xs list-disc list-inside font-sans leading-relaxed"></ul>
+            <ul id="vis-dos-list" class="motion-guidance-list"></ul>
           </div>
           
-          <div class="p-3.5 bg-rose-950/25 rounded-2xl border border-rose-800/50 space-y-2">
-            <span class="text-[11px] font-mono font-bold text-rose-400 uppercase flex items-center gap-1.5">
-              <span>❌</span> Частые ошибки (Чего избегать):
+          <div class="motion-guidance-card negative">
+            <span class="motion-guidance-title">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5m0 3v.01"/><circle cx="12" cy="12" r="9"/></svg> Ошибки, меняющие механику
             </span>
-            <ul id="vis-donts-list" class="space-y-1.5 text-slate-200 text-xs list-disc list-inside font-sans leading-relaxed"></ul>
+            <ul id="vis-donts-list" class="motion-guidance-list"></ul>
           </div>
         </div>
 
       </div>
 
       <!-- ФУТЕР ДЕЙСТВИЯ -->
-      <div class="p-3 bg-[#070912] border-t border-white/[0.08] flex space-x-2">
+      <div class="motion-lab-footer p-3 flex space-x-2">
         <button type="button" onclick="closeModal('modal-exercise-pro-visualizer')" class="flex-1 py-3 glass-panel hover:bg-white/10 text-slate-300 font-bold uppercase rounded-xl active:scale-98 transition-all">
           Закрыть
         </button>
@@ -890,7 +913,7 @@
       <div class="p-3.5 bg-black rounded-2xl border border-emerald-500/30 space-y-1.5 text-[11px]">
         <div class="flex justify-between">
           <span class="text-slate-400">Установлена:</span>
-          <b class="app-version-badge text-emerald-400">v2.9.0 PRO</b>
+          <b class="app-version-badge text-emerald-400">v2.10.0 PRO</b>
         </div>
         <div class="flex justify-between">
           <span class="text-slate-400">Сервер:</span>
@@ -903,11 +926,11 @@
       </div>
 
       <div class="space-y-1.5">
-        <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase">⚡ Главное в этом релизе:</span>
+        <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase">Главное в этом релизе:</span>
         <div id="revision-live-changelog" class="p-2.5 bg-[#0a0c16] rounded-xl border border-white/[0.06] space-y-1.5 text-[10px] text-slate-300 font-sans leading-relaxed">
-          <div>• <b>Персональные занятия:</b> Расписание на Вторник / Четверг с фокусом.</div>
-          <div>• <b>Трекер Витаминов & Добавок:</b> Ежедневный чеклист и статус врача.</div>
-          <div>• <b>Новый звук 3.0:</b> Боксерский гонг, мажорный аккорд, 3 режима.</div>
+          <div>• <b>Motion Lab:</b> две фазы движения, суставные маркеры, траектория и вектор усилия.</div>
+          <div>• <b>Muscle Load Atlas:</b> новая пропорциональная карта мышц спереди и сзади.</div>
+          <div>• <b>Честные данные:</b> карта больше не подставляет демонстрационные сеты и не выдаёт восстановление за медицинский диагноз.</div>
         </div>
       </div>
 
@@ -917,4 +940,4 @@
     </div>
   </div>
 
-  <script src="app.js"></script> </body> </html> 
+  <script src="app.js"></script> </body> </html>

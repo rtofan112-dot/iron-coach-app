@@ -1117,6 +1117,512 @@ textarea:focus-visible,
   }
 }
 
+/* ========================================================
+   MOTION LAB 2.0 / ANATOMICAL LOAD ATLAS
+   Clinical training visual language: precise, restrained, data-led.
+   ======================================================== */
+.anatomy-entry-card::after {
+  content: "";
+  position: absolute;
+  width: 7.5rem;
+  height: 7.5rem;
+  right: -2.2rem;
+  top: -2.8rem;
+  border: 1px solid rgba(215, 174, 116, 0.12);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.25rem rgba(215, 174, 116, 0.025), inset 0 0 0 2.5rem rgba(215, 174, 116, 0.02);
+  pointer-events: none;
+}
+
+.anatomy-view-btn {
+  min-height: 2.5rem;
+  color: #9ca3a8;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.anatomy-view-btn.active {
+  color: #14110c;
+  background: #d7ae74;
+  border-color: #e8c995;
+  box-shadow: 0 8px 22px rgba(215, 174, 116, 0.17), inset 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.anatomy-lab-card {
+  background: linear-gradient(160deg, rgba(18, 21, 22, 0.97), rgba(8, 10, 11, 0.99)) !important;
+  border-color: rgba(255, 255, 255, 0.085) !important;
+}
+
+.anatomy-lab-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem 1rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.anatomy-lab-heading h3 {
+  margin-top: 0.18rem;
+  color: #f2eee5;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.anatomy-overline,
+.motion-lab-kicker {
+  color: #788087;
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.anatomy-data-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #83e6c5;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  padding: 0.38rem 0.5rem;
+  border: 1px solid rgba(103, 220, 180, 0.24);
+  border-radius: 999px;
+  background: rgba(103, 220, 180, 0.055);
+}
+
+.anatomy-data-badge i {
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 50%;
+  background: #67dcb4;
+  box-shadow: 0 0 10px rgba(103, 220, 180, 0.65);
+}
+
+.anatomy-lab-stage {
+  padding: 0.75rem;
+}
+
+.anatomy-lab-stage .anat-body-wrapper,
+.anatomy-analytics-card .anat-body-wrapper {
+  min-height: 25rem;
+  padding: 0;
+  background: #0b0e10;
+  border-color: rgba(255, 255, 255, 0.07);
+  border-radius: 1.25rem;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.035), 0 18px 38px rgba(0, 0, 0, 0.28);
+}
+
+.anat-svg-host {
+  width: 100%;
+  height: 29rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anatomy-analytics-card .anat-svg-host {
+  height: 27rem !important;
+}
+
+.anatomy-atlas-svg {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+}
+
+.anatomy-stage-axis {
+  position: absolute;
+  z-index: 2;
+  top: 3.8rem;
+  bottom: 3.1rem;
+  left: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(204, 209, 211, 0.34);
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+  writing-mode: vertical-rl;
+}
+
+.anatomy-stage-axis i {
+  flex: 1;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.12), transparent);
+}
+
+.anatomy-legend {
+  position: absolute;
+  z-index: 2;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.7rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  color: #7e878d;
+  font-size: 0.48rem;
+  letter-spacing: 0.03em;
+}
+
+.anatomy-legend span { display: inline-flex; align-items: center; gap: 0.3rem; }
+.anatomy-legend i { width: 0.42rem; height: 0.42rem; border-radius: 50%; }
+.legend-base { background: #4f575c; }
+.legend-work { background: #67dcb4; box-shadow: 0 0 7px rgba(103, 220, 180, 0.45); }
+.legend-high { background: #d7ae74; box-shadow: 0 0 7px rgba(215, 174, 116, 0.4); }
+
+.atlas-coordinate {
+  fill: #6f777d;
+  font: 700 8px var(--font-mono);
+  letter-spacing: 0.14em;
+}
+
+.atlas-reference-line {
+  stroke: rgba(255, 255, 255, 0.035);
+  stroke-width: 1;
+  stroke-dasharray: 3 8;
+}
+
+.atlas-tissue > path:not([fill]) {
+  fill: none;
+  stroke: #20262a;
+  stroke-width: 27;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.atlas-tissue .atlas-joint-line {
+  stroke: rgba(196, 202, 204, 0.24);
+  stroke-width: 1.1;
+  stroke-dasharray: 2 4;
+}
+
+.atlas-tissue .atlas-midline,
+.atlas-tissue .atlas-spine {
+  stroke: rgba(199, 205, 207, 0.18);
+  stroke-width: 1.2;
+}
+
+.atlas-tissue .atlas-spine { stroke-dasharray: 2 3; }
+
+.anat-region { cursor: pointer; outline: none; pointer-events: bounding-box; }
+
+.anat-muscle-shape {
+  fill: var(--muscle-fill);
+  stroke: var(--muscle-stroke);
+  stroke-width: 1.35;
+  stroke-linejoin: round;
+  transition: fill 180ms ease, stroke 180ms ease, opacity 180ms ease, filter 180ms ease;
+}
+
+.anat-muscle-shape.secondary { opacity: 0.72; }
+
+.anat-fibers path {
+  fill: none;
+  stroke: var(--fiber-stroke);
+  stroke-width: 0.85;
+  stroke-linecap: round;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.anat-region:hover .anat-muscle-shape,
+.anat-region:focus-visible .anat-muscle-shape {
+  stroke-width: 2;
+  filter: brightness(1.12);
+}
+
+.anat-region.is-selected {
+  filter: url(#selectedGlow);
+}
+
+.anat-region.is-selected .anat-muscle-shape { stroke-width: 2.15; }
+.anat-region.is-selected .anat-fibers path { opacity: 0.86; }
+
+.anat-selection-callout { pointer-events: none; }
+.anat-selection-callout circle { fill: #f3dfbb; stroke: rgba(243, 223, 187, 0.22); stroke-width: 7; }
+.anat-selection-callout path { stroke: rgba(243, 223, 187, 0.6); stroke-width: 1; stroke-dasharray: 3 3; }
+.anat-selection-callout text { fill: #f3dfbb; font: 700 7px var(--font-mono); letter-spacing: 0.08em; }
+
+.anatomy-inspector {
+  margin-top: 0.75rem;
+  padding: 0.9rem;
+  background: #101416 !important;
+  border-color: rgba(255, 255, 255, 0.075) !important;
+}
+
+.anatomy-inspector-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.anatomy-inspector-head > div { display: flex; flex-direction: column; gap: 0.3rem; }
+.anatomy-inspector-head b { font-size: 0.78rem; line-height: 1.2; }
+
+.anatomy-status-badge {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.45rem;
+  color: #98a0a5;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.anatomy-status-badge.low { color: #a9b7b2; border-color: rgba(119, 149, 138, 0.35); background: rgba(67, 86, 79, 0.2); }
+.anatomy-status-badge.work { color: #83e6c5; border-color: rgba(103, 220, 180, 0.35); background: rgba(36, 123, 104, 0.2); }
+.anatomy-status-badge.high { color: #e2bd84; border-color: rgba(215, 174, 116, 0.4); background: rgba(147, 110, 67, 0.2); }
+.anatomy-status-badge.over { color: #ff9b95; border-color: rgba(255, 122, 114, 0.42); background: rgba(141, 73, 71, 0.22); }
+
+.anatomy-metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  padding-top: 0.7rem;
+}
+
+.anatomy-metric {
+  min-width: 0;
+  padding: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.85rem;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.anatomy-metric > span { display: block; color: #707a80; font-size: 0.47rem; letter-spacing: 0.1em; }
+.anatomy-metric b { display: block; margin-top: 0.3rem; color: #ece8de; font-size: 0.7rem; }
+.anatomy-metric small { display: block; margin-top: 0.22rem; color: #8f989d; font-size: 0.48rem; line-height: 1.35; }
+[data-anat-field="recovery"][data-state="ready"] { color: #67dcb4; }
+[data-anat-field="recovery"][data-state="recovering"] { color: #d7ae74; }
+[data-anat-field="recovery"][data-state="recent"] { color: #ff8f88; }
+
+.anatomy-disclaimer {
+  margin: 0.65rem 0 0;
+  color: #697278;
+  font-family: var(--font-sans);
+  font-size: 0.53rem;
+  line-height: 1.45;
+}
+
+/* Exercise biomechanical study */
+.motion-lab-modal {
+  color: #ece8de;
+  background: #0a0d0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 85px rgba(0, 0, 0, 0.72), inset 0 1px rgba(255, 255, 255, 0.045);
+}
+
+.motion-lab-header {
+  min-height: 5.35rem;
+  background: linear-gradient(135deg, #111517, #0b0e10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+.motion-lab-mark {
+  width: 2.45rem;
+  height: 2.45rem;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: #d7ae74;
+  border: 1px solid rgba(215, 174, 116, 0.34);
+  border-radius: 0.8rem;
+  background: rgba(215, 174, 116, 0.07);
+}
+
+.motion-lab-title {
+  max-width: 18rem;
+  margin-top: 0.26rem;
+  color: #f4f0e7;
+  font-family: var(--font-display);
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.005em;
+}
+
+.motion-lab-kicker { display: block; margin-bottom: 0.3rem; }
+
+.motion-chip {
+  display: inline-flex;
+  padding: 0.18rem 0.36rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.33rem;
+  color: #a6adb1;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.motion-chip.primary { color: #e5c28c; border-color: rgba(215, 174, 116, 0.27); background: rgba(215, 174, 116, 0.07); }
+
+.motion-close-btn {
+  width: 2.55rem;
+  height: 2.55rem;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: #879096;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.025);
+}
+.motion-close-btn svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.motion-close-btn:hover { color: #f4f0e7; background: rgba(255, 255, 255, 0.07); }
+
+.motion-lab-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  padding: 0.45rem;
+  background: #0d1012;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.motion-lab-tab {
+  min-height: 2.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #7f888e;
+  border: 1px solid transparent;
+  border-radius: 0.72rem;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.motion-lab-tab svg { width: 0.9rem; height: 0.9rem; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.motion-lab-tab.active { color: #f1ede4; border-color: rgba(215, 174, 116, 0.2); background: rgba(215, 174, 116, 0.075); }
+.motion-lab-tab.active svg { color: #d7ae74; }
+
+.motion-lab-scroll { background: #090c0e; scrollbar-width: thin; scrollbar-color: #3c4347 transparent; }
+
+.visualizer-canvas-hero {
+  padding: 0 !important;
+  background: #0b0e10 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 1.15rem !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.035), 0 16px 36px rgba(0, 0, 0, 0.24) !important;
+}
+
+.motion-canvas-head,
+.motion-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #717a80;
+  font-size: 0.49rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.motion-canvas-head { padding: 0.68rem 0.78rem; border-bottom: 1px solid rgba(255, 255, 255, 0.055); }
+.motion-canvas-head > span:last-child { display: flex; align-items: center; gap: 0.35rem; color: #9ba3a7; }
+.motion-canvas-head i { width: 1.4rem; height: 1px; background: linear-gradient(90deg, #5d666b, #67dcb4); position: relative; }
+.motion-canvas-head i::after { content:""; position:absolute; right:-1px; top:-2px; border-left:4px solid #67dcb4; border-top:2px solid transparent; border-bottom:2px solid transparent; }
+
+.motion-svg-container { width: 100%; aspect-ratio: 360 / 248; display: flex; }
+.exercise-motion-svg { width: 100%; height: 100%; display: block; }
+.ex-diagram-container .exercise-motion-svg { height: auto; max-height: 10rem; }
+.exercise-catalog-head { align-items: flex-start; }
+.exercise-catalog-actions { flex: 0 0 auto; }
+.motion-divider { stroke: rgba(255,255,255,.055); stroke-width: 1; stroke-dasharray: 2 5; }
+.motion-baseline { stroke: rgba(255,255,255,.1); stroke-width: 1; }
+.motion-frame-label text { fill: #778087; font: 700 7px var(--font-mono); letter-spacing: .1em; }
+
+.motion-pose.is-start { opacity: 0.48; }
+.motion-pose.is-end { opacity: 1; }
+.motion-target-zone { fill: rgba(215,174,116,.22); stroke: #d7ae74; stroke-width: 1; stroke-dasharray: 3 3; }
+.motion-pose.is-start .motion-target-zone { fill: rgba(215,174,116,.07); stroke-opacity: .5; }
+.motion-body-segment,
+.motion-body-back { fill: none; stroke: #596268; stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
+.motion-body-segment.torso { stroke: #444c51; stroke-width: 23; }
+.motion-body-back { stroke: #333a3e; stroke-width: 11; transform: translateX(4px); }
+.motion-foot { fill: none; stroke: #596268; stroke-width: 8; stroke-linecap: round; }
+.motion-head { fill: #363e43; stroke: #a4acb0; stroke-width: 1.2; }
+.motion-skeleton { fill: none; stroke: rgba(232,231,225,.72); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.motion-joints circle { fill: #0d1113; stroke: #d1d2cd; stroke-width: 1.15; }
+.motion-machine { fill: none; stroke: #636b70; stroke-width: 2.4; stroke-linecap: round; }
+.motion-equipment,.motion-plate { fill:none; stroke:#d7ae74; stroke-width:2; stroke-linecap:round; }
+.motion-cable { fill:none; stroke:#8a9296; stroke-width:1.2; stroke-dasharray:3 3; }
+.motion-anchor { fill:#d7ae74; }
+.motion-rom-arc { fill:none; stroke:#67dcb4; stroke-width:1.6; stroke-dasharray:4 3; }
+.motion-vector-key path { stroke:#67dcb4; stroke-width:1.3; }
+.motion-vector-key text { fill:#778087; font:700 6px var(--font-mono); letter-spacing:.1em; }
+
+.motion-data-rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.motion-data-rail > div { min-width: 0; padding: 0.62rem 0.68rem; border-right: 1px solid rgba(255, 255, 255, 0.055); }
+.motion-data-rail > div:last-child { border-right: 0; }
+.motion-data-rail span { display:block; color:#667076; font-size:.43rem; letter-spacing:.11em; }
+.motion-data-rail b { display:block; margin-top:.22rem; color:#d8d5cd; font-size:.54rem; line-height:1.25; }
+
+.motion-section-label { margin-bottom: 0.52rem; }
+.motion-section-label small { color: #d7ae74; font-size: 0.51rem; letter-spacing: 0.08em; }
+.motion-phase-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.42rem; }
+.motion-phase { min-width:0; display:flex; gap:.42rem; padding:.62rem .55rem; border:1px solid rgba(255,255,255,.065); border-radius:.85rem; background:#101416; }
+.motion-phase > span { color:#576167; font-size:.46rem; font-weight:700; }
+.motion-phase > div { min-width:0; }
+.motion-phase small { display:block; color:#899297; font-size:.43rem; letter-spacing:.06em; line-height:1.15; }
+.motion-phase b { display:block; margin:.2rem 0; color:#f0ece3; font-size:.68rem; }
+.motion-phase p { color:#737c81; font-family:var(--font-sans); font-size:.48rem; line-height:1.3; }
+
+.motion-muscle-panel { padding: .85rem; border:1px solid rgba(255,255,255,.07); border-radius:1rem; background:#0f1315; }
+.motion-muscle-row + .motion-muscle-row { margin-top:.58rem; }
+.motion-muscle-meta { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.3rem; color:#c9c7c0; font-size:.56rem; }
+.motion-muscle-meta span:last-child { color:#7c858a; font-size:.5rem; text-align:right; }
+.motion-muscle-meta b { color:#d7ae74; }
+.motion-muscle-track { height:.3rem; overflow:hidden; border-radius:999px; background:#22282b; }
+.motion-muscle-track > div { height:100%; border-radius:inherit; background:linear-gradient(90deg,#a17b4d,#e0bb82); box-shadow:0 0 12px rgba(215,174,116,.24); }
+
+.motion-guidance-card { padding: .9rem; border:1px solid rgba(255,255,255,.07); border-radius:1rem; background:#101416; }
+.motion-guidance-card + .motion-guidance-card { margin-top:.65rem; }
+.motion-guidance-card.positive { border-left:2px solid #67dcb4; }
+.motion-guidance-card.negative { border-left:2px solid #ff7a72; }
+.motion-guidance-title { display:flex; align-items:center; gap:.45rem; color:#d9d7d0; font-size:.6rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+.motion-guidance-card.positive .motion-guidance-title { color:#83e6c5; }
+.motion-guidance-card.negative .motion-guidance-title { color:#ff9b95; }
+.motion-guidance-title svg { width:.9rem; height:.9rem; fill:none; stroke:currentColor; stroke-width:1.8; }
+.motion-guidance-list { margin-top:.7rem; display:grid; gap:.55rem; color:#c9c7c0; font-family:var(--font-sans); font-size:.68rem; line-height:1.45; }
+.motion-guidance-list li { position:relative; padding-left:1rem; }
+.motion-guidance-list li::before { content:""; position:absolute; left:0; top:.48em; width:.32rem; height:1px; background:currentColor; opacity:.65; }
+
+.motion-lab-footer { background:#0e1214; border-top:1px solid rgba(255,255,255,.07); }
+
+@media (max-width: 390px) {
+  .motion-lab-header { padding: .8rem !important; }
+  .motion-lab-mark { width:2.2rem; height:2.2rem; }
+  .motion-lab-title { max-width: 14.5rem; font-size: .93rem; }
+  .motion-lab-scroll { padding:.75rem !important; }
+  .anat-svg-host { height:26rem; }
+  .anatomy-lab-stage .anat-body-wrapper { min-height: 23rem; }
+  .anatomy-stage-axis { display:none; }
+  .anatomy-legend { gap:.55rem; font-size:.44rem; }
+  .motion-phase { padding:.5rem .42rem; gap:.25rem; }
+  .motion-phase p { display:none; }
+  .motion-data-rail > div { padding:.55rem .45rem; }
+  .exercise-catalog-head { flex-direction: column; }
+  .exercise-catalog-actions { width: 100%; justify-content: flex-end; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1128,7 +1634,7 @@ textarea:focus-visible,
   }
 }
 
-</style> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[var(--gold-primary)] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[var(--gold-primary)] border border-[#c8a97e]/30 rounded-md">v2.9.0 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[var(--gold-primary)] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[var(--gold-primary)] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
+</style> </head> <body class="bg-[#040507] text-slate-100 min-h-screen pb-24 select-none font-sans antialiased">    <!-- ======================================================== -->   <!-- HEADER: TITANIUM TELEMETRY & ATHLETE BADGE -->   <!-- ======================================================== -->   <header class="sticky top-0 z-40 bg-[#040507]/90 border-b border-white/[0.08] px-4 py-3 backdrop-blur-2xl">     <div class="max-w-md mx-auto flex items-center justify-between">              <!-- ПРОФИЛЬ АТЛЕТА -->       <div onclick="openProfileDrawer()" class="flex items-center space-x-3 cursor-pointer active:scale-95 transition-transform">         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#22283a] to-[#10131d] border border-white/15 flex items-center justify-center text-xs font-black text-[var(--gold-primary)] uppercase font-mono tracking-wider shadow-md">           РТ         </div>         <div class="leading-tight">           <div class="flex items-center gap-1.5">             <span id="tg-user-name" class="text-sm font-bold text-white tracking-tight">Роман</span>             <span class="app-version-badge text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[var(--gold-primary)] border border-[#c8a97e]/30 rounded-md">v2.10.0 PRO</span>           </div>           <div class="flex items-center gap-1.5 text-xs text-slate-400 font-mono mt-0.5">             <span id="header-level-badge" class="text-slate-300 font-medium text-[11px]">Уровень 1</span>             <span class="text-slate-600">•</span>             <span id="athlete-goal-header-badge" class="text-[var(--gold-primary)] text-[11px]">Рекомпозиция</span>           </div>         </div>       </div>        <!-- СТРИК, ТУМБЛЕР ЗВУКА И ЭКСПОРТ -->       <div class="flex items-center space-x-2 font-mono">         <button onclick="cycleSoundMode()" id="btn-header-sound" title="Режим звука/вибрации" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>         </button>                  <div class="flex items-center space-x-1.5 px-2.5 py-1.5 glass-panel rounded-xl text-[var(--gold-primary)] text-xs font-bold shadow-sm">           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>           <span id="streak-count">0</span>         </div>          <button onclick="copyCoachSummary()" title="Экспорт полного аналитического досье" class="w-8 h-8 flex items-center justify-center glass-panel hover:bg-white/10 rounded-xl text-slate-300 active:scale-90 transition-all">           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>         </button>       </div>     </div>      <!-- ПОЛОСА ОПЫТА -->     <div class="max-w-md mx-auto mt-2 space-y-1">       <div class="flex justify-between text-[10px] font-mono text-slate-400">         <span>Прогресс: <b id="xp-text" class="text-white font-bold">0</b> XP</span>         <span>До след. уровня: <b id="xp-next" class="text-slate-400">500 XP</b></span>       </div>       <div class="w-full h-1.5 bg-[#121522] rounded-full overflow-hidden border border-white/5">         <div id="xp-bar" class="h-full bg-gradient-to-r from-[#dfc299] to-[#c8a97e] transition-all duration-300" style="width: 0%"></div>       </div>     </div>
 
     <!-- СВЕТЯЩИЙСЯ ИНДИКАТОР ПОСЛЕДНЕЙ РЕВИЗИИ (LIVE BETA PULSE) -->
     <div onclick="openRevisionModal()" class="max-w-md mx-auto mt-2 px-3 py-1.5 rounded-xl bg-black border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:border-emerald-500/60 active:scale-98 transition-all font-mono text-[10px] shadow-sm">
@@ -1138,7 +1644,7 @@ textarea:focus-visible,
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         <span class="text-slate-300 font-bold">РЕВИЗИЯ:</span>
-        <span class="app-version-badge text-emerald-400 font-bold">v2.9.0 PRO</span>
+        <span class="app-version-badge text-emerald-400 font-bold">v2.10.0 PRO</span>
         <span class="text-slate-600">•</span>
         <span class="text-slate-400">Live Edge Beta</span>
       </div>
@@ -1188,44 +1694,60 @@ textarea:focus-visible,
           </div>
 
           <!-- ANATOMY MODULE -->
-          <div class="p-4 glass-panel flex flex-col justify-between relative overflow-hidden">
+          <div class="p-4 glass-panel flex flex-col justify-between relative overflow-hidden anatomy-entry-card">
             <div class="z-10 space-y-2">
-              <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase font-mono">АНАТОМИЯ</span>
-              <h3 class="text-sm font-bold text-white leading-tight">Атлас 7.0</h3>
-              <p class="text-[10px] text-slate-400">Объем и Тонус</p>
+              <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase font-mono">MUSCLE LAB</span>
+              <h3 class="text-sm font-bold text-white leading-tight">Карта нагрузки</h3>
+              <p class="text-[10px] text-slate-400">Только реальные сеты</p>
             </div>
             <div class="mt-4 flex space-x-1 z-10">
-              <button type="button" onclick="setAnatomyView('front')" id="btn-anat-front" class="flex-1 py-2 font-bold text-[10px] rounded-lg bg-[var(--gold-primary)] text-black transition-all">ПРЕД</button>
-              <button type="button" onclick="setAnatomyView('back')" id="btn-anat-back" class="flex-1 py-2 font-bold text-[10px] rounded-lg bg-[#222222] text-white transition-all">ЗАД</button>
+              <button type="button" onclick="setAnatomyView('front')" id="btn-anat-front" data-anatomy-view="front" aria-pressed="true" class="anatomy-view-btn active flex-1 py-2 font-bold text-[10px] rounded-lg transition-all">ПЕРЕД</button>
+              <button type="button" onclick="setAnatomyView('back')" id="btn-anat-back" data-anatomy-view="back" aria-pressed="false" class="anatomy-view-btn flex-1 py-2 font-bold text-[10px] rounded-lg transition-all">СПИНА</button>
             </div>
           </div>
         </div>
 
         <!-- ANATOMY RENDER TARGET -->
-        <div class="p-4 glass-panel space-y-3 font-mono">
-          <div class="anat-body-wrapper flex justify-center items-center h-[280px]">
-            <div id="anat-svg-host" class="w-full h-full flex items-center justify-center"></div>
-          </div>
-          <!-- HUD -->
-          <div id="anat-hud-card" class="anat-hud-card p-3 space-y-2 text-xs">
-            <div class="flex justify-between items-center border-b border-[#222222] pb-1.5">
-              <div class="flex items-center space-x-1.5">
-                <span class="w-2 h-2 rounded-full bg-[var(--gold-primary)] animate-ping"></span>
-                <b id="anat-hud-title" class="text-white text-[11px] font-sans">Мышца</b>
-              </div>
-              <span id="anat-hud-pump-badge" class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 text-[9px] font-bold">ОТДЫХ</span>
+        <div class="glass-panel anatomy-lab-card font-mono overflow-hidden">
+          <div class="anatomy-lab-heading">
+            <div>
+              <span class="anatomy-overline">WEEKLY LOAD / BODY MAP</span>
+              <h3>Анатомия нагрузки</h3>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-[10px]">
-              <div class="bg-black p-2 rounded-xl border border-white/[0.04]">
-                <span class="text-[9px] text-slate-400 block uppercase">Объем</span>
-                <b id="anat-hud-volume" class="text-white font-mono">0 / 0</b>
-                <span id="anat-hud-mav-status" class="text-[8px] text-[var(--gold-primary)] block">0% MAV</span>
+            <span class="anatomy-data-badge"><i></i> LIVE DATA</span>
+          </div>
+          <div class="anatomy-lab-stage">
+            <div class="anat-body-wrapper">
+              <div class="anatomy-stage-axis" aria-hidden="true"><span>SUPERIOR</span><i></i><span>INFERIOR</span></div>
+              <div id="anat-svg-host" class="anat-svg-host" data-anatomy-host></div>
+              <div class="anatomy-legend" aria-label="Легенда нагрузки">
+                <span><i class="legend-base"></i>Нет объёма</span>
+                <span><i class="legend-work"></i>Рабочий</span>
+                <span><i class="legend-high"></i>Высокий</span>
               </div>
-              <div class="bg-black p-2 rounded-xl border border-white/[0.04]">
-                <span class="text-[9px] text-slate-400 block uppercase">Статус</span>
-                <b id="anat-hud-recovery" class="text-emerald-400 font-mono">100%</b>
-                <span id="anat-hud-soreness" class="text-[8px] text-slate-400 block">Без боли</span>
+            </div>
+            <!-- HUD -->
+            <div id="anat-hud-card" class="anat-hud-card anatomy-inspector text-xs">
+              <div class="anatomy-inspector-head">
+                <div>
+                  <span class="anatomy-overline">SELECTED REGION</span>
+                  <b id="anat-hud-title" data-anat-field="title" class="text-white font-sans">Мышца</b>
+                </div>
+                <span id="anat-hud-pump-badge" data-anat-field="badge" class="anatomy-status-badge">НЕТ ДАННЫХ</span>
               </div>
+              <div class="anatomy-metric-grid">
+                <div class="anatomy-metric">
+                  <span>НЕДЕЛЬНЫЙ ОБЪЁМ</span>
+                  <b id="anat-hud-volume" data-anat-field="volume">0 сетов</b>
+                  <small id="anat-hud-mav-status" data-anat-field="mav">MEV 0 · MAV 0</small>
+                </div>
+                <div class="anatomy-metric">
+                  <span>ГОТОВНОСТЬ*</span>
+                  <b id="anat-hud-recovery" data-anat-field="recovery">Нет данных</b>
+                  <small id="anat-hud-timer" data-anat-field="timer">Нужна тренировка</small>
+                </div>
+              </div>
+              <p class="anatomy-disclaimer">*Оценка по времени после последней нагрузки, не медицинский показатель.</p>
             </div>
           </div>
         </div>
@@ -1266,54 +1788,54 @@ textarea:focus-visible,
 
       </div>
       <div id="workout-active" class="hidden space-y-4">                  <!-- ПАНЕЛЬ ТЕЛЕМЕТРИИ ТРЕНИРОВКИ -->         <div class="p-4 glass-panel-elevated flex justify-between items-center shadow-2xl">           <div>             <div class="flex items-center space-x-2">               <span id="wo-active-tag" class="text-[10px] font-mono font-bold text-[var(--gold-primary)] uppercase">СЕССИЯ</span>               <span id="wo-live-timer" class="text-[10px] font-mono text-slate-200 bg-white/10 px-2 py-0.5 rounded-md border border-[#222222]">00:00</span>             </div>             <h2 id="wo-active-title" class="text-base font-bold text-white mt-0.5 tracking-tight">Тренировка</h2>           </div>           <div class="flex items-center space-x-3 text-right font-mono">             <div>               <span id="wo-live-tonnage" class="text-sm font-bold text-white block">0 кг</span>               <span class="text-[9px] text-slate-400 uppercase">тоннаж</span>             </div>             <div class="border-l border-[#222222] pl-3">               <span id="wo-live-calories" class="text-sm font-bold text-[var(--gold-primary)] block">0 ккал</span>               <span class="text-[9px] text-slate-400 uppercase">расход</span>             </div>           </div>         </div>          <!-- КНОПКА ДОБАВЛЕНИЯ ИЗ БАЗЫ КАТАЛОГА -->         <button onclick="openExerciseDatabaseModal()" class="w-full py-3 glass-panel hover:bg-white/10 rounded-2xl text-slate-200 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2 shadow-sm">           <svg class="w-4 h-4 text-[var(--gold-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg>           <span>Выбрать упражнение из каталога (30+ упр.)</span>         </button>          <!-- КОНТЕЙНЕР УПРАЖНЕНИЙ -->         <div id="active-exercises-container" class="space-y-3"></div>          <!-- КНОПКА РУЧНОГО СОЗДАНИЯ УПРАЖНЕНИЯ -->         <button onclick="openModal('modal-add-custom-exercise')" class="w-full py-2.5 glass-panel border-dashed text-slate-400 text-xs font-mono font-bold active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>+ Создать свое упражнение вручную</span>         </button>          <!-- КНОПКИ ДЕЙСТВИЯ -->         <div class="space-y-2 pt-2">           <button onclick="finishActiveWorkout()" class="w-full py-4 btn-gold font-bold text-xs uppercase tracking-wider rounded-2xl active:scale-98 transition-all flex items-center justify-center space-x-2 font-mono">             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>             <span>Завершить тренировку</span>           </button>           <button onclick="cancelWorkout()" class="w-full py-2 text-xs text-rose-400 font-bold hover:text-rose-300 font-mono">             Отменить тренировку           </button>         </div>       </div>     </section>      <!-- ======================================================== -->     <!-- ВКЛАДКА 2: ПРОГРЕСС И ПЕРСОАНАЛИТИКА -->     <!-- ======================================================== -->     <section id="tab-progress" class="tab-pane space-y-4">              <!-- СЕТКА МЕНЮ 3x2 -->       <div class="grid grid-cols-3 gap-1.5 p-1.5 glass-panel text-xs font-mono">                  <button onclick="switchProgressSubtab('calendar')" id="btn-sub-calendar" class="py-2.5 px-1 rounded-xl bg-[#c8a97e] text-slate-950 font-bold transition-all text-center flex items-center justify-center space-x-1.5 shadow-sm">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>           <span>Календарь</span>         </button>          <button onclick="switchProgressSubtab('analytics')" id="btn-sub-analytics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>           <span>Аналитика</span>         </button>          <button onclick="switchProgressSubtab('records')" id="btn-sub-records" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>           <span>Рекорды</span>         </button>          <button onclick="switchProgressSubtab('metrics')" id="btn-sub-metrics" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>           <span>Замеры</span>         </button>          <button onclick="switchProgressSubtab('achievements')" id="btn-sub-achievements" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>           <span>Ачивки</span>         </button>          <button onclick="switchProgressSubtab('archive')" id="btn-sub-archive" class="py-2.5 px-1 rounded-xl text-slate-400 font-medium transition-all text-center flex items-center justify-center space-x-1.5">           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>           <span>Архив</span>         </button>       </div>        <!-- ПОДВКЛАДКА 1: КАЛЕНДАРЬ -->       <div id="subtab-calendar" class="space-y-3.5">         <div class="p-4 glass-panel space-y-3 font-mono">           <div class="flex justify-between items-center">             <button onclick="changeCalendarMonth(-1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-[#222222] text-slate-300 active:scale-90 transition-transform">‹</button>             <div class="text-center">               <h3 id="cal-month-name" class="font-bold text-sm text-white uppercase tracking-wider">Сентябрь 2026</h3>               <span id="cal-month-summary-tag" class="text-[10px] text-[var(--gold-primary)] font-bold">100% дисциплина</span>             </div>             <button onclick="changeCalendarMonth(1)" class="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 border border-[#222222] text-slate-300 active:scale-90 transition-transform">›</button>           </div>            <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-slate-500 font-bold">             <div>ПН</div><div>ВТ</div><div>СР</div><div>ЧТ</div><div>ПТ</div><div>СБ</div><div class="text-[var(--gold-primary)]">ВС</div>           </div>            <div id="cal-days-grid" class="grid grid-cols-7 gap-1.5"></div>         </div>          <!-- ИНСПЕКТОР ВЫБРАННОГО ДНЯ -->         <div class="p-4 glass-panel space-y-2.5 font-mono text-xs">           <div class="flex justify-between items-center border-b border-white/[0.08] pb-2">             <span id="cal-insp-date" class="font-bold text-white text-xs">Четверг, 27 августа 2026 г.</span>             <span id="cal-insp-badge" class="px-2.5 py-0.5 rounded-lg text-xs font-bold font-mono bg-white/5 text-slate-300">ПЛАН</span>           </div>           <div id="cal-insp-content" class="text-slate-300 text-xs"></div>           <div id="cal-insp-actions" class="pt-1"></div>         </div>          <!-- ГОДОВОЙ ОБЗОР 12 МЕСЯЦЕВ -->         <div class="p-4 glass-panel space-y-3 font-mono">           <div class="flex justify-between items-center">             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Годовой обзор 2026</h3>             <span id="year-stat-compliance" class="text-[10px] text-[var(--gold-primary)] font-bold">100% норма</span>           </div>           <div class="grid grid-cols-3 gap-2 text-center text-xs">             <div class="glass-panel-elevated p-2 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Сессий</span>               <b id="year-stat-sessions" class="text-sm font-bold text-white">0</b>             </div>             <div class="glass-panel-elevated p-2 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Тоннаж</span>               <b id="year-stat-tonnage" class="text-sm font-bold text-[var(--gold-primary)]">0 т</b>             </div>             <div class="glass-panel-elevated p-2 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Стрик</span>               <b id="year-stat-streak" class="text-sm font-bold text-emerald-400">0 дн</b>             </div>           </div>           <div id="annual-months-grid" class="grid grid-cols-4 gap-1.5 text-center text-[10px]"></div>         </div>       </div>        <!-- ПОДВКЛАДКА 2: АНАЛИТИКА -->       <div id="subtab-analytics" class="hidden space-y-3.5">         <div class="p-4 glass-panel space-y-3 font-mono">           <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">             <svg class="w-4 h-4 text-[var(--gold-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>             Персональный AI-Анализ ЦНС & Мышц           </h3>                      <div class="grid grid-cols-3 gap-2 text-center text-xs">             <div class="glass-panel-elevated p-2.5 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Готовность ЦНС</span>               <b id="ai-readiness-val" class="text-sm font-bold text-[#10b981]">100%</b>               <span class="text-[9px] text-slate-400 block">Оптимально</span>             </div>             <div class="glass-panel-elevated p-2.5 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Защита лопатки</span>               <b id="ai-neck-safety" class="text-sm font-bold text-[var(--gold-primary)]">Безопасно</b>               <span class="text-[9px] text-slate-400 block">Без компрессии</span>             </div>             <div class="glass-panel-elevated p-2.5 rounded-xl">               <span class="text-[9px] text-slate-400 block uppercase">Объем недели</span>               <b id="ai-week-tonnage" class="text-sm font-bold text-white">0 кг</b>               <span class="text-[9px] text-slate-400 block">в норме</span>             </div>           </div>            <div class="space-y-2 pt-1 font-sans text-xs" id="ai-recommendations-container"></div>         </div>                          <!-- ИНТЕРАКТИВНАЯ АНАТОМИЧЕСКАЯ МОДЕЛЬ ЧЕЛОВЕКА & ГИПЕРТРОФИЯ -->
-        <div class="p-4 glass-panel space-y-3.5 font-mono">
+        <div class="p-4 glass-panel space-y-3.5 font-mono anatomy-analytics-card">
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
-              <span class="text-base">🧬</span>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Анатомическая карта & Объем</h3>
+              <svg class="w-4 h-4 text-[var(--gold-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2v20M8 4.5c2 2.2 2 4.2 0 6.2s-2 4 0 6.2M16 4.5c-2 2.2-2 4.2 0 6.2s2 4 0 6.2"/><path d="M7 8h10M7 16h10"/></svg>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">Muscle Load Atlas</h3>
             </div>
             <!-- ПЕРЕКЛЮЧАТЕЛЬ РАКУРСА СПЕРЕДИ / СЗАДИ -->
             <div class="flex space-x-1 bg-white/5 p-0.5 rounded-lg border border-[#222222] text-[10px]">
-              <button type="button" onclick="setAnatomyView('front')" id="btn-anat-front" class="px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all">Спереди</button>
-              <button type="button" onclick="setAnatomyView('back')" id="btn-anat-back" class="px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all">Сзади</button>
+              <button type="button" onclick="setAnatomyView('front')" data-anatomy-view="front" aria-pressed="true" class="anatomy-view-btn active px-2.5 py-1 font-bold rounded-md transition-all">Перед</button>
+              <button type="button" onclick="setAnatomyView('back')" data-anatomy-view="back" aria-pressed="false" class="anatomy-view-btn px-2.5 py-1 font-bold rounded-md transition-all">Спина</button>
             </div>
           </div>
 
           <p class="text-[11px] text-slate-400 font-sans leading-relaxed">
-            Нажми на любую мышцу на теле атлета: размер увеличивается по мере выполнения недельного объема (Шкала RP MAV).
+            Выбери мышечную область, чтобы сверить фактический недельный объём с ориентировочным диапазоном MEV–MAV.
           </p>
 
           <!-- SVG ИНТЕРАКТИВНЫЙ СИЛУЭТ ЧЕЛОВЕКА -->
           <div class="anat-body-wrapper flex justify-center items-center">
-            <div id="anat-svg-host" class="w-full max-w-[280px] h-[360px] flex items-center justify-center"></div>
+            <div class="anat-svg-host w-full max-w-[300px] h-[400px] flex items-center justify-center" data-anatomy-host></div>
           </div>
 
           <!-- ИНТЕРАКТИВНЫЙ HUD-ИНСПЕКТОР ВЫБРАННОЙ МЫШЦЫ -->
-          <div id="anat-hud-card" class="anat-hud-card p-3.5 space-y-2 text-xs">
+          <div class="anat-hud-card p-3.5 space-y-2 text-xs">
             <div class="flex justify-between items-center border-b border-[#222222] pb-1.5">
               <div class="flex items-center space-x-1.5">
                 <span class="w-2 h-2 rounded-full bg-[#c8a97e] animate-ping"></span>
-                <b id="anat-hud-title" class="text-white text-xs font-sans">Грудные мышцы (Pectoralis Major)</b>
+                <b data-anat-field="title" class="text-white text-xs font-sans">Грудные мышцы</b>
               </div>
-              <span id="anat-hud-pump-badge" class="px-2 py-0.5 rounded-md bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[9px] font-bold">Памп +15%</span>
+              <span data-anat-field="badge" class="anatomy-status-badge">НЕТ ДАННЫХ</span>
             </div>
 
             <div class="grid grid-cols-2 gap-2 text-[11px]">
               <div class="bg-black p-2 rounded-xl border border-white/[0.04] space-y-0.5">
                 <span class="text-[9px] text-slate-400 block uppercase">Недельный объем</span>
-                <b id="anat-hud-volume" class="text-white font-mono">12 / 14 сетов</b>
-                <span id="anat-hud-mav-status" class="text-[8px] text-[var(--gold-primary)] block">85% MAV Оптимум</span>
+                <b data-anat-field="volume" class="text-white font-mono">0 сетов</b>
+                <span data-anat-field="mav" class="text-[8px] text-[var(--gold-primary)] block">MEV 0 · MAV 0</span>
               </div>
               <div class="bg-black p-2 rounded-xl border border-white/[0.04] space-y-0.5">
                 <span class="text-[9px] text-slate-400 block uppercase">Восстановление</span>
-                <b id="anat-hud-recovery" class="text-emerald-400 font-mono">100% Готова</b>
-                <span id="anat-hud-timer" class="text-[8px] text-slate-400 block">Отдых 48ч пройден</span>
+                <b data-anat-field="recovery" class="text-slate-200 font-mono">Нет данных</b>
+                <span data-anat-field="timer" class="text-[8px] text-slate-400 block">Нужна тренировка</span>
               </div>
             </div>
 
             <div class="text-[11px] text-slate-300 font-sans space-y-1 pt-1">
-              <div><b class="text-white">Лучшие упражнения:</b> <span id="anat-hud-exercises" class="text-slate-300">Жим гантелей 30°, Бабочка Pec Deck</span></div>
-              <div class="text-[10px] text-slate-400 bg-black p-2 rounded-xl border border-white/[0.04]"><b class="text-[var(--gold-primary)]">СОВЕТ:</b> <span id="anat-hud-tip">Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи.</span></div>
+              <div><b class="text-white">Упражнения:</b> <span data-anat-field="exercises" class="text-slate-300">—</span></div>
+              <div class="text-[10px] text-slate-400 bg-black p-2 rounded-xl border border-white/[0.04]"><b class="text-[var(--gold-primary)]">ТЕХНИКА:</b> <span data-anat-field="tip">—</span></div>
             </div>
           </div>
         </div>
@@ -1538,7 +2060,7 @@ textarea:focus-visible,
         <div id="swap-alternatives-list" class="p-3 space-y-2 overflow-y-auto flex-1 max-h-[50vh]"></div>
       </div>
     </div>
-    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[var(--gold-primary)] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[var(--gold-primary)]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[var(--gold-primary)]">v2.9.0 PRO (Interactive Anatomical Model)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[var(--gold-primary)] font-bold rounded-xl border border-[#222222] active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
+    <!-- ======================================================== -->   <!-- ШТОРКА: ПРОФИЛЬ АТЛЕТА -->   <!-- ======================================================== -->   <div id="modal-profile-drawer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">     <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">       <div class="flex justify-between items-center border-b border-white/[0.08] pb-3">         <div class="flex items-center space-x-2.5">           <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-[var(--gold-primary)] font-mono font-bold text-xs">ID</div>           <div>             <h3 class="font-bold text-sm text-white">Профиль атлета</h3>             <p class="text-xs text-slate-400">Настройки и управление аккаунтом</p>           </div>         </div>         <button onclick="closeModal('modal-profile-drawer')" class="text-slate-400 hover:text-white font-mono font-bold text-sm px-2 py-1">✕</button>       </div>        <div class="p-4 glass-panel rounded-2xl space-y-2 text-xs font-mono">         <div class="flex justify-between text-slate-300">           <span>Атлет:</span><b id="prof-disp-name" class="text-white">Роман</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Возраст / Рост:</span><b id="prof-disp-age" class="text-[var(--gold-primary)]">32 г • 178 см</b>         </div>         <div class="flex justify-between text-slate-300">           <span>Цель:</span><b id="prof-disp-goal" class="text-white">Рекомпозиция</b>         </div>         <div class="flex justify-between text-slate-300 pt-1 border-t border-white/[0.06]">           <span>Версия сборки:</span><b class="app-build-badge text-[var(--gold-primary)]">v2.10.0 (Motion Lab & Anatomical Load Atlas)</b>         </div>       </div>        <div class="space-y-2 font-mono text-xs">         <button onclick="openOnboardingModal()" class="w-full py-3 glass-panel hover:bg-white/10 text-slate-200 font-bold rounded-xl active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Редактировать параметры тела и цель</span>         </button>         <button onclick="copyCoachSummary()" class="w-full py-3 bg-white/5 hover:bg-white/10 text-[var(--gold-primary)] font-bold rounded-xl border border-[#222222] active:scale-98 transition-all flex items-center justify-center space-x-2">           <span>Скопировать аналитический отчет</span>         </button>
 
         <!-- PUSH УВЕДОМЛЕНИЯ В TELEGRAM -->
         <div class="p-3.5 bg-[#111111] rounded-2xl border border-[#222222] space-y-2.5 font-mono text-xs">
@@ -1798,45 +2320,52 @@ textarea:focus-visible,
   <!-- МОДАЛКА: ПРО-ВИЗУАЛИЗАТОР БИОМЕХАНИКИ & АНАТОМИИ 3.0 -->
   <!-- ======================================================== -->
   <div id="modal-exercise-pro-visualizer" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4">
-    <div class="max-w-md w-full glass-panel-elevated rounded-3xl shadow-2xl max-h-[92vh] flex flex-col font-mono text-xs overflow-hidden">
+    <div class="motion-lab-modal max-w-md w-full rounded-3xl shadow-2xl max-h-[94vh] flex flex-col font-mono text-xs overflow-hidden">
       
       <!-- ШАПКА ВИЗУАЛИЗАТОРА -->
-      <div class="p-4 border-b border-white/[0.08] flex justify-between items-center bg-[#070912]">
+      <div class="motion-lab-header p-4 flex justify-between items-center">
         <div class="flex items-center space-x-2.5">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#c8a97e]/20 to-[#c8a97e]/5 border border-[#c8a97e]/40 flex items-center justify-center text-[var(--gold-primary)]">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+          <div class="motion-lab-mark">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 19V5m0 14h16"/><path d="m7 15 4-5 3 2 4-6"/><circle cx="11" cy="10" r="1.4"/><circle cx="18" cy="6" r="1.4"/></svg>
           </div>
           <div>
+            <span class="motion-lab-kicker">BIOMECHANICS / MOTION STUDY</span>
             <div class="flex items-center gap-1.5">
-              <span id="vis-badge-cat" class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-[#c8a97e]/15 text-[var(--gold-primary)] border border-[#c8a97e]/30 rounded uppercase">Грудь</span>
-              <span id="vis-badge-tier" class="text-[9px] font-mono px-1.5 py-0.2 bg-white/5 text-slate-300 border border-[#222222] rounded">Базовое</span>
+              <span id="vis-badge-cat" class="motion-chip primary">Грудь</span>
+              <span id="vis-badge-tier" class="motion-chip">Базовое</span>
             </div>
-            <h3 id="vis-ex-name" class="font-bold text-xs sm:text-sm text-white tracking-wide font-sans">Жим гантелей на наклонной скамье 30°</h3>
+            <h3 id="vis-ex-name" class="motion-lab-title">Жим гантелей на наклонной скамье 30°</h3>
           </div>
         </div>
-        <button onclick="closeModal('modal-exercise-pro-visualizer')" class="text-slate-400 hover:text-white font-bold px-2 py-1 text-sm">✕</button>
+        <button onclick="closeModal('modal-exercise-pro-visualizer')" class="motion-close-btn" aria-label="Закрыть визуализацию"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button>
       </div>
 
       <!-- 2 ПРОСТЫХ ПОНЯТНЫХ ТАБА -->
-      <div class="px-4 pt-3 pb-1 bg-[#070912] border-b border-white/[0.06] flex space-x-2 text-[11px]">
-        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="flex-1 py-2 rounded-xl bg-[#c8a97e] text-slate-950 font-bold text-center">📐 Техника и Схема</button>
-        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="flex-1 py-2 rounded-xl bg-white/5 text-slate-400 border border-[#222222] font-medium text-center">🎯 Секреты PRO & Ошибки</button>
+      <div class="motion-lab-tabs" role="tablist" aria-label="Разделы визуализации">
+        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="motion-lab-tab active" role="tab" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Движение</span></button>
+        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="motion-lab-tab" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg><span>Техника и ошибки</span></button>
       </div>
 
       <!-- СОДЕРЖИМОЕ -->
-      <div class="p-4 space-y-4 overflow-y-auto flex-1 bg-[#06080e]">
+      <div class="motion-lab-scroll p-4 space-y-4 overflow-y-auto flex-1">
         
         <!-- ТАБ 1: ТЕХНИКА И СХЕМА -->
         <div id="vis-panel-bio" class="space-y-4">
           <!-- СХЕМА УПРАЖНЕНИЯ -->
-          <div class="visualizer-canvas-hero p-3">
-            <div id="vis-svg-container" class="w-full flex items-center justify-center"></div>
+          <div class="visualizer-canvas-hero">
+            <div class="motion-canvas-head"><span>KINEMATIC PROFILE</span><span>START <i></i> END</span></div>
+            <div id="vis-svg-container" class="motion-svg-container"></div>
+            <div class="motion-data-rail">
+              <div><span>ПЛОСКОСТЬ</span><b id="vis-motion-plane">Сагиттальная</b></div>
+              <div><span>СУСТАВ</span><b id="vis-motion-joint">Плечевой</b></div>
+              <div><span>НАМЕРЕНИЕ</span><b id="vis-motion-intent">Контроль</b></div>
+            </div>
           </div>
 
           <!-- НАГЛЯДНЫЙ ПОШАГОВЫЙ ТЕМП (БЕЗ ЛИШНИХ КЛИКОВ) -->
           <div class="space-y-2">
-            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Темп выполнения (3 шага):</span>
-            <div class="grid grid-cols-3 gap-2 text-center" id="vis-tempo-steps-grid">
+            <div class="motion-section-label"><span>ПРОТОКОЛ ПОВТОРА</span><small id="vis-tempo-code">3 · 1 · 1</small></div>
+            <div class="motion-phase-grid" id="vis-tempo-steps-grid">
               <div class="p-2.5 bg-[#0e121e] rounded-2xl border border-[#222222] space-y-1">
                 <span class="text-[9px] text-[var(--gold-primary)] font-bold block uppercase">1. Спуск</span>
                 <b class="text-xs text-white block">3 сек</b>
@@ -1856,33 +2385,33 @@ textarea:focus-visible,
           </div>
 
           <!-- ВКЛЮЧЕНИЕ МЫШЦ -->
-          <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2.5">
-            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Распределение нагрузки по мышцам:</span>
+          <div class="motion-muscle-panel">
+            <div class="motion-section-label"><span>ВКЛАД МЫШЕЧНЫХ ГРУПП</span><small>ОЦЕНКА</small></div>
             <div id="vis-muscle-matrix-container" class="space-y-2"></div>
           </div>
         </div>
 
         <!-- ТАБ 2: СЕКРЕТЫ PRO & ОШИБКИ -->
         <div id="vis-panel-keys" class="space-y-3 hidden">
-          <div class="p-3.5 bg-emerald-950/25 rounded-2xl border border-emerald-800/50 space-y-2">
-            <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1.5">
-              <span>✅</span> Как делать правильно (Секреты техники):
+          <div class="motion-guidance-card positive">
+            <span class="motion-guidance-title">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> Контрольные точки
             </span>
-            <ul id="vis-dos-list" class="space-y-1.5 text-slate-200 text-xs list-disc list-inside font-sans leading-relaxed"></ul>
+            <ul id="vis-dos-list" class="motion-guidance-list"></ul>
           </div>
           
-          <div class="p-3.5 bg-rose-950/25 rounded-2xl border border-rose-800/50 space-y-2">
-            <span class="text-[11px] font-mono font-bold text-rose-400 uppercase flex items-center gap-1.5">
-              <span>❌</span> Частые ошибки (Чего избегать):
+          <div class="motion-guidance-card negative">
+            <span class="motion-guidance-title">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5m0 3v.01"/><circle cx="12" cy="12" r="9"/></svg> Ошибки, меняющие механику
             </span>
-            <ul id="vis-donts-list" class="space-y-1.5 text-slate-200 text-xs list-disc list-inside font-sans leading-relaxed"></ul>
+            <ul id="vis-donts-list" class="motion-guidance-list"></ul>
           </div>
         </div>
 
       </div>
 
       <!-- ФУТЕР ДЕЙСТВИЯ -->
-      <div class="p-3 bg-[#070912] border-t border-white/[0.08] flex space-x-2">
+      <div class="motion-lab-footer p-3 flex space-x-2">
         <button type="button" onclick="closeModal('modal-exercise-pro-visualizer')" class="flex-1 py-3 glass-panel hover:bg-white/10 text-slate-300 font-bold uppercase rounded-xl active:scale-98 transition-all">
           Закрыть
         </button>
@@ -2020,7 +2549,7 @@ textarea:focus-visible,
       <div class="p-3.5 bg-black rounded-2xl border border-emerald-500/30 space-y-1.5 text-[11px]">
         <div class="flex justify-between">
           <span class="text-slate-400">Установлена:</span>
-          <b class="app-version-badge text-emerald-400">v2.9.0 PRO</b>
+          <b class="app-version-badge text-emerald-400">v2.10.0 PRO</b>
         </div>
         <div class="flex justify-between">
           <span class="text-slate-400">Сервер:</span>
@@ -2033,11 +2562,11 @@ textarea:focus-visible,
       </div>
 
       <div class="space-y-1.5">
-        <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase">⚡ Главное в этом релизе:</span>
+        <span class="text-[10px] font-bold text-[var(--gold-primary)] uppercase">Главное в этом релизе:</span>
         <div id="revision-live-changelog" class="p-2.5 bg-[#0a0c16] rounded-xl border border-white/[0.06] space-y-1.5 text-[10px] text-slate-300 font-sans leading-relaxed">
-          <div>• <b>Персональные занятия:</b> Расписание на Вторник / Четверг с фокусом.</div>
-          <div>• <b>Трекер Витаминов & Добавок:</b> Ежедневный чеклист и статус врача.</div>
-          <div>• <b>Новый звук 3.0:</b> Боксерский гонг, мажорный аккорд, 3 режима.</div>
+          <div>• <b>Motion Lab:</b> две фазы движения, суставные маркеры, траектория и вектор усилия.</div>
+          <div>• <b>Muscle Load Atlas:</b> новая пропорциональная карта мышц спереди и сзади.</div>
+          <div>• <b>Честные данные:</b> карта больше не подставляет демонстрационные сеты и не выдаёт восстановление за медицинский диагноз.</div>
         </div>
       </div>
 
@@ -2055,9 +2584,9 @@ if(window.Telegram&&window.Telegram.WebApp){window.Telegram.WebApp.ready();windo
  */
 
 const APP_CONFIG = {
-  version: "v2.9.0 PRO",
-  build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
-  releaseDate: "2026-08-27"
+  version: "v2.10.0 PRO",
+  build: "v2.10.0 (Motion Lab & Anatomical Load Atlas)",
+  releaseDate: "2026-08-28"
 };
 
 function injectAppVersion() {
@@ -3919,17 +4448,207 @@ function getExerciseAnatomyInfo(exName) {
 // МОДУЛЬ ТЕХНИКИ УПРАЖНЕНИЙ И СЕКРЕТОВ PRO (ЧИСТЫЙ РУССКИЙ ЯЗЫК)
 // ========================================================
 
+function getExerciseMotionProfile(exerciseName, category = '') {
+  const n = String(exerciseName || '').toLowerCase();
+  const cat = String(category || '').toLowerCase();
+  let pattern = '';
+  if (n.includes('жим ногами')) pattern = 'leg-press';
+  else if (n.includes('гакк')) pattern = 'hack-squat';
+  else if (n.includes('присед') || n.includes('выпад')) pattern = 'squat';
+  else if (n.includes('румын') || n.includes('станов') || n.includes('гиперэкст')) pattern = 'hinge';
+  else if (n.includes('сгибан ног')) pattern = 'knee-flexion';
+  else if (n.includes('разгибан ног')) pattern = 'knee-extension';
+  else if (n.includes('икр') || n.includes('носк')) pattern = 'calf';
+  else if (n.includes('подтяг') || n.includes('верхн') || n.includes('пуловер')) pattern = 'vertical-pull';
+  else if (n.includes('тяга') || n.includes('греб')) pattern = 'row';
+  else if (n.includes('мах') || n.includes('протяж') || (n.includes('развод') && (n.includes('задн') || cat.includes('плеч')))) pattern = 'raise';
+  else if (n.includes('бицеп') || n.includes('молот') || n.includes('скотт') || n.includes('сгибан рук')) pattern = 'curl';
+  else if (n.includes('француз') || n.includes('разгибан рук') || n.includes('кикбэк') || n.includes('из-за головы')) pattern = 'triceps';
+  else if (n.includes('планк') || n.includes('скручив') || n.includes('вакуум') || n.includes('подъем колен')) pattern = 'core';
+  else if (n.includes('над головой') || n.includes('армейск') || (n.includes('жим') && n.includes('плеч'))) pattern = 'vertical-press';
+  else if (n.includes('бабоч') || n.includes('pec deck') || n.includes('развод')) pattern = 'fly';
+  else if (n.includes('ходьб') || n.includes('бег') || n.includes('эллип') || n.includes('вело')) pattern = 'locomotion';
+  else if (n.includes('жим') || n.includes('отжим') || n.includes('брусь')) pattern = 'press';
+  else if (cat.includes('плеч')) pattern = 'raise';
+  else if (cat.includes('трицеп')) pattern = 'triceps';
+  else if (cat.includes('бицеп')) pattern = 'curl';
+  else if (cat.includes('пресс')) pattern = 'core';
+  else if (cat.includes('спин')) pattern = 'row';
+  else if (cat.includes('ног')) pattern = 'squat';
+  else pattern = 'press';
+
+  const equipment = n.includes('гантел') ? 'dumbbell'
+    : (n.includes('штанг') ? 'barbell'
+      : ((n.includes('блок') || n.includes('тренаж') || n.includes('pec deck')) ? 'cable' : 'bodyweight'));
+
+  const profiles = {
+    press: { plane:'Поперечная', joint:'Плечо + локоть', intent:'Толкать от корпуса', tempo:'3 · 1 · 1', target:'upper', cue:'Лопатки стабильны', arc:'M72 62Q102 43 124 64' },
+    fly: { plane:'Поперечная', joint:'Плечевой', intent:'Свести плечевые кости', tempo:'3 · 1 · 2', target:'upper', cue:'Локоть мягкий', arc:'M54 65Q92 32 130 65' },
+    'vertical-press': { plane:'Фронтальная', joint:'Плечо + локоть', intent:'Вытолкнуть вверх', tempo:'2 · 1 · 1', target:'shoulder', cue:'Рёбра под контролем', arc:'M48 82Q56 40 82 23' },
+    row: { plane:'Сагиттальная', joint:'Плечо + лопатка', intent:'Локоть к тазу', tempo:'2 · 1 · 2', target:'back', cue:'Движение лопатки', arc:'M126 75Q92 65 68 90' },
+    'vertical-pull': { plane:'Фронтальная', joint:'Плечо + лопатка', intent:'Локти вниз', tempo:'2 · 1 · 3', target:'back', cue:'Грудь к рукояти', arc:'M78 25Q46 51 63 87' },
+    squat: { plane:'Сагиттальная', joint:'Таз + колено', intent:'Давить платформу', tempo:'3 · 1 · 1', target:'thigh', cue:'Колено по стопе', arc:'M79 119Q116 112 121 146' },
+    'leg-press': { plane:'Сагиттальная', joint:'Таз + колено', intent:'Платформу от корпуса', tempo:'3 · 1 · 1', target:'thigh', cue:'Таз прижат к спинке', arc:'M111 108Q139 94 151 65' },
+    'hack-squat': { plane:'Сагиттальная', joint:'Таз + колено', intent:'Плечи в платформу', tempo:'3 · 1 · 1', target:'thigh', cue:'Спина на опоре', arc:'M82 119Q116 112 121 146' },
+    hinge: { plane:'Сагиттальная', joint:'Тазобедренный', intent:'Таз назад / вперёд', tempo:'3 · 1 · 1', target:'posterior', cue:'Нейтральная спина', arc:'M91 106Q65 92 53 70' },
+    'knee-flexion': { plane:'Сагиттальная', joint:'Коленный', intent:'Пятка к ягодице', tempo:'2 · 1 · 3', target:'posterior', cue:'Таз фиксирован', arc:'M116 136Q136 151 111 171' },
+    'knee-extension': { plane:'Сагиттальная', joint:'Коленный', intent:'Разогнуть колено', tempo:'2 · 1 · 3', target:'thigh', cue:'Без удара в замок', arc:'M98 141Q125 139 137 166' },
+    calf: { plane:'Сагиттальная', joint:'Голеностоп', intent:'Поднять пятку', tempo:'2 · 1 · 3', target:'calf', cue:'Полная амплитуда', arc:'M80 173Q98 164 113 176' },
+    raise: { plane:'Фронтальная', joint:'Плечевой', intent:'Локти в стороны', tempo:'2 · 1 · 3', target:'shoulder', cue:'Плечи не поднимать', arc:'M50 90Q74 56 112 68' },
+    curl: { plane:'Сагиттальная', joint:'Локтевой', intent:'Согнуть локоть', tempo:'2 · 1 · 3', target:'arm', cue:'Плечо неподвижно', arc:'M75 116Q48 99 63 76' },
+    triceps: { plane:'Сагиттальная', joint:'Локтевой', intent:'Разогнуть локоть', tempo:'2 · 1 · 3', target:'arm', cue:'Локти фиксированы', arc:'M65 70Q91 57 96 28' },
+    core: { plane:'Сагиттальная', joint:'Позвоночник / таз', intent:'Удержать рёбра и таз', tempo:'2 · 1 · 2', target:'core', cue:'Без рывка шеей', arc:'M48 103Q75 73 107 92' },
+    locomotion: { plane:'Сагиттальная', joint:'Таз + колено', intent:'Циклический шаг', tempo:'Ровный ритм', target:'thigh', cue:'Мягкая опора', arc:'M62 112Q93 88 118 122' }
+  };
+  return { pattern, equipment, ...(profiles[pattern] || profiles.press) };
+}
+
+function getMotionPose(pattern, phase) {
+  const poses = {
+    'leg-press': {
+      start:{head:[34,76],shoulder:[55,92],hip:[91,120],elbow:[70,105],wrist:[91,109],knee:[116,108],ankle:[132,78],foot:[146,67]},
+      end:{head:[34,76],shoulder:[55,92],hip:[91,120],elbow:[70,105],wrist:[91,109],knee:[126,91],ankle:[151,64],foot:[160,52]}
+    },
+    'hack-squat': {
+      start:{head:[80,24],shoulder:[80,57],hip:[80,104],elbow:[55,70],wrist:[46,91],knee:[80,143],ankle:[80,181],foot:[101,181]},
+      end:{head:[51,57],shoulder:[65,86],hip:[87,116],elbow:[93,85],wrist:[121,85],knee:[120,143],ankle:[105,181],foot:[128,181]}
+    },
+    squat: {
+      start:{head:[80,24],shoulder:[80,57],hip:[80,104],elbow:[55,70],wrist:[46,91],knee:[80,143],ankle:[80,181],foot:[101,181]},
+      end:{head:[47,59],shoulder:[62,88],hip:[86,116],elbow:[91,87],wrist:[122,87],knee:[120,143],ankle:[105,181],foot:[128,181]}
+    },
+    hinge: {
+      start:{head:[81,24],shoulder:[81,58],hip:[82,106],elbow:[78,90],wrist:[76,122],knee:[83,145],ankle:[82,181],foot:[103,181]},
+      end:{head:[38,66],shoulder:[61,79],hip:[91,108],elbow:[67,111],wrist:[73,145],knee:[99,146],ankle:[96,181],foot:[118,181]}
+    },
+    press: {
+      start:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[59,72],wrist:[83,55],knee:[139,145],ankle:[126,180],foot:[148,180]},
+      end:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[75,76],wrist:[75,33],knee:[139,145],ankle:[126,180],foot:[148,180]}
+    },
+    fly: {
+      start:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[71,68],wrist:[104,72],knee:[139,145],ankle:[126,180],foot:[148,180]},
+      end:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[64,72],wrist:[67,35],knee:[139,145],ankle:[126,180],foot:[148,180]}
+    },
+    'vertical-press': {
+      start:{head:[78,25],shoulder:[78,59],hip:[79,108],elbow:[48,80],wrist:[57,58],knee:[98,143],ankle:[101,181],foot:[123,181]},
+      end:{head:[78,25],shoulder:[78,59],hip:[79,108],elbow:[68,48],wrist:[72,18],knee:[98,143],ankle:[101,181],foot:[123,181]}
+    },
+    row: {
+      start:{head:[39,65],shoulder:[61,79],hip:[93,108],elbow:[95,83],wrist:[130,78],knee:[100,146],ankle:[96,181],foot:[118,181]},
+      end:{head:[39,65],shoulder:[61,79],hip:[93,108],elbow:[75,103],wrist:[92,95],knee:[100,146],ankle:[96,181],foot:[118,181]}
+    },
+    'vertical-pull': {
+      start:{head:[78,33],shoulder:[78,67],hip:[79,115],elbow:[66,48],wrist:[62,20],knee:[103,144],ankle:[107,181],foot:[129,181]},
+      end:{head:[78,33],shoulder:[78,67],hip:[79,115],elbow:[53,82],wrist:[72,79],knee:[103,144],ankle:[107,181],foot:[129,181]}
+    },
+    raise: {
+      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[65,91],wrist:[63,124],knee:[79,145],ankle:[79,181],foot:[101,181]},
+      end:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[111,60],wrist:[140,61],knee:[79,145],ankle:[79,181],foot:[101,181]}
+    },
+    curl: {
+      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[76,91],wrist:[73,125],knee:[79,145],ankle:[79,181],foot:[101,181]},
+      end:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[76,91],wrist:[58,65],knee:[79,145],ankle:[79,181],foot:[101,181]}
+    },
+    triceps: {
+      start:{head:[78,28],shoulder:[78,62],hip:[79,109],elbow:[69,48],wrist:[52,68],knee:[79,146],ankle:[79,181],foot:[101,181]},
+      end:{head:[78,28],shoulder:[78,62],hip:[79,109],elbow:[69,48],wrist:[72,17],knee:[79,146],ankle:[79,181],foot:[101,181]}
+    },
+    core: {
+      start:{head:[35,104],shoulder:[63,108],hip:[112,119],elbow:[67,82],wrist:[49,71],knee:[137,145],ankle:[126,180],foot:[148,180]},
+      end:{head:[55,73],shoulder:[77,91],hip:[112,119],elbow:[72,72],wrist:[56,65],knee:[137,145],ankle:[126,180],foot:[148,180]}
+    },
+    calf: {
+      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[74,91],wrist:[73,121],knee:[79,145],ankle:[79,181],foot:[103,181]},
+      end:{head:[78,15],shoulder:[78,49],hip:[79,97],elbow:[74,82],wrist:[73,112],knee:[79,136],ankle:[83,173],foot:[106,181]}
+    },
+    'knee-flexion': {
+      start:{head:[34,109],shoulder:[64,108],hip:[112,116],elbow:[76,86],wrist:[96,78],knee:[120,149],ankle:[122,181],foot:[144,181]},
+      end:{head:[34,109],shoulder:[64,108],hip:[112,116],elbow:[76,86],wrist:[96,78],knee:[120,149],ankle:[91,132],foot:[77,141]}
+    },
+    'knee-extension': {
+      start:{head:[70,29],shoulder:[72,62],hip:[75,111],elbow:[66,91],wrist:[63,119],knee:[109,132],ankle:[111,174],foot:[132,174]},
+      end:{head:[70,29],shoulder:[72,62],hip:[75,111],elbow:[66,91],wrist:[63,119],knee:[109,132],ankle:[145,139],foot:[159,136]}
+    },
+    locomotion: {
+      start:{head:[76,25],shoulder:[73,58],hip:[77,105],elbow:[54,76],wrist:[69,98],knee:[51,140],ankle:[32,178],foot:[54,181]},
+      end:{head:[76,25],shoulder:[73,58],hip:[77,105],elbow:[94,78],wrist:[83,101],knee:[109,137],ankle:[135,176],foot:[155,178]}
+    }
+  };
+  const fallback = poses.press;
+  return (poses[pattern] || fallback)[phase];
+}
+
+function renderMotionPose(pose, profile, phase) {
+  const [hx,hy] = pose.head, [sx,sy] = pose.shoulder, [ex,ey] = pose.elbow, [wx,wy] = pose.wrist;
+  const [px,py] = pose.hip, [kx,ky] = pose.knee, [ax,ay] = pose.ankle, [fx,fy] = pose.foot;
+  const targetMap = {
+    upper:[(sx+px)/2-5,(sy+py)/2-7], shoulder:[sx,sy], back:[(sx+px)/2,(sy+py)/2],
+    thigh:[(px+kx)/2,(py+ky)/2], posterior:[(px+kx)/2-3,(py+ky)/2], calf:[(kx+ax)/2,(ky+ay)/2],
+    arm:[(sx+ex)/2,(sy+ey)/2], core:[(sx+px)/2,(sy+py)/2]
+  };
+  const [tx,ty] = targetMap[profile.target] || targetMap.upper;
+  const isGhost = phase === 'start';
+  return `<g class="motion-pose ${isGhost ? 'is-start' : 'is-end'}">
+    <ellipse class="motion-target-zone" cx="${tx}" cy="${ty}" rx="15" ry="20"/>
+    <path class="motion-body-back" d="M${px+4} ${py} L${kx+6} ${ky} L${ax+5} ${ay}"/>
+    <path class="motion-body-segment torso" d="M${sx} ${sy} L${px} ${py}"/>
+    <path class="motion-body-segment" d="M${sx} ${sy} L${ex} ${ey} L${wx} ${wy}"/>
+    <path class="motion-body-segment" d="M${px} ${py} L${kx} ${ky} L${ax} ${ay}"/>
+    <path class="motion-foot" d="M${ax} ${ay} L${fx} ${fy}"/>
+    <circle class="motion-head" cx="${hx}" cy="${hy}" r="13"/>
+    <path class="motion-skeleton" d="M${sx} ${sy}L${px} ${py}M${sx} ${sy}L${ex} ${ey}L${wx} ${wy}M${px} ${py}L${kx} ${ky}L${ax} ${ay}"/>
+    <g class="motion-joints"><circle cx="${sx}" cy="${sy}" r="3.5"/><circle cx="${ex}" cy="${ey}" r="3.2"/><circle cx="${px}" cy="${py}" r="3.5"/><circle cx="${kx}" cy="${ky}" r="3.5"/><circle cx="${ax}" cy="${ay}" r="3"/></g>
+    ${renderMotionEquipment(pose, profile)}
+    ${phase === 'end' ? `<path class="motion-rom-arc" d="${profile.arc}" marker-end="url(#motionArrow)"/>` : ''}
+  </g>`;
+}
+
+function renderMotionEquipment(pose, profile) {
+  const [wx,wy] = pose.wrist, [sx,sy] = pose.shoulder;
+  let result = '';
+  if (profile.pattern === 'press' || profile.pattern === 'fly' || profile.pattern === 'core' || profile.pattern === 'knee-flexion') {
+    result += '<path class="motion-machine" d="M18 122H128M30 123v9M114 123v9"/>';
+  }
+  if (profile.pattern === 'leg-press') {
+    const [px,py] = pose.hip, [fx,fy] = pose.foot;
+    result += `<path class="motion-machine" d="M31 116L61 82M30 118l55 16M${fx-8} ${fy+8}l18-18M${fx+1} ${fy+15}l18-18M${fx+12} ${fy-8}L151 20"/><circle class="motion-anchor" cx="${px}" cy="${py}" r="2.8"/>`;
+  }
+  if (profile.pattern === 'hack-squat') {
+    result += `<path class="motion-machine" d="M${sx-15} ${sy+5}L${pose.hip[0]-14} ${pose.hip[1]+8}M${sx-26} ${sy-5}L${pose.hip[0]-26} ${pose.hip[1]+18}M${sx-18} ${sy-8}h34"/>`;
+  }
+  if (profile.pattern === 'vertical-pull') result += `<path class="motion-cable" d="M${wx} ${wy}L${wx} 8M42 8h72"/>`;
+  if (profile.pattern === 'row' && profile.equipment === 'cable') result += `<path class="motion-cable" d="M${wx} ${wy}L151 68"/><circle class="motion-anchor" cx="151" cy="68" r="3"/>`;
+  if (profile.equipment === 'barbell') result += `<path class="motion-equipment" d="M${wx-19} ${wy}H${wx+19}"/><path class="motion-plate" d="M${wx-16} ${wy-7}v14M${wx+16} ${wy-7}v14"/>`;
+  else if (profile.equipment === 'dumbbell') result += `<path class="motion-equipment" d="M${wx-10} ${wy-5}l20 10M${wx-9} ${wy-8}l-3 6M${wx+12} ${wy+2}l-3 6"/>`;
+  else if (profile.pattern === 'squat' && profile.equipment !== 'cable') result += `<path class="motion-equipment" d="M${sx-28} ${sy-2}H${sx+28}"/><path class="motion-plate" d="M${sx-24} ${sy-10}v16M${sx+24} ${sy-10}v16"/>`;
+  return result;
+}
+
+function getPremiumExerciseMotionSVG(exerciseName, category) {
+  const profile = getExerciseMotionProfile(exerciseName, category);
+  const start = getMotionPose(profile.pattern, 'start');
+  const end = getMotionPose(profile.pattern, 'end');
+  const safeName = String(exerciseName || 'Упражнение').replace(/[<>&"']/g, '');
+  return `<svg class="exercise-motion-svg" width="360" height="248" viewBox="0 0 360 248" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Биомеханическая схема: ${safeName}">
+    <defs><pattern id="motionGrid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" stroke="#fff" stroke-opacity=".03"/></pattern><marker id="motionArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#67dcb4"/></marker></defs>
+    <rect width="360" height="248" rx="20" fill="#0b0e10"/><rect width="360" height="248" rx="20" fill="url(#motionGrid)"/>
+    <path class="motion-divider" d="M180 24v199"/><path class="motion-baseline" d="M14 220H346"/>
+    <g transform="translate(8 28)">${renderMotionPose(start, profile, 'start')}</g>
+    <g transform="translate(184 28)">${renderMotionPose(end, profile, 'end')}</g>
+    <g class="motion-frame-label"><text x="18" y="22">01 / START</text><text x="194" y="22">02 / TARGET</text></g>
+    <g class="motion-vector-key" transform="translate(251 229)"><path d="M0 0h18" marker-end="url(#motionArrow)"/><text x="24" y="3">ВЕКТОР</text></g>
+  </svg>`;
+}
+
 function switchVisualizerTab(tab) {
   const tabs = ['bio', 'keys'];
   tabs.forEach(t => {
     const btn = document.getElementById(`vis-tab-btn-${t}`);
     const panel = document.getElementById(`vis-panel-${t}`);
     if (btn) {
-      if (t === tab) {
-        btn.className = "flex-1 py-2 rounded-xl bg-[#c8a97e] text-slate-950 font-bold text-center shadow-sm";
-      } else {
-        btn.className = "flex-1 py-2 rounded-xl bg-white/5 text-slate-400 border border-white/10 font-medium text-center hover:bg-white/10";
-      }
+      const isActive = t === tab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
     }
     if (panel) {
       panel.classList.toggle("hidden", t !== tab);
@@ -3954,23 +4673,43 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
   const catEl = document.getElementById("vis-badge-cat");
   const tierEl = document.getElementById("vis-badge-tier");
   const svgContainer = document.getElementById("vis-svg-container");
+  const motionProfile = getExerciseMotionProfile(info.name, info.category);
   
   if (nameEl) nameEl.textContent = info.name;
   if (catEl) catEl.textContent = info.category;
   if (tierEl) tierEl.textContent = info.tier;
-  if (svgContainer) svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
+  if (svgContainer) svgContainer.innerHTML = getPremiumExerciseMotionSVG(info.name, info.category);
+  const planeEl = document.getElementById('vis-motion-plane');
+  const jointEl = document.getElementById('vis-motion-joint');
+  const intentEl = document.getElementById('vis-motion-intent');
+  const tempoCodeEl = document.getElementById('vis-tempo-code');
+  if (planeEl) planeEl.textContent = motionProfile.plane;
+  if (jointEl) jointEl.textContent = motionProfile.joint;
+  if (intentEl) intentEl.textContent = motionProfile.cue;
+  if (tempoCodeEl) tempoCodeEl.textContent = motionProfile.tempo;
+
+  const tempoGrid = document.getElementById('vis-tempo-steps-grid');
+  if (tempoGrid) {
+    const parts = motionProfile.tempo.includes('·') ? motionProfile.tempo.split('·').map(x => x.trim()) : ['—', '—', '—'];
+    const phases = [
+      { label:'ЭКСЦЕНТРИКА', time:parts[0], text:'Контролируемая уступающая фаза' },
+      { label:'ПОЗИЦИЯ', time:parts[1], text:'Стабильная смена направления' },
+      { label:'КОНЦЕНТРИКА', time:parts[2], text:'Усилие без потери траектории' }
+    ];
+    tempoGrid.innerHTML = phases.map((phase, index) => `<div class="motion-phase"><span>0${index + 1}</span><div><small>${phase.label}</small><b>${phase.time}${phase.time !== '—' ? ' С' : ''}</b><p>${phase.text}</p></div></div>`).join('');
+  }
 
   // Таб 1: Распределение нагрузки по мышцам
   const matrixContainer = document.getElementById("vis-muscle-matrix-container");
   if (matrixContainer && info.muscleMatrix) {
     matrixContainer.innerHTML = info.muscleMatrix.map(m => `
-      <div class="space-y-1">
-        <div class="flex justify-between items-center text-[10px]">
-          <span class="text-slate-200 font-bold">${m.name}</span>
-          <span class="text-[#c8a97e] font-mono font-bold">${m.percent}% • ${m.role}</span>
+      <div class="motion-muscle-row">
+        <div class="motion-muscle-meta">
+          <span>${m.name}</span>
+          <span><b>${m.percent}%</b> · ${m.role}</span>
         </div>
-        <div class="w-full bg-[#141724] h-2 rounded-full overflow-hidden border border-white/[0.05]">
-          <div class="bg-gradient-to-r from-[#c8a97e] to-amber-300 h-full rounded-full transition-all duration-500" style="width: ${m.percent}%"></div>
+        <div class="motion-muscle-track" role="img" aria-label="${m.name}: ${m.percent} процентов">
+          <div style="width:${Math.max(0, Math.min(100, m.percent))}%"></div>
         </div>
       </div>
     `).join('');
@@ -4957,7 +5696,7 @@ let selectedAnatomyMuscleKey = 'chest';
 function getMuscleVolumeAndRecoveryData() {
   const result = {};
   Object.keys(ANATOMY_MUSCLES_DATA).forEach(k => {
-    result[k] = { sets: 0, lastHoursAgo: 72 };
+    result[k] = { sets: 0, lastHoursAgo: null };
   });
 
   const hist = appState.history || [];
@@ -4968,56 +5707,42 @@ function getMuscleVolumeAndRecoveryData() {
     const isThisWeek = diffHours <= 168;
 
     (h.exercises || []).forEach(e => {
-      const setCount = (e.sets.match(/,/g) || []).length + 1;
+      const setCount = Array.isArray(e.sets)
+        ? e.sets.length
+        : (typeof e.sets === 'string'
+            ? e.sets.split(',').filter(Boolean).length
+            : Math.max(0, Number(e.sets) || 0));
       const n = (e.name || "").toLowerCase();
 
       let targetKey = null;
-      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("груд")) targetKey = "chest";
-      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван") || n.includes("блок")) targetKey = "lats";
-      else if (n.includes("лицу") || n.includes("face") || n.includes("трапец")) targetKey = "traps";
-      else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) targetKey = "delts";
-      else if (n.includes("бицепс") || n.includes("молот") || n.includes("скотт")) targetKey = "biceps";
-      else if (n.includes("трицепс") || n.includes("разгибан") || n.includes("француз")) targetKey = "triceps";
+      if (n.includes("носк") || n.includes("икр") || n.includes("голен")) targetKey = "calves";
       else if (n.includes("пресс") || n.includes("скручиван") || n.includes("вакуум") || n.includes("планк")) targetKey = "abs";
-      else if (n.includes("румын") || n.includes("сгибан") || n.includes("ягодиц")) targetKey = "hamstrings";
-      else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("квадр")) targetKey = "quads";
-      else if (n.includes("носк") || n.includes("икр") || n.includes("голен")) targetKey = "calves";
+      else if (n.includes("румын") || n.includes("сгибан ног") || n.includes("ягодиц")) targetKey = "hamstrings";
+      else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("разгибан ног") || n.includes("квадр")) targetKey = "quads";
+      else if (n.includes("лицу") || n.includes("face") || n.includes("трапец") || n.includes("шраг")) targetKey = "traps";
+      else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт") || n.includes("армейск") || n.includes("над головой")) targetKey = "delts";
+      else if (n.includes("бицепс") || n.includes("молот") || n.includes("скотт")) targetKey = "biceps";
+      else if (n.includes("трицепс") || n.includes("разгибан рук") || n.includes("француз")) targetKey = "triceps";
+      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван") || n.includes("верхний блок")) targetKey = "lats";
+      else if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("груд")) targetKey = "chest";
 
       if (targetKey && result[targetKey]) {
         if (isThisWeek) result[targetKey].sets += setCount;
-        if (diffHours < result[targetKey].lastHoursAgo) result[targetKey].lastHoursAgo = diffHours;
+        if (result[targetKey].lastHoursAgo === null || diffHours < result[targetKey].lastHoursAgo) result[targetKey].lastHoursAgo = diffHours;
       }
     });
   });
-
-  if (result.chest.sets === 0) result.chest.sets = 12;
-  if (result.lats.sets === 0) result.lats.sets = 10;
-  if (result.delts.sets === 0) result.delts.sets = 8;
-  if (result.quads.sets === 0) result.quads.sets = 10;
-  if (result.hamstrings.sets === 0) result.hamstrings.sets = 8;
-  if (result.biceps.sets === 0) result.biceps.sets = 6;
-  if (result.triceps.sets === 0) result.triceps.sets = 6;
-  if (result.traps.sets === 0) result.traps.sets = 8;
-  if (result.abs.sets === 0) result.abs.sets = (appState.vacDaysCount || 0) > 0 ? 8 : 4;
-  if (result.calves.sets === 0) result.calves.sets = 6;
 
   return result;
 }
 
 function setAnatomyView(view) {
   currentAnatomyView = view;
-  const btnFront = document.getElementById("btn-anat-front");
-  const btnBack = document.getElementById("btn-anat-back");
-
-  if (btnFront && btnBack) {
-    if (view === 'front') {
-      btnFront.className = "px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all";
-      btnBack.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
-    } else {
-      btnBack.className = "px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all";
-      btnFront.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
-    }
-  }
+  document.querySelectorAll('[data-anatomy-view]').forEach(btn => {
+    const isActive = btn.dataset.anatomyView === view;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
   Sound.click();
   Haptic.selection();
   renderInteractiveAnatomyMap();
@@ -5037,60 +5762,46 @@ function selectAnatomyMuscle(muscleKey) {
 
 function updateAnatomyHUD(key, d, info) {
   if (!info) info = ANATOMY_MUSCLES_DATA[key] || ANATOMY_MUSCLES_DATA.chest;
-  
-  const titleEl = document.getElementById("anat-hud-title");
-  const pumpBadge = document.getElementById("anat-hud-pump-badge");
-  const volEl = document.getElementById("anat-hud-volume");
-  const mavStatus = document.getElementById("anat-hud-mav-status");
-  const recEl = document.getElementById("anat-hud-recovery");
-  const timerEl = document.getElementById("anat-hud-timer");
-  const exEl = document.getElementById("anat-hud-exercises");
-  const tipEl = document.getElementById("anat-hud-tip");
+
+  const fieldEls = name => Array.from(document.querySelectorAll(`[data-anat-field="${name}"]`));
+  const setField = (name, value) => fieldEls(name).forEach(el => { el.textContent = value; });
 
   const sets = d.sets || 0;
+  const mev = info.mev || 6;
   const mav = info.mav || 14;
+  const mrv = info.mrv || Math.round(mav * 1.4);
   const pct = Math.min(150, Math.round((sets / mav) * 100));
 
-  if (titleEl) titleEl.textContent = info.name;
-  
-  if (pumpBadge) {
-    if (pct >= 100) {
-      pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-amber-500/20 text-[#c8a97e] border border-[#c8a97e]/40 text-[10px] font-mono font-bold animate-pulse";
-      pumpBadge.textContent = "🔥 Оптимум роста (" + pct + "%)";
-    } else if (pct >= 50) {
-      pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold";
-      pumpBadge.textContent = "⚡ Активный стимул (" + pct + "%)";
-    } else {
-      pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 text-[10px] font-mono font-bold";
-      pumpBadge.textContent = "⏳ В плане (" + pct + "%)";
-    }
-  }
+  setField('title', info.name);
+  setField('volume', `${sets} ${sets === 1 ? 'сет' : (sets >= 2 && sets <= 4 ? 'сета' : 'сетов')}`);
+  setField('mav', `MEV ${mev} · MAV ${mav} · MRV ${mrv}`);
+  setField('exercises', info.recomExercises);
+  setField('tip', info.proTip);
 
-  if (volEl) volEl.textContent = sets + " / " + mav + " сетов (неделя)";
-  if (mavStatus) {
-    mavStatus.textContent = pct >= 100 ? "Оптимальный объем нагрузки выполнен" : (pct >= 50 ? "Хороший диапазон для роста мышц" : "Рекомендуется добавить " + Math.max(0, mav - sets) + " сетов");
-  }
+  let loadState = 'empty';
+  let badgeText = 'НЕТ ОБЪЁМА';
+  if (sets > 0 && sets < mev) { loadState = 'low'; badgeText = `НИЖЕ MEV · ${pct}%`; }
+  else if (sets >= mev && sets <= mav) { loadState = 'work'; badgeText = `РАБОЧИЙ · ${pct}%`; }
+  else if (sets > mav && sets <= mrv) { loadState = 'high'; badgeText = `ВЫСОКИЙ · ${pct}%`; }
+  else if (sets > mrv) { loadState = 'over'; badgeText = `ВЫШЕ MRV · ${pct}%`; }
+  fieldEls('badge').forEach(el => {
+    el.textContent = badgeText;
+    el.className = `anatomy-status-badge ${loadState}`;
+  });
 
-  const hoursAgo = d.lastHoursAgo !== undefined ? d.lastHoursAgo : 72;
-  if (recEl) {
-    if (hoursAgo >= 48) {
-      recEl.textContent = "100% Мышца готова к нагрузке";
-      recEl.className = "text-emerald-400 font-mono font-bold text-xs";
-    } else if (hoursAgo >= 24) {
-      recEl.textContent = "75% Фаза суперкомпенсации";
-      recEl.className = "text-[#c8a97e] font-mono font-bold text-xs";
-    } else {
-      recEl.textContent = "40% Активное восстановление";
-      recEl.className = "text-rose-400 font-mono font-bold text-xs";
-    }
+  const hoursAgo = Number.isFinite(d.lastHoursAgo) ? d.lastHoursAgo : null;
+  let recoveryText = 'Нет нагрузки';
+  let timerText = 'Последняя нагрузка не записана';
+  let recoveryState = 'unknown';
+  if (hoursAgo !== null) {
+    timerText = hoursAgo >= 48 ? `Прошло ${hoursAgo} ч` : `${hoursAgo} ч после нагрузки`;
+    if (hoursAgo >= 48) { recoveryText = 'Готовность высокая'; recoveryState = 'ready'; }
+    else if (hoursAgo >= 24) { recoveryText = 'Восстановление'; recoveryState = 'recovering'; }
+    else { recoveryText = 'Недавняя нагрузка'; recoveryState = 'recent'; }
   }
-
-  if (timerEl) {
-    timerEl.textContent = hoursAgo >= 48 ? "Отдых 48ч пройден • ЦНС восстановилась" : "Прошло " + hoursAgo + "ч из 48ч отдыха";
-  }
-
-  if (exEl) exEl.textContent = info.recomExercises;
-  if (tipEl) tipEl.textContent = info.proTip;
+  setField('recovery', recoveryText);
+  setField('timer', timerText);
+  fieldEls('recovery').forEach(el => { el.dataset.state = recoveryState; });
 }
 
 function renderInteractiveAnatomyMap() {
@@ -5281,6 +5992,132 @@ function renderInteractiveAnatomyMap() {
 
   host.innerHTML = svgHtml;
   updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: 72 });
+}
+
+// Anatomical Load Atlas 2.0 — proportionate, data-led replacement for the legacy mannequin.
+// The map visualizes logged training volume only; it does not diagnose tissue recovery.
+function handleAnatomyRegionKey(event, key) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    selectAnatomyMuscle(key);
+  }
+}
+
+function renderInteractiveAnatomyMap() {
+  const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
+  if (!hosts.length) return;
+
+  const data = getMuscleVolumeAndRecoveryData();
+  const selKey = selectedAnatomyMuscleKey || 'chest';
+  const labels = {
+    chest: 'PECTORALIS', delts: 'DELTOID', biceps: 'BICEPS', triceps: 'TRICEPS',
+    traps: 'TRAPEZIUS', lats: 'LATISSIMUS', abs: 'RECTUS ABD.', quads: 'QUADRICEPS',
+    hamstrings: 'POSTERIOR CHAIN', calves: 'GASTROCNEMIUS'
+  };
+
+  const styleFor = key => {
+    const info = ANATOMY_MUSCLES_DATA[key] || { mev: 6, mav: 14, mrv: 20 };
+    const value = data[key] || { sets: 0 };
+    const sets = value.sets || 0;
+    const ratio = info.mav ? sets / info.mav : 0;
+    const selected = key === selKey;
+    let fill = '#343a3f';
+    let stroke = '#697178';
+    let fiber = '#8a9298';
+    if (sets >= info.mev && sets <= info.mav) {
+      fill = '#247b68'; stroke = '#67dcb4'; fiber = '#a2f4d7';
+    } else if (sets > info.mav) {
+      fill = sets > info.mrv ? '#8d4947' : '#936e43';
+      stroke = sets > info.mrv ? '#ff7a72' : '#d7ae74';
+      fiber = sets > info.mrv ? '#ffc0bb' : '#f2d3a5';
+    } else if (sets > 0) {
+      fill = '#43564f'; stroke = '#77958a'; fiber = '#9eb7ad';
+    }
+    if (selected) {
+      stroke = '#f3dfbb';
+      fiber = '#fff2d9';
+    }
+    return { fill, stroke, fiber, selected, ratio };
+  };
+
+  const region = (key, shapes, fibers = '') => {
+    const s = styleFor(key);
+    return `<g class="anat-region${s.selected ? ' is-selected' : ''}" role="button" tabindex="0" aria-label="${ANATOMY_MUSCLES_DATA[key].name}" data-muscle="${key}" style="--muscle-fill:${s.fill};--muscle-stroke:${s.stroke};--fiber-stroke:${s.fiber}" onclick="selectAnatomyMuscle('${key}')" onkeydown="handleAnatomyRegionKey(event,'${key}')">${shapes}<g class="anat-fibers" aria-hidden="true">${fibers}</g></g>`;
+  };
+
+  const anatomyBase = (viewLabel, back = false) => `
+    <defs>
+      <linearGradient id="tissueGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#252b2f"/><stop offset="0.5" stop-color="#171b1e"/><stop offset="1" stop-color="#0f1214"/></linearGradient>
+      <radialGradient id="headGradient" cx="42%" cy="32%" r="70%"><stop offset="0" stop-color="#333a3f"/><stop offset="1" stop-color="#15191c"/></radialGradient>
+      <pattern id="atlasGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#ffffff" stroke-opacity=".025" stroke-width="1"/></pattern>
+      <filter id="selectedGlow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="320" height="520" rx="24" fill="#0b0e10"/>
+    <rect x="1" y="1" width="318" height="518" rx="23" fill="url(#atlasGrid)" stroke="#ffffff" stroke-opacity=".06"/>
+    <text class="atlas-coordinate" x="18" y="27">${viewLabel}</text>
+    <path class="atlas-reference-line" d="M160 34V500"/>
+    <g class="atlas-tissue" aria-hidden="true">
+      <ellipse cx="160" cy="54" rx="25" ry="31" fill="url(#headGradient)"/>
+      <path d="M145 78c2 11-2 17-10 23h50c-8-6-12-12-10-23z" fill="url(#tissueGradient)"/>
+      <path d="M135 95C116 96 99 101 91 116c-9 18-3 42 6 62l12 31c6 17 2 40-4 62 11 19 31 29 55 29s44-10 55-29c-6-22-10-45-4-62l12-31c9-20 15-44 6-62-8-15-25-20-44-21l-25 12z" fill="url(#tissueGradient)"/>
+      <path d="M102 119C79 139 75 169 70 203L61 267"/><path d="M218 119c23 20 27 50 32 84l9 64"/>
+      <path d="M112 276c-9 25-8 57-5 86l4 45-10 82"/><path d="M208 276c9 25 8 57 5 86l-4 45 10 82"/>
+      <path d="M132 291c3 19 2 46-1 69l-4 48-7 81M188 291c-3 19-2 46 1 69l4 48 7 81"/>
+      <path class="atlas-joint-line" d="M91 117 70 203 61 267M229 117l21 86 9 64M132 291l-1 69-4 48-7 81M188 291l1 69 4 48 7 81"/>
+      ${back ? '<path class="atlas-spine" d="M160 94c-3 35 3 59 0 91s3 63 0 102"/>' : '<path class="atlas-midline" d="M160 108v174"/>'}
+    </g>`;
+
+  const frontRegions = `
+    ${region('delts',
+      '<path class="anat-muscle-shape" d="M132 99c-16-4-31 3-38 17-4 10-1 21 3 29 12-3 22-14 29-28z"/><path class="anat-muscle-shape" d="M188 99c16-4 31 3 38 17 4 10 1 21-3 29-12-3-22-14-29-28z"/>',
+      '<path d="M99 119c10-7 19-9 27-8M221 119c-10-7-19-9-27-8"/>')}
+    ${region('chest',
+      '<path class="anat-muscle-shape" d="M158 108c-20-9-43-7-58 7-6 7-5 22 1 31 15 12 37 14 57 4z"/><path class="anat-muscle-shape" d="M162 108c20-9 43-7 58 7 6 7 5 22-1 31-15 12-37 14-57 4z"/>',
+      '<path d="M154 118c-18-5-35-2-48 6M154 128c-19-2-35 2-49 8M166 118c18-5 35-2 48 6M166 128c19-2 35 2 49 8"/>')}
+    ${region('biceps',
+      '<path class="anat-muscle-shape" d="M91 145c-10 10-14 31-14 49 0 14 4 23 10 27 9-10 14-31 14-50 0-13-3-22-10-26z"/><path class="anat-muscle-shape" d="M229 145c10 10 14 31 14 49 0 14-4 23-10 27-9-10-14-31-14-50 0-13 3-22 10-26z"/>',
+      '<path d="M91 153c-6 19-8 39-7 58M229 153c6 19 8 39 7 58"/>')}
+    ${region('abs',
+      '<path class="anat-muscle-shape" d="M137 156c8 4 14 4 20 1v94c-8 6-15 5-23-1 5-32 4-63 3-94z"/><path class="anat-muscle-shape" d="M183 156c-8 4-14 4-20 1v94c8 6 15 5 23-1-5-32-4-63-3-94z"/><path class="anat-muscle-shape secondary" d="M132 159c-11 15-14 38-12 63 1 17 5 30 13 40l10-10c-6-31-5-60-6-92z"/><path class="anat-muscle-shape secondary" d="M188 159c11 15 14 38 12 63-1 17-5 30-13 40l-10-10c6-31 5-60 6-92z"/>',
+      '<path d="M139 177h17m-18 20h18m-19 21h19m8-41h17m-17 20h18m-18 21h19"/>')}
+    ${region('quads',
+      '<path class="anat-muscle-shape" d="M116 286c-11 25-12 55-7 91 2 15 8 25 18 28 9-24 13-50 13-77 0-21-8-35-24-42z"/><path class="anat-muscle-shape" d="M204 286c11 25 12 55 7 91-2 15-8 25-18 28-9-24-13-50-13-77 0-21 8-35 24-42z"/><path class="anat-muscle-shape secondary" d="M142 292c-8 22-9 54-5 89l13 19c7-33 7-74 1-104z"/><path class="anat-muscle-shape secondary" d="M178 292c8 22 9 54 5 89l-13 19c-7-33-7-74-1-104z"/>',
+      '<path d="M122 299c1 35 0 67-4 93M136 303c6 31 8 58 7 82M198 299c-1 35 0 67 4 93M184 303c-6 31-8 58-7 82"/>')}
+    ${region('calves',
+      '<path class="anat-muscle-shape" d="M106 414c-8 14-9 38-6 55 2 10 7 16 13 17 8-16 11-38 8-57-2-9-7-14-15-15z"/><path class="anat-muscle-shape" d="M214 414c8 14 9 38 6 55-2 10-7 16-13 17-8-16-11-38-8-57 2-9 7-14 15-15z"/>',
+      '<path d="M110 423c-3 20-4 38-2 54M210 423c3 20 4 38 2 54"/>')}`;
+
+  const backRegions = `
+    ${region('traps',
+      '<path class="anat-muscle-shape" d="M159 86c-10 11-20 18-35 23l15 48 21 25 21-25 15-48c-15-5-25-12-35-23z"/>',
+      '<path d="M160 94v76M151 105l-15 44M169 105l15 44"/>')}
+    ${region('delts',
+      '<path class="anat-muscle-shape" d="M125 101c-16-5-30 1-38 15-5 10-2 23 5 31 12-4 24-16 31-30z"/><path class="anat-muscle-shape" d="M195 101c16-5 30 1 38 15 5 10 2 23-5 31-12-4-24-16-31-30z"/>',
+      '<path d="M94 120c10-7 19-9 28-8M226 120c-10-7-19-9-28-8"/>')}
+    ${region('triceps',
+      '<path class="anat-muscle-shape" d="M91 146c-10 14-13 34-11 53 1 12 6 21 12 23 9-14 13-33 11-52-1-12-5-20-12-24z"/><path class="anat-muscle-shape" d="M229 146c10 14 13 34 11 53-1 12-6 21-12 23-9-14-13-33-11-52 1-12 5-20 12-24z"/>',
+      '<path d="M91 154c4 19 3 39-4 58M229 154c-4 19-3 39 4 58"/>')}
+    ${region('lats',
+      '<path class="anat-muscle-shape" d="M132 129c-20 5-31 18-36 38-5 24 3 58 27 91 11-11 18-27 23-48l9-69z"/><path class="anat-muscle-shape" d="M188 129c20 5 31 18 36 38 5 24-3 58-27 91-11-11-18-27-23-48l-9-69z"/>',
+      '<path d="M133 139c-15 23-22 55-18 91M187 139c15 23 22 55 18 91M142 148c-9 30-12 57-9 80M178 148c9 30 12 57 9 80"/>')}
+    ${region('hamstrings',
+      '<path class="anat-muscle-shape" d="M110 263c3 24 20 38 48 39l-1-34c-17-8-33-10-47-5z"/><path class="anat-muscle-shape" d="M210 263c-3 24-20 38-48 39l1-34c17-8 33-10 47-5z"/><path class="anat-muscle-shape" d="M115 303c-9 24-9 57-3 91 3 12 9 20 17 22 10-31 15-72 10-104-8-7-16-10-24-9z"/><path class="anat-muscle-shape" d="M205 303c9 24 9 57 3 91-3 12-9 20-17 22-10-31-15-72-10-104 8-7 16-10 24-9z"/>',
+      '<path d="M120 315c2 33 1 63-4 89M136 318c-2 34-6 62-12 86M200 315c-2 33-1 63 4 89M184 318c2 34 6 62 12 86"/>')}
+    ${region('calves',
+      '<path class="anat-muscle-shape" d="M105 414c-11 14-13 38-8 58 3 11 9 16 16 15 9-17 12-39 8-58-2-10-8-15-16-15z"/><path class="anat-muscle-shape" d="M215 414c11 14 13 38 8 58-3 11-9 16-16 15-9-17-12-39-8-58 2-10 8-15 16-15z"/>',
+      '<path d="M108 423c-3 20-3 39 1 55M212 423c3 20 3 39-1 55"/>')}`;
+
+  const pointMap = currentAnatomyView === 'front'
+    ? { chest:[198,137], delts:[222,119], biceps:[235,181], abs:[181,210], quads:[204,350], calves:[214,451] }
+    : { traps:[181,120], delts:[225,120], triceps:[232,184], lats:[207,208], hamstrings:[201,350], calves:[214,452] };
+  const point = pointMap[selKey] || [160, 260];
+  const callout = `<g class="anat-selection-callout" aria-hidden="true"><circle cx="${point[0]}" cy="${point[1]}" r="4"/><path d="M${point[0] + 5} ${point[1]}H298"/><text x="298" y="${point[1] - 8}" text-anchor="end">${labels[selKey] || 'MUSCLE'}</text></g>`;
+  const viewLabel = currentAnatomyView === 'front' ? '01 / ANTERIOR' : '02 / POSTERIOR';
+  const regions = currentAnatomyView === 'front' ? frontRegions : backRegions;
+  const svg = `<svg class="anatomy-atlas-svg" width="320" height="520" viewBox="0 0 320 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${currentAnatomyView === 'front' ? 'Передняя' : 'Задняя'} анатомическая карта тренировочной нагрузки">${anatomyBase(viewLabel, currentAnatomyView === 'back')}${regions}${callout}</svg>`;
+
+  hosts.forEach(host => { host.innerHTML = svg; });
+  updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: null });
 }
 
 
@@ -5589,10 +6426,10 @@ function renderExerciseCatalogList() {
   }
 
   container.innerHTML = filtered.map(ex => {
-    const diagSvg = getExerciseDiagramSVG(ex.name, ex.category);
+    const diagSvg = getPremiumExerciseMotionSVG(ex.name, ex.category);
     return `
-      <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
-        <div class="flex justify-between items-start space-x-2">
+      <div class="exercise-catalog-card p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
+        <div class="exercise-catalog-head flex justify-between items-start gap-2">
           <div class="space-y-0.5 flex-1 cursor-pointer" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')">
             <div class="flex items-center space-x-1.5">
               <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-[#c8a97e]/30 rounded uppercase">${ex.category}</span>
@@ -5600,9 +6437,9 @@ function renderExerciseCatalogList() {
             </div>
             <p class="text-[10px] text-slate-400 font-mono">${ex.targetMuscles}</p>
           </div>
-          <div class="flex items-center space-x-1.5">
+          <div class="exercise-catalog-actions flex items-center space-x-1.5">
             <button type="button" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="px-2 py-1.5 bg-[#181b26] hover:bg-white/10 text-slate-300 hover:text-white rounded-xl border border-white/10 text-[10px] font-bold font-mono active:scale-95 transition-all flex items-center gap-1">
-              <span>🔬 Анатомия</span>
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Motion Lab</span>
             </button>
             <button type="button" onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
               + В план
@@ -5611,13 +6448,13 @@ function renderExerciseCatalogList() {
         </div>
 
         <!-- ВИЗУАЛЬНАЯ АНИМИРОВАННАЯ ТРАЕКТОРИЯ И ДВИЖЕНИЕ -->
-        <div onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04] cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Нажмите для открытия 3D Анатомии и Техники">
+        <div onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04] cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Открыть биомеханическую схему Motion Lab">
           ${diagSvg}
         </div>
 
         <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-white/[0.04] pt-1.5">
           <span>Норма: <b class="text-white">${ex.defaultSets}×${ex.min}-${ex.max}</b> (${ex.defaultWeight} кг)</span>
-          <span class="text-emerald-400">🔥 ~${ex.calRate * ex.defaultSets} ккал</span>
+          <span class="text-emerald-400 inline-flex items-center gap-1"><svg class="w-3 h-3 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>~${ex.calRate * ex.defaultSets} ккал</span>
         </div>
       </div>
     `;
@@ -5631,10 +6468,10 @@ function toggleExerciseGuide(exIdx) {
   const isHidden = guideEl.classList.contains("hidden");
   if (isHidden) {
     guideEl.classList.remove("hidden");
-    if (btnEl) btnEl.textContent = "✕ Скрыть схему";
+    if (btnEl) btnEl.textContent = "Скрыть схему";
   } else {
     guideEl.classList.add("hidden");
-    if (btnEl) btnEl.textContent = "👀 Схема & Техника";
+    if (btnEl) btnEl.textContent = "Схема и техника";
   }
   Sound.beep(550, 0.04);
   Haptic.impact('light');
@@ -5816,7 +6653,7 @@ function renderActiveWorkoutUI() {
         <span class="ex-phase-badge">${p}</span>
       `).join('');
 
-      const diagramSvg = getExerciseDiagramSVG(ex.name, ex.muscleGroup);
+      const diagramSvg = getPremiumExerciseMotionSVG(ex.name, ex.muscleGroup);
 
       bodyHtml = `
         <div class="pt-3 space-y-2.5 border-t border-white/[0.06] mt-3">
@@ -5841,10 +6678,10 @@ function renderActiveWorkoutUI() {
             </div>
             <div class="flex space-x-1.5">
               <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="px-2.5 py-1 bg-gradient-to-r from-[#c8a97e]/25 to-[#c8a97e]/10 hover:bg-[#c8a97e]/35 text-[#c8a97e] rounded-lg border border-[#c8a97e]/40 text-[10px] font-bold active:scale-95 transition-all flex items-center gap-1 shadow-sm">
-                <span>🔬 Анатомия & Схема</span>
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Motion Lab</span>
               </button>
               <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2 py-1 bg-white/5 hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] font-bold active:scale-95 transition-all">
-                👀 Подсказка
+                Подсказка
               </button>
               <button type="button" onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-1 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] active:scale-95 transition-all">
                 Замена
@@ -5854,7 +6691,7 @@ function renderActiveWorkoutUI() {
 
           <!-- ВИЗУАЛЬНЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И ТЕХНИКИ (ПО УМОЛЧАНИЮ СКРЫТ) -->
           <div id="ex-guide-${exIdx}" class="pt-2 space-y-3 hidden">
-            <div onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2 cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Нажмите для открытия 3D Анатомии и Метронома">
+            <div onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2 cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Открыть биомеханическую схему Motion Lab">
               ${diagramSvg}
             </div>
 
@@ -5862,7 +6699,7 @@ function renderActiveWorkoutUI() {
               <div class="flex justify-between items-center text-[10px] font-mono">
                 <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
                 <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="text-[9px] text-[#c8a97e] bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold hover:underline">
-                  3D Анатомия →
+                  Motion Lab →
                 </button>
               </div>
               
@@ -8396,14 +9233,13 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chatId: userId,
-          text: `🚀 <b>ВЫШЛО ОБНОВЛЕНИЕ IRON COACH ${APP_CONFIG.version}!</b>\n\n` +
-                `✨ <b>Что нового:</b>\n` +
-                `• <b>Атлетический Атлас 7.0:</b> Реалистичная анатомическая карта тела с плавными кривыми Безье (Спереди / Сзади), неоновый памп и HUD-инспектор мышц.\n` +
-                `• <b>Интерактивные витамины:</b> Персональный стек (D3+K2, Омега-3, Магний, Креатин, Цинк) с отметкой приёма, стриком и рекомендациями.\n` +
-                `• <b>Аудио 3.0:</b> 3 режима звука — Полный, Тихий зал (только вибро), Без звука.\n` +
-                `• <b>Динамический BMR/TDEE:</b> Персональный расчёт калорий и макросов по формуле Миффлина + US Navy.\n` +
-                `• <b>Календарь тренировок:</b> Подсветка сегодняшнего дня, инспекция пропусков, годовой обзор.\n\n` +
-                `👇 <i>Открой приложение и проверь обновления:</i>`,
+          text: `🚀 <b>IRON COACH ${APP_CONFIG.version} УЖЕ В ОБЛАКЕ</b>\n\n` +
+                `<b>Что полностью переработано:</b>\n` +
+                `• <b>Motion Lab:</b> схема START → TARGET, суставные маркеры, плоскость движения и вектор усилия.\n` +
+                `• <b>Muscle Load Atlas:</b> новая анатомическая карта спереди и сзади с направлениями мышечных волокон.\n` +
+                `• <b>Только реальные данные:</b> убраны демонстрационные сеты; объём строится по журналу тренировок.\n` +
+                `• <b>Корректные формулировки:</b> восстановление отмечено как расчётная готовность, а не медицинский показатель.\n\n` +
+                `👇 <i>Открой приложение и оцени новый визуал:</i>`,
           withButton: true
         })
       }).catch(() => {});
@@ -8493,4 +9329,5 @@ function updateSettingsDisplay() {
     if (btn) btn.classList.toggle("active", t === curTheme);
   });
 }
-</script> </body> </html> 
+
+</script> </body> </html>

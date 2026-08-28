@@ -3,9 +3,9 @@
  */
 
 const APP_CONFIG = {
-  version: "v2.9.0 PRO",
-  build: "v2.8.4 (Interactive 3D/2D Anatomical Model & Hypertrophy Engine)",
-  releaseDate: "2026-08-27"
+  version: "v2.10.0 PRO",
+  build: "v2.10.0 (Motion Lab & Anatomical Load Atlas)",
+  releaseDate: "2026-08-28"
 };
 
 function injectAppVersion() {
@@ -1867,17 +1867,207 @@ function getExerciseAnatomyInfo(exName) {
 // МОДУЛЬ ТЕХНИКИ УПРАЖНЕНИЙ И СЕКРЕТОВ PRO (ЧИСТЫЙ РУССКИЙ ЯЗЫК)
 // ========================================================
 
+function getExerciseMotionProfile(exerciseName, category = '') {
+  const n = String(exerciseName || '').toLowerCase();
+  const cat = String(category || '').toLowerCase();
+  let pattern = '';
+  if (n.includes('жим ногами')) pattern = 'leg-press';
+  else if (n.includes('гакк')) pattern = 'hack-squat';
+  else if (n.includes('присед') || n.includes('выпад')) pattern = 'squat';
+  else if (n.includes('румын') || n.includes('станов') || n.includes('гиперэкст')) pattern = 'hinge';
+  else if (n.includes('сгибан ног')) pattern = 'knee-flexion';
+  else if (n.includes('разгибан ног')) pattern = 'knee-extension';
+  else if (n.includes('икр') || n.includes('носк')) pattern = 'calf';
+  else if (n.includes('подтяг') || n.includes('верхн') || n.includes('пуловер')) pattern = 'vertical-pull';
+  else if (n.includes('тяга') || n.includes('греб')) pattern = 'row';
+  else if (n.includes('мах') || n.includes('протяж') || (n.includes('развод') && (n.includes('задн') || cat.includes('плеч')))) pattern = 'raise';
+  else if (n.includes('бицеп') || n.includes('молот') || n.includes('скотт') || n.includes('сгибан рук')) pattern = 'curl';
+  else if (n.includes('француз') || n.includes('разгибан рук') || n.includes('кикбэк') || n.includes('из-за головы')) pattern = 'triceps';
+  else if (n.includes('планк') || n.includes('скручив') || n.includes('вакуум') || n.includes('подъем колен')) pattern = 'core';
+  else if (n.includes('над головой') || n.includes('армейск') || (n.includes('жим') && n.includes('плеч'))) pattern = 'vertical-press';
+  else if (n.includes('бабоч') || n.includes('pec deck') || n.includes('развод')) pattern = 'fly';
+  else if (n.includes('ходьб') || n.includes('бег') || n.includes('эллип') || n.includes('вело')) pattern = 'locomotion';
+  else if (n.includes('жим') || n.includes('отжим') || n.includes('брусь')) pattern = 'press';
+  else if (cat.includes('плеч')) pattern = 'raise';
+  else if (cat.includes('трицеп')) pattern = 'triceps';
+  else if (cat.includes('бицеп')) pattern = 'curl';
+  else if (cat.includes('пресс')) pattern = 'core';
+  else if (cat.includes('спин')) pattern = 'row';
+  else if (cat.includes('ног')) pattern = 'squat';
+  else pattern = 'press';
+
+  const equipment = n.includes('гантел') ? 'dumbbell'
+    : (n.includes('штанг') ? 'barbell'
+      : ((n.includes('блок') || n.includes('тренаж') || n.includes('pec deck')) ? 'cable' : 'bodyweight'));
+
+  const profiles = {
+    press: { plane:'Поперечная', joint:'Плечо + локоть', intent:'Толкать от корпуса', tempo:'3 · 1 · 1', target:'upper', cue:'Лопатки стабильны', arc:'M72 62Q102 43 124 64' },
+    fly: { plane:'Поперечная', joint:'Плечевой', intent:'Свести плечевые кости', tempo:'3 · 1 · 2', target:'upper', cue:'Локоть мягкий', arc:'M54 65Q92 32 130 65' },
+    'vertical-press': { plane:'Фронтальная', joint:'Плечо + локоть', intent:'Вытолкнуть вверх', tempo:'2 · 1 · 1', target:'shoulder', cue:'Рёбра под контролем', arc:'M48 82Q56 40 82 23' },
+    row: { plane:'Сагиттальная', joint:'Плечо + лопатка', intent:'Локоть к тазу', tempo:'2 · 1 · 2', target:'back', cue:'Движение лопатки', arc:'M126 75Q92 65 68 90' },
+    'vertical-pull': { plane:'Фронтальная', joint:'Плечо + лопатка', intent:'Локти вниз', tempo:'2 · 1 · 3', target:'back', cue:'Грудь к рукояти', arc:'M78 25Q46 51 63 87' },
+    squat: { plane:'Сагиттальная', joint:'Таз + колено', intent:'Давить платформу', tempo:'3 · 1 · 1', target:'thigh', cue:'Колено по стопе', arc:'M79 119Q116 112 121 146' },
+    'leg-press': { plane:'Сагиттальная', joint:'Таз + колено', intent:'Платформу от корпуса', tempo:'3 · 1 · 1', target:'thigh', cue:'Таз прижат к спинке', arc:'M111 108Q139 94 151 65' },
+    'hack-squat': { plane:'Сагиттальная', joint:'Таз + колено', intent:'Плечи в платформу', tempo:'3 · 1 · 1', target:'thigh', cue:'Спина на опоре', arc:'M82 119Q116 112 121 146' },
+    hinge: { plane:'Сагиттальная', joint:'Тазобедренный', intent:'Таз назад / вперёд', tempo:'3 · 1 · 1', target:'posterior', cue:'Нейтральная спина', arc:'M91 106Q65 92 53 70' },
+    'knee-flexion': { plane:'Сагиттальная', joint:'Коленный', intent:'Пятка к ягодице', tempo:'2 · 1 · 3', target:'posterior', cue:'Таз фиксирован', arc:'M116 136Q136 151 111 171' },
+    'knee-extension': { plane:'Сагиттальная', joint:'Коленный', intent:'Разогнуть колено', tempo:'2 · 1 · 3', target:'thigh', cue:'Без удара в замок', arc:'M98 141Q125 139 137 166' },
+    calf: { plane:'Сагиттальная', joint:'Голеностоп', intent:'Поднять пятку', tempo:'2 · 1 · 3', target:'calf', cue:'Полная амплитуда', arc:'M80 173Q98 164 113 176' },
+    raise: { plane:'Фронтальная', joint:'Плечевой', intent:'Локти в стороны', tempo:'2 · 1 · 3', target:'shoulder', cue:'Плечи не поднимать', arc:'M50 90Q74 56 112 68' },
+    curl: { plane:'Сагиттальная', joint:'Локтевой', intent:'Согнуть локоть', tempo:'2 · 1 · 3', target:'arm', cue:'Плечо неподвижно', arc:'M75 116Q48 99 63 76' },
+    triceps: { plane:'Сагиттальная', joint:'Локтевой', intent:'Разогнуть локоть', tempo:'2 · 1 · 3', target:'arm', cue:'Локти фиксированы', arc:'M65 70Q91 57 96 28' },
+    core: { plane:'Сагиттальная', joint:'Позвоночник / таз', intent:'Удержать рёбра и таз', tempo:'2 · 1 · 2', target:'core', cue:'Без рывка шеей', arc:'M48 103Q75 73 107 92' },
+    locomotion: { plane:'Сагиттальная', joint:'Таз + колено', intent:'Циклический шаг', tempo:'Ровный ритм', target:'thigh', cue:'Мягкая опора', arc:'M62 112Q93 88 118 122' }
+  };
+  return { pattern, equipment, ...(profiles[pattern] || profiles.press) };
+}
+
+function getMotionPose(pattern, phase) {
+  const poses = {
+    'leg-press': {
+      start:{head:[34,76],shoulder:[55,92],hip:[91,120],elbow:[70,105],wrist:[91,109],knee:[116,108],ankle:[132,78],foot:[146,67]},
+      end:{head:[34,76],shoulder:[55,92],hip:[91,120],elbow:[70,105],wrist:[91,109],knee:[126,91],ankle:[151,64],foot:[160,52]}
+    },
+    'hack-squat': {
+      start:{head:[80,24],shoulder:[80,57],hip:[80,104],elbow:[55,70],wrist:[46,91],knee:[80,143],ankle:[80,181],foot:[101,181]},
+      end:{head:[51,57],shoulder:[65,86],hip:[87,116],elbow:[93,85],wrist:[121,85],knee:[120,143],ankle:[105,181],foot:[128,181]}
+    },
+    squat: {
+      start:{head:[80,24],shoulder:[80,57],hip:[80,104],elbow:[55,70],wrist:[46,91],knee:[80,143],ankle:[80,181],foot:[101,181]},
+      end:{head:[47,59],shoulder:[62,88],hip:[86,116],elbow:[91,87],wrist:[122,87],knee:[120,143],ankle:[105,181],foot:[128,181]}
+    },
+    hinge: {
+      start:{head:[81,24],shoulder:[81,58],hip:[82,106],elbow:[78,90],wrist:[76,122],knee:[83,145],ankle:[82,181],foot:[103,181]},
+      end:{head:[38,66],shoulder:[61,79],hip:[91,108],elbow:[67,111],wrist:[73,145],knee:[99,146],ankle:[96,181],foot:[118,181]}
+    },
+    press: {
+      start:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[59,72],wrist:[83,55],knee:[139,145],ankle:[126,180],foot:[148,180]},
+      end:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[75,76],wrist:[75,33],knee:[139,145],ankle:[126,180],foot:[148,180]}
+    },
+    fly: {
+      start:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[71,68],wrist:[104,72],knee:[139,145],ankle:[126,180],foot:[148,180]},
+      end:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[64,72],wrist:[67,35],knee:[139,145],ankle:[126,180],foot:[148,180]}
+    },
+    'vertical-press': {
+      start:{head:[78,25],shoulder:[78,59],hip:[79,108],elbow:[48,80],wrist:[57,58],knee:[98,143],ankle:[101,181],foot:[123,181]},
+      end:{head:[78,25],shoulder:[78,59],hip:[79,108],elbow:[68,48],wrist:[72,18],knee:[98,143],ankle:[101,181],foot:[123,181]}
+    },
+    row: {
+      start:{head:[39,65],shoulder:[61,79],hip:[93,108],elbow:[95,83],wrist:[130,78],knee:[100,146],ankle:[96,181],foot:[118,181]},
+      end:{head:[39,65],shoulder:[61,79],hip:[93,108],elbow:[75,103],wrist:[92,95],knee:[100,146],ankle:[96,181],foot:[118,181]}
+    },
+    'vertical-pull': {
+      start:{head:[78,33],shoulder:[78,67],hip:[79,115],elbow:[66,48],wrist:[62,20],knee:[103,144],ankle:[107,181],foot:[129,181]},
+      end:{head:[78,33],shoulder:[78,67],hip:[79,115],elbow:[53,82],wrist:[72,79],knee:[103,144],ankle:[107,181],foot:[129,181]}
+    },
+    raise: {
+      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[65,91],wrist:[63,124],knee:[79,145],ankle:[79,181],foot:[101,181]},
+      end:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[111,60],wrist:[140,61],knee:[79,145],ankle:[79,181],foot:[101,181]}
+    },
+    curl: {
+      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[76,91],wrist:[73,125],knee:[79,145],ankle:[79,181],foot:[101,181]},
+      end:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[76,91],wrist:[58,65],knee:[79,145],ankle:[79,181],foot:[101,181]}
+    },
+    triceps: {
+      start:{head:[78,28],shoulder:[78,62],hip:[79,109],elbow:[69,48],wrist:[52,68],knee:[79,146],ankle:[79,181],foot:[101,181]},
+      end:{head:[78,28],shoulder:[78,62],hip:[79,109],elbow:[69,48],wrist:[72,17],knee:[79,146],ankle:[79,181],foot:[101,181]}
+    },
+    core: {
+      start:{head:[35,104],shoulder:[63,108],hip:[112,119],elbow:[67,82],wrist:[49,71],knee:[137,145],ankle:[126,180],foot:[148,180]},
+      end:{head:[55,73],shoulder:[77,91],hip:[112,119],elbow:[72,72],wrist:[56,65],knee:[137,145],ankle:[126,180],foot:[148,180]}
+    },
+    calf: {
+      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[74,91],wrist:[73,121],knee:[79,145],ankle:[79,181],foot:[103,181]},
+      end:{head:[78,15],shoulder:[78,49],hip:[79,97],elbow:[74,82],wrist:[73,112],knee:[79,136],ankle:[83,173],foot:[106,181]}
+    },
+    'knee-flexion': {
+      start:{head:[34,109],shoulder:[64,108],hip:[112,116],elbow:[76,86],wrist:[96,78],knee:[120,149],ankle:[122,181],foot:[144,181]},
+      end:{head:[34,109],shoulder:[64,108],hip:[112,116],elbow:[76,86],wrist:[96,78],knee:[120,149],ankle:[91,132],foot:[77,141]}
+    },
+    'knee-extension': {
+      start:{head:[70,29],shoulder:[72,62],hip:[75,111],elbow:[66,91],wrist:[63,119],knee:[109,132],ankle:[111,174],foot:[132,174]},
+      end:{head:[70,29],shoulder:[72,62],hip:[75,111],elbow:[66,91],wrist:[63,119],knee:[109,132],ankle:[145,139],foot:[159,136]}
+    },
+    locomotion: {
+      start:{head:[76,25],shoulder:[73,58],hip:[77,105],elbow:[54,76],wrist:[69,98],knee:[51,140],ankle:[32,178],foot:[54,181]},
+      end:{head:[76,25],shoulder:[73,58],hip:[77,105],elbow:[94,78],wrist:[83,101],knee:[109,137],ankle:[135,176],foot:[155,178]}
+    }
+  };
+  const fallback = poses.press;
+  return (poses[pattern] || fallback)[phase];
+}
+
+function renderMotionPose(pose, profile, phase) {
+  const [hx,hy] = pose.head, [sx,sy] = pose.shoulder, [ex,ey] = pose.elbow, [wx,wy] = pose.wrist;
+  const [px,py] = pose.hip, [kx,ky] = pose.knee, [ax,ay] = pose.ankle, [fx,fy] = pose.foot;
+  const targetMap = {
+    upper:[(sx+px)/2-5,(sy+py)/2-7], shoulder:[sx,sy], back:[(sx+px)/2,(sy+py)/2],
+    thigh:[(px+kx)/2,(py+ky)/2], posterior:[(px+kx)/2-3,(py+ky)/2], calf:[(kx+ax)/2,(ky+ay)/2],
+    arm:[(sx+ex)/2,(sy+ey)/2], core:[(sx+px)/2,(sy+py)/2]
+  };
+  const [tx,ty] = targetMap[profile.target] || targetMap.upper;
+  const isGhost = phase === 'start';
+  return `<g class="motion-pose ${isGhost ? 'is-start' : 'is-end'}">
+    <ellipse class="motion-target-zone" cx="${tx}" cy="${ty}" rx="15" ry="20"/>
+    <path class="motion-body-back" d="M${px+4} ${py} L${kx+6} ${ky} L${ax+5} ${ay}"/>
+    <path class="motion-body-segment torso" d="M${sx} ${sy} L${px} ${py}"/>
+    <path class="motion-body-segment" d="M${sx} ${sy} L${ex} ${ey} L${wx} ${wy}"/>
+    <path class="motion-body-segment" d="M${px} ${py} L${kx} ${ky} L${ax} ${ay}"/>
+    <path class="motion-foot" d="M${ax} ${ay} L${fx} ${fy}"/>
+    <circle class="motion-head" cx="${hx}" cy="${hy}" r="13"/>
+    <path class="motion-skeleton" d="M${sx} ${sy}L${px} ${py}M${sx} ${sy}L${ex} ${ey}L${wx} ${wy}M${px} ${py}L${kx} ${ky}L${ax} ${ay}"/>
+    <g class="motion-joints"><circle cx="${sx}" cy="${sy}" r="3.5"/><circle cx="${ex}" cy="${ey}" r="3.2"/><circle cx="${px}" cy="${py}" r="3.5"/><circle cx="${kx}" cy="${ky}" r="3.5"/><circle cx="${ax}" cy="${ay}" r="3"/></g>
+    ${renderMotionEquipment(pose, profile)}
+    ${phase === 'end' ? `<path class="motion-rom-arc" d="${profile.arc}" marker-end="url(#motionArrow)"/>` : ''}
+  </g>`;
+}
+
+function renderMotionEquipment(pose, profile) {
+  const [wx,wy] = pose.wrist, [sx,sy] = pose.shoulder;
+  let result = '';
+  if (profile.pattern === 'press' || profile.pattern === 'fly' || profile.pattern === 'core' || profile.pattern === 'knee-flexion') {
+    result += '<path class="motion-machine" d="M18 122H128M30 123v9M114 123v9"/>';
+  }
+  if (profile.pattern === 'leg-press') {
+    const [px,py] = pose.hip, [fx,fy] = pose.foot;
+    result += `<path class="motion-machine" d="M31 116L61 82M30 118l55 16M${fx-8} ${fy+8}l18-18M${fx+1} ${fy+15}l18-18M${fx+12} ${fy-8}L151 20"/><circle class="motion-anchor" cx="${px}" cy="${py}" r="2.8"/>`;
+  }
+  if (profile.pattern === 'hack-squat') {
+    result += `<path class="motion-machine" d="M${sx-15} ${sy+5}L${pose.hip[0]-14} ${pose.hip[1]+8}M${sx-26} ${sy-5}L${pose.hip[0]-26} ${pose.hip[1]+18}M${sx-18} ${sy-8}h34"/>`;
+  }
+  if (profile.pattern === 'vertical-pull') result += `<path class="motion-cable" d="M${wx} ${wy}L${wx} 8M42 8h72"/>`;
+  if (profile.pattern === 'row' && profile.equipment === 'cable') result += `<path class="motion-cable" d="M${wx} ${wy}L151 68"/><circle class="motion-anchor" cx="151" cy="68" r="3"/>`;
+  if (profile.equipment === 'barbell') result += `<path class="motion-equipment" d="M${wx-19} ${wy}H${wx+19}"/><path class="motion-plate" d="M${wx-16} ${wy-7}v14M${wx+16} ${wy-7}v14"/>`;
+  else if (profile.equipment === 'dumbbell') result += `<path class="motion-equipment" d="M${wx-10} ${wy-5}l20 10M${wx-9} ${wy-8}l-3 6M${wx+12} ${wy+2}l-3 6"/>`;
+  else if (profile.pattern === 'squat' && profile.equipment !== 'cable') result += `<path class="motion-equipment" d="M${sx-28} ${sy-2}H${sx+28}"/><path class="motion-plate" d="M${sx-24} ${sy-10}v16M${sx+24} ${sy-10}v16"/>`;
+  return result;
+}
+
+function getPremiumExerciseMotionSVG(exerciseName, category) {
+  const profile = getExerciseMotionProfile(exerciseName, category);
+  const start = getMotionPose(profile.pattern, 'start');
+  const end = getMotionPose(profile.pattern, 'end');
+  const safeName = String(exerciseName || 'Упражнение').replace(/[<>&"']/g, '');
+  return `<svg class="exercise-motion-svg" width="360" height="248" viewBox="0 0 360 248" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Биомеханическая схема: ${safeName}">
+    <defs><pattern id="motionGrid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" stroke="#fff" stroke-opacity=".03"/></pattern><marker id="motionArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#67dcb4"/></marker></defs>
+    <rect width="360" height="248" rx="20" fill="#0b0e10"/><rect width="360" height="248" rx="20" fill="url(#motionGrid)"/>
+    <path class="motion-divider" d="M180 24v199"/><path class="motion-baseline" d="M14 220H346"/>
+    <g transform="translate(8 28)">${renderMotionPose(start, profile, 'start')}</g>
+    <g transform="translate(184 28)">${renderMotionPose(end, profile, 'end')}</g>
+    <g class="motion-frame-label"><text x="18" y="22">01 / START</text><text x="194" y="22">02 / TARGET</text></g>
+    <g class="motion-vector-key" transform="translate(251 229)"><path d="M0 0h18" marker-end="url(#motionArrow)"/><text x="24" y="3">ВЕКТОР</text></g>
+  </svg>`;
+}
+
 function switchVisualizerTab(tab) {
   const tabs = ['bio', 'keys'];
   tabs.forEach(t => {
     const btn = document.getElementById(`vis-tab-btn-${t}`);
     const panel = document.getElementById(`vis-panel-${t}`);
     if (btn) {
-      if (t === tab) {
-        btn.className = "flex-1 py-2 rounded-xl bg-[#c8a97e] text-slate-950 font-bold text-center shadow-sm";
-      } else {
-        btn.className = "flex-1 py-2 rounded-xl bg-white/5 text-slate-400 border border-white/10 font-medium text-center hover:bg-white/10";
-      }
+      const isActive = t === tab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
     }
     if (panel) {
       panel.classList.toggle("hidden", t !== tab);
@@ -1902,23 +2092,43 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
   const catEl = document.getElementById("vis-badge-cat");
   const tierEl = document.getElementById("vis-badge-tier");
   const svgContainer = document.getElementById("vis-svg-container");
+  const motionProfile = getExerciseMotionProfile(info.name, info.category);
   
   if (nameEl) nameEl.textContent = info.name;
   if (catEl) catEl.textContent = info.category;
   if (tierEl) tierEl.textContent = info.tier;
-  if (svgContainer) svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
+  if (svgContainer) svgContainer.innerHTML = getPremiumExerciseMotionSVG(info.name, info.category);
+  const planeEl = document.getElementById('vis-motion-plane');
+  const jointEl = document.getElementById('vis-motion-joint');
+  const intentEl = document.getElementById('vis-motion-intent');
+  const tempoCodeEl = document.getElementById('vis-tempo-code');
+  if (planeEl) planeEl.textContent = motionProfile.plane;
+  if (jointEl) jointEl.textContent = motionProfile.joint;
+  if (intentEl) intentEl.textContent = motionProfile.cue;
+  if (tempoCodeEl) tempoCodeEl.textContent = motionProfile.tempo;
+
+  const tempoGrid = document.getElementById('vis-tempo-steps-grid');
+  if (tempoGrid) {
+    const parts = motionProfile.tempo.includes('·') ? motionProfile.tempo.split('·').map(x => x.trim()) : ['—', '—', '—'];
+    const phases = [
+      { label:'ЭКСЦЕНТРИКА', time:parts[0], text:'Контролируемая уступающая фаза' },
+      { label:'ПОЗИЦИЯ', time:parts[1], text:'Стабильная смена направления' },
+      { label:'КОНЦЕНТРИКА', time:parts[2], text:'Усилие без потери траектории' }
+    ];
+    tempoGrid.innerHTML = phases.map((phase, index) => `<div class="motion-phase"><span>0${index + 1}</span><div><small>${phase.label}</small><b>${phase.time}${phase.time !== '—' ? ' С' : ''}</b><p>${phase.text}</p></div></div>`).join('');
+  }
 
   // Таб 1: Распределение нагрузки по мышцам
   const matrixContainer = document.getElementById("vis-muscle-matrix-container");
   if (matrixContainer && info.muscleMatrix) {
     matrixContainer.innerHTML = info.muscleMatrix.map(m => `
-      <div class="space-y-1">
-        <div class="flex justify-between items-center text-[10px]">
-          <span class="text-slate-200 font-bold">${m.name}</span>
-          <span class="text-[#c8a97e] font-mono font-bold">${m.percent}% • ${m.role}</span>
+      <div class="motion-muscle-row">
+        <div class="motion-muscle-meta">
+          <span>${m.name}</span>
+          <span><b>${m.percent}%</b> · ${m.role}</span>
         </div>
-        <div class="w-full bg-[#141724] h-2 rounded-full overflow-hidden border border-white/[0.05]">
-          <div class="bg-gradient-to-r from-[#c8a97e] to-amber-300 h-full rounded-full transition-all duration-500" style="width: ${m.percent}%"></div>
+        <div class="motion-muscle-track" role="img" aria-label="${m.name}: ${m.percent} процентов">
+          <div style="width:${Math.max(0, Math.min(100, m.percent))}%"></div>
         </div>
       </div>
     `).join('');
@@ -2905,7 +3115,7 @@ let selectedAnatomyMuscleKey = 'chest';
 function getMuscleVolumeAndRecoveryData() {
   const result = {};
   Object.keys(ANATOMY_MUSCLES_DATA).forEach(k => {
-    result[k] = { sets: 0, lastHoursAgo: 72 };
+    result[k] = { sets: 0, lastHoursAgo: null };
   });
 
   const hist = appState.history || [];
@@ -2916,56 +3126,42 @@ function getMuscleVolumeAndRecoveryData() {
     const isThisWeek = diffHours <= 168;
 
     (h.exercises || []).forEach(e => {
-      const setCount = (e.sets.match(/,/g) || []).length + 1;
+      const setCount = Array.isArray(e.sets)
+        ? e.sets.length
+        : (typeof e.sets === 'string'
+            ? e.sets.split(',').filter(Boolean).length
+            : Math.max(0, Number(e.sets) || 0));
       const n = (e.name || "").toLowerCase();
 
       let targetKey = null;
-      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("груд")) targetKey = "chest";
-      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван") || n.includes("блок")) targetKey = "lats";
-      else if (n.includes("лицу") || n.includes("face") || n.includes("трапец")) targetKey = "traps";
-      else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) targetKey = "delts";
-      else if (n.includes("бицепс") || n.includes("молот") || n.includes("скотт")) targetKey = "biceps";
-      else if (n.includes("трицепс") || n.includes("разгибан") || n.includes("француз")) targetKey = "triceps";
+      if (n.includes("носк") || n.includes("икр") || n.includes("голен")) targetKey = "calves";
       else if (n.includes("пресс") || n.includes("скручиван") || n.includes("вакуум") || n.includes("планк")) targetKey = "abs";
-      else if (n.includes("румын") || n.includes("сгибан") || n.includes("ягодиц")) targetKey = "hamstrings";
-      else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("квадр")) targetKey = "quads";
-      else if (n.includes("носк") || n.includes("икр") || n.includes("голен")) targetKey = "calves";
+      else if (n.includes("румын") || n.includes("сгибан ног") || n.includes("ягодиц")) targetKey = "hamstrings";
+      else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("разгибан ног") || n.includes("квадр")) targetKey = "quads";
+      else if (n.includes("лицу") || n.includes("face") || n.includes("трапец") || n.includes("шраг")) targetKey = "traps";
+      else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт") || n.includes("армейск") || n.includes("над головой")) targetKey = "delts";
+      else if (n.includes("бицепс") || n.includes("молот") || n.includes("скотт")) targetKey = "biceps";
+      else if (n.includes("трицепс") || n.includes("разгибан рук") || n.includes("француз")) targetKey = "triceps";
+      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван") || n.includes("верхний блок")) targetKey = "lats";
+      else if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("груд")) targetKey = "chest";
 
       if (targetKey && result[targetKey]) {
         if (isThisWeek) result[targetKey].sets += setCount;
-        if (diffHours < result[targetKey].lastHoursAgo) result[targetKey].lastHoursAgo = diffHours;
+        if (result[targetKey].lastHoursAgo === null || diffHours < result[targetKey].lastHoursAgo) result[targetKey].lastHoursAgo = diffHours;
       }
     });
   });
-
-  if (result.chest.sets === 0) result.chest.sets = 12;
-  if (result.lats.sets === 0) result.lats.sets = 10;
-  if (result.delts.sets === 0) result.delts.sets = 8;
-  if (result.quads.sets === 0) result.quads.sets = 10;
-  if (result.hamstrings.sets === 0) result.hamstrings.sets = 8;
-  if (result.biceps.sets === 0) result.biceps.sets = 6;
-  if (result.triceps.sets === 0) result.triceps.sets = 6;
-  if (result.traps.sets === 0) result.traps.sets = 8;
-  if (result.abs.sets === 0) result.abs.sets = (appState.vacDaysCount || 0) > 0 ? 8 : 4;
-  if (result.calves.sets === 0) result.calves.sets = 6;
 
   return result;
 }
 
 function setAnatomyView(view) {
   currentAnatomyView = view;
-  const btnFront = document.getElementById("btn-anat-front");
-  const btnBack = document.getElementById("btn-anat-back");
-
-  if (btnFront && btnBack) {
-    if (view === 'front') {
-      btnFront.className = "px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all";
-      btnBack.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
-    } else {
-      btnBack.className = "px-2.5 py-1 font-bold rounded-md bg-[#c8a97e] text-slate-950 transition-all";
-      btnFront.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
-    }
-  }
+  document.querySelectorAll('[data-anatomy-view]').forEach(btn => {
+    const isActive = btn.dataset.anatomyView === view;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
   Sound.click();
   Haptic.selection();
   renderInteractiveAnatomyMap();
@@ -2985,60 +3181,46 @@ function selectAnatomyMuscle(muscleKey) {
 
 function updateAnatomyHUD(key, d, info) {
   if (!info) info = ANATOMY_MUSCLES_DATA[key] || ANATOMY_MUSCLES_DATA.chest;
-  
-  const titleEl = document.getElementById("anat-hud-title");
-  const pumpBadge = document.getElementById("anat-hud-pump-badge");
-  const volEl = document.getElementById("anat-hud-volume");
-  const mavStatus = document.getElementById("anat-hud-mav-status");
-  const recEl = document.getElementById("anat-hud-recovery");
-  const timerEl = document.getElementById("anat-hud-timer");
-  const exEl = document.getElementById("anat-hud-exercises");
-  const tipEl = document.getElementById("anat-hud-tip");
+
+  const fieldEls = name => Array.from(document.querySelectorAll(`[data-anat-field="${name}"]`));
+  const setField = (name, value) => fieldEls(name).forEach(el => { el.textContent = value; });
 
   const sets = d.sets || 0;
+  const mev = info.mev || 6;
   const mav = info.mav || 14;
+  const mrv = info.mrv || Math.round(mav * 1.4);
   const pct = Math.min(150, Math.round((sets / mav) * 100));
 
-  if (titleEl) titleEl.textContent = info.name;
-  
-  if (pumpBadge) {
-    if (pct >= 100) {
-      pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-amber-500/20 text-[#c8a97e] border border-[#c8a97e]/40 text-[10px] font-mono font-bold animate-pulse";
-      pumpBadge.textContent = "🔥 Оптимум роста (" + pct + "%)";
-    } else if (pct >= 50) {
-      pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold";
-      pumpBadge.textContent = "⚡ Активный стимул (" + pct + "%)";
-    } else {
-      pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 text-[10px] font-mono font-bold";
-      pumpBadge.textContent = "⏳ В плане (" + pct + "%)";
-    }
-  }
+  setField('title', info.name);
+  setField('volume', `${sets} ${sets === 1 ? 'сет' : (sets >= 2 && sets <= 4 ? 'сета' : 'сетов')}`);
+  setField('mav', `MEV ${mev} · MAV ${mav} · MRV ${mrv}`);
+  setField('exercises', info.recomExercises);
+  setField('tip', info.proTip);
 
-  if (volEl) volEl.textContent = sets + " / " + mav + " сетов (неделя)";
-  if (mavStatus) {
-    mavStatus.textContent = pct >= 100 ? "Оптимальный объем нагрузки выполнен" : (pct >= 50 ? "Хороший диапазон для роста мышц" : "Рекомендуется добавить " + Math.max(0, mav - sets) + " сетов");
-  }
+  let loadState = 'empty';
+  let badgeText = 'НЕТ ОБЪЁМА';
+  if (sets > 0 && sets < mev) { loadState = 'low'; badgeText = `НИЖЕ MEV · ${pct}%`; }
+  else if (sets >= mev && sets <= mav) { loadState = 'work'; badgeText = `РАБОЧИЙ · ${pct}%`; }
+  else if (sets > mav && sets <= mrv) { loadState = 'high'; badgeText = `ВЫСОКИЙ · ${pct}%`; }
+  else if (sets > mrv) { loadState = 'over'; badgeText = `ВЫШЕ MRV · ${pct}%`; }
+  fieldEls('badge').forEach(el => {
+    el.textContent = badgeText;
+    el.className = `anatomy-status-badge ${loadState}`;
+  });
 
-  const hoursAgo = d.lastHoursAgo !== undefined ? d.lastHoursAgo : 72;
-  if (recEl) {
-    if (hoursAgo >= 48) {
-      recEl.textContent = "100% Мышца готова к нагрузке";
-      recEl.className = "text-emerald-400 font-mono font-bold text-xs";
-    } else if (hoursAgo >= 24) {
-      recEl.textContent = "75% Фаза суперкомпенсации";
-      recEl.className = "text-[#c8a97e] font-mono font-bold text-xs";
-    } else {
-      recEl.textContent = "40% Активное восстановление";
-      recEl.className = "text-rose-400 font-mono font-bold text-xs";
-    }
+  const hoursAgo = Number.isFinite(d.lastHoursAgo) ? d.lastHoursAgo : null;
+  let recoveryText = 'Нет нагрузки';
+  let timerText = 'Последняя нагрузка не записана';
+  let recoveryState = 'unknown';
+  if (hoursAgo !== null) {
+    timerText = hoursAgo >= 48 ? `Прошло ${hoursAgo} ч` : `${hoursAgo} ч после нагрузки`;
+    if (hoursAgo >= 48) { recoveryText = 'Готовность высокая'; recoveryState = 'ready'; }
+    else if (hoursAgo >= 24) { recoveryText = 'Восстановление'; recoveryState = 'recovering'; }
+    else { recoveryText = 'Недавняя нагрузка'; recoveryState = 'recent'; }
   }
-
-  if (timerEl) {
-    timerEl.textContent = hoursAgo >= 48 ? "Отдых 48ч пройден • ЦНС восстановилась" : "Прошло " + hoursAgo + "ч из 48ч отдыха";
-  }
-
-  if (exEl) exEl.textContent = info.recomExercises;
-  if (tipEl) tipEl.textContent = info.proTip;
+  setField('recovery', recoveryText);
+  setField('timer', timerText);
+  fieldEls('recovery').forEach(el => { el.dataset.state = recoveryState; });
 }
 
 function renderInteractiveAnatomyMap() {
@@ -3229,6 +3411,132 @@ function renderInteractiveAnatomyMap() {
 
   host.innerHTML = svgHtml;
   updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: 72 });
+}
+
+// Anatomical Load Atlas 2.0 — proportionate, data-led replacement for the legacy mannequin.
+// The map visualizes logged training volume only; it does not diagnose tissue recovery.
+function handleAnatomyRegionKey(event, key) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    selectAnatomyMuscle(key);
+  }
+}
+
+function renderInteractiveAnatomyMap() {
+  const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
+  if (!hosts.length) return;
+
+  const data = getMuscleVolumeAndRecoveryData();
+  const selKey = selectedAnatomyMuscleKey || 'chest';
+  const labels = {
+    chest: 'PECTORALIS', delts: 'DELTOID', biceps: 'BICEPS', triceps: 'TRICEPS',
+    traps: 'TRAPEZIUS', lats: 'LATISSIMUS', abs: 'RECTUS ABD.', quads: 'QUADRICEPS',
+    hamstrings: 'POSTERIOR CHAIN', calves: 'GASTROCNEMIUS'
+  };
+
+  const styleFor = key => {
+    const info = ANATOMY_MUSCLES_DATA[key] || { mev: 6, mav: 14, mrv: 20 };
+    const value = data[key] || { sets: 0 };
+    const sets = value.sets || 0;
+    const ratio = info.mav ? sets / info.mav : 0;
+    const selected = key === selKey;
+    let fill = '#343a3f';
+    let stroke = '#697178';
+    let fiber = '#8a9298';
+    if (sets >= info.mev && sets <= info.mav) {
+      fill = '#247b68'; stroke = '#67dcb4'; fiber = '#a2f4d7';
+    } else if (sets > info.mav) {
+      fill = sets > info.mrv ? '#8d4947' : '#936e43';
+      stroke = sets > info.mrv ? '#ff7a72' : '#d7ae74';
+      fiber = sets > info.mrv ? '#ffc0bb' : '#f2d3a5';
+    } else if (sets > 0) {
+      fill = '#43564f'; stroke = '#77958a'; fiber = '#9eb7ad';
+    }
+    if (selected) {
+      stroke = '#f3dfbb';
+      fiber = '#fff2d9';
+    }
+    return { fill, stroke, fiber, selected, ratio };
+  };
+
+  const region = (key, shapes, fibers = '') => {
+    const s = styleFor(key);
+    return `<g class="anat-region${s.selected ? ' is-selected' : ''}" role="button" tabindex="0" aria-label="${ANATOMY_MUSCLES_DATA[key].name}" data-muscle="${key}" style="--muscle-fill:${s.fill};--muscle-stroke:${s.stroke};--fiber-stroke:${s.fiber}" onclick="selectAnatomyMuscle('${key}')" onkeydown="handleAnatomyRegionKey(event,'${key}')">${shapes}<g class="anat-fibers" aria-hidden="true">${fibers}</g></g>`;
+  };
+
+  const anatomyBase = (viewLabel, back = false) => `
+    <defs>
+      <linearGradient id="tissueGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#252b2f"/><stop offset="0.5" stop-color="#171b1e"/><stop offset="1" stop-color="#0f1214"/></linearGradient>
+      <radialGradient id="headGradient" cx="42%" cy="32%" r="70%"><stop offset="0" stop-color="#333a3f"/><stop offset="1" stop-color="#15191c"/></radialGradient>
+      <pattern id="atlasGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#ffffff" stroke-opacity=".025" stroke-width="1"/></pattern>
+      <filter id="selectedGlow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="320" height="520" rx="24" fill="#0b0e10"/>
+    <rect x="1" y="1" width="318" height="518" rx="23" fill="url(#atlasGrid)" stroke="#ffffff" stroke-opacity=".06"/>
+    <text class="atlas-coordinate" x="18" y="27">${viewLabel}</text>
+    <path class="atlas-reference-line" d="M160 34V500"/>
+    <g class="atlas-tissue" aria-hidden="true">
+      <ellipse cx="160" cy="54" rx="25" ry="31" fill="url(#headGradient)"/>
+      <path d="M145 78c2 11-2 17-10 23h50c-8-6-12-12-10-23z" fill="url(#tissueGradient)"/>
+      <path d="M135 95C116 96 99 101 91 116c-9 18-3 42 6 62l12 31c6 17 2 40-4 62 11 19 31 29 55 29s44-10 55-29c-6-22-10-45-4-62l12-31c9-20 15-44 6-62-8-15-25-20-44-21l-25 12z" fill="url(#tissueGradient)"/>
+      <path d="M102 119C79 139 75 169 70 203L61 267"/><path d="M218 119c23 20 27 50 32 84l9 64"/>
+      <path d="M112 276c-9 25-8 57-5 86l4 45-10 82"/><path d="M208 276c9 25 8 57 5 86l-4 45 10 82"/>
+      <path d="M132 291c3 19 2 46-1 69l-4 48-7 81M188 291c-3 19-2 46 1 69l4 48 7 81"/>
+      <path class="atlas-joint-line" d="M91 117 70 203 61 267M229 117l21 86 9 64M132 291l-1 69-4 48-7 81M188 291l1 69 4 48 7 81"/>
+      ${back ? '<path class="atlas-spine" d="M160 94c-3 35 3 59 0 91s3 63 0 102"/>' : '<path class="atlas-midline" d="M160 108v174"/>'}
+    </g>`;
+
+  const frontRegions = `
+    ${region('delts',
+      '<path class="anat-muscle-shape" d="M132 99c-16-4-31 3-38 17-4 10-1 21 3 29 12-3 22-14 29-28z"/><path class="anat-muscle-shape" d="M188 99c16-4 31 3 38 17 4 10 1 21-3 29-12-3-22-14-29-28z"/>',
+      '<path d="M99 119c10-7 19-9 27-8M221 119c-10-7-19-9-27-8"/>')}
+    ${region('chest',
+      '<path class="anat-muscle-shape" d="M158 108c-20-9-43-7-58 7-6 7-5 22 1 31 15 12 37 14 57 4z"/><path class="anat-muscle-shape" d="M162 108c20-9 43-7 58 7 6 7 5 22-1 31-15 12-37 14-57 4z"/>',
+      '<path d="M154 118c-18-5-35-2-48 6M154 128c-19-2-35 2-49 8M166 118c18-5 35-2 48 6M166 128c19-2 35 2 49 8"/>')}
+    ${region('biceps',
+      '<path class="anat-muscle-shape" d="M91 145c-10 10-14 31-14 49 0 14 4 23 10 27 9-10 14-31 14-50 0-13-3-22-10-26z"/><path class="anat-muscle-shape" d="M229 145c10 10 14 31 14 49 0 14-4 23-10 27-9-10-14-31-14-50 0-13 3-22 10-26z"/>',
+      '<path d="M91 153c-6 19-8 39-7 58M229 153c6 19 8 39 7 58"/>')}
+    ${region('abs',
+      '<path class="anat-muscle-shape" d="M137 156c8 4 14 4 20 1v94c-8 6-15 5-23-1 5-32 4-63 3-94z"/><path class="anat-muscle-shape" d="M183 156c-8 4-14 4-20 1v94c8 6 15 5 23-1-5-32-4-63-3-94z"/><path class="anat-muscle-shape secondary" d="M132 159c-11 15-14 38-12 63 1 17 5 30 13 40l10-10c-6-31-5-60-6-92z"/><path class="anat-muscle-shape secondary" d="M188 159c11 15 14 38 12 63-1 17-5 30-13 40l-10-10c6-31 5-60 6-92z"/>',
+      '<path d="M139 177h17m-18 20h18m-19 21h19m8-41h17m-17 20h18m-18 21h19"/>')}
+    ${region('quads',
+      '<path class="anat-muscle-shape" d="M116 286c-11 25-12 55-7 91 2 15 8 25 18 28 9-24 13-50 13-77 0-21-8-35-24-42z"/><path class="anat-muscle-shape" d="M204 286c11 25 12 55 7 91-2 15-8 25-18 28-9-24-13-50-13-77 0-21 8-35 24-42z"/><path class="anat-muscle-shape secondary" d="M142 292c-8 22-9 54-5 89l13 19c7-33 7-74 1-104z"/><path class="anat-muscle-shape secondary" d="M178 292c8 22 9 54 5 89l-13 19c-7-33-7-74-1-104z"/>',
+      '<path d="M122 299c1 35 0 67-4 93M136 303c6 31 8 58 7 82M198 299c-1 35 0 67 4 93M184 303c-6 31-8 58-7 82"/>')}
+    ${region('calves',
+      '<path class="anat-muscle-shape" d="M106 414c-8 14-9 38-6 55 2 10 7 16 13 17 8-16 11-38 8-57-2-9-7-14-15-15z"/><path class="anat-muscle-shape" d="M214 414c8 14 9 38 6 55-2 10-7 16-13 17-8-16-11-38-8-57 2-9 7-14 15-15z"/>',
+      '<path d="M110 423c-3 20-4 38-2 54M210 423c3 20 4 38 2 54"/>')}`;
+
+  const backRegions = `
+    ${region('traps',
+      '<path class="anat-muscle-shape" d="M159 86c-10 11-20 18-35 23l15 48 21 25 21-25 15-48c-15-5-25-12-35-23z"/>',
+      '<path d="M160 94v76M151 105l-15 44M169 105l15 44"/>')}
+    ${region('delts',
+      '<path class="anat-muscle-shape" d="M125 101c-16-5-30 1-38 15-5 10-2 23 5 31 12-4 24-16 31-30z"/><path class="anat-muscle-shape" d="M195 101c16-5 30 1 38 15 5 10 2 23-5 31-12-4-24-16-31-30z"/>',
+      '<path d="M94 120c10-7 19-9 28-8M226 120c-10-7-19-9-28-8"/>')}
+    ${region('triceps',
+      '<path class="anat-muscle-shape" d="M91 146c-10 14-13 34-11 53 1 12 6 21 12 23 9-14 13-33 11-52-1-12-5-20-12-24z"/><path class="anat-muscle-shape" d="M229 146c10 14 13 34 11 53-1 12-6 21-12 23-9-14-13-33-11-52 1-12 5-20 12-24z"/>',
+      '<path d="M91 154c4 19 3 39-4 58M229 154c-4 19-3 39 4 58"/>')}
+    ${region('lats',
+      '<path class="anat-muscle-shape" d="M132 129c-20 5-31 18-36 38-5 24 3 58 27 91 11-11 18-27 23-48l9-69z"/><path class="anat-muscle-shape" d="M188 129c20 5 31 18 36 38 5 24-3 58-27 91-11-11-18-27-23-48l-9-69z"/>',
+      '<path d="M133 139c-15 23-22 55-18 91M187 139c15 23 22 55 18 91M142 148c-9 30-12 57-9 80M178 148c9 30 12 57 9 80"/>')}
+    ${region('hamstrings',
+      '<path class="anat-muscle-shape" d="M110 263c3 24 20 38 48 39l-1-34c-17-8-33-10-47-5z"/><path class="anat-muscle-shape" d="M210 263c-3 24-20 38-48 39l1-34c17-8 33-10 47-5z"/><path class="anat-muscle-shape" d="M115 303c-9 24-9 57-3 91 3 12 9 20 17 22 10-31 15-72 10-104-8-7-16-10-24-9z"/><path class="anat-muscle-shape" d="M205 303c9 24 9 57 3 91-3 12-9 20-17 22-10-31-15-72-10-104 8-7 16-10 24-9z"/>',
+      '<path d="M120 315c2 33 1 63-4 89M136 318c-2 34-6 62-12 86M200 315c-2 33-1 63 4 89M184 318c2 34 6 62 12 86"/>')}
+    ${region('calves',
+      '<path class="anat-muscle-shape" d="M105 414c-11 14-13 38-8 58 3 11 9 16 16 15 9-17 12-39 8-58-2-10-8-15-16-15z"/><path class="anat-muscle-shape" d="M215 414c11 14 13 38 8 58-3 11-9 16-16 15-9-17-12-39-8-58 2-10 8-15 16-15z"/>',
+      '<path d="M108 423c-3 20-3 39 1 55M212 423c3 20 3 39-1 55"/>')}`;
+
+  const pointMap = currentAnatomyView === 'front'
+    ? { chest:[198,137], delts:[222,119], biceps:[235,181], abs:[181,210], quads:[204,350], calves:[214,451] }
+    : { traps:[181,120], delts:[225,120], triceps:[232,184], lats:[207,208], hamstrings:[201,350], calves:[214,452] };
+  const point = pointMap[selKey] || [160, 260];
+  const callout = `<g class="anat-selection-callout" aria-hidden="true"><circle cx="${point[0]}" cy="${point[1]}" r="4"/><path d="M${point[0] + 5} ${point[1]}H298"/><text x="298" y="${point[1] - 8}" text-anchor="end">${labels[selKey] || 'MUSCLE'}</text></g>`;
+  const viewLabel = currentAnatomyView === 'front' ? '01 / ANTERIOR' : '02 / POSTERIOR';
+  const regions = currentAnatomyView === 'front' ? frontRegions : backRegions;
+  const svg = `<svg class="anatomy-atlas-svg" width="320" height="520" viewBox="0 0 320 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${currentAnatomyView === 'front' ? 'Передняя' : 'Задняя'} анатомическая карта тренировочной нагрузки">${anatomyBase(viewLabel, currentAnatomyView === 'back')}${regions}${callout}</svg>`;
+
+  hosts.forEach(host => { host.innerHTML = svg; });
+  updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: null });
 }
 
 
@@ -3537,10 +3845,10 @@ function renderExerciseCatalogList() {
   }
 
   container.innerHTML = filtered.map(ex => {
-    const diagSvg = getExerciseDiagramSVG(ex.name, ex.category);
+    const diagSvg = getPremiumExerciseMotionSVG(ex.name, ex.category);
     return `
-      <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
-        <div class="flex justify-between items-start space-x-2">
+      <div class="exercise-catalog-card p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
+        <div class="exercise-catalog-head flex justify-between items-start gap-2">
           <div class="space-y-0.5 flex-1 cursor-pointer" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')">
             <div class="flex items-center space-x-1.5">
               <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-[#c8a97e]/30 rounded uppercase">${ex.category}</span>
@@ -3548,9 +3856,9 @@ function renderExerciseCatalogList() {
             </div>
             <p class="text-[10px] text-slate-400 font-mono">${ex.targetMuscles}</p>
           </div>
-          <div class="flex items-center space-x-1.5">
+          <div class="exercise-catalog-actions flex items-center space-x-1.5">
             <button type="button" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="px-2 py-1.5 bg-[#181b26] hover:bg-white/10 text-slate-300 hover:text-white rounded-xl border border-white/10 text-[10px] font-bold font-mono active:scale-95 transition-all flex items-center gap-1">
-              <span>🔬 Анатомия</span>
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Motion Lab</span>
             </button>
             <button type="button" onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
               + В план
@@ -3559,13 +3867,13 @@ function renderExerciseCatalogList() {
         </div>
 
         <!-- ВИЗУАЛЬНАЯ АНИМИРОВАННАЯ ТРАЕКТОРИЯ И ДВИЖЕНИЕ -->
-        <div onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04] cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Нажмите для открытия 3D Анатомии и Техники">
+        <div onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="ex-diagram-container rounded-xl overflow-hidden bg-[#0a0c12] border border-white/[0.04] cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Открыть биомеханическую схему Motion Lab">
           ${diagSvg}
         </div>
 
         <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-white/[0.04] pt-1.5">
           <span>Норма: <b class="text-white">${ex.defaultSets}×${ex.min}-${ex.max}</b> (${ex.defaultWeight} кг)</span>
-          <span class="text-emerald-400">🔥 ~${ex.calRate * ex.defaultSets} ккал</span>
+          <span class="text-emerald-400 inline-flex items-center gap-1"><svg class="w-3 h-3 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>~${ex.calRate * ex.defaultSets} ккал</span>
         </div>
       </div>
     `;
@@ -3579,10 +3887,10 @@ function toggleExerciseGuide(exIdx) {
   const isHidden = guideEl.classList.contains("hidden");
   if (isHidden) {
     guideEl.classList.remove("hidden");
-    if (btnEl) btnEl.textContent = "✕ Скрыть схему";
+    if (btnEl) btnEl.textContent = "Скрыть схему";
   } else {
     guideEl.classList.add("hidden");
-    if (btnEl) btnEl.textContent = "👀 Схема & Техника";
+    if (btnEl) btnEl.textContent = "Схема и техника";
   }
   Sound.beep(550, 0.04);
   Haptic.impact('light');
@@ -3764,7 +4072,7 @@ function renderActiveWorkoutUI() {
         <span class="ex-phase-badge">${p}</span>
       `).join('');
 
-      const diagramSvg = getExerciseDiagramSVG(ex.name, ex.muscleGroup);
+      const diagramSvg = getPremiumExerciseMotionSVG(ex.name, ex.muscleGroup);
 
       bodyHtml = `
         <div class="pt-3 space-y-2.5 border-t border-white/[0.06] mt-3">
@@ -3789,10 +4097,10 @@ function renderActiveWorkoutUI() {
             </div>
             <div class="flex space-x-1.5">
               <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="px-2.5 py-1 bg-gradient-to-r from-[#c8a97e]/25 to-[#c8a97e]/10 hover:bg-[#c8a97e]/35 text-[#c8a97e] rounded-lg border border-[#c8a97e]/40 text-[10px] font-bold active:scale-95 transition-all flex items-center gap-1 shadow-sm">
-                <span>🔬 Анатомия & Схема</span>
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Motion Lab</span>
               </button>
               <button type="button" onclick="toggleExerciseGuide(${exIdx})" id="btn-guide-${exIdx}" class="px-2 py-1 bg-white/5 hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] font-bold active:scale-95 transition-all">
-                👀 Подсказка
+                Подсказка
               </button>
               <button type="button" onclick="openSwapExerciseModal(${exIdx})" class="px-2 py-1 bg-[#181b26] hover:bg-white/10 text-slate-300 rounded-lg border border-white/10 text-[10px] active:scale-95 transition-all">
                 Замена
@@ -3802,7 +4110,7 @@ function renderActiveWorkoutUI() {
 
           <!-- ВИЗУАЛЬНЫЙ БЛОК БИОМЕХАНИКИ, ВЕКТОРНОЙ АНИМАЦИИ И ТЕХНИКИ (ПО УМОЛЧАНИЮ СКРЫТ) -->
           <div id="ex-guide-${exIdx}" class="pt-2 space-y-3 hidden">
-            <div onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2 cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Нажмите для открытия 3D Анатомии и Метронома">
+            <div onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="ex-diagram-container rounded-2xl overflow-hidden bg-[#07080e] border border-white/[0.06] p-2 cursor-pointer hover:border-[#c8a97e]/40 transition-all" title="Открыть биомеханическую схему Motion Lab">
               ${diagramSvg}
             </div>
 
@@ -3810,7 +4118,7 @@ function renderActiveWorkoutUI() {
               <div class="flex justify-between items-center text-[10px] font-mono">
                 <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
                 <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="text-[9px] text-[#c8a97e] bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold hover:underline">
-                  3D Анатомия →
+                  Motion Lab →
                 </button>
               </div>
               
@@ -6344,14 +6652,13 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chatId: userId,
-          text: `🚀 <b>ВЫШЛО ОБНОВЛЕНИЕ IRON COACH ${APP_CONFIG.version}!</b>\n\n` +
-                `✨ <b>Что нового:</b>\n` +
-                `• <b>Атлетический Атлас 7.0:</b> Реалистичная анатомическая карта тела с плавными кривыми Безье (Спереди / Сзади), неоновый памп и HUD-инспектор мышц.\n` +
-                `• <b>Интерактивные витамины:</b> Персональный стек (D3+K2, Омега-3, Магний, Креатин, Цинк) с отметкой приёма, стриком и рекомендациями.\n` +
-                `• <b>Аудио 3.0:</b> 3 режима звука — Полный, Тихий зал (только вибро), Без звука.\n` +
-                `• <b>Динамический BMR/TDEE:</b> Персональный расчёт калорий и макросов по формуле Миффлина + US Navy.\n` +
-                `• <b>Календарь тренировок:</b> Подсветка сегодняшнего дня, инспекция пропусков, годовой обзор.\n\n` +
-                `👇 <i>Открой приложение и проверь обновления:</i>`,
+          text: `🚀 <b>IRON COACH ${APP_CONFIG.version} УЖЕ В ОБЛАКЕ</b>\n\n` +
+                `<b>Что полностью переработано:</b>\n` +
+                `• <b>Motion Lab:</b> схема START → TARGET, суставные маркеры, плоскость движения и вектор усилия.\n` +
+                `• <b>Muscle Load Atlas:</b> новая анатомическая карта спереди и сзади с направлениями мышечных волокон.\n` +
+                `• <b>Только реальные данные:</b> убраны демонстрационные сеты; объём строится по журналу тренировок.\n` +
+                `• <b>Корректные формулировки:</b> восстановление отмечено как расчётная готовность, а не медицинский показатель.\n\n` +
+                `👇 <i>Открой приложение и оцени новый визуал:</i>`,
           withButton: true
         })
       }).catch(() => {});
