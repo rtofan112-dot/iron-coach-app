@@ -13,7 +13,7 @@ export default {
     if (url.pathname === "/api/version") {
       return new Response(JSON.stringify({
         ok: true,
-        version: "v2.8.25 PRO",
+        version: "v2.8.26 PRO",
         buildTimestamp: Date.now(),
         changelog: [
           "Интеграция базы доказательной науки и исследований (PubMed, JSCR, Brad Schoenfeld, RP)",
@@ -257,7 +257,7 @@ async function handleTelegramMessage(msg, origin) {
 
   if (text.startsWith("/start") || text.startsWith("/app") || text.startsWith("/help")) {
     const caption = `🔥 <b>Привет, ${firstName}!</b> (${username})\n\n` +
-      `Добро пожаловать в <b>IRON COACH ELITE v2.8.24 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
+      `Добро пожаловать в <b>IRON COACH ELITE v2.8.26 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
       `🏛 <b>Что внутри приложения:</b>\n` +
       `• <b>Научный тренинг:</b> Программы А, Б, В по методологии RP Strength & MAV/MEV\n` +
       `• <b>Защита ЦНС & лопаток:</b> Оценка готовности, биомеханические траектории и умная замена упражнений\n` +
