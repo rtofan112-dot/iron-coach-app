@@ -1,4 +1,4 @@
-$dir = 'C:\Users\r.tofan\.gemini\antigravity\scratch\asutp-fitness-app'
+$dir = $PSScriptRoot
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
 $html = [System.IO.File]::ReadAllText("$dir\index.html", [System.Text.Encoding]::UTF8)
