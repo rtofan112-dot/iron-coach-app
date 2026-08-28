@@ -2,12 +2,56 @@ const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
 const API_URL = "https://api.telegram.org/bot" + BOT_TOKEN;
 const B64_APP = "__B64_APP_PLACEHOLDER__";
 
-// Реальная таблица лидеров (только зарегистрированные атлеты)
+// Реальная таблица лидеров и хранилище состояния
 let globalLeaderboard = [];
+let athleteStateStore = {};
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // Сохранение состояния атлета в облаке Cloudflare
+    if (url.pathname === "/api/save-state" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        if (body.tgId && body.state) {
+          athleteStateStore[body.tgId] = {
+            state: body.state,
+            updatedAt: Date.now()
+          };
+          return new Response(JSON.stringify({ ok: true, savedAt: Date.now() }), {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8",
+              "Access-Control-Allow-Origin": "*"
+            }
+          });
+        }
+      } catch(e) {
+        return new Response(JSON.stringify({ ok: false, error: e.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+    }
+
+    // Загрузка состояния атлета из облака Cloudflare
+    if (url.pathname === "/api/load-state" && request.method === "GET") {
+      const tgId = url.searchParams.get("tgId");
+      if (tgId && athleteStateStore[tgId]) {
+        return new Response(JSON.stringify({ ok: true, state: athleteStateStore[tgId].state }), {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
+      }
+      return new Response(JSON.stringify({ ok: false, message: "No state found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+      });
+    }
 
     // Получение информации о версии и актуальной ревизии
     if (url.pathname === "/api/version") {
