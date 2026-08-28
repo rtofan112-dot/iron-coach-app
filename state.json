@@ -1,0 +1,22 @@
+﻿{
+    "exerciseRecords":  {
+
+                        },
+    "metricsLog":  [
+
+                   ],
+    "nutrition":  {
+                      "date":  "2026-08-26",
+                      "calories":  0,
+                      "waterMl":  0,
+                      "protein":  0
+                  },
+    "workoutHistory":  [
+                           {
+                               "date":  "2026-08-26",
+                               "name":  "Воскресенье: День В (Recharge \u0026 Осанка)",
+                               "id":  "wo_20260826_161826",
+                               "tonnage":  225
+                           }
+                       ]
+}

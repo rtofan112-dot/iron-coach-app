@@ -101,6 +101,9 @@ const Sound = {
         this.beep(freq, 0.25, 'triangle', 0.16);
       }, i * 110);
     });
+  },
+  restFinish() {
+    this.gong();
   }
 };
 
@@ -131,7 +134,8 @@ const Haptic = {
   medium() { this.trigger('medium'); },
   heavy() { this.trigger('heavy'); },
   success() { this.trigger('success'); },
-  selection() { this.trigger('selection'); }
+  selection() { this.trigger('selection'); },
+  restFinish() { this.trigger('heavy'); }
 };
 
 function cycleSoundMode() {
@@ -2444,7 +2448,7 @@ function loadState() {
   renderPersonalRecords();
   renderMuscleVolumeBreakdown();
   renderPersonalizedAIAnalytics();
-  updateSoundUI();
+  updateSoundModeUI();
   updateVacuumBadge();
   if (appState.theme) {
     document.body.setAttribute("data-theme", appState.theme === "gold" ? "" : appState.theme);
@@ -3283,56 +3287,7 @@ function renderMuscleVolumeBreakdown() {
 }
 
 // ========================================================
-// КЛИНИЧЕСКИЙ ВИТАМИННЫЙ СТЕК
-// ========================================================
-function renderPersonalizedVitamins() {
-  const container = document.getElementById("personalized-vitamins-container");
-  if (!container) return;
-
-  const stack = [
-    {
-      timing: "УТРО • С ЕДОЙ",
-      timingBadge: "bg-[#c8a97e]/15 text-[#c8a97e] border border-[#c8a97e]/30",
-      name: "Витамин D3 + K2 (MK-7)",
-      dose: "4000 МЕ + 100 мкг",
-      reason: "Стимулирует синтез тестостерона, укрепляет костный матрикс и направляет кальций в кости, предотвращая кальцификацию сосудов."
-    },
-    {
-      timing: "ДЕНЬ • В ОБЕД",
-      timingBadge: "bg-emerald-950/80 text-emerald-400 border border-emerald-800/60",
-      name: "Омега-3 (EPA / DHA)",
-      dose: "2000 мг (EPA > 800 мг)",
-      reason: "Снижает системное воспаление, защищает суставные сумки плечевого пояса и улучшает липидный профиль крови."
-    },
-    {
-      timing: "ВЕЧЕР • ДО СНА",
-      timingBadge: "bg-sky-950/80 text-sky-400 border border-sky-800/60",
-      name: "Магний Бисглицинат / Хелат",
-      dose: "400 мг чистого Mg",
-      reason: "Хелатная форма с аминокислотой глицин. Снимает остаточный спазм с мышцы шеи и лопатки, ускоряет засыпание и углубляет фазу NREM-сна."
-    },
-    {
-      timing: "ТРЕНИНГ • ДО/ПОСЛЕ",
-      timingBadge: "bg-purple-950/80 text-purple-300 border border-purple-800/60",
-      name: "Креатин Моногидрат",
-      dose: "5 г",
-      reason: "Насыщает запасы фосфокреатина в мышечных волокнах, повышает взрывную силу на 10–15% в базовых жимах и тягах."
-    }
-  ];
-
-  container.innerHTML = stack.map(item => `
-    <div class="p-3.5 glass-panel-elevated rounded-2xl space-y-2">
-      <div class="flex justify-between items-center font-mono">
-        <span class="text-[9px] font-bold px-2 py-0.5 rounded-md tracking-wider ${item.timingBadge}">${item.timing}</span>
-        <span class="text-white font-bold text-xs">${item.dose}</span>
-      </div>
-      <div>
-        <b class="text-sm font-bold text-white font-sans">${item.name}</b>
-        <p class="text-[11px] text-slate-300 leading-relaxed font-sans mt-1">${item.reason}</p>
-      </div>
-    </div>
-  `).join("");
-}
+// renderPersonalizedVitamins() — определена в health_vitamins_engine.js (интерактивный чеклист)
 
 // ========================================================
 // ЧИСТЫЕ СИЛОВЫЕ И ДИСЦИПЛИНАРНЫЕ АЧИВКИ
@@ -4703,17 +4658,7 @@ function addRestTime(sec = 30) {
   Haptic.impact('light');
 }
 
-function stopTimer() {
-  clearInterval(timerInt);
-  appState.activeRestTimer = null;
-  saveState();
-  const bar = document.getElementById("timer-bar");
-  const floatingHud = document.getElementById("floating-rest-hud");
-  const modal = document.getElementById("modal-rest-timer");
-  if (bar) bar.classList.add("hidden");
-  if (floatingHud) floatingHud.classList.add("hidden");
-  if (modal) modal.classList.add("hidden");
-}
+// stopTimer() — определена выше (первый экземпляр)
 
 let pendingWorkoutSummary = null;
 let selectedWorkoutRating = 4;
@@ -5308,138 +5253,7 @@ function setChartFilter(filter) {
   drawTrendChart();
 }
 
-function drawTrendChart() {
-  const canvas = document.getElementById("chart-canvas");
-  if (!canvas) return;
-
-  const parentWidth = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
-  const w = canvas.width = (parentWidth > 50 ? parentWidth : (window.innerWidth ? window.innerWidth - 48 : 320));
-  const h = canvas.height = 160;
-
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, w, h);
-
-  if (currentChartFilter === 'duration') {
-    const hist = (appState.history || []).slice().reverse().filter(item => (item.durationMin || 45) > 0);
-    if (hist.length < 2) {
-      ctx.fillStyle = "#94a3b8";
-      ctx.font = "11px Inter, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText("Добавь минимум 2 тренировки для графика времени", w / 2, h / 2);
-      return;
-    }
-    const durations = hist.map(item => item.durationMin || 45);
-    const min = Math.max(0, Math.min(...durations) - 5);
-    const max = Math.max(...durations) + 10;
-
-    function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 40); }
-    function getX(i) { return 35 + (i / (hist.length - 1)) * (w - 55); }
-
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 3; i++) {
-      const y = 20 + (i / 3) * (h - 40);
-      ctx.beginPath();
-      ctx.moveTo(35, y);
-      ctx.lineTo(w - 20, y);
-      ctx.stroke();
-
-      const val = (max - (i / 3) * (max - min)).toFixed(0) + "м";
-      ctx.fillStyle = "#94a3b8";
-      ctx.font = "10px monospace";
-      ctx.textAlign = "right";
-      ctx.fillText(val, 30, y + 3);
-    }
-
-    ctx.strokeStyle = "#c8a97e";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    durations.forEach((v, i) => {
-      const x = getX(i), y = getY(v);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    durations.forEach((v, i) => {
-      const x = getX(i), y = getY(v);
-      ctx.fillStyle = "#c8a97e";
-      ctx.beginPath();
-      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    return;
-  }
-
-  const logs = (appState.metrics || []).filter(m => m && (m.weight > 0 || m.waist > 0));
-  if (logs.length < 2) {
-    ctx.fillStyle = "#94a3b8";
-    ctx.font = "11px Inter, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("Добавь минимум 2 замера для отображения графика", w / 2, h / 2);
-    return;
-  }
-
-  const weights = logs.map(l => l.weight || 0).filter(v => v > 0);
-  const waists = logs.map(l => l.waist || 0).filter(v => v > 0);
-
-  let activeSeries = [];
-  if (currentChartFilter === 'all') activeSeries = [...weights, ...waists];
-  else if (currentChartFilter === 'weight') activeSeries = weights;
-  else if (currentChartFilter === 'waist') activeSeries = waists;
-
-  if (activeSeries.length === 0) activeSeries = [50, 100];
-
-  const min = Math.min(...activeSeries) - 1.5;
-  const max = Math.max(...activeSeries) + 1.5;
-
-  function getY(v) { return 20 + (1 - (v - min) / (max - min)) * (h - 40); }
-  function getX(i) { return 35 + (i / (logs.length - 1)) * (w - 55); }
-
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-  ctx.lineWidth = 1;
-  for (let i = 0; i <= 3; i++) {
-    const y = 20 + (i / 3) * (h - 40);
-    ctx.beginPath();
-    ctx.moveTo(35, y);
-    ctx.lineTo(w - 20, y);
-    ctx.stroke();
-
-    const val = (max - (i / 3) * (max - min)).toFixed(0);
-    ctx.fillStyle = "#94a3b8";
-    ctx.font = "10px monospace";
-    ctx.textAlign = "right";
-    ctx.fillText(val, 30, y + 3);
-  }
-
-  function drawLine(data, color) {
-    if (data.length < 2) return;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    data.forEach((v, i) => {
-      const x = getX(i), y = getY(v);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    data.forEach((v, i) => {
-      const x = getX(i), y = getY(v);
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  }
-
-  if (currentChartFilter === 'all' || currentChartFilter === 'weight') {
-    drawLine(logs.map(l => l.weight || 0), "#f1f5f9");
-  }
-  if (currentChartFilter === 'all' || currentChartFilter === 'waist') {
-    drawLine(logs.map(l => l.waist || 0), "#c8a97e");
-  }
-}
+// drawTrendChart() — определена выше (интерактивная версия с scrubX)
 
 // ========================================================
 // ПРОФИЛЬ АТЛЕТА
@@ -5468,19 +5282,27 @@ function forceAppReload() {
 }
 
 // ========================================================
-// МОДУЛЬ ПРОВЕРКИ РЕВИЗИЙ И ОБНОВЛЕНИЙ
+// МОДУЛЬ ПРОВЕРКИ РЕВИЗИЙ И ОБНОВЛЕНИЙ v2.0
+// Фиксы: openRevisionModal, авто-проверка, changelog, динамическая версия
 // ========================================================
+
+function openRevisionModal() {
+  openModal('modal-revision-status');
+  checkLiveRevisionUpdate(false);
+}
 
 async function checkLiveRevisionUpdate(isManual = true) {
   const btn = document.getElementById("btn-check-revision");
   const serverVerEl = document.getElementById("revision-server-ver");
   const cacheStatusEl = document.getElementById("revision-cache-status");
+  const changelogEl = document.getElementById("revision-live-changelog");
 
   if (btn && isManual) {
     btn.textContent = "Проверка серверов...";
   }
 
   let latestVersion = null;
+  let changelogItems = [];
 
   try {
     const origin = (window.location && window.location.origin && window.location.origin.startsWith('http')) 
@@ -5491,11 +5313,22 @@ async function checkLiveRevisionUpdate(isManual = true) {
     if (res.ok) {
       const data = await res.json();
       if (data && data.version) latestVersion = data.version;
+      if (data && data.changelog && Array.isArray(data.changelog)) changelogItems = data.changelog;
     }
   } catch (e) {}
 
   if (serverVerEl) {
     serverVerEl.textContent = latestVersion || (APP_CONFIG.version + " (OK)");
+  }
+
+  // Рендер changelog если есть данные
+  if (changelogEl && changelogItems.length > 0) {
+    changelogEl.innerHTML = changelogItems.map(item => 
+      `<div class="flex items-start gap-2 py-1.5 border-b border-white/5 last:border-0">
+        <span class="text-emerald-400 text-xs mt-0.5">✦</span>
+        <span class="text-slate-300 text-xs">${item}</span>
+      </div>`
+    ).join('');
   }
 
   if (latestVersion && latestVersion !== APP_CONFIG.version) {
@@ -5514,7 +5347,7 @@ async function checkLiveRevisionUpdate(isManual = true) {
   }
 
   if (btn && isManual) {
-    btn.textContent = "Версия актуальна (v2.9.0 PRO) ✓";
+    btn.textContent = "Версия актуальна (" + APP_CONFIG.version + ") ✓";
     Sound.success();
     Haptic.success();
     setTimeout(() => {
@@ -5523,6 +5356,11 @@ async function checkLiveRevisionUpdate(isManual = true) {
         btn.onclick = () => checkLiveRevisionUpdate(true);
       }
     }, 2500);
+  }
+
+  if (cacheStatusEl && !isManual) {
+    cacheStatusEl.textContent = "Синхронизация OK ✓";
+    cacheStatusEl.className = "text-emerald-400 font-medium";
   }
 }
 
@@ -5583,7 +5421,7 @@ async function sendTestPushNotification() {
   }
 
   try {
-    const res = await fetch("/api/send-push", {
+    const res = await fetch("https://iron-coach-bot.r-tofan112.workers.dev/api/send-push", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -6309,7 +6147,7 @@ async function sendCoachReportToTelegram(reportHtml) {
     }
     if (!chatId) return;
 
-    await fetch('/api/send-push', {
+    await fetch('https://iron-coach-bot.r-tofan112.workers.dev/api/send-push', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -6488,24 +6326,32 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
   });
 
-  // Уведомление в Telegram-чат о выходе новой версии
+  // Фоновая автопроверка ревизии при старте (тихо, без звука)
+  setTimeout(() => { checkLiveRevisionUpdate(false); }, 2000);
+
+  // Уведомление в Telegram-чат и показ модалки при обнаружении новой версии
   const lastVersionSeen = localStorage.getItem("asutp_last_version_seen");
   if (lastVersionSeen !== APP_CONFIG.version) {
     localStorage.setItem("asutp_last_version_seen", APP_CONFIG.version);
+
+    // Показать внутриприложенную модалку ревизии
+    setTimeout(() => { openRevisionModal(); }, 1500);
+
     const userId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ? window.Telegram.WebApp.initDataUnsafe.user.id : null;
     if (userId) {
-      fetch("/api/send-push", {
+      fetch("https://iron-coach-bot.r-tofan112.workers.dev/api/send-push", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chatId: userId,
           text: `🚀 <b>ВЫШЛО ОБНОВЛЕНИЕ IRON COACH ${APP_CONFIG.version}!</b>\n\n` +
-                `✨ <b>Что нового в этой версии:</b>\n` +
-                `• <b>Интерактивная Анатомическая Карта Тела:</b> нажимай на человека (вид Спереди и Сзади) — получай полное досье по целевой мышце, технике и лучшим упражнениям!\n` +
-                `• <b>Визуальный Рост Мышц (Hypertrophy Scaling):</b> мышцы на теле визуально увеличиваются в размере и светятся золотым неоном по мере набора недельного объема сетов (RP MAV)!\n` +
-                `• <b>Таймер Восстановления Мышц:</b> точный расчет часов отдыха и готовности мышечных групп к следующей сессии.\n` +
-                `• <b>Анимированные схемы биомеханики:</b> в режиме тренировки и каталоге базы упражнений.\n\n` +
-                `👇 <i>Заходи и протестируй анатомическую карту:</i>`,
+                `✨ <b>Что нового:</b>\n` +
+                `• <b>Атлетический Атлас 7.0:</b> Реалистичная анатомическая карта тела с плавными кривыми Безье (Спереди / Сзади), неоновый памп и HUD-инспектор мышц.\n` +
+                `• <b>Интерактивные витамины:</b> Персональный стек (D3+K2, Омега-3, Магний, Креатин, Цинк) с отметкой приёма, стриком и рекомендациями.\n` +
+                `• <b>Аудио 3.0:</b> 3 режима звука — Полный, Тихий зал (только вибро), Без звука.\n` +
+                `• <b>Динамический BMR/TDEE:</b> Персональный расчёт калорий и макросов по формуле Миффлина + US Navy.\n` +
+                `• <b>Календарь тренировок:</b> Подсветка сегодняшнего дня, инспекция пропусков, годовой обзор.\n\n` +
+                `👇 <i>Открой приложение и проверь обновления:</i>`,
           withButton: true
         })
       }).catch(() => {});

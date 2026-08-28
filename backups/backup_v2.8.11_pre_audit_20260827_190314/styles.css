@@ -1,0 +1,647 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  
+  /* $1,000,000 LUXURY TITANIUM & OBSIDIAN PALETTE */
+  --bg-abyss: #040507;
+  --bg-card: rgba(14, 17, 26, 0.78);
+  --bg-card-hover: rgba(20, 24, 38, 0.88);
+  --bg-card-active: rgba(28, 34, 52, 0.94);
+  --bg-input: #080a10;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.15);
+  --border-gold: rgba(200, 169, 126, 0.55);
+  
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8290a5;
+  
+  /* LUXURY METRIC ACCENTS */
+  --gold-primary: #c8a97e;
+  --gold-light: #dfc299;
+  --gold-bright: #f5e3cc;
+  --gold-dark: #967445;
+  --gold-glow: rgba(200, 169, 126, 0.35);
+  
+  --emerald-pure: #10b981;
+  --emerald-light: #34d399;
+  --emerald-glow: rgba(16, 185, 129, 0.35);
+  
+  --ruby-pure: #f43f5e;
+  --ruby-glow: rgba(244, 63, 94, 0.35);
+  
+  --cyan-pure: #38bdf8;
+  --cyan-glow: rgba(56, 189, 248, 0.35);
+  
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html, body {
+  min-height: 100vh;
+  background-color: var(--bg-abyss);
+  background-image: 
+    radial-gradient(circle at 50% -12%, rgba(200, 169, 126, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 90% 100%, rgba(16, 185, 129, 0.09) 0%, transparent 35%),
+    radial-gradient(circle at 10% 100%, rgba(56, 189, 248, 0.08) 0%, transparent 35%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  padding-bottom: 6.5rem;
+  overflow-x: hidden;
+  letter-spacing: -0.015em;
+  line-height: 1.5;
+}
+
+/* ======================================================== */
+/* ПРЕМИАЛЬНЫЕ ПОВЕРХНОСТИ И СТЕКЛО */
+/* ======================================================== */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 36px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  transition: all 0.25s var(--ease-luxury);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.glass-panel-elevated {
+  background: var(--bg-card-hover);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-medium);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ======================================================== */
+/* ЗОЛОТЫЕ И ТИТАНОВЫЕ КНОПКИ */
+/* ======================================================== */
+.btn-gold {
+  background: linear-gradient(135deg, #f5e3cc 0%, #dfc299 25%, #c8a97e 60%, #967445 100%);
+  color: #050608 !important;
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 24px -2px var(--gold-glow);
+  transition: all 0.2s var(--ease-luxury);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+}
+
+.btn-gold:hover::after {
+  left: 100%;
+}
+
+.btn-gold:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px var(--gold-glow);
+}
+
+.btn-dark-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  border-radius: 0.85rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-dark-pill:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn-dark-pill:active {
+  transform: scale(0.96);
+}
+
+/* ======================================================== */
+/* ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК И НАВИГАЦИОННЫЙ ДОК */
+/* ======================================================== */
+.tab-pane {
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.24s var(--ease-luxury), transform 0.24s var(--ease-luxury);
+}
+
+.tab-pane.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bottom-dock {
+  background: rgba(7, 9, 14, 0.90);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.7);
+}
+
+.nav-item {
+  position: relative;
+  transition: all 0.22s var(--ease-luxury);
+  color: var(--text-muted);
+}
+
+.nav-item.active {
+  color: #ffffff;
+}
+
+.nav-item.active svg {
+  color: var(--gold-primary);
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.4rem;
+  height: 2.8px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-light) 50%, transparent 100%);
+  border-radius: 9999px;
+  box-shadow: 0 0 12px var(--gold-primary);
+}
+
+/* ======================================================== */
+/* СТЕППЕРЫ ВЕСА И ПОВТОРЕНИЙ (APPLE / GOOGLE TACTILE) */
+/* ======================================================== */
+.stepper-btn {
+  width: 2.45rem;
+  height: 2.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-radius: 0.85rem;
+  transition: transform 0.1s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.stepper-btn:active {
+  transform: scale(0.88);
+  background: rgba(200, 169, 126, 0.25);
+  border-color: var(--gold-primary);
+}
+
+/* ======================================================== */
+/* ЧЕКБОКС ЗАКРЫТИЯ ПОДХОДОВ */
+/* ======================================================== */
+.custom-checkbox {
+  appearance: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 0.8rem;
+  background-color: var(--bg-input);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s var(--ease-luxury);
+  position: relative;
+}
+
+.custom-checkbox:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.custom-checkbox:checked {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  border-color: #10b981;
+  box-shadow: 0 0 18px var(--emerald-glow);
+  transform: scale(1.06);
+}
+
+.custom-checkbox:checked::after {
+  content: '';
+  width: 6px;
+  height: 12px;
+  border: solid #ffffff;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* ======================================================== */
+/* АККОРДЕОН УПРАЖНЕНИЙ */
+/* ======================================================== */
+.ex-card-accordion {
+  transition: all 0.25s var(--ease-luxury);
+  background: linear-gradient(180deg, rgba(20, 24, 36, 0.8) 0%, rgba(10, 12, 18, 0.95) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.35rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ex-card-accordion.active-focus {
+  border-color: var(--border-gold);
+  box-shadow: 0 10px 34px -4px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, rgba(30, 35, 54, 0.95) 0%, rgba(14, 17, 26, 0.98) 100%);
+}
+
+.ex-card-accordion.done-all {
+  border-color: rgba(16, 185, 129, 0.45);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 12, 18, 0.95) 100%);
+}
+
+/* ======================================================== */
+/* АНАТОМИЧЕСКИЕ ДИАГРАММЫ */
+/* ======================================================== */
+.ex-diagram-container {
+  background: radial-gradient(circle at 50% 50%, rgba(28, 33, 50, 0.95) 0%, #06070c 100%);
+  border-radius: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 0.85rem 0.6rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.75);
+}
+
+.ex-phase-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ======================================================== */
+/* КАЛЕНДАРЬ ТРЕНИРОВОК */
+/* ======================================================== */
+.cal-day-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s var(--ease-luxury);
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cal-day-cell:active {
+  transform: scale(0.88);
+}
+
+.cal-day-cell.done {
+  background: rgba(16, 185, 129, 0.22);
+  border-color: rgba(16, 185, 129, 0.65);
+  color: #34d399;
+  box-shadow: 0 0 14px var(--emerald-glow);
+}
+
+.cal-day-cell.missed {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.6);
+  color: #fb7185;
+}
+
+.cal-day-cell.scheduled {
+  border: 1.8px dashed rgba(200, 169, 126, 0.65);
+  color: #ffffff;
+  background-color: rgba(200, 169, 126, 0.1);
+}
+
+.cal-day-cell.today {
+  box-shadow: 0 0 0 2px var(--gold-primary);
+  font-weight: 800;
+}
+
+.cal-day-cell.selected {
+  outline: 2.5px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.cal-day-cell.empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ======================================================== */
+/* СЕГМЕНТИРОВАННЫЙ СЕЛЕКТОР ЦЕЛЕЙ (APPLE HEALTH STYLE) */
+/* ======================================================== */
+.goal-segment-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #07080e;
+  padding: 4.5px;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  gap: 4px;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.goal-segment-btn {
+  padding: 0.7rem 0.25rem;
+  border-radius: 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s var(--ease-luxury);
+  text-align: center;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.goal-segment-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.goal-segment-btn:active {
+  transform: scale(0.94);
+}
+
+.goal-segment-btn.active {
+  background: #1a1e2c;
+  color: var(--text-primary);
+  font-weight: 700;
+  border-color: rgba(200, 169, 126, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.goal-segment-btn svg {
+  transition: transform 0.22s var(--ease-luxury);
+}
+
+.goal-segment-btn.active svg {
+  transform: scale(1.18);
+  color: var(--gold-primary);
+}
+
+/* ======================================================== */
+/* 12 МЕСЯЦЕВ ГОДОВОГО ОБЗОРА */
+/* ======================================================== */
+.annual-month-pill {
+  padding: 0.7rem 0.55rem;
+  background-color: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.annual-month-pill:hover, .annual-month-pill.active-month {
+  border-color: var(--gold-primary);
+  background-color: var(--bg-card-hover);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* ======================================================== */
+/* МОДАЛЬНЫЕ ОКНА И ДИАЛОГИ */
+/* ======================================================== */
+.modal-backdrop {
+  background: rgba(3, 4, 7, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* ======================================================== */
+/* ВЕРХНИЙ СТАТУС-БАННЕР АКТИВНОЙ ТРЕНИРОВКИ */
+/* ======================================================== */
+.active-workout-top-pill {
+  background: linear-gradient(135deg, rgba(200, 169, 126, 0.22), rgba(16, 20, 30, 0.98));
+  border: 1px solid rgba(200, 169, 126, 0.45);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.22s var(--ease-luxury);
+}
+
+.active-workout-top-pill:active {
+  transform: scale(0.98);
+  border-color: var(--gold-primary);
+}
+
+.pulse-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8);
+  animation: pulse-green 1.8s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* СКРОЛЛБАР */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+
+
+/* ======================================================== */
+/* 5 ДИНАМИЧЕСКИХ ПРЕМИУМ-ТЕМ ОФОРМЛЕНИЯ */
+/* ======================================================== */
+body[data-theme="emerald"] {
+  --gold-primary: #10b981;
+  --gold-light: #34d399;
+  --gold-bright: #6ee7b7;
+  --gold-dark: #059669;
+  --gold-glow: rgba(16, 185, 129, 0.35);
+  --border-gold: rgba(16, 185, 129, 0.55);
+}
+
+body[data-theme="cyan"] {
+  --gold-primary: #38bdf8;
+  --gold-light: #7dd3fc;
+  --gold-bright: #bae6fd;
+  --gold-dark: #0284c7;
+  --gold-glow: rgba(56, 189, 248, 0.35);
+  --border-gold: rgba(56, 189, 248, 0.55);
+}
+
+body[data-theme="ruby"] {
+  --gold-primary: #f43f5e;
+  --gold-light: #fb7185;
+  --gold-bright: #fda4af;
+  --gold-dark: #e11d48;
+  --gold-glow: rgba(244, 63, 94, 0.35);
+  --border-gold: rgba(244, 63, 94, 0.55);
+}
+
+body[data-theme="purple"] {
+  --gold-primary: #a855f7;
+  --gold-light: #c084fc;
+  --gold-bright: #e9d5ff;
+  --gold-dark: #7e22ce;
+  --gold-glow: rgba(168, 85, 247, 0.35);
+  --border-gold: rgba(168, 85, 247, 0.55);
+}
+
+/* АНИМАЦИЯ БИОМЕХАНИКИ И ВЕКТОРНОГО ДВИЖЕНИЯ */
+@keyframes biomech-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px var(--gold-primary)); }
+}
+
+@keyframes biomech-stroke-flow {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.biomech-target-muscle {
+  animation: biomech-pulse 2.2s infinite ease-in-out;
+  transform-origin: center;
+}
+
+.biomech-motion-path {
+  stroke-dasharray: 4, 3;
+  animation: biomech-stroke-flow 1.2s infinite linear;
+}
+
+.theme-pill-btn {
+  padding: 0.5rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.theme-pill-btn.active {
+  border-color: var(--gold-primary);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+
+/* ======================================================== */
+/* ИНТЕРАКТИВНАЯ АНАТОМИЧЕСКАЯ МОДЕЛЬ ЧЕЛОВЕКА & ГИПЕРТРОФИЯ */
+/* ======================================================== */
+.anat-body-wrapper {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(circle at 50% 40%, rgba(20, 26, 44, 0.65) 0%, rgba(6, 8, 14, 0.98) 100%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.25rem 0.75rem;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+.anat-muscle {
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center center;
+}
+
+.anat-muscle:hover {
+  stroke: var(--gold-primary, #c8a97e) !important;
+  stroke-width: 2.5px !important;
+  filter: drop-shadow(0 0 10px rgba(200, 169, 126, 0.9));
+}
+
+.anat-muscle.active {
+  stroke: var(--gold-bright, #f5e3cc) !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 14px var(--gold-primary, #c8a97e));
+}
+
+.anat-muscle.growing {
+  animation: muscle-hypertrophy-pulse 2.2s infinite ease-in-out;
+}
+
+@keyframes muscle-hypertrophy-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(200, 169, 126, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(200, 169, 126, 0.95));
+  }
+}
+
+.anat-hud-card {
+  background: rgba(10, 13, 22, 0.94);
+  border: 1px solid rgba(200, 169, 126, 0.3);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
