@@ -608,93 +608,65 @@
         <button onclick="closeModal('modal-exercise-pro-visualizer')" class="text-slate-400 hover:text-white font-bold px-2 py-1 text-sm">✕</button>
       </div>
 
-      <!-- ТАБЫ ВИЗУАЛИЗАТОРА -->
-      <div class="px-4 pt-3 pb-1 bg-[#070912] border-b border-white/[0.06] flex space-x-1.5 text-[10px]">
-        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center">📐 Биомеханика</button>
-        <button type="button" onclick="switchVisualizerTab('science')" id="vis-tab-btn-science" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">📚 Наука & PubMed</button>
-        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center">✅ Чек-лист</button>
+      <!-- 2 ПРОСТЫХ ПОНЯТНЫХ ТАБА -->
+      <div class="px-4 pt-3 pb-1 bg-[#070912] border-b border-white/[0.06] flex space-x-2 text-[11px]">
+        <button type="button" onclick="switchVisualizerTab('bio')" id="vis-tab-btn-bio" class="flex-1 py-2 rounded-xl bg-[#c8a97e] text-slate-950 font-bold text-center">📐 Техника и Схема</button>
+        <button type="button" onclick="switchVisualizerTab('keys')" id="vis-tab-btn-keys" class="flex-1 py-2 rounded-xl bg-white/5 text-slate-400 border border-white/10 font-medium text-center">🎯 Секреты PRO & Ошибки</button>
       </div>
 
-      <!-- СКРОЛЛИРУЕМОЕ СОДЕРЖИМОЕ -->
+      <!-- СОДЕРЖИМОЕ -->
       <div class="p-4 space-y-4 overflow-y-auto flex-1 bg-[#06080e]">
         
-        <!-- СЕКЦИЯ 1: БИОМЕХАНИКА & ВЕКТОРЫ -->
+        <!-- ТАБ 1: ТЕХНИКА И СХЕМА -->
         <div id="vis-panel-bio" class="space-y-4">
-          <!-- БОЛЬШОЙ ХОЛСТ СХЕМЫ -->
+          <!-- СХЕМА УПРАЖНЕНИЯ -->
           <div class="visualizer-canvas-hero p-3">
-            <div id="vis-svg-container" class="w-full flex items-center justify-center">
-              <!-- Dynamic SVG inserted here -->
-            </div>
+            <div id="vis-svg-container" class="w-full flex items-center justify-center"></div>
           </div>
 
-          <!-- ИНТЕРАКТИВНЫЕ ФАЗЫ ДВИЖЕНИЯ (STEPPER) -->
+          <!-- НАГЛЯДНЫЙ ПОШАГОВЫЙ ТЕМП (БЕЗ ЛИШНИХ КЛИКОВ) -->
           <div class="space-y-2">
-            <div class="flex justify-between items-center text-[10px]">
-              <span class="text-slate-400 font-bold uppercase tracking-wider">Фазы движения & Натяжение:</span>
-              <span id="vis-current-phase-hint" class="text-[#c8a97e] font-bold">Фаза 1: Эксцентрика</span>
-            </div>
-            <div class="grid grid-cols-3 gap-1.5" id="vis-phase-buttons-container">
-              <!-- Dynamic Phase Buttons -->
-            </div>
-            <div id="vis-phase-description-box" class="p-3 bg-[#0f121d] rounded-xl border border-white/[0.06] text-[11px] text-slate-300 font-sans leading-relaxed">
-              <!-- Phase description text -->
+            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Темп выполнения (3 шага):</span>
+            <div class="grid grid-cols-3 gap-2 text-center" id="vis-tempo-steps-grid">
+              <div class="p-2.5 bg-[#0e121e] rounded-2xl border border-white/10 space-y-1">
+                <span class="text-[9px] text-[#c8a97e] font-bold block uppercase">1. Спуск</span>
+                <b class="text-xs text-white block">3 сек</b>
+                <p class="text-[10px] text-slate-400 font-sans leading-tight">Плавно вниз, растягивая мышцу</p>
+              </div>
+              <div class="p-2.5 bg-[#0e121e] rounded-2xl border border-white/10 space-y-1">
+                <span class="text-[9px] text-amber-400 font-bold block uppercase">2. Пауза</span>
+                <b class="text-xs text-white block">1 сек</b>
+                <p class="text-[10px] text-slate-400 font-sans leading-tight">Фиксация внизу без рывка</p>
+              </div>
+              <div class="p-2.5 bg-[#0e121e] rounded-2xl border border-white/10 space-y-1">
+                <span class="text-[9px] text-emerald-400 font-bold block uppercase">3. Подъем</span>
+                <b class="text-xs text-white block">1 сек</b>
+                <p class="text-[10px] text-slate-400 font-sans leading-tight">Мощный выжим на выдохе</p>
+              </div>
             </div>
           </div>
 
-          <!-- АНАТОМИЧЕСКАЯ МАТРИЦА ВКЛЮЧЕНИЯ ВОЛОКОН -->
+          <!-- ВКЛЮЧЕНИЕ МЫШЦ -->
           <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2.5">
-            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Анатомическая карта включения волокон:</span>
-            <div id="vis-muscle-matrix-container" class="space-y-2">
-              <!-- Dynamic muscle progress bars -->
-            </div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Распределение нагрузки по мышцам:</span>
+            <div id="vis-muscle-matrix-container" class="space-y-2"></div>
           </div>
         </div>
 
-        <!-- СЕКЦИЯ 2: ДОКАЗАТЕЛЬНАЯ НАУКА & ИССЛЕДОВАНИЯ (PUBMED / JSCR / RP) -->
-        <div id="vis-panel-science" class="space-y-3 hidden">
-          <div class="p-3.5 bg-[#0a0d18] rounded-2xl border border-[#c8a97e]/30 space-y-2">
-            <div class="flex items-center space-x-2">
-              <span class="text-base">🧬</span>
-              <h4 class="font-bold text-xs text-[#c8a97e] uppercase">Стретч-опосредованная гипертрофия</h4>
-            </div>
-            <p id="vis-science-stretch" class="text-[11px] text-slate-300 font-sans leading-relaxed">
-              <!-- Science stretch info -->
-            </p>
-          </div>
-
-          <div class="p-3.5 bg-[#080c16] rounded-2xl border border-white/[0.08] space-y-2.5">
-            <div class="flex justify-between items-center text-[10px] font-mono">
-              <span class="text-slate-400 font-bold uppercase">Электромиография (EMG / % MVC):</span>
-              <span class="text-emerald-400 font-bold">ЭМГ-пик</span>
-            </div>
-            <div id="vis-science-emg-container" class="space-y-2">
-              <!-- EMG bars -->
-            </div>
-          </div>
-
-          <div class="p-3.5 bg-[#0b0e18] rounded-2xl border border-white/[0.08] space-y-2">
-            <h4 class="font-bold text-[10px] text-slate-400 uppercase tracking-wider">📚 Научные публикации & Цитаты:</h4>
-            <div id="vis-science-citations-container" class="space-y-2">
-              <!-- Citations -->
-            </div>
-          </div>
-        </div>
-
-        <!-- СЕКЦИЯ 3: ЧЕК-ЛИСТ ТЕХНИКИ: СЕКРЕТЫ PRO VS ОПАСНЫЕ ОШИБКИ -->
+        <!-- ТАБ 2: СЕКРЕТЫ PRO & ОШИБКИ -->
         <div id="vis-panel-keys" class="space-y-3 hidden">
-          <div class="p-3.5 bg-emerald-950/20 rounded-2xl border border-emerald-800/40 space-y-2">
-            <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1.5">
-              <span>✅</span> Ключи идеальной биомеханики
+          <div class="p-3.5 bg-emerald-950/25 rounded-2xl border border-emerald-800/50 space-y-2">
+            <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1.5">
+              <span>✅</span> Как делать правильно (Секреты техники):
             </span>
-            <ul id="vis-dos-list" class="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside font-sans">
-            </ul>
+            <ul id="vis-dos-list" class="space-y-1.5 text-slate-200 text-xs list-disc list-inside font-sans leading-relaxed"></ul>
           </div>
-          <div class="p-3.5 bg-rose-950/20 rounded-2xl border border-rose-800/40 space-y-2">
-            <span class="text-[10px] font-mono font-bold text-rose-400 uppercase flex items-center gap-1.5">
-              <span>❌</span> Травмоопасные ошибки & Потеря нагрузки
+          
+          <div class="p-3.5 bg-rose-950/25 rounded-2xl border border-rose-800/50 space-y-2">
+            <span class="text-[11px] font-mono font-bold text-rose-400 uppercase flex items-center gap-1.5">
+              <span>❌</span> Частые ошибки (Чего избегать):
             </span>
-            <ul id="vis-donts-list" class="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside font-sans">
-            </ul>
+            <ul id="vis-donts-list" class="space-y-1.5 text-slate-200 text-xs list-disc list-inside font-sans leading-relaxed"></ul>
           </div>
         </div>
 
@@ -713,7 +685,6 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
   <!-- МОДАЛКА: ОЦЕНКА ТРЕНИРОВКИ & ИТОГОВЫЙ ОТЧЕТ -->
   <!-- ======================================================== -->
   <div id="modal-workout-completion-rating" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4">

@@ -1860,725 +1860,29 @@ function getExerciseAnatomyInfo(exName) {
 
 
 // ========================================================
-// PRO EXERCISE BIOMECHANICS & EVIDENCE-BASED SPORTS SCIENCE DATABASE 5.0
-// ИНТЕГРАЦИЯ РЕЦЕНЗИРУЕМЫХ ИССЛЕДОВАНИЙ (PUBMED, JSCR, SCHOENFELD, RP)
+// МОДУЛЬ ТЕХНИКИ УПРАЖНЕНИЙ И СЕКРЕТОВ PRO (ЧИСТЫЙ РУССКИЙ ЯЗЫК)
 // ========================================================
 
-const EXERCISE_RESEARCH_DATABASE = {
-  // --- ГРУДЬ ---
-  "жим гантелей на наклонной скамье 30°": {
-    stretchHypertrophy: "Высокая (Длинные мышечные волокна). Наклон 30° обеспечивает идеальное растяжение ключичного пучка без перегрузки суставной губы плеча.",
-    emgData: [
-      { muscle: "Верхняя ключичная порция груди", peak: "88% MVC", mean: "74% MVC" },
-      { muscle: "Передняя дельта", peak: "68% MVC", mean: "55% MVC" },
-      { muscle: "Латеральная головка трицепса", peak: "58% MVC", mean: "46% MVC" }
-    ],
-    optimalVolume: "8–12 повторений, RIR 1–2. Эффективный стимул в растянутой фазе (Pedrosa et al., 2022).",
-    citations: [
-      {
-        author: "Pedrosa et al.",
-        year: "2022",
-        journal: "European Journal of Sport Science",
-        title: "Partial range of motion training at long muscle lengths produces superior hypertrophy in pectoralis major compared to short lengths.",
-        doi: "10.1080/17461391.2021.1965983"
-      },
-      {
-        author: "Schoenfeld, B. J. et al.",
-        year: "2021",
-        journal: "Journal of Strength and Conditioning Research",
-        title: "Effects of Incline Bench Angle (30° vs 45°) on Upper Pectoralis EMG Activation and Shoulder Joint Stress.",
-        doi: "10.1519/JSC.0000000000003180"
-      }
-    ]
-  },
-  "жим штанги на наклонной скамье 30°": {
-    stretchHypertrophy: "Умеренно-высокая. Фиксированный гриф дает максимальную силовую перегрузку (Mechanical Tension) на верхний пучок.",
-    emgData: [
-      { muscle: "Ключичный пучок груди", peak: "92% MVC", mean: "78% MVC" },
-      { muscle: "Передний пучок дельты", peak: "72% MVC", mean: "59% MVC" },
-      { muscle: "Трицепс (медиальный/латеральный)", peak: "65% MVC", mean: "52% MVC" }
-    ],
-    optimalVolume: "6–10 повторений, RIR 1–2 (Базовая механическая перегрузка).",
-    citations: [
-      {
-        author: "Barnett et al.",
-        year: "2019",
-        journal: "JSCR / Sports Medicine",
-        title: "Effects of variation of bench angle on EMG activity of five shoulder muscles during bench press.",
-        doi: "10.1519/00124278-199511000-00003"
-      }
-    ]
-  },
-  "жим гантелей на горизонтальной скамье": {
-    stretchHypertrophy: "Очень высокая за счет независимой траектории гантелей и глубокой эксцентрики ниже уровня грудной клетки.",
-    emgData: [
-      { muscle: "Стернокостальная (средняя) часть груди", peak: "95% MVC", mean: "81% MVC" },
-      { muscle: "Передняя дельта", peak: "62% MVC", mean: "48% MVC" },
-      { muscle: "Трицепс", peak: "52% MVC", mean: "40% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, акцент на эксцентрическую фазу 3 сек.",
-    citations: [
-      {
-        author: "Farias et al.",
-        year: "2020",
-        journal: "Journal of Sports Science & Medicine",
-        title: "Maximal strength and muscle activation in dumbbell versus barbell bench press: Range of motion and pectoralis recruitment.",
-        doi: "10.1519/JSC.0000000000001821"
-      }
-    ]
-  },
-  "жим штанги лежа": {
-    stretchHypertrophy: "Высокая. Золотой стандарт механического напряжения для грудных и плечевого пояса.",
-    emgData: [
-      { muscle: "Большая грудная мышца", peak: "97% MVC", mean: "83% MVC" },
-      { muscle: "Передняя дельта", peak: "76% MVC", mean: "63% MVC" },
-      { muscle: "Трицепс", peak: "71% MVC", mean: "58% MVC" }
-    ],
-    optimalVolume: "5–8 повторов, RIR 1–2.",
-    citations: [
-      {
-        author: "Schick et al.",
-        year: "2020",
-        journal: "JSCR",
-        title: "A comparison of muscle activation between a Smith machine and free weight bench press.",
-        doi: "10.1519/JSC.0b013e3181cc2237"
-      }
-    ]
-  },
-  "бабочка (pec deck)": {
-    stretchHypertrophy: "Исключительное пиковое механическое напряжение в точке максимального сжатия волокон в центре.",
-    emgData: [
-      { muscle: "Большая грудная мышца (все пучки)", peak: "98% MVC", mean: "84% MVC" },
-      { muscle: "Передняя дельта", peak: "34% MVC", mean: "22% MVC" },
-      { muscle: "Передняя зубчатая", peak: "44% MVC", mean: "31% MVC" }
-    ],
-    optimalVolume: "10–15 повторений, пауза 1–2 сек в пиковом сведении.",
-    citations: [
-      {
-        author: "Schoenfeld, B. J.",
-        year: "2020",
-        journal: "Science and Development of Muscle Hypertrophy",
-        title: "Pec Deck vs Flyes: Continuous mechanical tension and inner pectoralis fiber recruitment dynamics.",
-        doi: "10.5040/9781492597681"
-      }
-    ]
-  },
-  "отжимания на брусьях": {
-    stretchHypertrophy: "Максимальная для абдоминальной (нижней) головки грудных при наклоне корпуса вперед на 30°.",
-    emgData: [
-      { muscle: "Нижний пучок большой грудной", peak: "96% MVC", mean: "82% MVC" },
-      { muscle: "Трицепс", peak: "88% MVC", mean: "74% MVC" },
-      { muscle: "Передняя дельта", peak: "70% MVC", mean: "56% MVC" }
-    ],
-    optimalVolume: "6–12 повторов с собственным весом или доп. отягощением.",
-    citations: [
-      {
-        author: "Contreras, B. et al.",
-        year: "2019",
-        journal: "JSCR",
-        title: "Biomechanical analysis and EMG amplitude in dips vs decline bench press for lower chest hypertrophy.",
-        doi: "10.1519/JSC.0000000000002144"
-      }
-    ]
-  },
-  "кроссовер": {
-    stretchHypertrophy: "Высокая за счет постоянного натяжения троса на всем протяжении дуги.",
-    emgData: [
-      { muscle: "Стернокостальный и нижний пучок груди", peak: "93% MVC", mean: "80% MVC" },
-      { muscle: "Передняя дельта", peak: "40% MVC", mean: "28% MVC" }
-    ],
-    optimalVolume: "12–15 повторов, пауза в пиковом сведении.",
-    citations: [
-      {
-        author: "Campos et al.",
-        year: "2020",
-        journal: "Frontiers in Physiology",
-        title: "Cable crossovers vs free weight flyes: Resistance profile and muscle oxygenation dynamics.",
-        doi: "10.3389/fphys.2020.00913"
-      }
-    ]
-  },
-
-  // --- БИЦЕПС ---
-  "сгибания рук с гантелями на наклонной скамье 45°": {
-    stretchHypertrophy: "ЭТАЛОН СТРЕТЧ-ГИПЕРТРОФИИ. Длинная головка бицепса пересекает плечевой сустав и растягивается за счет ретроверсии плеча.",
-    emgData: [
-      { muscle: "Длинная (внешняя) головка бицепса", peak: "94% MVC", mean: "83% MVC" },
-      { muscle: "Короткая головка бицепса", peak: "70% MVC", mean: "58% MVC" },
-      { muscle: "Плечелучевая мышца", peak: "60% MVC", mean: "47% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, медленный спуск 3 сек до полного натяжения (Maeo et al., 2023).",
-    citations: [
-      {
-        author: "Maeo et al.",
-        year: "2023",
-        journal: "Medicine & Science in Sports & Exercise",
-        title: "Greater biceps brachii long head hypertrophy after training at longer vs shorter muscle lengths.",
-        doi: "10.1249/MSS.0000000000002636"
-      },
-      {
-        author: "Oliveira et al.",
-        year: "2021",
-        journal: "Sports Biomechanics",
-        title: "Incline dumbbell curl vs Preacher curl: Regional neuromuscular activation and hypertrophy across muscle lengths.",
-        doi: "10.1080/14763141.2021.1910332"
-      }
-    ]
-  },
-  "сгибания на скамье скотта": {
-    stretchHypertrophy: "Умеренная. Фокус на изолированном сокращении короткой (внутренней) головки при согнутом плече.",
-    emgData: [
-      { muscle: "Короткая (внутренняя) головка бицепса", peak: "96% MVC", mean: "85% MVC" },
-      { muscle: "Брахиалис (плечевая)", peak: "82% MVC", mean: "69% MVC" },
-      { muscle: "Передняя дельта (включена)", peak: "4% MVC (Полная изоляция)", mean: "2% MVC" }
-    ],
-    optimalVolume: "10–14 повторений, контроль нижней точки (не ронять штангу!).",
-    citations: [
-      {
-        author: "Alves et al.",
-        year: "2020",
-        journal: "European Journal of Applied Physiology",
-        title: "Neuromuscular and mechanical characteristics of preacher curls: Muscle activation and torque curve analysis.",
-        doi: "10.1007/s00421-020-04421-x"
-      }
-    ]
-  },
-  "молотковые сгибания с гантелями": {
-    stretchHypertrophy: "Умеренная. Нейтральный хват анатомически выключает двуглавую мышцу и переносит 100% механического вектора на брахиалис.",
-    emgData: [
-      { muscle: "Плечевая мышца (Брахиалис)", peak: "97% MVC", mean: "86% MVC" },
-      { muscle: "Плечелучевая мышца (Предплечье)", peak: "91% MVC", mean: "79% MVC" },
-      { muscle: "Бицепс (латеральный пучок)", peak: "54% MVC", mean: "42% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, пиковая фиксация вверху 1 сек.",
-    citations: [
-      {
-        author: "Staudenmann et al.",
-        year: "2020",
-        journal: "Journal of Electromyography and Kinesiology",
-        title: "Forearm position dictates brachialis vs biceps brachii load distribution during elbow flexion.",
-        doi: "10.1016/j.jelekin.2020.102450"
-      }
-    ]
-  },
-  "паучьи сгибания (spider curls)": {
-    stretchHypertrophy: "Пиковая короткая позиция (Active Shortening). Идеально для пампинга и максимального рекрутирования двигательных единиц в верхней трети.",
-    emgData: [
-      { muscle: "Короткая головка бицепса (Пик)", peak: "99% MVC", mean: "88% MVC" },
-      { muscle: "Брахиалис", peak: "75% MVC", mean: "62% MVC" }
-    ],
-    optimalVolume: "10–15 повторений, пауза 2 сек в пиковом сжатии.",
-    citations: [
-      {
-        author: "Israetel, M. et al.",
-        year: "2021",
-        journal: "Renaissance Periodization Hypertrophy Guide",
-        title: "Optimizing Biceps Hypertrophy: Peak contraction vs Long muscle length exercise selection.",
-        doi: "10.5281/zenodo.rp.biceps2021"
-      }
-    ]
-  },
-  "подъем штанги на бицепс": {
-    stretchHypertrophy: "Высокая механическая перегрузка для набора общей массы двуглавой мышцы.",
-    emgData: [
-      { muscle: "Двуглавая мышца плеча суммарно", peak: "96% MVC", mean: "84% MVC" },
-      { muscle: "Брахиалис", peak: "80% MVC", mean: "68% MVC" }
-    ],
-    optimalVolume: "6–10 повторов, без раскачки поясницы.",
-    citations: [
-      {
-        author: "Marcolin et al.",
-        year: "2018",
-        journal: "PeerJ",
-        title: "Differences in electromyographic activity of biceps brachii and brachioradialis while using various barbells.",
-        doi: "10.7717/peerj.5602"
-      }
-    ]
-  },
-
-  // --- ТРИЦЕПС ---
-  "французский жим со штангой лежа": {
-    stretchHypertrophy: "Высокая. Отклонение плеча на 15° назад обеспечивает предварительное натяжение длинной головки трицепса.",
-    emgData: [
-      { muscle: "Длинная головка трицепса", peak: "92% MVC", mean: "80% MVC" },
-      { muscle: "Медиальная головка", peak: "88% MVC", mean: "75% MVC" },
-      { muscle: "Латеральная головка", peak: "79% MVC", mean: "65% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, опускание за макушку головы.",
-    citations: [
-      {
-        author: "Kassiano, W. et al.",
-        year: "2023",
-        journal: "Sports Medicine",
-        title: "Which Muscle Length Produces Greater Muscle Hypertrophy? A Systematic Review and Meta-Analysis of Triceps & Hamstrings.",
-        doi: "10.1007/s40279-023-01853-x"
-      }
-    ]
-  },
-  "разгибания на верхнем блоке с канатом": {
-    stretchHypertrophy: "Низкая (укороченная позиция). Максимальное рекрутирование латеральной и медиальной головок в точке полного разгибания и пронации.",
-    emgData: [
-      { muscle: "Латеральная головка трицепса", peak: "97% MVC", mean: "86% MVC" },
-      { muscle: "Медиальная головка", peak: "93% MVC", mean: "82% MVC" },
-      { muscle: "Длинная головка", peak: "64% MVC", mean: "51% MVC" }
-    ],
-    optimalVolume: "10–15 повторов, разведение кистей в стороны внизу с фиксацией 1 сек.",
-    citations: [
-      {
-        author: "Maeo et al.",
-        year: "2022",
-        journal: "European Journal of Sport Science",
-        title: "Triceps brachii hypertrophy is substantially greater after overhead vs neutral pushdown cable extensions.",
-        doi: "10.1080/17461391.2022.2100279"
-      }
-    ]
-  },
-  "разгибание руки с гантелью из-за головы": {
-    stretchHypertrophy: "МАКСИМАЛЬНАЯ В МИРЕ ФИТНЕСА. Положение руки над головой (180° сгибание плеча) удлиняет длинную головку трицепса до 125% длины покоя.",
-    emgData: [
-      { muscle: "Длинная головка трицепса", peak: "99% MVC", mean: "89% MVC" },
-      { muscle: "Медиальная головка", peak: "80% MVC", mean: "68% MVC" },
-      { muscle: "Латеральная головка", peak: "72% MVC", mean: "60% MVC" }
-    ],
-    optimalVolume: "10–14 повторов, подконтрольная эксцентрика 3 сек (Maeo et al., 2022 доказали +40% роста длинной головки vs обычный блок!).",
-    citations: [
-      {
-        author: "Maeo, S. et al.",
-        year: "2022",
-        journal: "Eur J Sport Sci / Waseda Univ",
-        title: "Overhead cable & dumbbell triceps extensions elicit 40% greater long-head hypertrophy than pushdowns.",
-        doi: "10.1080/17461391.2022.2100279"
-      }
-    ]
-  },
-  "жим лежа узким хватом": {
-    stretchHypertrophy: "Умеренная. Абсолютный лидер по механическому напряжению (Mechanical Tension) и максимальному рабочему тоннажу.",
-    emgData: [
-      { muscle: "Трицепс (все три головки суммарно)", peak: "94% MVC", mean: "81% MVC" },
-      { muscle: "Передняя дельта", peak: "75% MVC", mean: "61% MVC" },
-      { muscle: "Ключичная часть груди", peak: "69% MVC", mean: "55% MVC" }
-    ],
-    optimalVolume: "5–8 повторов, базовая прогрессивная перегрузка.",
-    citations: [
-      {
-        author: "Lehman, G. J.",
-        year: "2018",
-        journal: "Journal of Strength and Conditioning Research",
-        title: "An electromyographic analysis of grip width variations in bench press: Triceps vs Pectoral ratio.",
-        doi: "10.1519/1533-4287(2005)19[587:TEAOAL]2.0.CO;2"
-      }
-    ]
-  },
-  "кикбэк": {
-    stretchHypertrophy: "Низкая в растяжении, но абсолютный рекордсмен по пиковой изоляции латеральной головки трицепса в конечной фазе.",
-    emgData: [
-      { muscle: "Латеральная головка трицепса", peak: "98% MVC", mean: "87% MVC" },
-      { muscle: "Медиальная головка", peak: "82% MVC", mean: "71% MVC" }
-    ],
-    optimalVolume: "12–16 повторов с паузой 1.5 сек.",
-    citations: [
-      {
-        author: "Boeckh-Behrens & Buskies",
-        year: "2019",
-        journal: "Fitness Strength Training & EMG Analysis",
-        title: "EMG ratings of triceps exercises: Kickbacks achieve highest peak contraction values.",
-        doi: "10.1016/j.jse.2019.04.018"
-      }
-    ]
-  },
-
-  // --- СПИНА ---
-  "тяга верхнего блока к груди": {
-    stretchHypertrophy: "Высокая в верхней точке при подъеме рук (растяжение широчайших по длине волокон).",
-    emgData: [
-      { muscle: "Широчайшая мышца спины (Latissimus)", peak: "93% MVC", mean: "79% MVC" },
-      { muscle: "Большая круглая мышца", peak: "88% MVC", mean: "74% MVC" },
-      { muscle: "Брахиалис и бицепс", peak: "68% MVC", mean: "54% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, тяга строго к ключицам без раскачки.",
-    citations: [
-      {
-        author: "Signorile, J. F. et al.",
-        year: "2019",
-        journal: "Journal of Strength and Conditioning Research",
-        title: "A electromyographical comparison of lat pulldown variations and hand grip orientations.",
-        doi: "10.1519/00124278-200202000-00010"
-      }
-    ]
-  },
-  "тяга горизонтального блока к поясу": {
-    stretchHypertrophy: "Высокая для ромбовидных и середины трапеции при выведении лопаток вперед в фазе спуска.",
-    emgData: [
-      { muscle: "Середина трапеции и ромбовидные", peak: "96% MVC", mean: "83% MVC" },
-      { muscle: "Нижняя часть широчайших", peak: "89% MVC", mean: "76% MVC" },
-      { muscle: "Задняя дельта", peak: "74% MVC", mean: "61% MVC" }
-    ],
-    optimalVolume: "8–12 повторений, пауза 1 сек при сведении лопаток.",
-    citations: [
-      {
-        author: "Fenwick et al.",
-        year: "2019",
-        journal: "JSCR",
-        title: "Comparison of muscle activation and spinal loads in seated row vs inverted row vs bent-over barbell row.",
-        doi: "10.1519/JSC.0b013e3181cf6522"
-      }
-    ]
-  },
-  "face pull (к лицу с канатом)": {
-    stretchHypertrophy: "Умеренная. Клинически доказанное золотое упражнение для внешней ротации плеча, подостной мышцы и декомпрессии шеи.",
-    emgData: [
-      { muscle: "Задняя дельта", peak: "95% MVC", mean: "82% MVC" },
-      { muscle: "Подостная мышца (ротатор)", peak: "91% MVC", mean: "78% MVC" },
-      { muscle: "Нижняя трапеция", peak: "84% MVC", mean: "70% MVC" }
-    ],
-    optimalVolume: "12–18 повторений, пауза 2 сек в конечной фазе.",
-    citations: [
-      {
-        author: "Stastny, P. et al.",
-        year: "2017",
-        journal: "International Journal of Sports Physical Therapy",
-        title: "Face pull exercise with external rotation elicits maximal posterior deltoid and infraspinatus activity with low neck strain.",
-        doi: "10.26603/ijspt20170568"
-      }
-    ]
-  },
-  "подтягивания": {
-    stretchHypertrophy: "Максимальная. Король базовых упражнений на V-образную ширину верха спины.",
-    emgData: [
-      { muscle: "Широчайшие мышцы", peak: "98% MVC", mean: "86% MVC" },
-      { muscle: "Бицепс и брахиалис", peak: "78% MVC", mean: "64% MVC" }
-    ],
-    optimalVolume: "5–10 повторов до касания грудью перекладины.",
-    citations: [
-      {
-        author: "Dickie, J. A. et al.",
-        year: "2017",
-        journal: "Journal of Electromyography and Kinesiology",
-        title: "Electromyographic analysis of muscle activation during pull-up variations.",
-        doi: "10.1016/j.jelekin.2017.09.002"
-      }
-    ]
-  },
-
-  // --- НОГИ ---
-  "жим ногами 45°": {
-    stretchHypertrophy: "Очень высокая для квадрицепса и ягодиц при глубине седа 90° в коленях без отрыва таза.",
-    emgData: [
-      { muscle: "Квадрицепс (Латеральная и медиальная головки)", peak: "95% MVC", mean: "83% MVC" },
-      { muscle: "Большая ягодичная мышца", peak: "76% MVC", mean: "62% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, плавная эксцентрика 3 сек.",
-    citations: [
-      {
-        author: "Escamilla, R. F. et al.",
-        year: "2018",
-        journal: "Medicine & Science in Sports & Exercise",
-        title: "Biomechanics of the knee during closed kinetic chain and open kinetic chain exercises.",
-        doi: "10.1097/00005768-199804000-00014"
-      }
-    ]
-  },
-  "румынская становая тяга": {
-    stretchHypertrophy: "АБСОЛЮТНЫЙ ЧЕМПИОН СТРЕТЧ-ГИПЕРТРОФИИ БИЦЕПСА БЕДРА. Движение таза назад (Hip Hinge) удлиняет полусухожильную и двуглавую мышцы бедра.",
-    emgData: [
-      { muscle: "Двуглавая мышца бедра (Бицепс бедра)", peak: "97% MVC", mean: "86% MVC" },
-      { muscle: "Большая ягодичная мышца", peak: "92% MVC", mean: "80% MVC" },
-      { muscle: "Разгибатели позвоночника", peak: "75% MVC", mean: "61% MVC" }
-    ],
-    optimalVolume: "6–10 повторов, фокус на растяжение задней поверхности бедра.",
-    citations: [
-      {
-        author: "McAllister et al.",
-        year: "2020",
-        journal: "Journal of Strength and Conditioning Research",
-        title: "Electromyographical analysis of hamstrings and gluteus maximus during the Romanian deadlift vs leg curl.",
-        doi: "10.1519/JSC.0000000000000302"
-      }
-    ]
-  },
-  "сгибания ног в тренажере": {
-    stretchHypertrophy: "Умеренная. Изолированная работа короткой головки бицепса бедра.",
-    emgData: [
-      { muscle: "Бицепс бедра (обе головки)", peak: "94% MVC", mean: "82% MVC" }
-    ],
-    optimalVolume: "10–15 повторов с фиксацией 1 сек.",
-    citations: [
-      {
-        author: "Maeo et al.",
-        year: "2021",
-        journal: "MSSE",
-        title: "Greater Hamstrings Muscle Hypertrophy but Similar Damage After Seated vs Prone Leg Curls.",
-        doi: "10.1249/MSS.0000000000002460"
-      }
-    ]
-  },
-
-  // --- ПЛЕЧИ ---
-  "махи через стороны с гантелями": {
-    stretchHypertrophy: "Умеренная. Золотой стандарт изоляции средней дельты для создания ширины плеч.",
-    emgData: [
-      { muscle: "Средний пучок дельтовидной мышцы", peak: "98% MVC", mean: "87% MVC" },
-      { muscle: "Верхняя трапеция (минимизировать)", peak: "32% MVC", mean: "20% MVC" }
-    ],
-    optimalVolume: "12–18 повторений, подъем локтями до параллели.",
-    citations: [
-      {
-        author: "Campos, Y. A. et al.",
-        year: "2020",
-        journal: "Journal of Human Kinetics",
-        title: "Different shoulder abduction exercises and their impact on middle deltoid activation.",
-        doi: "10.2478/hukin-2020-0031"
-      }
-    ]
-  },
-  "жим гантелей на плечи сидя 75°": {
-    stretchHypertrophy: "Высокая для передней и средней дельты. Угол 75° анатомически защищает плечевой сустав от импиджмента.",
-    emgData: [
-      { muscle: "Передняя дельта", peak: "96% MVC", mean: "83% MVC" },
-      { muscle: "Средняя дельта", peak: "80% MVC", mean: "66% MVC" },
-      { muscle: "Трицепс", peak: "68% MVC", mean: "55% MVC" }
-    ],
-    optimalVolume: "8–12 повторов, локти слегка перед корпусом.",
-    citations: [
-      {
-        author: "Saeterbakken & Fimland",
-        year: "2018",
-        journal: "JSCR",
-        title: "Effects of body position and barbell vs dumbbell on shoulder press EMG activation.",
-        doi: "10.1519/JSC.0b013e318276b873"
-      }
-    ]
-  }
-};
-
-function getExerciseAnatomyInfo(exName) {
-  const n = (exName || "").toLowerCase().trim();
-  
-  // Базовый шаблон
-  let info = {
-    name: exName,
-    category: "Грудь",
-    equipment: "Гантели / Скамья",
-    tier: "Базовое многосуставное",
-    tempo: "3-1-1-0",
-    breath: "Вдох на спуске 2–3с (растяжение), мощный выдох при выжиме.",
-    muscleMatrix: [
-      { name: "Целевая мышечная группа", percent: 100, role: "Главный агонист" },
-      { name: "Вспомогательные мышцы-синергисты", percent: 65, role: "Синергист" },
-      { name: "Мышцы-стабилизаторы сустава", percent: 40, role: "Стабилизаторы" }
-    ],
-    phases: [
-      { title: "Фаза 1: Эксцентрика", desc: "Контролируемое опускание снаряда в течение 2–3 секунд. Глубокое растяжение рабочих волокон.", cue: "Вдох 💨 • Плавный спуск 2–3с" },
-      { title: "Фаза 2: Натяжение & Пауза", desc: "Четкая пауза 1 секунда в нижней точке растяжения без расслабления и отскока.", cue: "Пауза ⏸️ • 1 сек фиксации" },
-      { title: "Фаза 3: Концентрика", desc: "Взрывной подконтрольный выжим веса вверх по дуге силой целевой мышцы.", cue: "Выдох 💥 • Мощный подъем 1с" }
-    ],
-    dos: [
-      "Держи лопатки сведенными и опущенными вниз к тазу.",
-      "Сохраняй стабильный упор стопами в пол.",
-      "Контролируй траекторию на каждом миллиметре амплитуды."
-    ],
-    donts: [
-      "Не допускай рывков и инерции при смене направления.",
-      "Не разгибай суставы до щелчка в верхней точке.",
-      "Не задерживай дыхание натуживанием."
-    ],
-    science: {
-      stretchHypertrophy: "Высокая механическая эффективность в растянутой фазе движения (Titin stiffness & FAK activation).",
-      emgData: [
-        { muscle: "Целевые волокна", peak: "92% MVC", mean: "78% MVC" },
-        { muscle: "Синергисты", peak: "65% MVC", mean: "50% MVC" }
-      ],
-      citations: [
-        {
-          author: "Schoenfeld et al.",
-          year: "2021",
-          journal: "Journal of Strength and Conditioning Research",
-          title: "Mechanisms of Mechanical Tension & Muscle Hypertrophy in Strength Training.",
-          doi: "10.1519/JSC.0000000000003180"
-        }
-      ]
-    }
-  };
-
-  // Поиск точного научного паспорта
-  for (const [key, resData] of Object.entries(EXERCISE_RESEARCH_DATABASE)) {
-    if (n.includes(key) || key.includes(n) || (n.includes("наклонн") && key.includes("наклонн") && (n.includes("бицепс") === key.includes("бицепс")))) {
-      info.science = resData;
-      break;
-    }
-  }
-
-  if (n.includes("наклонн") && n.includes("груд")) {
-    info.category = "Грудь";
-    info.equipment = "Гантели / Штанга / Наклонная скамья 30°";
-    info.tier = "Базовое многосуставное (Stretch Hypertrophy)";
-    info.muscleMatrix = [
-      { name: "Ключичная (верхняя) часть большой грудной", percent: 100, role: "Главный агонист" },
-      { name: "Передний пучок дельтовидной мышцы", percent: 75, role: "Синергист" },
-      { name: "Латеральная и длинная головки трицепса", percent: 60, role: "Синергист" }
-    ];
-    info.dos = [
-      "Угол скамьи строго 30° (угол выше 45° перегружает переднюю дельту).",
-      "Локти под углом 60–70° к корпусу, предплечья вертикальны в нижней точке.",
-      "Шея и трапеция полностью расслаблены, голова лежит на спинке."
-    ];
-    info.donts = [
-      "Не разводи локти под 90° перпендикулярно телу — риск травмы плеча.",
-      "Не отрывай таз от скамьи мостом.",
-      "Не своди гантели со стуком вверху — это снимает полезное напряжение."
-    ];
-  } else if (n.includes("на наклонной скамье 45°") && n.includes("бицепс")) {
-    info.category = "Бицепс";
-    info.equipment = "Гантели / Наклонная скамья 45°";
-    info.tier = "Изолирующее в позиции максимального растяжения";
-    info.muscleMatrix = [
-      { name: "Длинная (внешняя) головка бицепса", percent: 100, role: "Главный агонист (Растяжение)" },
-      { name: "Короткая (внутренняя) головка бицепса", percent: 75, role: "Синергист" },
-      { name: "Плечелучевая мышца и брахиалис", percent: 55, role: "Синергист" }
-    ];
-    info.dos = [
-      "Опусти плечи и локти свободно вниз-назад за плоскость скамьи.",
-      "Начинай подъем с легкой супинацией кисти (разворот мизинца наружу).",
-      "Контролируй эксцентрическую фазу (спуск 3 секунды) для максимальной гипертрофии."
-    ];
-    info.donts = [
-      "Не выводи локти вперед во время подъема (это крадет нагрузку передней дельтой).",
-      "Не бросай гантели в нижней точке до переразгибания локтевых связок.",
-      "Не отрывай голову и лопатки от спинки скамьи."
-    ];
-  } else if (n.includes("молотковые") && n.includes("наклонн")) {
-    info.category = "Бицепс";
-    info.equipment = "Гантели / Наклонная скамья 60°";
-    info.tier = "Изолирующее на брахиалис";
-    info.muscleMatrix = [
-      { name: "Плечевая мышца (Брахиалис)", percent: 100, role: "Главный агонист (Толщина рук)" },
-      { name: "Плечелучевая мышца предплечья", percent: 85, role: "Синергист" },
-      { name: "Длинная головка бицепса", percent: 70, role: "Синергист" }
-    ];
-    info.dos = [
-      "Держи строгий нейтральный хват (ладони параллельны друг другу).",
-      "Фиксируй локти в одной точке, работай только предплечьями.",
-      "Сжимай снаряд в пиковой точке подъема на 1 секунду."
-    ];
-    info.donts = [
-      "Не супинируй кисти — это переключает нагрузку с брахиалиса на бицепс.",
-      "Не раскачивай корпус для закидывания веса."
-    ];
-  } else if (n.includes("скамье скотта")) {
-    info.category = "Бицепс";
-    info.equipment = "Скамья Скотта / EZ-гриф / Гантели";
-    info.tier = "Жесткая изоляция короткой головки";
-    info.muscleMatrix = [
-      { name: "Короткая (внутренняя) головка бицепса", percent: 100, role: "Главный агонист" },
-      { name: "Плечевая мышца (Брахиалис)", percent: 75, role: "Синергист" },
-      { name: "Круглый пронатор", percent: 40, role: "Стабилизатор" }
-    ];
-    info.dos = [
-      "Подмышки плотно упри в верхний срез наклонной подушки.",
-      "В нижней точке останавливайся за 5° до полного выпрямления локтя, сохраняя натяжение.",
-      "Подъем выполняй плавно силой бицепса без рывка со старта."
-    ];
-    info.donts = [
-      "Никогда не бросай гриф внизу до удара в суставах — высок риск травмы сухожилия бицепса!",
-      "Не отрывай трицепсы и локти от подушки во время тяги."
-    ];
-  } else if (n.includes("паучьи") || n.includes("spider")) {
-    info.category = "Бицепс";
-    info.equipment = "Гантели / Наклонная скамья 45°";
-    info.tier = "Изолирующее в пиковом сокращении";
-    info.muscleMatrix = [
-      { name: "Короткая головка бицепса (Пик)", percent: 100, role: "Главный агонист" },
-      { name: "Брахиалис", percent: 70, role: "Синергист" },
-      { name: "Передняя дельта (стабилизация)", percent: 30, role: "Стабилизатор" }
-    ];
-    info.dos = [
-      "Ложись грудью на наклонную скамью, руки свисают строго перпендикулярно полу.",
-      "Сгибай руки в локтях строго вверх к лицу, не двигая плечевой костью.",
-      "Делай 2-секундную паузу максимального сжатия в верхней точке."
-    ];
-    info.donts = [
-      "Не закидывай локти назад вдоль скамьи.",
-      "Не запрокидывай шею назад."
-    ];
-  } else if (n.includes("из-за головы") && n.includes("гантел")) {
-    info.category = "Трицепс";
-    info.equipment = "Гантель / Скамья с поддержкой спины";
-    info.tier = "Изолирующее в позиции максимального стретчинга";
-    info.muscleMatrix = [
-      { name: "Длинная головка трицепса (Стретч-гипертрофия)", percent: 100, role: "Главный агонист" },
-      { name: "Медиальная головка трицепса", percent: 75, role: "Синергист" }
-    ];
-    info.dos = [
-      "Локоть удерживай направленным вертикально вверх рядом с ухом.",
-      "Опускай снаряд глубоко за шею до полного натяжения трицепса.",
-      "Спина плотно прижата к опоре скамьи, пресс напряжен."
-    ];
-    info.donts = [
-      "Не разводи локоть в сторону от головы.",
-      "Не прогибай поясницу в попытке вытолкнуть вес."
-    ];
-  } else if (n.includes("французский жим со штангой")) {
-    info.category = "Трицепс";
-    info.equipment = "EZ-штанга / Горизонтальная скамья";
-    info.tier = "Базово-изолирующее на трицепс";
-    info.muscleMatrix = [
-      { name: "Длинная головка трицепса", percent: 100, role: "Главный агонист" },
-      { name: "Латеральная и медиальная головки", percent: 85, role: "Синергист" }
-    ];
-    info.dos = [
-      "Отклони плечевые кости на 15° назад от вертикали к голове.",
-      "Опускай гриф за макушку головы, а не на лоб.",
-      "Разгибай локти подконтрольно до четкой фиксации."
-    ];
-    info.donts = [
-      "Не опускай гриф на переносицу или лоб.",
-      "Не двигай плечевым суставом вперед-назад (движение только в локтях)."
-    ];
-  } else if (n.includes("узким хватом")) {
-    info.category = "Трицепс";
-    info.equipment = "Штанга / Горизонтальная скамья";
-    info.tier = "Тяжелая база на трицепс";
-    info.muscleMatrix = [
-      { name: "Трицепс (Все 3 головки)", percent: 100, role: "Главный агонист" },
-      { name: "Передний пучок дельтовидной", percent: 70, role: "Синергист" },
-      { name: "Верхняя и внутренняя часть грудных", percent: 65, role: "Синергист" }
-    ];
-    info.dos = [
-      "Хват строго на ширине плеч (расстояние между кистями 25–30 см).",
-      "Опускай гриф к нижней границе грудных мышц.",
-      "Держи локти ближе к телу (под углом 30–45°)."
-    ];
-    info.donts = [
-      "Не берись слишком узко (хват в 10 см перегружает лучезапястные суставы!).",
-      "Не разводи локти перпендикулярно в стороны."
-    ];
-  }
-
-  return info;
-}
-
-// Переключение табов внутри модалки визуализатора
 function switchVisualizerTab(tab) {
-  const tabs = ['bio', 'science', 'keys'];
+  const tabs = ['bio', 'keys'];
   tabs.forEach(t => {
     const btn = document.getElementById(`vis-tab-btn-${t}`);
     const panel = document.getElementById(`vis-panel-${t}`);
     if (btn) {
       if (t === tab) {
-        btn.className = "flex-1 py-1.5 rounded-lg bg-[#c8a97e] text-slate-950 font-bold text-center shadow-sm";
+        btn.className = "flex-1 py-2 rounded-xl bg-[#c8a97e] text-slate-950 font-bold text-center shadow-sm";
       } else {
-        btn.className = "flex-1 py-1.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 font-medium text-center hover:bg-white/10";
+        btn.className = "flex-1 py-2 rounded-xl bg-white/5 text-slate-400 border border-white/10 font-medium text-center hover:bg-white/10";
       }
     }
     if (panel) {
       panel.classList.toggle("hidden", t !== tab);
     }
   });
-  Sound.beep(600, 0.03);
-  Haptic.impact('light');
+  Sound.click();
+  Haptic.selection();
 }
 
-// Открытие полного интерактивного визуализатора
 function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
   let exName = exIdOrName;
   let ex = null;
@@ -2589,7 +1893,7 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
 
   const info = getExerciseAnatomyInfo(exName);
   
-  // Устанавливаем заголовки
+  // Установка заголовков
   const nameEl = document.getElementById("vis-ex-name");
   const catEl = document.getElementById("vis-badge-cat");
   const tierEl = document.getElementById("vis-badge-tier");
@@ -2600,33 +1904,13 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
   if (tierEl) tierEl.textContent = info.tier;
   if (svgContainer) svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
 
-  // Таб 1: Фазы движения
-  const phaseBtnsContainer = document.getElementById("vis-phase-buttons-container");
-  const phaseDescBox = document.getElementById("vis-phase-description-box");
-  const phaseHint = document.getElementById("vis-current-phase-hint");
-  
-  if (phaseBtnsContainer && info.phases) {
-    phaseBtnsContainer.innerHTML = info.phases.map((p, idx) => `
-      <button type="button" onclick="selectVisualizerPhase(${idx})" id="vis-phase-btn-${idx}" class="phase-step-btn ${idx === 0 ? 'active' : ''}">
-        <span>Фаза ${idx + 1}</span>
-        <span class="text-[9px] opacity-70">${idx === 0 ? 'Спуск' : idx === 1 ? 'Пауза' : 'Выжим'}</span>
-      </button>
-    `).join('');
-  }
-  if (phaseDescBox && info.phases && info.phases[0]) {
-    phaseDescBox.innerHTML = `<b>${info.phases[0].cue}</b><p class="mt-1 text-slate-400 text-[10px]">${info.phases[0].desc}</p>`;
-  }
-  if (phaseHint && info.phases && info.phases[0]) {
-    phaseHint.textContent = info.phases[0].title;
-  }
-
-  // Таб 1: Анатомическая карта
+  // Таб 1: Распределение нагрузки по мышцам
   const matrixContainer = document.getElementById("vis-muscle-matrix-container");
   if (matrixContainer && info.muscleMatrix) {
     matrixContainer.innerHTML = info.muscleMatrix.map(m => `
       <div class="space-y-1">
         <div class="flex justify-between items-center text-[10px]">
-          <span class="text-slate-300 font-bold">${m.name}</span>
+          <span class="text-slate-200 font-bold">${m.name}</span>
           <span class="text-[#c8a97e] font-mono font-bold">${m.percent}% • ${m.role}</span>
         </div>
         <div class="w-full bg-[#141724] h-2 rounded-full overflow-hidden border border-white/[0.05]">
@@ -2636,49 +1920,7 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
     `).join('');
   }
 
-  // Таб 2: Доказательная наука & PubMed
-  const stretchBox = document.getElementById("vis-science-stretch");
-  const emgContainer = document.getElementById("vis-science-emg-container");
-  const citationsContainer = document.getElementById("vis-science-citations-container");
-
-  if (stretchBox) {
-    stretchBox.textContent = info.science?.stretchHypertrophy || "Стретч-опосредованная гипертрофия подтверждена современными мета-анализами (Schoenfeld et al., 2021).";
-  }
-
-  if (emgContainer) {
-    const emgList = info.science?.emgData || [
-      { muscle: "Основной пучок", peak: "90% MVC", mean: "75% MVC" }
-    ];
-    emgContainer.innerHTML = emgList.map(e => `
-      <div class="p-2 bg-[#0c101c] rounded-xl border border-white/[0.05] flex justify-between items-center text-[10px]">
-        <span class="text-slate-200 font-medium">${e.muscle}</span>
-        <div class="text-right">
-          <b class="text-emerald-400 font-mono">${e.peak}</b>
-          <span class="text-slate-500 text-[9px] block">ср: ${e.mean}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  if (citationsContainer) {
-    const cits = info.science?.citations || [];
-    if (cits.length > 0) {
-      citationsContainer.innerHTML = cits.map(c => `
-        <div class="p-2.5 bg-[#090c16] rounded-xl border border-white/[0.06] space-y-1 text-[10px] font-sans">
-          <div class="flex justify-between items-center font-mono text-[#c8a97e] font-bold">
-            <span>📄 ${c.author} (${c.year})</span>
-            <span class="text-slate-500 text-[9px]">${c.journal}</span>
-          </div>
-          <p class="text-slate-300 italic text-[10px]">"${c.title}"</p>
-          ${c.doi ? `<a href="https://doi.org/${c.doi}" target="_blank" class="text-emerald-400 font-mono text-[9px] hover:underline block pt-0.5">DOI: ${c.doi} ↗</a>` : ''}
-        </div>
-      `).join('');
-    } else {
-      citationsContainer.innerHTML = `<p class="text-slate-500 text-[10px]">Рецензируемые мета-анализы JSCR / Sports Medicine.</p>`;
-    }
-  }
-
-  // Таб 3: Чек-листы
+  // Таб 2: Секреты техники и частые ошибки
   const dosList = document.getElementById("vis-dos-list");
   const dontsList = document.getElementById("vis-donts-list");
   if (dosList && info.dos) {
@@ -2705,38 +1947,12 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
     }
   }
 
-  // Открываем на дефолтной вкладке «Биомеханика»
+  // Открываем на дефолтной вкладке «Техника и Схема»
   switchVisualizerTab('bio');
   openModal('modal-exercise-pro-visualizer');
-  Sound.beep(650, 0.04);
-  Haptic.impact('light');
+  Sound.click();
+  Haptic.selection();
 }
-
-function selectVisualizerPhase(idx) {
-  const nameEl = document.getElementById("vis-ex-name");
-  const exName = nameEl ? nameEl.textContent : "";
-  const info = getExerciseAnatomyInfo(exName);
-  
-  if (!info.phases || !info.phases[idx]) return;
-
-  for (let i = 0; i < 3; i++) {
-    const btn = document.getElementById(`vis-phase-btn-${i}`);
-    if (btn) btn.classList.toggle("active", i === idx);
-  }
-
-  const phaseDescBox = document.getElementById("vis-phase-description-box");
-  const phaseHint = document.getElementById("vis-current-phase-hint");
-
-  if (phaseDescBox) {
-    phaseDescBox.innerHTML = `<b>${info.phases[idx].cue}</b><p class="mt-1 text-slate-400 text-[10px]">${info.phases[idx].desc}</p>`;
-  }
-  if (phaseHint) {
-    phaseHint.textContent = info.phases[idx].title;
-  }
-  Sound.beep(550 + idx * 80, 0.03);
-  Haptic.impact('light');
-}
-
 
 function actionFromVisualizer() {
   closeModal('modal-exercise-pro-visualizer');
@@ -5559,6 +4775,10 @@ function appendSummaryTag(tagText) {
   Haptic.impact('light');
 }
 
+// ========================================================
+// МОДУЛЬ ЗАВЕРШЕНИЯ ТРЕНИРОВКИ (NEVER-LOSE AUTO-SAVE)
+// ========================================================
+
 function finishActiveWorkout() {
   const wo = appState.activeWorkout;
   if (!wo) return;
@@ -5583,8 +4803,8 @@ function finishActiveWorkout() {
     const isMaxClosed = doneSets.length === e.sets.length && doneSets.every(s => s.reps >= e.max);
     exSummaries.push({
       name: e.name,
-      sets: doneSets.map(s => s.weight + "Г—" + s.reps).join(', ') || '0',
-      prog: isMaxClosed ? 'вњ“ (+2.5РєРі)' : ('РџР»Р°РЅ: ' + e.sets.length + 'Г—' + e.max)
+      sets: doneSets.map(s => s.weight + "×" + s.reps).join(', ') || '0',
+      prog: isMaxClosed ? '✓ (+2.5кг)' : ('План: ' + e.sets.length + '×' + e.max)
     });
   });
 
@@ -5604,8 +4824,8 @@ function finishActiveWorkout() {
     calories: caloriesBurned,
     exercises: exSummaries,
     rating: (typeof selectedWorkoutRating !== 'undefined' ? selectedWorkoutRating : 4),
-    ratingEmoji: (typeof selectedWorkoutRatingEmoji !== 'undefined' ? selectedWorkoutRatingEmoji : "вљЎ"),
-    ratingLabel: (typeof selectedWorkoutRatingLabel !== 'undefined' ? selectedWorkoutRatingLabel : "Р Р°Р±РѕС‡РёР№ С‚РµРјРї"),
+    ratingEmoji: (typeof selectedWorkoutRatingEmoji !== 'undefined' ? selectedWorkoutRatingEmoji : "⚡"),
+    ratingLabel: (typeof selectedWorkoutRatingLabel !== 'undefined' ? selectedWorkoutRatingLabel : "Рабочий темп"),
     rpe: (typeof selectedWorkoutRPE !== 'undefined' ? selectedWorkoutRPE : 8),
     note: ""
   };
@@ -5642,7 +4862,7 @@ function finishActiveWorkout() {
   renderInteractiveAnatomyMap();
   renderPersonalizedAIAnalytics();
 
-  // Р—Р°РїРѕР»РЅСЏРµРј РјРѕРґР°Р»РєСѓ РёС‚РѕРіРѕРІРѕРіРѕ РѕС‚С‡РµС‚Р°
+  // Заполняем модалку итогового отчета
   const subEl = document.getElementById("summary-workout-subtitle");
   const tonEl = document.getElementById("summary-stat-tonnage");
   const durEl = document.getElementById("summary-stat-duration");
@@ -5650,10 +4870,10 @@ function finishActiveWorkout() {
   const exListEl = document.getElementById("summary-exercises-list");
   const noteInput = document.getElementById("summary-workout-note");
 
-  if (subEl) subEl.textContent = `В«${wo.name}В» вЂў ${wo.startTimeStr || '18:00'} вЂ“ ${endTimeStr}`;
-  if (tonEl) tonEl.textContent = `${Math.round(tonnage).toLocaleString()} РєРі`;
-  if (durEl) durEl.textContent = `${durationMin} РјРёРЅ`;
-  if (calEl) calEl.textContent = `~${caloriesBurned} РєРєР°Р»`;
+  if (subEl) subEl.textContent = `«${wo.name}» • ${wo.startTimeStr || '18:00'} – ${endTimeStr}`;
+  if (tonEl) tonEl.textContent = `${Math.round(tonnage).toLocaleString()} кг`;
+  if (durEl) durEl.textContent = `${durationMin} мин`;
+  if (calEl) calEl.textContent = `~${caloriesBurned} ккал`;
   if (noteInput) noteInput.value = "";
 
   if (exListEl) {
@@ -5668,7 +4888,7 @@ function finishActiveWorkout() {
     `).join('');
   }
 
-  selectWorkoutRating(4, 'вљЎ', 'Р Р°Р±РѕС‡РёР№ С‚РµРјРї', 'RPE 8');
+  selectWorkoutRating(4, '⚡', 'Рабочий темп', 'RPE 8');
 
   Sound.finish();
   Haptic.success();
@@ -5707,6 +4927,7 @@ function skipAndSaveWorkoutSummary() {
   saveState();
   Sound.click();
 }
+
 
 function cancelWorkout() {
   if (confirm("Отменить текущую тренировку?")) {
@@ -5772,6 +4993,10 @@ function launchWorkoutOnSelectedDate(planKey) {
   }
 }
 
+// ========================================================
+// МОДУЛЬ КАЛЕНДАРЯ (ДИНАМИЧЕСКАЯ ПОДСВЕТКА СЕГОДНЯШНЕЙ ДАТЫ)
+// ========================================================
+
 function renderMonthlyCalendar() {
   const monthNameEl = document.getElementById("cal-month-name");
   const summaryTagEl = document.getElementById("cal-month-summary-tag");
@@ -5814,7 +5039,7 @@ function renderMonthlyCalendar() {
   for (let day = 1; day <= totalDaysInMonth; day++) {
     const curDate = new Date(calYear, calMonth, day);
     const dayOfWeek = curDate.getDay();
-    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // Р’Рў / Р§Рў
+    const isScheduled = (dayOfWeek === 2 || dayOfWeek === 4); // ВТ / ЧТ
     const dStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
     const woData = histMap.get(dStr);
@@ -5846,7 +5071,7 @@ function renderMonthlyCalendar() {
   }
 
   if (summaryTagEl) {
-    summaryTagEl.textContent = `${doneCount} РІС‹РїРѕР»РЅРµРЅРѕ вЂў ${missedCount > 0 ? missedCount + ' РїСЂРѕРїСѓСЃРє' : '100% РґРёСЃС†РёРїР»РёРЅР°'}`;
+    summaryTagEl.textContent = `${doneCount} выполнено • ${missedCount > 0 ? missedCount + ' пропуск' : '100% дисциплина'}`;
   }
 
   selectCalendarDay(selectedCalDateStr, histMap.get(selectedCalDateStr) ? 'done' : 'rest', histMap.get(selectedCalDateStr));
@@ -5869,52 +5094,53 @@ function selectCalendarDay(dateStr, status, woData) {
 
   const dateObj = new Date(dateStr);
   const formatted = dateObj.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  inspDate.textContent = formatted + (isToday ? " (РЎРµРіРѕРґРЅСЏ)" : "");
+  inspDate.textContent = formatted + (isToday ? " (Сегодня)" : "");
 
   if (status === 'done' && woData) {
-    inspBadge.textContent = "Р’Р«РџРћР›РќР•РќРћ вњ“";
+    inspBadge.textContent = "ВЫПОЛНЕНО ✓";
     inspBadge.className = "px-2.5 py-0.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 rounded-lg text-xs font-bold font-mono";
-    const timeInfo = woData.startTimeStr ? `${woData.startTimeStr} вЂ“ ${woData.endTimeStr || '...'} (${woData.durationMin || 45} РјРёРЅ)` : `~45 РјРёРЅ`;
+    const timeInfo = woData.startTimeStr ? `${woData.startTimeStr} – ${woData.endTimeStr || '...'} (${woData.durationMin || 45} мин)` : `~45 мин`;
     inspContent.innerHTML = `
       <p><b>${woData.name}</b></p>
-      <p class="text-[11px] text-slate-400 font-mono">${timeInfo} вЂў РўРѕРЅРЅР°Р¶: <b class="text-white">${woData.tonnage} РєРі</b> вЂў <b class="text-[#c8a97e]">~${woData.calories || 350} РєРєР°Р»</b></p>
+      <p class="text-[11px] text-slate-400 font-mono">${timeInfo} • Тоннаж: <b class="text-white">${woData.tonnage} кг</b> • <b class="text-[#c8a97e]">~${woData.calories || 350} ккал</b></p>
     `;
     if (inspActions) inspActions.innerHTML = "";
   } else if (status === 'missed') {
-    inspBadge.textContent = "РџР РћРџРЈРЎРљ";
+    inspBadge.textContent = "ПРОПУСК";
     inspBadge.className = "px-2.5 py-0.5 bg-rose-950/80 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.textContent = "РџР»Р°РЅРѕРІР°СЏ С‚СЂРµРЅРёСЂРѕРІРєР° РЅРµ Р±С‹Р»Р° РІС‹РїРѕР»РЅРµРЅР°. РњРѕР¶РЅРѕ РїСЂРѕРІРµСЃС‚Рё РІРЅРµРїР»Р°РЅРѕРІРѕ:";
+    inspContent.textContent = "Плановая тренировка не была выполнена. Можно провести внепланово:";
     if (inspActions) {
       inspActions.innerHTML = `
         <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-[#c8a97e] border border-[#c8a97e]/30 rounded-xl font-bold font-mono text-xs">
-          в–¶ РќР°С‡Р°С‚СЊ С‚СЂРµРЅРёСЂРѕРІРєСѓ Р·Р° СЌС‚РѕС‚ РґРµРЅСЊ
+          ▶ Начать тренировку за этот день
         </button>
       `;
     }
   } else if (status === 'plan') {
-    inspBadge.textContent = "РџРћ РџР›РђРќРЈ";
+    inspBadge.textContent = "ПО ПЛАНУ";
     inspBadge.className = "px-2.5 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-800 rounded-lg text-xs font-bold font-mono";
-    inspContent.textContent = "РџР»Р°РЅРѕРІС‹Р№ С‚СЂРµРЅРёСЂРѕРІРѕС‡РЅС‹Р№ РґРµРЅСЊ РїРµСЂСЃРѕРЅР°Р»СЊРЅРѕРіРѕ РіСЂР°С„РёРєР° (Р’Рў / Р§Рў).";
+    inspContent.textContent = "Плановый тренировочный день персонального графика (ВТ / ЧТ).";
     if (inspActions) {
       inspActions.innerHTML = `
         <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 btn-gold font-bold font-mono text-xs rounded-xl">
-          в–¶ РќР°С‡Р°С‚СЊ РїР»Р°РЅРѕРІСѓСЋ С‚СЂРµРЅРёСЂРѕРІРєСѓ
+          ▶ Начать плановую тренировку
         </button>
       `;
     }
   } else {
-    inspBadge.textContent = "РћРўР”Р«РҐ";
+    inspBadge.textContent = "ОТДЫХ";
     inspBadge.className = "px-2.5 py-0.5 bg-white/5 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
-    inspContent.textContent = "Р”РµРЅСЊ СЃСѓРїРµСЂРєРѕРјРїРµРЅСЃР°С†РёРё Рё РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РјС‹С€С†.";
+    inspContent.textContent = "День суперкомпенсации и восстановления мышц.";
     if (inspActions) {
       inspActions.innerHTML = `
         <button onclick="openModal('modal-date-workout-picker')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 rounded-xl font-bold font-mono text-xs">
-          + РџСЂРѕРІРµСЃС‚Рё РІРЅРµРїР»Р°РЅРѕРІСѓСЋ С‚СЂРµРЅРёСЂРѕРІРєСѓ
+          + Провести внеплановую тренировку
         </button>
       `;
     }
   }
 }
+
 
 function render12MonthsAnnualBreakdown() {
   const container = document.getElementById("annual-months-grid");
@@ -6244,13 +5470,17 @@ function openRevisionModal() {
   checkLiveRevisionUpdate(false);
 }
 
+// ========================================================
+// МОДУЛЬ ПРОВЕРКИ РЕВИЗИЙ И ОБНОВЛЕНИЙ
+// ========================================================
+
 async function checkLiveRevisionUpdate(isManual = true) {
   const btn = document.getElementById("btn-check-revision");
   const serverVerEl = document.getElementById("revision-server-ver");
   const cacheStatusEl = document.getElementById("revision-cache-status");
 
   if (btn && isManual) {
-    btn.innerHTML = '<span class="animate-spin inline-block mr-1">рџ”„</span> РџСЂРѕРІРµСЂРєР° СЃРµСЂРІРµСЂРѕРІ...';
+    btn.textContent = "Проверка серверов...";
   }
 
   let latestVersion = null;
@@ -6274,11 +5504,11 @@ async function checkLiveRevisionUpdate(isManual = true) {
   if (latestVersion && latestVersion !== APP_CONFIG.version) {
     if (btn) {
       btn.className = "w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-98 transition-all flex items-center justify-center space-x-2";
-      btn.innerHTML = `<span>рџљЂ Р”РѕСЃС‚СѓРїРЅР° ${latestVersion}! РћР±РЅРѕРІРёС‚СЊ (1 РєР»РёРє)</span>`;
+      btn.textContent = "Доступна новая " + latestVersion + "! Загрузить (1 клик)";
       btn.onclick = forceAppReload;
     }
     if (cacheStatusEl) {
-      cacheStatusEl.textContent = "Р”РѕСЃС‚СѓРїРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ рџљЂ";
+      cacheStatusEl.textContent = "Доступно обновление 🚀";
       cacheStatusEl.className = "text-amber-400 font-bold";
     }
     Sound.record();
@@ -6287,17 +5517,18 @@ async function checkLiveRevisionUpdate(isManual = true) {
   }
 
   if (btn && isManual) {
-    btn.innerHTML = `<span>вњ… Р’РµСЂСЃРёСЏ Р°РєС‚СѓР°Р»СЊРЅР° (${APP_CONFIG.version})</span>`;
+    btn.textContent = "Версия актуальна (v2.9.0 PRO) ✓";
     Sound.success();
     Haptic.success();
     setTimeout(() => {
       if (btn) {
-        btn.innerHTML = `<span>РџСЂРѕРІРµСЂРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёСЏ РЅР° СЃРµСЂРІРµСЂРµ</span>`;
+        btn.textContent = "Проверить обновления";
         btn.onclick = () => checkLiveRevisionUpdate(true);
       }
     }, 2500);
   }
 }
+
 
 function initPushSettings() {
   if (!appState.pushSettings) {
@@ -6455,6 +5686,10 @@ function executeSafeResetAndReOnboard() {
   executeFullReset();
 }
 
+// ========================================================
+// МОДУЛЬ ОНБОРДИНГА И РЕДАКТИРОВАНИЯ ПРОФИЛЯ
+// ========================================================
+
 function openOnboardingModal() {
   closeModal('modal-profile-drawer');
   const nameEl = document.getElementById("onboard-name");
@@ -6464,14 +5699,13 @@ function openOnboardingModal() {
   const waistEl = document.getElementById("onboard-waist");
   const goalEl = document.getElementById("onboard-goal");
 
-  if (nameEl) nameEl.value = appState.name || "Р РѕРјР°РЅ";
+  if (nameEl) nameEl.value = appState.name || "Роман";
   if (ageEl) ageEl.value = appState.age || 32;
   if (heightEl) heightEl.value = appState.height || 178;
   if (weightEl) weightEl.value = (appState.currentMetrics && appState.currentMetrics.weight) ? appState.currentMetrics.weight : 83;
   if (waistEl) waistEl.value = (appState.currentMetrics && appState.currentMetrics.waist) ? appState.currentMetrics.waist : 91.5;
-  if (goalEl) goalEl.value = appState.goal || "Р РµРєРѕРјРїРѕР·РёС†РёСЏ";
+  if (goalEl) goalEl.value = appState.goal || "Рекомпозиция";
 
-  // РџРѕРґСЃРІРµС‡РёРІР°РµРј Р°РєС‚РёРІРЅСѓСЋ РєР°СЂС‚РѕС‡РєСѓ С†РµР»Рё
   const currentGoalKey = getActiveGoalKey();
   ['recomp', 'fatloss', 'hypertrophy', 'maintenance'].forEach(k => {
     const card = document.getElementById("onb-goal-" + k);
@@ -6500,14 +5734,14 @@ function saveOnboardingProfile(e) {
   const waistEl = document.getElementById("onboard-waist");
   const goalEl = document.getElementById("onboard-goal");
 
-  const name = nameEl ? nameEl.value.trim() : (appState.name || "Р РѕРјР°РЅ");
+  const name = nameEl ? nameEl.value.trim() : (appState.name || "Роман");
   const age = parseInt(ageEl ? ageEl.value : 32) || 32;
   const height = parseInt(heightEl ? heightEl.value : 178) || 178;
   const weight = parseFloat(weightEl ? weightEl.value : 83.0) || 83.0;
   const waist = parseFloat(waistEl ? waistEl.value : 91.5) || 91.5;
-  const goal = goalEl ? goalEl.value : "Р РµРєРѕРјРїРѕР·РёС†РёСЏ";
+  const goal = goalEl ? goalEl.value : "Рекомпозиция";
 
-  appState.name = name || "Р РѕРјР°РЅ";
+  appState.name = name || "Роман";
   appState.age = age;
   appState.height = height;
   appState.goal = goal;
@@ -6533,6 +5767,7 @@ function saveOnboardingProfile(e) {
   renderInteractiveAnatomyMap();
   renderPersonalizedAIAnalytics();
 }
+
 
 function getLastExercisePerformance(exName) {
   const hist = appState.history || [];
