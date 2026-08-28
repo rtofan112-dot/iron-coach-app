@@ -303,7 +303,7 @@ async function handleTelegramMessage(msg, origin) {
     const isUpdateQuery = text.startsWith("/update") || text.startsWith("/news") || text.startsWith("/changelog");
     
     const caption = isUpdateQuery 
-      ? `🚀 <b>ОФИЦИАЛЬНЫЙ РЕЛИЗ IRON COACH v2.8.26 PRO!</b>\n\n` +
+      ? `🚀 <b>ОФИЦИАЛЬНЫЙ РЕЛИЗ IRON COACH v2.9.2 PRO!</b>\n\n` +
         `🏛 <b>Главные обновления системы:</b>\n\n` +
         `📚 <b>1. База доказательной науки (Evidence-Based Sports Science):</b>\n` +
         `• В каждое упражнение подключены рецензируемые исследования (PubMed / JSCR / Sports Medicine / RP).\n` +
@@ -322,8 +322,8 @@ async function handleTelegramMessage(msg, origin) {
         `• Прямой Edge Worker API (0 мс задержка) и обновление билда в 1 клик.\n\n` +
         `👇 <b>Нажми кнопку ниже, чтобы открыть обновленный IRON COACH:</b>`
       : `🔥 <b>Привет, ${firstName}!</b> (${username})\n\n` +
-        `Добро пожаловать в <b>IRON COACH ELITE v2.8.26 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
-        `🏛 <b>Что внутри релиза v2.8.26 PRO:</b>\n` +
+        `Добро пожаловать в <b>IRON COACH ELITE v2.9.2 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
+        `🏛 <b>Что внутри релиза v2.9.2 PRO:</b>\n` +
         `• <b>Доказательная наука (PubMed & JSCR):</b> ЭМГ-активация (% MVC), исследования Maeo, Schoenfeld, Pedrosa и расчет стретч-гипертрофии\n` +
         `• <b>3-вкладочный визуализатор:</b> Индивидуальные векторные чертежи оборудования, степпер фаз движения и чек-листы техники\n` +
         `• <b>Научный тренинг RP & MAV:</b> Защита ЦНС, адаптивная прогрессия нагрузок и умная замена упражнений\n` +
