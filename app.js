@@ -2807,38 +2807,125 @@ const ANATOMY_MUSCLES = {
   }
 };
 
+// ========================================================
+// PRO ANATOMICAL MAP & ATHLETIC VECTOR ATLAS 7.0 (LUXURY OBSIDIAN & GOLD)
+// ВЫСОКОДЕТАЛИЗИРОВАННАЯ ВЕКТОРНАЯ МОДЕЛЬ (ПЛАВНЫЕ КРИВЫЕ БЕЗЬЕ)
+// ========================================================
+
+const ANATOMY_MUSCLES_DATA = {
+  chest: {
+    name: "Грудные мышцы",
+    mev: 8,
+    mav: 16,
+    mrv: 22,
+    recomExercises: "Жим гантелей 30°, Бабочка Pec Deck, Отжимания на брусьях",
+    proTip: "Своди лопатки и опускай их вниз. Угол наклона скамьи 30° максимально включает ключичный пучок без боли в плечах."
+  },
+  delts: {
+    name: "Дельтовидные мышцы (Плечи)",
+    mev: 8,
+    mav: 18,
+    mrv: 26,
+    recomExercises: "Махи гантелями в стороны, Жим гантелей сидя, Тяга к лицу (Face Pull)",
+    proTip: "При махах держи кисти чуть ниже локтей и слегка наклоняй корпус вперед на 5°. Не подключай трапецию."
+  },
+  biceps: {
+    name: "Двуглавая мышца (Бицепс & Брахиалис)",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Сгибания на наклонной скамье 45°, Скамья Скотта, Молотковые сгибания",
+    proTip: "Сгибания на наклонной скамье 45° растягивают длинную головку бицепса, ускоряя гипертрофию."
+  },
+  triceps: {
+    name: "Трехглавая мышца (Трицепс)",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Разгибание из-за головы, Французский жим, Разгибания на верхнем блоке",
+    proTip: "Положение руки над головой максимально растягивает длинную головку трицепса."
+  },
+  traps: {
+    name: "Трапециевидные мышцы",
+    mev: 4,
+    mav: 12,
+    mrv: 18,
+    recomExercises: "Тяга каната к лицу (Face Pull), Горизонтальная тяга к поясу, Шраги",
+    proTip: "Делай упор на среднюю и нижнюю порции (Face Pulls) для исправления осанки и защиты шеи."
+  },
+  lats: {
+    name: "Широчайшие мышцы (Спина V-taper)",
+    mev: 8,
+    mav: 16,
+    mrv: 22,
+    recomExercises: "Тяга верхнего блока к груди, Подтягивания, Тяга гантели к поясу",
+    proTip: "Тяни снаряд строго к ключицам, ведя локти вниз и назад к поясу. Корпус не отклоняй больше 15°."
+  },
+  abs: {
+    name: "Пресс и мышцы кора",
+    mev: 4,
+    mav: 12,
+    mrv: 18,
+    recomExercises: "Утренний вакуум живота, Скручивания на наклонной скамье, Планка",
+    proTip: "Утренний вакуум тренирует глубокую поперечную мышцу живота, подтягивая талию."
+  },
+  quads: {
+    name: "Квадрицепсы (Передняя часть бедра)",
+    mev: 8,
+    mav: 16,
+    mrv: 22,
+    recomExercises: "Жим ногами в тренажере 45°, Приседания Гакк, Разгибания ног",
+    proTip: "Опускай платформу до угла 90° в коленях плавно за 3 секунды, не отрывая таз от спинки."
+  },
+  hamstrings: {
+    name: "Бицепс бедра и ягодицы",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Румынская становая тяга с гантелями, Сгибания ног лежа в тренажере",
+    proTip: "Отводи таз назад и чувствуй растяжение задней поверхности бедра при нейтральной пояснице."
+  },
+  calves: {
+    name: "Икроножные мышцы (Голень)",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Подъемы на носки стоя в тренажере, Подъемы на носки сидя",
+    proTip: "Делай паузу 2 секунды в нижней точке растяжения, чтобы исключить пружинящий эффект сухожилий."
+  }
+};
+
 let currentAnatomyView = 'front';
 let selectedAnatomyMuscleKey = 'chest';
 
 function getMuscleVolumeAndRecoveryData() {
   const result = {};
-  Object.keys(ANATOMY_MUSCLES).forEach(k => {
+  Object.keys(ANATOMY_MUSCLES_DATA).forEach(k => {
     result[k] = { sets: 0, lastHoursAgo: 72 };
   });
 
   const hist = appState.history || [];
   const now = Date.now();
 
-  // Расчет недельного объема сетов и времени с последней нагрузки
   hist.forEach(h => {
     const diffHours = Math.max(1, Math.round((now - new Date(h.date).getTime()) / (1000 * 60 * 60)));
-    const isThisWeek = diffHours <= 168; // 7 дней
+    const isThisWeek = diffHours <= 168;
 
     (h.exercises || []).forEach(e => {
       const setCount = (e.sets.match(/,/g) || []).length + 1;
       const n = (e.name || "").toLowerCase();
 
       let targetKey = null;
-      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь")) targetKey = "chest";
-      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван")) targetKey = "lats";
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("груд")) targetKey = "chest";
+      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван") || n.includes("блок")) targetKey = "lats";
       else if (n.includes("лицу") || n.includes("face") || n.includes("трапец")) targetKey = "traps";
       else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт")) targetKey = "delts";
-      else if (n.includes("бицепс") || n.includes("молот")) targetKey = "biceps";
-      else if (n.includes("трицепс") || n.includes("разгибан")) targetKey = "triceps";
-      else if (n.includes("пресс") || n.includes("скручиван") || n.includes("планк")) targetKey = "abs";
-      else if (n.includes("румын") || n.includes("сгибан")) targetKey = "hamstrings";
+      else if (n.includes("бицепс") || n.includes("молот") || n.includes("скотт")) targetKey = "biceps";
+      else if (n.includes("трицепс") || n.includes("разгибан") || n.includes("француз")) targetKey = "triceps";
+      else if (n.includes("пресс") || n.includes("скручиван") || n.includes("вакуум") || n.includes("планк")) targetKey = "abs";
+      else if (n.includes("румын") || n.includes("сгибан") || n.includes("ягодиц")) targetKey = "hamstrings";
       else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("квадр")) targetKey = "quads";
-      else if (n.includes("носк") || n.includes("икр")) targetKey = "calves";
+      else if (n.includes("носк") || n.includes("икр") || n.includes("голен")) targetKey = "calves";
 
       if (targetKey && result[targetKey]) {
         if (isThisWeek) result[targetKey].sets += setCount;
@@ -2847,7 +2934,6 @@ function getMuscleVolumeAndRecoveryData() {
     });
   });
 
-  // Базовые значения по умолчанию для активного атлета, если история пуста
   if (result.chest.sets === 0) result.chest.sets = 12;
   if (result.lats.sets === 0) result.lats.sets = 10;
   if (result.delts.sets === 0) result.delts.sets = 8;
@@ -2876,108 +2962,10 @@ function setAnatomyView(view) {
       btnFront.className = "px-2.5 py-1 font-bold rounded-md text-slate-400 transition-all";
     }
   }
-  Sound.beep(550, 0.04);
-  Haptic.impact('light');
+  Sound.click();
+  Haptic.selection();
   renderInteractiveAnatomyMap();
 }
-
-// ========================================================
-// PRO ANATOMICAL MAP & HYPERTROPHY ENGINE 5.0 (LUXURY OBSIDIAN & GOLD)
-// 100% ВЕКТОРНАЯ АНАТОМИЧЕСКАЯ МОДЕЛЬ ЧЕЛОВЕКА & HUD ИНСПЕКТОР
-// ========================================================
-
-const ANATOMY_MUSCLES_DATA = {
-  chest: {
-    name: "Грудные мышцы (Pectoralis Major)",
-    latin: "m. pectoralis major",
-    mev: 8,
-    mav: 16,
-    mrv: 22,
-    recomExercises: "Жим гантелей на наклонной 30°, Бабочка Pec Deck, Отжимания на брусьях",
-    proTip: "Сводите лопатки и опускайте их вниз к тазу. Угол наклона скамьи 30° максимально активирует ключичный пучок без боли в плече."
-  },
-  delts: {
-    name: "Дельтовидные мышцы (Плечи)",
-    latin: "m. deltoideus (ant/lat/post)",
-    mev: 8,
-    mav: 18,
-    mrv: 26,
-    recomExercises: "Махи через стороны стоя/сидя, Жим сидя 75°, Face Pull к лицу",
-    proTip: "Для средней дельты держите кисти чуть ниже локтей и наклоняйте корпус на 5° вперед. Исключите читинг спиной."
-  },
-  biceps: {
-    name: "Двуглавая мышца (Бицепс & Брахиалис)",
-    latin: "m. biceps brachii",
-    mev: 6,
-    mav: 14,
-    mrv: 20,
-    recomExercises: "Сгибания на наклонной скамье 45°, Скамья Скотта, Молотковые сгибания",
-    proTip: "Сгибания на скамье 45° дают максимальную стретч-гипертрофию длинной головки (исследование Maeo et al., 2023)."
-  },
-  triceps: {
-    name: "Трехглавая мышца (Трицепс)",
-    latin: "m. triceps brachii",
-    mev: 6,
-    mav: 14,
-    mrv: 20,
-    recomExercises: "Разгибание гантели из-за головы, Французский жим, Разгибания на блоке",
-    proTip: "Положение руки над головой удлиняет длинную головку трицепса, вызывая на 40% больший мышечный рост."
-  },
-  traps: {
-    name: "Трапециевидная мышца (Верх/Середина)",
-    latin: "m. trapezius",
-    mev: 4,
-    mav: 12,
-    mrv: 18,
-    recomExercises: "Face Pulls с канатом, Тяга к поясу в тренажере, Шраги с гантелями",
-    proTip: "При сидячей работе избегайте перегрузки верхней трапеции. Делайте упор на нижнюю и среднюю порции (Face Pulls)."
-  },
-  lats: {
-    name: "Широчайшие мышцы (Спина / V-taper)",
-    latin: "m. latissimus dorsi",
-    mev: 8,
-    mav: 16,
-    mrv: 22,
-    recomExercises: "Подтягивания, Тяга верхнего блока к груди, Горизонтальная тяга",
-    proTip: "Тяните рукоять строго к ключицам, ведя движение локтями вниз и назад к поясу. Не отклоняйте корпус назад более чем на 15°."
-  },
-  abs: {
-    name: "Мышцы пресса и кора (6-Pack & Кор)",
-    latin: "m. rectus abdominis & obliques",
-    mev: 4,
-    mav: 12,
-    mrv: 18,
-    recomExercises: "Утренний вакуум живота, Скручивания на наклонной скамье, Планка",
-    proTip: "Утренний вакуум тренирует поперечную мышцу живота, подтягивая талию и стабилизируя поясничный отдел."
-  },
-  quads: {
-    name: "Квадрицепсы (Передняя часть бедра)",
-    latin: "m. quadriceps femoris",
-    mev: 8,
-    mav: 16,
-    mrv: 22,
-    recomExercises: "Жим ногами 45°, Приседания в Гакк-тренажере, Разгибания ног",
-    proTip: "Опускайте платформу до угла 90° в коленях без отрыва таза от спинки тренажера. Эксцентрика 3 секунды."
-  },
-  hamstrings: {
-    name: "Бицепс бедра & Ягодицы",
-    latin: "m. biceps femoris & gluteus",
-    mev: 6,
-    mav: 14,
-    mrv: 20,
-    recomExercises: "Румынская становая тяга с гантелями, Сгибания ног лежа/сидя",
-    proTip: "Румынская тяга — абсолютный чемпион стретч-гипертрофии бицепса бедра. Отводите таз назад, сохраняя нейтраль в пояснице."
-  },
-  calves: {
-    name: "Икроножные & Камбаловидные",
-    latin: "m. gastrocnemius & soleus",
-    mev: 6,
-    mav: 14,
-    mrv: 20,
-    recomExercises: "Подъемы на носки стоя в тренажере, Подъемы сидя",
-    proTip: "Делайте 2-секундную паузу в нижней точке максимального растяжения, чтобы исключить пружинящий эффект ахиллова сухожилия."
-  }
-};
 
 function selectAnatomyMuscle(muscleKey) {
   selectedAnatomyMuscleKey = muscleKey;
@@ -2987,8 +2975,8 @@ function selectAnatomyMuscle(muscleKey) {
 
   updateAnatomyHUD(muscleKey, d, info);
   renderInteractiveAnatomyMap();
-  Sound.beep(650, 0.04);
-  Haptic.impact('light');
+  Sound.click();
+  Haptic.selection();
 }
 
 function updateAnatomyHUD(key, d, info) {
@@ -3012,10 +3000,10 @@ function updateAnatomyHUD(key, d, info) {
   if (pumpBadge) {
     if (pct >= 100) {
       pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-amber-500/20 text-[#c8a97e] border border-[#c8a97e]/40 text-[10px] font-mono font-bold animate-pulse";
-      pumpBadge.textContent = "🔥 MAV Максимум (" + pct + "%)";
+      pumpBadge.textContent = "🔥 Оптимум роста (" + pct + "%)";
     } else if (pct >= 50) {
       pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold";
-      pumpBadge.textContent = "⚡ Оптимум (" + pct + "%)";
+      pumpBadge.textContent = "⚡ Активный стимул (" + pct + "%)";
     } else {
       pumpBadge.className = "px-2.5 py-0.5 rounded-lg bg-white/5 text-slate-400 border border-white/10 text-[10px] font-mono font-bold";
       pumpBadge.textContent = "⏳ В плане (" + pct + "%)";
@@ -3024,13 +3012,13 @@ function updateAnatomyHUD(key, d, info) {
 
   if (volEl) volEl.textContent = sets + " / " + mav + " сетов (неделя)";
   if (mavStatus) {
-    mavStatus.textContent = pct >= 100 ? "MAV достигнут • Рост стимулирован" : (pct >= 50 ? "Оптимальный диапазон гипертрофии" : "Требуется добрать " + Math.max(0, mav - sets) + " сетов");
+    mavStatus.textContent = pct >= 100 ? "Оптимальный объем нагрузки выполнен" : (pct >= 50 ? "Хороший диапазон для роста мышц" : "Рекомендуется добавить " + Math.max(0, mav - sets) + " сетов");
   }
 
   const hoursAgo = d.lastHoursAgo !== undefined ? d.lastHoursAgo : 72;
   if (recEl) {
     if (hoursAgo >= 48) {
-      recEl.textContent = "100% Готова к нагрузке";
+      recEl.textContent = "100% Мышца готова к нагрузке";
       recEl.className = "text-emerald-400 font-mono font-bold text-xs";
     } else if (hoursAgo >= 24) {
       recEl.textContent = "75% Фаза суперкомпенсации";
@@ -3042,7 +3030,7 @@ function updateAnatomyHUD(key, d, info) {
   }
 
   if (timerEl) {
-    timerEl.textContent = hoursAgo >= 48 ? "Отдых 48ч пройден • ЦНС в норме" : "Прошло " + hoursAgo + "ч из 48ч отдыха";
+    timerEl.textContent = hoursAgo >= 48 ? "Отдых 48ч пройден • ЦНС восстановилась" : "Прошло " + hoursAgo + "ч из 48ч отдыха";
   }
 
   if (exEl) exEl.textContent = info.recomExercises;
@@ -3084,7 +3072,7 @@ function renderInteractiveAnatomyMap() {
       stroke: stroke,
       isActive: isActive,
       isPumped: isPumped,
-      filter: isActive ? "filter: drop-shadow(0 0 8px rgba(200, 169, 126, 0.8)); cursor: pointer;" : "cursor: pointer; transition: all 0.25s ease;"
+      filter: isActive ? "filter: drop-shadow(0 0 10px rgba(200, 169, 126, 0.85)); cursor: pointer;" : "cursor: pointer; transition: all 0.25s ease;"
     };
   }
 
@@ -5249,44 +5237,61 @@ function updateWHtRBadge(waist, height = 178) {
   }
 }
 
-function saveCurrentTilesAsMeasurement() {
-  onTileInputChanged();
-  const cur = appState.currentMetrics;
+// ========================================================
+// МОДУЛЬ СОХРАНЕНИЯ ЗАМЕРОВ (БЕЗ СПАМА ОПЫТОМ И БЕЗ ALERT)
+// ========================================================
 
-  if (!cur.weight && !cur.waist) {
-    alert("Пожалуйста, введи вес или талию в ячейках выше!");
-    return;
-  }
+function saveCurrentTilesAsMeasurement() {
+  const cur = appState.currentMetrics || {};
+  const btn = document.getElementById("btn-save-measurements");
 
   const today = new Date().toISOString().split("T")[0];
-  const existingIdx = (appState.metrics || []).findIndex(m => m.date === today);
+  if (!appState.metrics) appState.metrics = [];
+  
+  const existingIdx = appState.metrics.findIndex(m => m.date === today);
+  const isFirstToday = (existingIdx === -1);
 
   const entry = {
     id: "m_" + Date.now(),
     date: today,
-    weight: cur.weight || 0,
-    waist: cur.waist || 0,
-    biceps: cur.biceps || 0,
-    chest: cur.chest || 0,
-    thigh: cur.thigh || 0,
-    neck: cur.neck || 0
+    weight: cur.weight || 83,
+    waist: cur.waist || 91.5,
+    biceps: cur.biceps || 38.5,
+    chest: cur.chest || 104,
+    thigh: cur.thigh || 59,
+    neck: cur.neck || 39.5
   };
 
   if (existingIdx >= 0) {
     appState.metrics[existingIdx] = entry;
   } else {
-    if (!appState.metrics) appState.metrics = [];
     appState.metrics.push(entry);
   }
 
-  addXP(40);
+  // Опыт начисляется максимум 1 раз в сутки, без бесконечного фарма
+  if (isFirstToday) {
+    addXP(20);
+  }
+
   saveState();
+  renderHealthTabCalculations();
   drawTrendChart();
 
   Sound.success();
   Haptic.success();
-  alert(`Замеры за ${today} сохранены! (+40 XP)`);
+
+  if (btn) {
+    btn.textContent = "Замеры сохранены ✓";
+    btn.className = "w-full py-3.5 bg-emerald-600/90 text-white font-bold text-xs uppercase rounded-xl transition-all shadow-md font-mono flex items-center justify-center space-x-1.5";
+    setTimeout(() => {
+      if (btn) {
+        btn.textContent = "Сохранить замеры в историю";
+        btn.className = "w-full py-3.5 btn-gold font-bold text-xs uppercase rounded-xl active:scale-98 transition-all font-mono shadow-md flex items-center justify-center space-x-1.5";
+      }
+    }, 2000);
+  }
 }
+
 
 function setChartFilter(filter) {
   currentChartFilter = filter;
@@ -5460,14 +5465,6 @@ function forceAppReload() {
   Haptic.success();
   const cleanUrl = window.location.href.split('?')[0];
   window.location.href = `${cleanUrl}?v=${Date.now()}`;
-}
-
-function openRevisionModal() {
-  injectAppVersion();
-  openModal('modal-revision-status');
-  Sound.beep(650, 0.05);
-  Haptic.impact('light');
-  checkLiveRevisionUpdate(false);
 }
 
 // ========================================================
