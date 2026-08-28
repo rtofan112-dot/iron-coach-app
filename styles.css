@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Grotesk', 'SF Mono', Consolas, monospace;
   
   /* $1,000,000 LUXURY TITANIUM & OBSIDIAN PALETTE */
-  --bg-abyss: #040507;
+  --bg-abyss: #000000;
   --bg-card: rgba(14, 17, 26, 0.78);
   --bg-card-hover: rgba(20, 24, 38, 0.88);
   --bg-card-active: rgba(28, 34, 52, 0.94);
   --bg-input: #080a10;
   
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.15);
+  --border-subtle: #222222;
+  --border-medium: #333333;
   --border-gold: rgba(200, 169, 126, 0.55);
   
   --text-primary: #ffffff;
@@ -51,10 +51,7 @@
 html, body {
   min-height: 100vh;
   background-color: var(--bg-abyss);
-  background-image: 
-    radial-gradient(circle at 50% -12%, rgba(200, 169, 126, 0.18) 0%, transparent 45%),
-    radial-gradient(circle at 90% 100%, rgba(16, 185, 129, 0.09) 0%, transparent 35%),
-    radial-gradient(circle at 10% 100%, rgba(56, 189, 248, 0.08) 0%, transparent 35%);
+  
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -62,7 +59,7 @@ html, body {
   user-select: none;
   padding-bottom: 6.5rem;
   overflow-x: hidden;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   line-height: 1.5;
 }
 
@@ -70,12 +67,12 @@ html, body {
 /* ПРЕМИАЛЬНЫЕ ПОВЕРХНОСТИ И СТЕКЛО */
 /* ======================================================== */
 .glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: #111113;
+  
+  -webkit-
   border: 1px solid var(--border-subtle);
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 36px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   transition: all 0.25s var(--ease-luxury);
 }
 
@@ -85,8 +82,8 @@ html, body {
 
 .glass-panel-elevated {
   background: var(--bg-card-hover);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  
+  -webkit-
   border: 1px solid var(--border-medium);
   border-radius: 1.25rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
@@ -96,11 +93,11 @@ html, body {
 /* ЗОЛОТЫЕ И ТИТАНОВЫЕ КНОПКИ */
 /* ======================================================== */
 .btn-gold {
-  background: linear-gradient(135deg, #f5e3cc 0%, #dfc299 25%, #c8a97e 60%, #967445 100%);
+  background: var(--gold-primary);
   color: #050608 !important;
   font-weight: 800;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 6px 24px -2px var(--gold-glow);
+  border: none;
+  box-shadow: none;
   transition: all 0.2s var(--ease-luxury);
   position: relative;
   overflow: hidden;
@@ -163,11 +160,11 @@ html, body {
 }
 
 .bottom-dock {
-  background: rgba(7, 9, 14, 0.90);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.7);
+  background: #000000;
+  
+  -webkit-
+  border-top: 1px solid #222222;
+  box-shadow: none;
 }
 
 .nav-item {
@@ -192,11 +189,11 @@ html, body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 2.4rem;
-  height: 2.8px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold-light) 50%, transparent 100%);
+  width: 20px;
+  height: 2px;
+  background: var(--gold-primary);
   border-radius: 9999px;
-  box-shadow: 0 0 12px var(--gold-primary);
+  box-shadow: none;
 }
 
 /* ======================================================== */
@@ -232,7 +229,7 @@ html, body {
   width: 2.2rem;
   height: 2.2rem;
   border: 2px solid rgba(255, 255, 255, 0.28);
-  border-radius: 0.8rem;
+  border-radius: 50%;
   background-color: var(--bg-input);
   cursor: pointer;
   display: inline-flex;
@@ -247,9 +244,9 @@ html, body {
 }
 
 .custom-checkbox:checked {
-  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  background: #10b981;
   border-color: #10b981;
-  box-shadow: 0 0 18px var(--emerald-glow);
+  box-shadow: none;
   transform: scale(1.06);
 }
 
@@ -418,7 +415,7 @@ html, body {
   color: var(--text-primary);
   font-weight: 700;
   border-color: rgba(200, 169, 126, 0.5);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  box-shadow: none;
 }
 
 .goal-segment-btn svg {
@@ -589,7 +586,7 @@ body[data-theme="purple"] {
 .theme-pill-btn.active {
   border-color: var(--gold-primary);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 16px var(--gold-glow);
+  box-shadow: none;
 }
 
 /* ======================================================== */
@@ -599,7 +596,7 @@ body[data-theme="purple"] {
   position: relative;
   width: 100%;
   background: radial-gradient(circle at 50% 40%, rgba(20, 26, 44, 0.65) 0%, rgba(6, 8, 14, 0.98) 100%);
-  border-radius: 1.5rem;
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 1.25rem 0.75rem;
   overflow: hidden;
@@ -653,7 +650,7 @@ body[data-theme="purple"] {
   background: radial-gradient(circle at 50% 35%, rgba(30, 41, 68, 0.7) 0%, rgba(7, 9, 15, 0.98) 100%);
   border: 1px solid rgba(200, 169, 126, 0.25);
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.85), 0 10px 30px rgba(0, 0, 0, 0.5);
-  border-radius: 1.5rem;
+  border-radius: 20px;
   overflow: hidden;
   position: relative;
 }
