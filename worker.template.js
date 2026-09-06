@@ -1,4 +1,4 @@
-const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
+﻿const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
 const API_URL = "https://api.telegram.org/bot" + BOT_TOKEN;
 const B64_APP = "__B64_APP_PLACEHOLDER__";
 
