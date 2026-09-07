@@ -1,4 +1,4 @@
-﻿/**
+/**
  * IRON COACH ELITE - Bio-Analytics & Scientific Hypertrophy Engine
  */
 
@@ -796,6 +796,28 @@ function getExerciseDiagramSVG(exName, muscleGroup) {
         <text x="135" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Тяга по дуге строго к тазу</text>
         <text x="135" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Спина параллельна полу</text>
         <text x="135" y="66" fill="#10b981" font-size="8" font-family="monospace">Односторонняя изоляция</text>
+      </svg>
+    `;
+  }
+
+  if (n.includes("штанги в наклоне") || (n.includes("тяга") && n.includes("штанг") && n.includes("наклон"))) {
+    return `
+      <svg class="w-full h-24" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="84" x2="125" y2="84" stroke="#1e293b" stroke-width="2"/>
+        <polyline points="50,84 62,60 52,38" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="88" cy="22" r="6" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="84" y1="26" x2="52" y2="38" stroke="#f1f5f9" stroke-width="4" stroke-linecap="round"/>
+        <path d="M74 30 L56 37" stroke="#c8a97e" stroke-width="6" stroke-linecap="round"/>
+        <polyline points="72,31 68,48 64,54" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="42" y1="54" x2="88" y2="54" stroke="#c8a97e" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="40" y="49" width="4" height="10" rx="1" fill="#c8a97e"/>
+        <rect x="86" y="49" width="4" height="10" rx="1" fill="#c8a97e"/>
+        <path d="M64 68 C 64 62, 64 56, 64 54" stroke="#c8a97e" stroke-width="1.5" stroke-dasharray="2 2"/>
+        
+        <text x="140" y="24" fill="#c8a97e" font-size="10" font-family="monospace" font-weight="bold">ТЯГА ШТАНГИ В НАКЛОНЕ</text>
+        <text x="140" y="38" fill="#cbd5e1" font-size="9" font-family="monospace">Наклон 45°, спина нейтральна</text>
+        <text x="140" y="52" fill="#94a3b8" font-size="8" font-family="monospace">Тяга к низу живота, локти назад</text>
+        <text x="140" y="66" fill="#10b981" font-size="8" font-family="monospace">Массив и толщина всей спины</text>
       </svg>
     `;
   }
@@ -1921,144 +1943,6 @@ function getExerciseMotionProfile(exerciseName, category = '') {
   };
   return { pattern, equipment, ...(profiles[pattern] || profiles.press) };
 }
-
-function getMotionPose(pattern, phase) {
-  const poses = {
-    'leg-press': {
-      start:{head:[34,76],shoulder:[55,92],hip:[91,120],elbow:[70,105],wrist:[91,109],knee:[116,108],ankle:[132,78],foot:[146,67]},
-      end:{head:[34,76],shoulder:[55,92],hip:[91,120],elbow:[70,105],wrist:[91,109],knee:[126,91],ankle:[151,64],foot:[160,52]}
-    },
-    'hack-squat': {
-      start:{head:[80,24],shoulder:[80,57],hip:[80,104],elbow:[55,70],wrist:[46,91],knee:[80,143],ankle:[80,181],foot:[101,181]},
-      end:{head:[51,57],shoulder:[65,86],hip:[87,116],elbow:[93,85],wrist:[121,85],knee:[120,143],ankle:[105,181],foot:[128,181]}
-    },
-    squat: {
-      start:{head:[80,24],shoulder:[80,57],hip:[80,104],elbow:[55,70],wrist:[46,91],knee:[80,143],ankle:[80,181],foot:[101,181]},
-      end:{head:[47,59],shoulder:[62,88],hip:[86,116],elbow:[91,87],wrist:[122,87],knee:[120,143],ankle:[105,181],foot:[128,181]}
-    },
-    hinge: {
-      start:{head:[81,24],shoulder:[81,58],hip:[82,106],elbow:[78,90],wrist:[76,122],knee:[83,145],ankle:[82,181],foot:[103,181]},
-      end:{head:[38,66],shoulder:[61,79],hip:[91,108],elbow:[67,111],wrist:[73,145],knee:[99,146],ankle:[96,181],foot:[118,181]}
-    },
-    press: {
-      start:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[59,72],wrist:[83,55],knee:[139,145],ankle:[126,180],foot:[148,180]},
-      end:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[75,76],wrist:[75,33],knee:[139,145],ankle:[126,180],foot:[148,180]}
-    },
-    fly: {
-      start:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[71,68],wrist:[104,72],knee:[139,145],ankle:[126,180],foot:[148,180]},
-      end:{head:[31,105],shoulder:[61,106],hip:[112,116],elbow:[64,72],wrist:[67,35],knee:[139,145],ankle:[126,180],foot:[148,180]}
-    },
-    'vertical-press': {
-      start:{head:[78,25],shoulder:[78,59],hip:[79,108],elbow:[48,80],wrist:[57,58],knee:[98,143],ankle:[101,181],foot:[123,181]},
-      end:{head:[78,25],shoulder:[78,59],hip:[79,108],elbow:[68,48],wrist:[72,18],knee:[98,143],ankle:[101,181],foot:[123,181]}
-    },
-    row: {
-      start:{head:[39,65],shoulder:[61,79],hip:[93,108],elbow:[95,83],wrist:[130,78],knee:[100,146],ankle:[96,181],foot:[118,181]},
-      end:{head:[39,65],shoulder:[61,79],hip:[93,108],elbow:[75,103],wrist:[92,95],knee:[100,146],ankle:[96,181],foot:[118,181]}
-    },
-    'vertical-pull': {
-      start:{head:[78,33],shoulder:[78,67],hip:[79,115],elbow:[66,48],wrist:[62,20],knee:[103,144],ankle:[107,181],foot:[129,181]},
-      end:{head:[78,33],shoulder:[78,67],hip:[79,115],elbow:[53,82],wrist:[72,79],knee:[103,144],ankle:[107,181],foot:[129,181]}
-    },
-    raise: {
-      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[65,91],wrist:[63,124],knee:[79,145],ankle:[79,181],foot:[101,181]},
-      end:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[111,60],wrist:[140,61],knee:[79,145],ankle:[79,181],foot:[101,181]}
-    },
-    curl: {
-      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[76,91],wrist:[73,125],knee:[79,145],ankle:[79,181],foot:[101,181]},
-      end:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[76,91],wrist:[58,65],knee:[79,145],ankle:[79,181],foot:[101,181]}
-    },
-    triceps: {
-      start:{head:[78,28],shoulder:[78,62],hip:[79,109],elbow:[69,48],wrist:[52,68],knee:[79,146],ankle:[79,181],foot:[101,181]},
-      end:{head:[78,28],shoulder:[78,62],hip:[79,109],elbow:[69,48],wrist:[72,17],knee:[79,146],ankle:[79,181],foot:[101,181]}
-    },
-    core: {
-      start:{head:[35,104],shoulder:[63,108],hip:[112,119],elbow:[67,82],wrist:[49,71],knee:[137,145],ankle:[126,180],foot:[148,180]},
-      end:{head:[55,73],shoulder:[77,91],hip:[112,119],elbow:[72,72],wrist:[56,65],knee:[137,145],ankle:[126,180],foot:[148,180]}
-    },
-    calf: {
-      start:{head:[78,24],shoulder:[78,58],hip:[79,106],elbow:[74,91],wrist:[73,121],knee:[79,145],ankle:[79,181],foot:[103,181]},
-      end:{head:[78,15],shoulder:[78,49],hip:[79,97],elbow:[74,82],wrist:[73,112],knee:[79,136],ankle:[83,173],foot:[106,181]}
-    },
-    'knee-flexion': {
-      start:{head:[34,109],shoulder:[64,108],hip:[112,116],elbow:[76,86],wrist:[96,78],knee:[120,149],ankle:[122,181],foot:[144,181]},
-      end:{head:[34,109],shoulder:[64,108],hip:[112,116],elbow:[76,86],wrist:[96,78],knee:[120,149],ankle:[91,132],foot:[77,141]}
-    },
-    'knee-extension': {
-      start:{head:[70,29],shoulder:[72,62],hip:[75,111],elbow:[66,91],wrist:[63,119],knee:[109,132],ankle:[111,174],foot:[132,174]},
-      end:{head:[70,29],shoulder:[72,62],hip:[75,111],elbow:[66,91],wrist:[63,119],knee:[109,132],ankle:[145,139],foot:[159,136]}
-    },
-    locomotion: {
-      start:{head:[76,25],shoulder:[73,58],hip:[77,105],elbow:[54,76],wrist:[69,98],knee:[51,140],ankle:[32,178],foot:[54,181]},
-      end:{head:[76,25],shoulder:[73,58],hip:[77,105],elbow:[94,78],wrist:[83,101],knee:[109,137],ankle:[135,176],foot:[155,178]}
-    }
-  };
-  const fallback = poses.press;
-  return (poses[pattern] || fallback)[phase];
-}
-
-function renderMotionPose(pose, profile, phase) {
-  const [hx,hy] = pose.head, [sx,sy] = pose.shoulder, [ex,ey] = pose.elbow, [wx,wy] = pose.wrist;
-  const [px,py] = pose.hip, [kx,ky] = pose.knee, [ax,ay] = pose.ankle, [fx,fy] = pose.foot;
-  const targetMap = {
-    upper:[(sx+px)/2-5,(sy+py)/2-7], shoulder:[sx,sy], back:[(sx+px)/2,(sy+py)/2],
-    thigh:[(px+kx)/2,(py+ky)/2], posterior:[(px+kx)/2-3,(py+ky)/2], calf:[(kx+ax)/2,(ky+ay)/2],
-    arm:[(sx+ex)/2,(sy+ey)/2], core:[(sx+px)/2,(sy+py)/2]
-  };
-  const [tx,ty] = targetMap[profile.target] || targetMap.upper;
-  const isGhost = phase === 'start';
-  return `<g class="motion-pose ${isGhost ? 'is-start' : 'is-end'}">
-    <ellipse class="motion-target-zone" cx="${tx}" cy="${ty}" rx="15" ry="20"/>
-    <path class="motion-body-back" d="M${px+4} ${py} L${kx+6} ${ky} L${ax+5} ${ay}"/>
-    <path class="motion-body-segment torso" d="M${sx} ${sy} L${px} ${py}"/>
-    <path class="motion-body-segment" d="M${sx} ${sy} L${ex} ${ey} L${wx} ${wy}"/>
-    <path class="motion-body-segment" d="M${px} ${py} L${kx} ${ky} L${ax} ${ay}"/>
-    <path class="motion-foot" d="M${ax} ${ay} L${fx} ${fy}"/>
-    <circle class="motion-head" cx="${hx}" cy="${hy}" r="13"/>
-    <path class="motion-skeleton" d="M${sx} ${sy}L${px} ${py}M${sx} ${sy}L${ex} ${ey}L${wx} ${wy}M${px} ${py}L${kx} ${ky}L${ax} ${ay}"/>
-    <g class="motion-joints"><circle cx="${sx}" cy="${sy}" r="3.5"/><circle cx="${ex}" cy="${ey}" r="3.2"/><circle cx="${px}" cy="${py}" r="3.5"/><circle cx="${kx}" cy="${ky}" r="3.5"/><circle cx="${ax}" cy="${ay}" r="3"/></g>
-    ${renderMotionEquipment(pose, profile)}
-    ${phase === 'end' ? `<path class="motion-rom-arc" d="${profile.arc}" marker-end="url(#motionArrow)"/>` : ''}
-  </g>`;
-}
-
-function renderMotionEquipment(pose, profile) {
-  const [wx,wy] = pose.wrist, [sx,sy] = pose.shoulder;
-  let result = '';
-  if (profile.pattern === 'press' || profile.pattern === 'fly' || profile.pattern === 'core' || profile.pattern === 'knee-flexion') {
-    result += '<path class="motion-machine" d="M18 122H128M30 123v9M114 123v9"/>';
-  }
-  if (profile.pattern === 'leg-press') {
-    const [px,py] = pose.hip, [fx,fy] = pose.foot;
-    result += `<path class="motion-machine" d="M31 116L61 82M30 118l55 16M${fx-8} ${fy+8}l18-18M${fx+1} ${fy+15}l18-18M${fx+12} ${fy-8}L151 20"/><circle class="motion-anchor" cx="${px}" cy="${py}" r="2.8"/>`;
-  }
-  if (profile.pattern === 'hack-squat') {
-    result += `<path class="motion-machine" d="M${sx-15} ${sy+5}L${pose.hip[0]-14} ${pose.hip[1]+8}M${sx-26} ${sy-5}L${pose.hip[0]-26} ${pose.hip[1]+18}M${sx-18} ${sy-8}h34"/>`;
-  }
-  if (profile.pattern === 'vertical-pull') result += `<path class="motion-cable" d="M${wx} ${wy}L${wx} 8M42 8h72"/>`;
-  if (profile.pattern === 'row' && profile.equipment === 'cable') result += `<path class="motion-cable" d="M${wx} ${wy}L151 68"/><circle class="motion-anchor" cx="151" cy="68" r="3"/>`;
-  if (profile.equipment === 'barbell') result += `<path class="motion-equipment" d="M${wx-19} ${wy}H${wx+19}"/><path class="motion-plate" d="M${wx-16} ${wy-7}v14M${wx+16} ${wy-7}v14"/>`;
-  else if (profile.equipment === 'dumbbell') result += `<path class="motion-equipment" d="M${wx-10} ${wy-5}l20 10M${wx-9} ${wy-8}l-3 6M${wx+12} ${wy+2}l-3 6"/>`;
-  else if (profile.pattern === 'squat' && profile.equipment !== 'cable') result += `<path class="motion-equipment" d="M${sx-28} ${sy-2}H${sx+28}"/><path class="motion-plate" d="M${sx-24} ${sy-10}v16M${sx+24} ${sy-10}v16"/>`;
-  return result;
-}
-
-function getExerciseDiagramSVG(exerciseName, category) {
-  const profile = getExerciseMotionProfile(exerciseName, category);
-  const start = getMotionPose(profile.pattern, 'start');
-  const end = getMotionPose(profile.pattern, 'end');
-  const safeName = String(exerciseName || 'Упражнение').replace(/[<>&"']/g, '');
-  return `<svg class="exercise-motion-svg" width="360" height="248" viewBox="0 0 360 248" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Биомеханическая схема: ${safeName}">
-    <defs><pattern id="motionGrid" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" stroke="#fff" stroke-opacity=".03"/></pattern><marker id="motionArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#67dcb4"/></marker></defs>
-    <rect width="360" height="248" rx="20" fill="#0b0e10"/><rect width="360" height="248" rx="20" fill="url(#motionGrid)"/>
-    <path class="motion-divider" d="M180 24v199"/><path class="motion-baseline" d="M14 220H346"/>
-    <g transform="translate(8 28)">${renderMotionPose(start, profile, 'start')}</g>
-    <g transform="translate(184 28)">${renderMotionPose(end, profile, 'end')}</g>
-    <g class="motion-frame-label"><text x="18" y="22">01 / START</text><text x="194" y="22">02 / TARGET</text></g>
-    <g class="motion-vector-key" transform="translate(251 229)"><path d="M0 0h18" marker-end="url(#motionArrow)"/><text x="24" y="3">ВЕКТОР</text></g>
-  </svg>`;
-}
-
 function switchVisualizerTab(tab) {
   const tabs = ['bio', 'keys'];
   tabs.forEach(t => {
@@ -3225,195 +3109,7 @@ function updateAnatomyHUD(key, d, info) {
   fieldEls('recovery').forEach(el => { el.dataset.state = recoveryState; });
 }
 
-function renderInteractiveAnatomyMap() {
-  const host = document.getElementById("anat-svg-host");
-  if (!host) return;
 
-  const data = getMuscleVolumeAndRecoveryData();
-  const selKey = selectedAnatomyMuscleKey || 'chest';
-
-  function getStyle(key) {
-    const info = ANATOMY_MUSCLES_DATA[key] || { mav: 14 };
-    const d = data[key] || { sets: 0, lastHoursAgo: 72 };
-    const ratio = Math.min(1.2, d.sets / info.mav);
-    const isActive = (selKey === key);
-    const isPumped = ratio >= 0.75;
-
-    let fill = "rgba(30, 41, 59, 0.45)";
-    let stroke = "rgba(71, 85, 105, 0.6)";
-
-    if (ratio >= 0.75) {
-      fill = "rgba(200, 169, 126, 0.65)";
-      stroke = "#c8a97e";
-    } else if (ratio >= 0.40) {
-      fill = "rgba(16, 185, 129, 0.55)";
-      stroke = "#10b981";
-    }
-
-    if (isActive) {
-      fill = "rgba(245, 227, 204, 0.92)";
-      stroke = "#ffffff";
-    }
-
-    return {
-      fill: fill,
-      stroke: stroke,
-      isActive: isActive,
-      isPumped: isPumped,
-      filter: isActive ? "filter: drop-shadow(0 0 10px rgba(200, 169, 126, 0.85)); cursor: pointer;" : "cursor: pointer; transition: all 0.25s ease;"
-    };
-  }
-
-  let svgHtml = "";
-  if (currentAnatomyView === 'front') {
-    const ch = getStyle('chest');
-    const dl = getStyle('delts');
-    const bi = getStyle('biceps');
-    const ab = getStyle('abs');
-    const qd = getStyle('quads');
-    const cl = getStyle('calves');
-
-    svgHtml = `
-      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- ГОЛОВА & ШЕЯ -->
-        <ellipse cx="120" cy="32" rx="14" ry="17" stroke="#475569" stroke-width="1.8" fill="#0c101d"/>
-        <path d="M113 48 C113 58 111 66 109 72 M127 48 C127 58 129 66 131 72" stroke="#334155" stroke-width="2"/>
-        
-        <!-- КЛЮЧИЦЫ -->
-        <path d="M72 74 Q120 84 168 74" stroke="#334155" stroke-width="2" fill="none"/>
-        
-        <!-- ДЕЛЬТЫ (ПЕРЕДНЯЯ & СРЕДНЯЯ) -->
-        <g id="anat-path-delts-left" onclick="selectAnatomyMuscle('delts')" style="${dl.filter}">
-          <path d="M72 74 C58 82 52 102 58 118 C68 114 74 102 78 88 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-        <g id="anat-path-delts-right" onclick="selectAnatomyMuscle('delts')" style="${dl.filter}">
-          <path d="M168 74 C182 82 188 102 182 118 C172 114 166 102 162 88 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-
-        <!-- ГРУДНЫЕ МЫШЦЫ (PECTORALIS MAJOR) -->
-        <g id="anat-path-chest" onclick="selectAnatomyMuscle('chest')" style="${ch.filter}">
-          <!-- Левая грудная -->
-          <path d="M120 78 C102 76 80 84 76 102 C76 122 104 128 120 122 Z" fill="${ch.fill}" stroke="${ch.stroke}" stroke-width="2" stroke-linejoin="round"/>
-          <!-- Правая грудная -->
-          <path d="M120 78 C138 76 160 84 164 102 C164 122 136 128 120 122 Z" fill="${ch.fill}" stroke="${ch.stroke}" stroke-width="2" stroke-linejoin="round"/>
-          <line x1="120" y1="78" x2="120" y2="122" stroke="#05070e" stroke-width="1.5"/>
-        </g>
-
-        <!-- БИЦЕПСЫ & ПРЕДПЛЕЧЬЯ -->
-        <g id="anat-path-biceps-left" onclick="selectAnatomyMuscle('biceps')" style="${bi.filter}">
-          <!-- Бицепс -->
-          <path d="M58 120 C50 134 48 152 56 168 C64 164 70 148 68 130 Z" fill="${bi.fill}" stroke="${bi.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-          <!-- Предплечье -->
-          <path d="M56 170 C48 188 42 208 40 224 C48 224 58 204 62 184 Z" fill="rgba(71, 85, 105, 0.3)" stroke="#475569" stroke-width="1.4"/>
-        </g>
-        <g id="anat-path-biceps-right" onclick="selectAnatomyMuscle('biceps')" style="${bi.filter}">
-          <!-- Бицепс -->
-          <path d="M182 120 C190 134 192 152 184 168 C176 164 170 148 172 130 Z" fill="${bi.fill}" stroke="${bi.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-          <!-- Предплечье -->
-          <path d="M184 170 C192 188 198 208 200 224 C192 224 182 204 178 184 Z" fill="rgba(71, 85, 105, 0.3)" stroke="#475569" stroke-width="1.4"/>
-        </g>
-
-        <!-- ПРЕСС & КОР (ABS 6-PACK & OBLIQUES) -->
-        <g id="anat-path-abs" onclick="selectAnatomyMuscle('abs')" style="${ab.filter}">
-          <!-- Верхний ряд кубиков -->
-          <path d="M106 128 C106 125 116 125 118 128 L118 140 C116 142 106 142 106 140 Z" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.3"/>
-          <path d="M122 128 C124 125 134 125 134 128 L134 140 C134 142 124 142 122 140 Z" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.3"/>
-          <!-- Средний ряд кубиков -->
-          <path d="M106 144 C106 142 116 142 118 144 L118 158 C116 160 106 160 106 158 Z" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.3"/>
-          <path d="M122 144 C124 142 134 142 134 144 L134 158 C134 160 124 160 122 158 Z" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.3"/>
-          <!-- Нижний пресс -->
-          <path d="M106 162 C106 160 116 160 118 162 L118 178 C116 182 106 180 106 178 Z" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.3"/>
-          <path d="M122 162 C124 160 134 160 134 162 L134 178 C134 180 124 182 122 178 Z" fill="${ab.fill}" stroke="${ab.stroke}" stroke-width="1.3"/>
-          <!-- Зубчатые и косые мышцы -->
-          <path d="M90 130 C82 150 82 174 92 192 L102 186 L102 132 Z" fill="rgba(51, 65, 85, 0.35)" stroke="#334155" stroke-width="1.2"/>
-          <path d="M150 130 C158 150 158 174 148 192 L138 186 L138 132 Z" fill="rgba(51, 65, 85, 0.35)" stroke="#334155" stroke-width="1.2"/>
-        </g>
-
-        <!-- КВАДРИЦЕПСЫ (БЕДРА) -->
-        <g id="anat-path-quads-left" onclick="selectAnatomyMuscle('quads')" style="${qd.filter}">
-          <path d="M92 198 C78 230 76 272 86 296 C98 296 110 262 112 208 Z" fill="${qd.fill}" stroke="${qd.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-        <g id="anat-path-quads-right" onclick="selectAnatomyMuscle('quads')" style="${qd.filter}">
-          <path d="M148 198 C162 230 164 272 154 296 C142 296 130 262 128 208 Z" fill="${qd.fill}" stroke="${qd.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-
-        <!-- ИКРОНОЖНЫЕ (ГОЛЕНЬ) -->
-        <g id="anat-path-calves-left" onclick="selectAnatomyMuscle('calves')" style="${cl.filter}">
-          <path d="M86 306 C78 326 80 352 88 366 C96 364 102 342 100 316 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-        <g id="anat-path-calves-right" onclick="selectAnatomyMuscle('calves')" style="${cl.filter}">
-          <path d="M154 306 C162 326 160 352 152 366 C144 364 138 342 140 316 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-      </svg>
-    `;
-  } else {
-    // РАКУРС СЗАДИ (BACK VIEW)
-    const tr = getStyle('traps');
-    const lt = getStyle('lats');
-    const dl = getStyle('delts');
-    const tc = getStyle('triceps');
-    const hm = getStyle('hamstrings');
-    const cl = getStyle('calves');
-
-    svgHtml = `
-      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- ГОЛОВА СЗАДИ -->
-        <ellipse cx="120" cy="32" rx="14" ry="17" stroke="#475569" stroke-width="1.8" fill="#0c101d"/>
-        
-        <!-- ТРАПЕЦИЯ (TRAPEZIUS DIAMOND) -->
-        <g id="anat-path-traps" onclick="selectAnatomyMuscle('traps')" style="${tr.filter}">
-          <path d="M120 48 L96 70 L82 82 L108 114 L120 120 L132 114 L158 82 L144 70 Z" fill="${tr.fill}" stroke="${tr.stroke}" stroke-width="2" stroke-linejoin="round"/>
-          <line x1="120" y1="48" x2="120" y2="120" stroke="#05070e" stroke-width="1.5"/>
-        </g>
-
-        <!-- ЗАДНЯЯ ДЕЛЬТА -->
-        <g id="anat-path-delts-back-left" onclick="selectAnatomyMuscle('delts')" style="${dl.filter}">
-          <path d="M82 82 C68 90 62 108 68 122 C76 118 82 106 84 94 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8"/>
-        </g>
-        <g id="anat-path-delts-back-right" onclick="selectAnatomyMuscle('delts')" style="${dl.filter}">
-          <path d="M158 82 C172 90 178 108 172 122 C164 118 158 106 156 94 Z" fill="${dl.fill}" stroke="${dl.stroke}" stroke-width="1.8"/>
-        </g>
-
-        <!-- ТРИЦЕПСЫ (3 ГОЛОВКИ) -->
-        <g id="anat-path-triceps-left" onclick="selectAnatomyMuscle('triceps')" style="${tc.filter}">
-          <path d="M68 124 C60 138 58 156 66 170 C74 166 78 150 76 134 Z" fill="${tc.fill}" stroke="${tc.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-        <g id="anat-path-triceps-right" onclick="selectAnatomyMuscle('triceps')" style="${tc.filter}">
-          <path d="M172 124 C180 138 182 156 174 170 C166 166 162 150 164 134 Z" fill="${tc.fill}" stroke="${tc.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-        </g>
-
-        <!-- ШИРОЧАЙШИЕ МЫШЦЫ (LATS V-TAPER) -->
-        <g id="anat-path-lats" onclick="selectAnatomyMuscle('lats')" style="${lt.filter}">
-          <path d="M82 102 C68 124 72 160 92 184 L108 178 L108 116 Z" fill="${lt.fill}" stroke="${lt.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M158 102 C172 124 168 160 148 184 L132 178 L132 116 Z" fill="${lt.fill}" stroke="${lt.stroke}" stroke-width="1.8" stroke-linejoin="round"/>
-          <!-- Поясничный отдел / Разгибатели -->
-          <rect x="110" y="122" width="20" height="62" rx="3" fill="rgba(51, 65, 85, 0.4)" stroke="#334155" stroke-width="1.2"/>
-        </g>
-
-        <!-- ЯГОДИЦЫ & БИЦЕПС БЕДРА (HAMSTRINGS) -->
-        <g id="anat-path-hamstrings" onclick="selectAnatomyMuscle('hamstrings')" style="${hm.filter}">
-          <!-- Ягодицы -->
-          <path d="M86 186 C74 196 74 220 88 232 C102 232 116 216 118 190 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
-          <path d="M154 186 C166 196 166 220 152 232 C138 232 124 216 122 190 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
-          <!-- Задняя поверхность бедра -->
-          <path d="M88 234 C78 258 78 284 88 298 C100 298 112 274 116 238 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
-          <path d="M152 234 C162 258 162 284 152 298 C140 298 128 274 124 238 Z" fill="${hm.fill}" stroke="${hm.stroke}" stroke-width="1.8"/>
-        </g>
-
-        <!-- ИКРОНОЖНЫЕ СЗАДИ -->
-        <g id="anat-path-calves-back-left" onclick="selectAnatomyMuscle('calves')" style="${cl.filter}">
-          <path d="M86 306 C76 326 80 352 88 366 C98 364 104 342 102 316 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8"/>
-        </g>
-        <g id="anat-path-calves-back-right" onclick="selectAnatomyMuscle('calves')" style="${cl.filter}">
-          <path d="M154 306 C164 326 160 352 152 366 C142 364 136 342 138 316 Z" fill="${cl.fill}" stroke="${cl.stroke}" stroke-width="1.8"/>
-        </g>
-      </svg>
-    `;
-  }
-
-  host.innerHTML = svgHtml;
-  updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: 72 });
-}
 
 // Anatomical Load Atlas 2.0 — proportionate, data-led replacement for the legacy mannequin.
 // The map visualizes logged training volume only; it does not diagnose tissue recovery.
@@ -3442,21 +3138,30 @@ function renderInteractiveAnatomyMap() {
     const sets = value.sets || 0;
     const ratio = info.mav ? sets / info.mav : 0;
     const selected = key === selKey;
-    let fill = '#343a3f';
-    let stroke = '#697178';
-    let fiber = '#8a9298';
+    
+    // Luxury Titanium Base Palette
+    let fill = '#161a22';
+    let stroke = '#2d3748';
+    let fiber = '#4a5568';
+    
     if (sets >= info.mev && sets <= info.mav) {
-      fill = '#247b68'; stroke = '#67dcb4'; fiber = '#a2f4d7';
+      // Optimal Hypertrophy MAV (Emerald Glow)
+      fill = 'rgba(16, 185, 129, 0.35)'; stroke = '#10b981'; fiber = '#6ee7b7';
     } else if (sets > info.mav) {
-      fill = sets > info.mrv ? '#8d4947' : '#936e43';
-      stroke = sets > info.mrv ? '#ff7a72' : '#d7ae74';
-      fiber = sets > info.mrv ? '#ffc0bb' : '#f2d3a5';
+      // Overload / Fatigued
+      fill = sets > info.mrv ? 'rgba(244, 63, 94, 0.35)' : 'rgba(217, 119, 6, 0.35)';
+      stroke = sets > info.mrv ? '#f43f5e' : '#f59e0b';
+      fiber = sets > info.mrv ? '#fda4af' : '#fcd34d';
     } else if (sets > 0) {
-      fill = '#43564f'; stroke = '#77958a'; fiber = '#9eb7ad';
+      // Active Loading
+      fill = 'rgba(56, 189, 248, 0.25)'; stroke = '#38bdf8'; fiber = '#7dd3fc';
     }
+
     if (selected) {
-      stroke = '#f3dfbb';
-      fiber = '#fff2d9';
+      // High-End Pure Gold Radiance
+      fill = 'rgba(200, 169, 126, 0.45)';
+      stroke = '#c8a97e';
+      fiber = '#fdf2e2';
     }
     return { fill, stroke, fiber, selected, ratio };
   };
@@ -6754,141 +6459,4 @@ function updateSettingsDisplay() {
 
 
 
-// --- PREMIUM ANATOMY MAP OVERRIDE ---
-function renderInteractiveAnatomyMap() {
-  const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
-  if (!hosts.length) return;
 
-  const data = getMuscleVolumeAndRecoveryData();
-  const selKey = selectedAnatomyMuscleKey || 'chest';
-
-  const styleFor = (key) => {
-    const info = ANATOMY_MUSCLES_DATA[key] || { mav: 14 };
-    const sets = (data[key] || { sets: 0 }).sets;
-    const isSelected = key === selKey;
-    const isPumped = sets >= (info.mav * 0.7);
-    
-    let fill = "rgba(10, 12, 16, 0.4)";
-    let stroke = "rgba(255, 255, 255, 0.1)";
-    let strokeWidth = "1";
-    let filter = "";
-
-    if (isPumped) {
-      fill = "rgba(200, 169, 126, 0.15)";
-      stroke = "rgba(200, 169, 126, 0.8)";
-    } else if (sets > 0) {
-      fill = "rgba(255, 255, 255, 0.05)";
-      stroke = "rgba(255, 255, 255, 0.3)";
-    }
-
-    if (isSelected) {
-      fill = "rgba(200, 169, 126, 0.25)";
-      stroke = "#c8a97e";
-      strokeWidth = "1.5";
-      filter = "filter: drop-shadow(0 0 8px rgba(200, 169, 126, 0.6));";
-    }
-
-    return { fill, stroke, strokeWidth, filter, isSelected };
-  };
-
-  const region = (key, dPaths) => {
-    const s = styleFor(key);
-    let pathsHtml = "";
-    if (Array.isArray(dPaths)) {
-      pathsHtml = dPaths.map(d => `<path d="${d}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}"/>`).join('');
-    } else {
-      pathsHtml = `<path d="${dPaths}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}"/>`;
-    }
-    return `<g onclick="selectAnatomyMuscle('${key}')" style="cursor: pointer; transition: all 0.3s ease; ${s.filter}">${pathsHtml}</g>`;
-  };
-
-  let svgHtml = "";
-  if (currentAnatomyView === 'front') {
-    svgHtml = `
-      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="premium-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(200,169,126,0.03)" stroke-width="0.5"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#premium-grid)"/>
-
-        <!-- Abstract Tech Skeleton -->
-        <line x1="120" y1="45" x2="120" y2="180" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <line x1="70" y1="75" x2="170" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        
-        <!-- Head -->
-        <path d="M108 30 C108 15 132 15 132 30 C132 45 125 50 120 50 C115 50 108 45 108 30 Z" fill="rgba(10,12,16,0.8)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        
-        <!-- Delts -->
-        ${region('delts', [
-          "M70 75 C55 85 50 105 55 120 C65 115 70 105 75 90 Z",
-          "M170 75 C185 85 190 105 185 120 C175 115 170 105 165 90 Z"
-        ])}
-        <!-- Chest -->
-        ${region('chest', [
-          "M118 78 C100 76 80 84 75 102 C75 120 105 125 118 120 Z",
-          "M122 78 C140 76 160 84 165 102 C165 120 135 125 122 120 Z"
-        ])}
-        <!-- Abs -->
-        ${region('abs', "M105 125 L135 125 L130 180 L110 180 Z")}
-        <!-- Biceps -->
-        ${region('biceps', [
-          "M55 122 C48 135 45 155 55 170 C62 165 68 150 65 130 Z",
-          "M185 122 C192 135 195 155 185 170 C178 165 172 150 175 130 Z"
-        ])}
-        <!-- Quads -->
-        ${region('quads', [
-          "M95 190 C80 220 75 260 85 290 C95 290 110 250 110 200 Z",
-          "M145 190 C160 220 165 260 155 290 C145 290 130 250 130 200 Z"
-        ])}
-        <!-- Calves -->
-        ${region('calves', [
-          "M85 300 C75 320 80 345 90 360 C98 355 102 335 100 310 Z",
-          "M155 300 C165 320 160 345 150 360 C142 355 138 335 140 310 Z"
-        ])}
-      </svg>`;
-  } else {
-    // Back view
-    svgHtml = `
-      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="premium-grid-back" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(200,169,126,0.03)" stroke-width="0.5"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#premium-grid-back)"/>
-        <line x1="120" y1="45" x2="120" y2="180" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <path d="M108 30 C108 15 132 15 132 30 C132 45 125 50 120 50 C115 50 108 45 108 30 Z" fill="rgba(10,12,16,0.8)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        
-        <!-- Traps -->
-        ${region('traps', "M120 50 L95 72 L82 85 L108 115 L120 120 L132 115 L158 85 L145 72 Z")}
-        <!-- Delts (Back) -->
-        ${region('delts', [
-          "M82 85 C68 95 62 110 68 125 C76 120 82 110 85 98 Z",
-          "M158 85 C172 95 178 110 172 125 C164 120 158 110 155 98 Z"
-        ])}
-        <!-- Triceps -->
-        ${region('triceps', [
-          "M68 127 C60 140 58 160 66 175 C74 170 78 155 75 135 Z",
-          "M172 127 C180 140 182 160 174 175 C166 170 162 155 165 135 Z"
-        ])}
-        <!-- Lats -->
-        ${region('lats', "M82 105 C68 125 72 165 92 185 L108 180 L108 120 Z M158 105 C172 125 168 165 148 185 L132 180 L132 120 Z")}
-        <!-- Hamstrings -->
-        ${region('hamstrings', [
-          "M95 195 C80 225 85 265 95 295 C105 295 110 255 110 205 Z",
-          "M145 195 C160 225 155 265 145 295 C135 295 130 255 130 205 Z"
-        ])}
-        <!-- Calves -->
-        ${region('calves', [
-          "M85 305 C75 325 80 350 90 365 C98 360 102 340 100 315 Z",
-          "M155 305 C165 325 160 350 150 365 C142 360 138 340 140 315 Z"
-        ])}
-      </svg>`;
-  }
-
-  hosts.forEach(host => {
-    host.innerHTML = svgHtml;
-  });
-}

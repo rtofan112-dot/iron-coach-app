@@ -1,4 +1,4 @@
-﻿const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
+const BOT_TOKEN = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY";
 const API_URL = "https://api.telegram.org/bot" + BOT_TOKEN;
 const B64_APP = "__B64_APP_PLACEHOLDER__";
 
@@ -303,71 +303,47 @@ async function handleTelegramMessage(msg, origin) {
     const isUpdateQuery = text.startsWith("/update") || text.startsWith("/news") || text.startsWith("/changelog");
     
     const caption = isUpdateQuery 
-      ? `🚀 <b>ОФИЦИАЛЬНЫЙ РЕЛИЗ IRON COACH v2.9.2 PRO!</b>\n\n` +
-        `🏛 <b>Главные обновления системы:</b>\n\n` +
-        `📚 <b>1. База доказательной науки (Evidence-Based Sports Science):</b>\n` +
-        `• В каждое упражнение подключены рецензируемые исследования (PubMed / JSCR / Sports Medicine / RP).\n` +
-        `• <b>Maeo et al. (2022/2023):</b> Научно доказанная стретч-гипертрофия (+40% роста длинной головки трицепса из-за головы vs блочные жимы вниз!).\n` +
-        `• <b>Pedrosa et al. (2022):</b> Угол 30° для максимальной гипертрофии ключичной части груди.\n` +
-        `• <b>Brad Schoenfeld & Mike Israetel:</b> ЭМГ-активация волокон (% MVC) и расчет оптимального RIR.\n\n` +
-        `📐 <b>2. 100% Уникальные векторные чертежи (Engine 4.0):</b>\n` +
-        `• Индивидуальная геометрия оборудования, скамей и векторов движения для всех 48+ упражнений.\n\n` +
-        `🔬 <b>3. 3-вкладочный модальный экран упражнения:</b>\n` +
-        `• <code>[📐 Биомеханика]</code> — Векторный чертеж, 3 фазы движения (Спуск/Пауза/Выжим), анатомическая карта.\n` +
-        `• <code>[📚 Наука & PubMed]</code> — Стретч-гипертрофия, таблица ЭМГ (% MVC) и цитаты с DOI-ссылками.\n` +
-        `• <code>[✅ Чек-лист PRO]</code> — Ключи идеальной техники и опасные ошибки.\n\n` +
-        `🔔 <b>4. Аутентичный боксерский колокол ринга:</b>\n` +
-        `• Чистый трехкратный звон (Динь-Динь-Диинь) при окончании отдыха без вибрации.\n\n` +
-        `⚡ <b>5. Мгновенная проверка ревизий и кэша:</b>\n` +
-        `• Прямой Edge Worker API (0 мс задержка) и обновление билда в 1 клик.\n\n` +
+      ? `🚀 <b>ОФИЦИАЛЬНЫЙ РЕЛИЗ IRON COACH v2.10.0 PRO!</b>\n\n` +
+        `🏛 <b>Что нового в версии v2.10.0 PRO:</b>\n\n` +
+        `🧬 <b>1. Атлас Анатомии 5.0 (Neuromuscular Load Atlas):</b>\n` +
+        `• Точная анатомическая модель мышц: Грудные (Pectoralis), Дельты, Пресс (6-Pack), V-Taper Широчайшие, Трапеции, Руки и Ноги.\n` +
+        `• Интерактивная подсветка зон нагрузки и расчет оптимального объема гипертрофии (MEV/MAV/MRV).\n\n` +
+        `🏋️‍♂️ <b>2. Добавлена «Тяга штанги в наклоне»:</b>\n` +
+        `• Золотой стандарт для спины: биомеханика наклона 45°, вектор тяги к низу живота, активация широчайших и ромбовидных мышц.\n\n` +
+        `🔬 <b>3. Лаборатория биомеханики упражнений:</b>\n` +
+        `• Векторная визуализация углов, векторов движения и фаз (эксцентрика, пауза, концентрика).\n` +
+        `• Научная база доказательной гипертрофии (PubMed & JSCR, Schoenfeld, Israetel).\n\n` +
+        `🛡️ <b>4. 100% Чистый интерфейс:</b>\n` +
+        `• Полностью убрана любая реклама и стоковые фотографии.\n\n` +
+        `⚡ <b>5. Мгновенная облачная синхронизация:</b>\n` +
+        `• Live Zero-Cache Cloudflare Sync и надежное сохранение прогресса.\n\n` +
         `👇 <b>Нажми кнопку ниже, чтобы открыть обновленный IRON COACH:</b>`
       : `🔥 <b>Привет, ${firstName}!</b> (${username})\n\n` +
-        `Добро пожаловать в <b>IRON COACH ELITE v2.9.2 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
-        `🏛 <b>Что внутри релиза v2.9.2 PRO:</b>\n` +
-        `• <b>Доказательная наука (PubMed & JSCR):</b> ЭМГ-активация (% MVC), исследования Maeo, Schoenfeld, Pedrosa и расчет стретч-гипертрофии\n` +
-        `• <b>3-вкладочный визуализатор:</b> Индивидуальные векторные чертежи оборудования, степпер фаз движения и чек-листы техники\n` +
-        `• <b>Научный тренинг RP & MAV:</b> Защита ЦНС, адаптивная прогрессия нагрузок и умная замена упражнений\n` +
+        `Добро пожаловать в <b>IRON COACH ELITE v2.10.0 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
+        `🏛 <b>Главные возможности v2.10.0 PRO:</b>\n` +
+        `• <b>Атлас Анатомии 5.0:</b> Интерактивная карта нагрузки и восстановления мышечных групп\n` +
+        `• <b>Тяга штанги в наклоне:</b> Полноценное упражнение для спины с правильными углами\n` +
+        `• <b>Научный тренинг RP & MAV:</b> Защита ЦНС, адаптивная прогрессия нагрузок и RIR\n` +
+        `• <b>Биомеханика движений:</b> Пошаговый контроль фаз и чек-листы техники\n` +
         `• <b>Боксерский таймер ринга:</b> Аутентичный трехкратный гонг окончания отдыха\n` +
-        `• <b>Telegram CloudStorage:</b> Неубиваемое облачное сохранение всех замеров и тоннажа\n\n` +
+        `• <b>Без рекламы:</b> Чистый премиальный интерфейс\n\n` +
         `👨‍💻 <b>Разработчик & Архитектор:</b>\n` +
         `<b>Роман Тофан</b> (@rtofan112)\n\n` +
         `👇 <b>Нажми кнопку ниже, чтобы войти:</b>`;
 
-    const photoUrl = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop";
-
-    try {
-      const res = await fetch(API_URL + "/sendPhoto", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          photo: photoUrl,
-          caption: caption,
-          parse_mode: "HTML",
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: "⚡ ВОЙТИ В IRON COACH PRO ⚡", web_app: { url: webAppUrl } }]
-            ]
-          }
-        })
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.description);
-    } catch(err) {
-      await fetch(API_URL + "/sendMessage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: caption,
-          parse_mode: "HTML",
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: "⚡ ВОЙТИ В IRON COACH PRO ⚡", web_app: { url: webAppUrl } }]
-            ]
-          }
-        })
-      });
-    }
+    await fetch(API_URL + "/sendMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: caption,
+        parse_mode: "HTML",
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "⚡ ВОЙТИ В IRON COACH PRO v2.10.0 ⚡", web_app: { url: webAppUrl } }]
+          ]
+        }
+      })
+    });
   }
 }

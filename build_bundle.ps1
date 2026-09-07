@@ -1,13 +1,9 @@
-﻿$dir = $PSScriptRoot
+$dir = $PSScriptRoot
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
 $html = [System.IO.File]::ReadAllText("$dir\index.html", [System.Text.Encoding]::UTF8)
 $css = [System.IO.File]::ReadAllText("$dir\styles.css", [System.Text.Encoding]::UTF8)
-$js1 = [System.IO.File]::ReadAllText("$dir\db_svg.js", [System.Text.Encoding]::UTF8)
-$js2 = [System.IO.File]::ReadAllText("$dir\app.js", [System.Text.Encoding]::UTF8)
-$js = $js1 + "
-
-" + $js2
+$js = [System.IO.File]::ReadAllText("$dir\app.js", [System.Text.Encoding]::UTF8)
 
 $bundle = $html.Replace('<link rel="stylesheet" href="styles.css">', "<style>`n$css`n</style>")
 $bundle = $bundle.Replace('<script src="app.js"></script>', "<script src=`"https://telegram.org/js/telegram-web-app.js`"></script>`n<script>`nif(window.Telegram&&window.Telegram.WebApp){window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}`n$js`n</script>")

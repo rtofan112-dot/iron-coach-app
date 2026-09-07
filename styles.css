@@ -1308,7 +1308,24 @@ textarea:focus-visible,
   stroke-width: 1.2;
 }
 
-.atlas-tissue .atlas-spine { stroke-dasharray: 2 3; }
+.anat-svg-host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 480px;
+  padding: 0.5rem 0;
+}
+
+.anatomy-atlas-svg {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  max-height: 520px;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
+}
 
 .anat-region { cursor: pointer; outline: none; pointer-events: bounding-box; }
 
@@ -1535,7 +1552,17 @@ textarea:focus-visible,
 .motion-canvas-head i { width: 1.4rem; height: 1px; background: linear-gradient(90deg, #5d666b, #67dcb4); position: relative; }
 .motion-canvas-head i::after { content:""; position:absolute; right:-1px; top:-2px; border-left:4px solid #67dcb4; border-top:2px solid transparent; border-bottom:2px solid transparent; }
 
-.motion-svg-container { width: 100%; aspect-ratio: 360 / 248; display: flex; }
+.motion-svg-container {
+  width: 100%;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+  background: radial-gradient(circle at 50% 50%, #151922 0%, #0a0c12 100%);
+  border-radius: 0.75rem;
+}
+.motion-svg-container svg { width: 100%; max-width: 380px; height: auto; display: block; }
 .exercise-motion-svg { width: 100%; height: 100%; display: block; }
 .ex-diagram-container .exercise-motion-svg { height: auto; max-height: 10rem; }
 .exercise-catalog-head { align-items: flex-start; }
