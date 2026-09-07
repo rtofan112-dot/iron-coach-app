@@ -1,4 +1,4 @@
-/**
+﻿/**
  * IRON COACH ELITE - Bio-Analytics & Scientific Hypertrophy Engine
  */
 
@@ -2043,7 +2043,7 @@ function renderMotionEquipment(pose, profile) {
   return result;
 }
 
-function getPremiumExerciseMotionSVG(exerciseName, category) {
+function getExerciseDiagramSVG(exerciseName, category) {
   const profile = getExerciseMotionProfile(exerciseName, category);
   const start = getMotionPose(profile.pattern, 'start');
   const end = getMotionPose(profile.pattern, 'end');
@@ -2097,7 +2097,7 @@ function openExerciseProVisualizer(exIdOrName, source = 'catalog') {
   if (nameEl) nameEl.textContent = info.name;
   if (catEl) catEl.textContent = info.category;
   if (tierEl) tierEl.textContent = info.tier;
-  if (svgContainer) svgContainer.innerHTML = getPremiumExerciseMotionSVG(info.name, info.category);
+  if (svgContainer) svgContainer.innerHTML = getExerciseDiagramSVG(info.name, info.category);
   const planeEl = document.getElementById('vis-motion-plane');
   const jointEl = document.getElementById('vis-motion-joint');
   const intentEl = document.getElementById('vis-motion-intent');
@@ -3847,7 +3847,7 @@ function renderExerciseCatalogList() {
   }
 
   container.innerHTML = filtered.map(ex => {
-    const diagSvg = getPremiumExerciseMotionSVG(ex.name, ex.category);
+    const diagSvg = getExerciseDiagramSVG(ex.name, ex.category);
     return `
       <div class="exercise-catalog-card p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] space-y-2.5 transition-all">
         <div class="exercise-catalog-head flex justify-between items-start gap-2">
@@ -4074,7 +4074,7 @@ function renderActiveWorkoutUI() {
         <span class="ex-phase-badge">${p}</span>
       `).join('');
 
-      const diagramSvg = getPremiumExerciseMotionSVG(ex.name, ex.muscleGroup);
+      const diagramSvg = getExerciseDiagramSVG(ex.name, ex.muscleGroup);
 
       bodyHtml = `
         <div class="pt-3 space-y-2.5 border-t border-white/[0.06] mt-3">
@@ -6748,5 +6748,146 @@ function updateSettingsDisplay() {
   ['gold', 'emerald', 'cyan', 'ruby', 'purple'].forEach(t => {
     const btn = document.getElementById("theme-btn-" + t);
     if (btn) btn.classList.toggle("active", t === curTheme);
+  });
+}
+
+
+// --- PREMIUM ANATOMY MAP OVERRIDE ---
+function renderInteractiveAnatomyMap() {
+  const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
+  if (!hosts.length) return;
+
+  const data = getMuscleVolumeAndRecoveryData();
+  const selKey = selectedAnatomyMuscleKey || 'chest';
+
+  const styleFor = key => {
+    const info = ANATOMY_MUSCLES_DATA[key] || { mav: 14 };
+    const sets = (data[key] || { sets: 0 }).sets;
+    const isSelected = key === selKey;
+    const isPumped = sets >= (info.mav * 0.7);
+    
+    // Premium Minimalist Style: Deep black bg, thin gold lines
+    let fill = "rgba(10, 12, 16, 0.4)";
+    let stroke = "rgba(255, 255, 255, 0.1)";
+    let strokeWidth = "1";
+    let filter = "";
+
+    if (isPumped) {
+      fill = "rgba(200, 169, 126, 0.15)";
+      stroke = "rgba(200, 169, 126, 0.8)";
+    } else if (sets > 0) {
+      fill = "rgba(255, 255, 255, 0.05)";
+      stroke = "rgba(255, 255, 255, 0.3)";
+    }
+
+    if (isSelected) {
+      fill = "rgba(200, 169, 126, 0.25)";
+      stroke = "#c8a97e";
+      strokeWidth = "1.5";
+      filter = "filter: drop-shadow(0 0 8px rgba(200, 169, 126, 0.6));";
+    }
+
+    return { fill, stroke, strokeWidth, filter, isSelected };
+  };
+
+  const region = (key, dPaths) => {
+    const s = styleFor(key);
+    let pathsHtml = "";
+    if (Array.isArray(dPaths)) {
+      pathsHtml = dPaths.map(d => <path d=" + d + " fill=" + s.fill + " stroke=" + s.stroke + " stroke-width=" + s.strokeWidth + "/>).join('');
+    } else {
+      pathsHtml = <path d=" + dPaths + " fill=" + s.fill + " stroke=" + s.stroke + " stroke-width=" + s.strokeWidth + "/>;
+    }
+    return <g onclick="selectAnatomyMuscle(' + key + ')" style="cursor: pointer; transition: all 0.3s ease;  + s.filter + "> + pathsHtml + </g>;
+  };
+
+  let svgHtml = "";
+  if (currentAnatomyView === 'front') {
+    svgHtml = 
+      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="premium-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(200,169,126,0.03)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#premium-grid)"/>
+
+        <!-- Abstract Tech Skeleton -->
+        <line x1="120" y1="45" x2="120" y2="180" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="70" y1="75" x2="170" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        
+        <!-- Head -->
+        <path d="M108 30 C108 15 132 15 132 30 C132 45 125 50 120 50 C115 50 108 45 108 30 Z" fill="rgba(10,12,16,0.8)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        
+        <!-- Delts -->
+         + region('delts', [
+          "M70 75 C55 85 50 105 55 120 C65 115 70 105 75 90 Z",
+          "M170 75 C185 85 190 105 185 120 C175 115 170 105 165 90 Z"
+        ]) + 
+        <!-- Chest -->
+         + region('chest', [
+          "M118 78 C100 76 80 84 75 102 C75 120 105 125 118 120 Z",
+          "M122 78 C140 76 160 84 165 102 C165 120 135 125 122 120 Z"
+        ]) + 
+        <!-- Abs -->
+         + region('abs', "M105 125 L135 125 L130 180 L110 180 Z") + 
+        <!-- Biceps -->
+         + region('biceps', [
+          "M55 122 C48 135 45 155 55 170 C62 165 68 150 65 130 Z",
+          "M185 122 C192 135 195 155 185 170 C178 165 172 150 175 130 Z"
+        ]) + 
+        <!-- Quads -->
+         + region('quads', [
+          "M95 190 C80 220 75 260 85 290 C95 290 110 250 110 200 Z",
+          "M145 190 C160 220 165 260 155 290 C145 290 130 250 130 200 Z"
+        ]) + 
+        <!-- Calves -->
+         + region('calves', [
+          "M85 300 C75 320 80 345 90 360 C98 355 102 335 100 310 Z",
+          "M155 300 C165 320 160 345 150 360 C142 355 138 335 140 310 Z"
+        ]) + 
+      </svg>;
+  } else {
+    // Back view
+    svgHtml = 
+      <svg class="w-full h-full" viewBox="0 0 240 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="premium-grid-back" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(200,169,126,0.03)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#premium-grid-back)"/>
+        <line x1="120" y1="45" x2="120" y2="180" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <path d="M108 30 C108 15 132 15 132 30 C132 45 125 50 120 50 C115 50 108 45 108 30 Z" fill="rgba(10,12,16,0.8)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        
+        <!-- Traps -->
+         + region('traps', "M120 50 L95 72 L82 85 L108 115 L120 120 L132 115 L158 85 L145 72 Z") + 
+        <!-- Delts (Back) -->
+         + region('delts', [
+          "M82 85 C68 95 62 110 68 125 C76 120 82 110 85 98 Z",
+          "M158 85 C172 95 178 110 172 125 C164 120 158 110 155 98 Z"
+        ]) + 
+        <!-- Triceps -->
+         + region('triceps', [
+          "M68 127 C60 140 58 160 66 175 C74 170 78 155 75 135 Z",
+          "M172 127 C180 140 182 160 174 175 C166 170 162 155 165 135 Z"
+        ]) + 
+        <!-- Lats -->
+         + region('lats', "M82 105 C68 125 72 165 92 185 L108 180 L108 120 Z M158 105 C172 125 168 165 148 185 L132 180 L132 120 Z") + 
+        <!-- Hamstrings -->
+         + region('hamstrings', [
+          "M95 195 C80 225 85 265 95 295 C105 295 110 255 110 205 Z",
+          "M145 195 C160 225 155 265 145 295 C135 295 130 255 130 205 Z"
+        ]) + 
+        <!-- Calves -->
+         + region('calves', [
+          "M85 305 C75 325 80 350 90 365 C98 360 102 340 100 315 Z",
+          "M155 305 C165 325 160 350 150 365 C142 360 138 340 140 315 Z"
+        ]) + 
+      </svg>;
+  }
+
+  hosts.forEach(host => {
+    host.innerHTML = svgHtml;
   });
 }
