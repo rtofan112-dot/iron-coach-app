@@ -65,7 +65,7 @@ $workoutData = @{
         name = "Вторник: Ноги, Грудь, Бицепс"
         exercises = @(
             @{ id = "ex1"; name = "Гакк-присед"; sets = 3; minReps = 10; maxReps = 12; weight = 35; tip = "Плавное движение." },
-            @{ id = "ex2"; name = "Болгарские сплит-приседания"; sets = 3; minReps = 10; maxReps = 12; weight = 12; tip = "Упор на пятку передней ноги." },
+            @{ id = "ex2"; name = "Разгибания ног сидя"; sets = 3; minReps = 12; maxReps = 15; weight = 30; tip = "Тяни носки на себя. Изоляция прямой мышцы." },
             @{ id = "ex3"; name = "Румынская тяга"; sets = 3; minReps = 10; maxReps = 12; weight = 22; tip = "Держи спину прямой." },
             @{ id = "ex4"; name = "Сгибания ног лёжа"; sets = 3; minReps = 12; maxReps = 15; weight = 35; tip = "Не отрывай таз от скамьи." },
             @{ id = "ex5"; name = "Жим на наклонной 30°"; sets = 4; minReps = 8; maxReps = 10; weight = 22; tip = "Локти под 60° к телу." },
