@@ -62,9 +62,34 @@ $mainReplyKeyboard = @{
 
 $workoutData = @{
     a = @{
-        name = "Вторник: День А (Квадры + Горизонтальные жимы/тяги)"
+        name = "Вторник: Ноги, Грудь, Бицепс"
         exercises = @(
-            @{ id = "ex1"; name = "Жим ногами в тренажере"; sets = 3; minReps = 10; maxReps = 12; weight = 90; tip = "Вверху колени не вставляй!" },
+            @{ id = "ex1"; name = "Гакк-присед"; sets = 3; minReps = 10; maxReps = 12; weight = 35; tip = "Плавное движение." },
+            @{ id = "ex2"; name = "Болгарские сплит-приседания"; sets = 3; minReps = 10; maxReps = 12; weight = 12; tip = "Упор на пятку передней ноги." },
+            @{ id = "ex3"; name = "Румынская тяга"; sets = 3; minReps = 10; maxReps = 12; weight = 22; tip = "Держи спину прямой." },
+            @{ id = "ex4"; name = "Сгибания ног лёжа"; sets = 3; minReps = 12; maxReps = 15; weight = 35; tip = "Не отрывай таз от скамьи." },
+            @{ id = "ex5"; name = "Жим на наклонной 30°"; sets = 4; minReps = 8; maxReps = 10; weight = 22; tip = "Локти под 60° к телу." },
+            @{ id = "ex6"; name = "Отжимания на брусьях"; sets = 4; minReps = 8; maxReps = 10; weight = 0; tip = "Глубокая растяжка, 83кг BW." },
+            @{ id = "ex7"; name = "Бабочка (Сведение рук)"; sets = 4; minReps = 10; maxReps = 12; weight = 25; tip = "Фокус на растяжении и пиковом сокращении." },
+            @{ id = "ex8"; name = "Подъём EZ-грифа"; sets = 3; minReps = 10; maxReps = 12; weight = 12; tip = "Без заброса спиной." },
+            @{ id = "ex9"; name = "Молотковые сгибания"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Контроль амплитуды." },
+            @{ id = "ex10"; name = "Сгибания на наклонной скамье"; sets = 3; minReps = 10; maxReps = 12; weight = 10; tip = "Максимальное растяжение бицепса в нижней точке." }
+        )
+    }
+    b = @{
+        name = "Четверг: Спина, Плечи, Трицепс"
+        exercises = @(
+            @{ id = "ex1"; name = "Тяга штанги в наклоне"; sets = 4; minReps = 8; maxReps = 10; weight = 50; tip = "Без участия поясницы." },
+            @{ id = "ex2"; name = "Горизонтальная тяга блока"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "Не отклоняй корпус назад." },
+            @{ id = "ex3"; name = "Тяга прямыми руками"; sets = 4; minReps = 12; maxReps = 15; weight = 20; tip = "Изолирует широчайшие." },
+            @{ id = "ex4"; name = "Жим Арнольда"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Плавный разворот кистей." },
+            @{ id = "ex5"; name = "Обратная бабочка"; sets = 3; minReps = 12; maxReps = 15; weight = 15; tip = "Локти параллельно полу." },
+            @{ id = "ex6"; name = "Махи в кроссовере"; sets = 3; minReps = 12; maxReps = 15; weight = 10; tip = "Постоянное натяжение." },
+            @{ id = "ex7"; name = "Французский жим"; sets = 3; minReps = 10; maxReps = 12; weight = 10; tip = "Локти не разводить." },
+            @{ id = "ex8"; name = "Разгибания на блоке"; sets = 3; minReps = 12; maxReps = 15; weight = 20; tip = "Жесткая фиксация локтя." }
+        )
+    }
+},
             @{ id = "ex2"; name = "Жим гантелей на наклонной скамье 30°"; sets = 3; minReps = 8; maxReps = 10; weight = 20; tip = "Локти 60-70° к корпусу, лопатки сведены." },
             @{ id = "ex3"; name = "Тяга горизонтального блока к поясу (нейтрально)"; sets = 3; minReps = 10; maxReps = 12; weight = 45; tip = "🔥 Опусти плечи! Локти веди в задний карман джинсов." },
             @{ id = "ex4"; name = "Сгибания ног в тренажере"; sets = 3; minReps = 12; maxReps = 15; weight = 35; tip = "Плавно опускай 2-3 сек." },
