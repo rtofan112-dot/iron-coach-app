@@ -300,38 +300,8 @@ async function handleTelegramMessage(msg, origin) {
   }
 
   if (text.startsWith("/update") || text.startsWith("/news") || text.startsWith("/changelog") || text.startsWith("/start") || text.startsWith("/app") || text.startsWith("/help")) {
-    const isUpdateQuery = text.startsWith("/update") || text.startsWith("/news") || text.startsWith("/changelog");
-    
-    const caption = isUpdateQuery 
-      ? `🚀 <b>ОФИЦИАЛЬНЫЙ РЕЛИЗ IRON COACH v2.10.0 PRO!</b>\n\n` +
-        `🏛 <b>Что нового в версии v2.10.0 PRO:</b>\n\n` +
-        `🧬 <b>1. Атлас Анатомии 5.0 (Neuromuscular Load Atlas):</b>\n` +
-        `• Точная анатомическая модель мышц: Грудные (Pectoralis), Дельты, Пресс (6-Pack), V-Taper Широчайшие, Трапеции, Руки и Ноги.\n` +
-        `• Интерактивная подсветка зон нагрузки и расчет оптимального объема гипертрофии (MEV/MAV/MRV).\n\n` +
-        `🏋️‍♂️ <b>2. Добавлена «Тяга штанги в наклоне»:</b>\n` +
-        `• Золотой стандарт для спины: биомеханика наклона 45°, вектор тяги к низу живота, активация широчайших и ромбовидных мышц.\n\n` +
-        `🔬 <b>3. Лаборатория биомеханики упражнений:</b>\n` +
-        `• Векторная визуализация углов, векторов движения и фаз (эксцентрика, пауза, концентрика).\n` +
-        `• Научная база доказательной гипертрофии (PubMed & JSCR, Schoenfeld, Israetel).\n\n` +
-        `🛡️ <b>4. 100% Чистый интерфейс:</b>\n` +
-        `• Полностью убрана любая реклама и стоковые фотографии.\n\n` +
-        `⚡ <b>5. Мгновенная облачная синхронизация:</b>\n` +
-        `• Live Zero-Cache Cloudflare Sync и надежное сохранение прогресса.\n\n` +
-        `👇 <b>Нажми кнопку ниже, чтобы открыть обновленный IRON COACH:</b>`
-      : `🔥 <b>Привет, ${firstName}!</b> (${username})\n\n` +
-        `Добро пожаловать в <b>IRON COACH ELITE v2.10.0 PRO</b> — твою персональную био-интеллектуальную систему тренировок и гипертрофии.\n\n` +
-        `🏛 <b>Главные возможности v2.10.0 PRO:</b>\n` +
-        `• <b>Атлас Анатомии 5.0:</b> Интерактивная карта нагрузки и восстановления мышечных групп\n` +
-        `• <b>Тяга штанги в наклоне:</b> Полноценное упражнение для спины с правильными углами\n` +
-        `• <b>Научный тренинг RP & MAV:</b> Защита ЦНС, адаптивная прогрессия нагрузок и RIR\n` +
-        `• <b>Биомеханика движений:</b> Пошаговый контроль фаз и чек-листы техники\n` +
-        `• <b>Боксерский таймер ринга:</b> Аутентичный трехкратный гонг окончания отдыха\n` +
-        `• <b>Без рекламы:</b> Чистый премиальный интерфейс\n\n` +
-        `👨‍💻 <b>Разработчик & Архитектор:</b>\n` +
-        `<b>Роман Тофан</b> (@rtofan112)\n\n` +
-        `👇 <b>Нажми кнопку ниже, чтобы войти:</b>`;
-
-    await fetch(API_URL + "/sendMessage", {
+    const caption = '🔥 <b>Привет, ' + firstName + '!</b>\n\nДобро пожаловать в <b>IRON COACH</b>.\n\n👇 <b>Нажми кнопку ниже, чтобы открыть приложение:</b>';
+      await fetch(API_URL + "/sendMessage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -340,7 +310,7 @@ async function handleTelegramMessage(msg, origin) {
         parse_mode: "HTML",
         reply_markup: {
           inline_keyboard: [
-            [{ text: "⚡ ВОЙТИ В IRON COACH PRO v2.10.0 ⚡", web_app: { url: webAppUrl } }]
+            [{ text: "⚡ ВОЙТИ В IRON COACH ⚡", web_app: { url: webAppUrl } }]
           ]
         }
       })
