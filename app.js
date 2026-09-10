@@ -435,7 +435,7 @@ function renderPersonalizedVitamins() {
         <div class="space-y-0.5 flex-1">
           <div class="flex items-center gap-2">
             <b class="text-white text-xs font-sans">${v.name}</b>
-            <span class="px-2 py-0.5 bg-white/5 border border-white/10 text-[#c8a97e] font-mono text-[10px] rounded-md font-bold">${v.dose}</span>
+            <span class="px-2 py-0.5 bg-white/5 border border-white/10 text-[#c8a97e] font-sans text-[10px] rounded-md font-bold">${v.dose}</span>
           </div>
           <p class="text-[10px] text-slate-400 font-sans">${v.timing}</p>
           <p class="text-[9px] text-slate-500 font-sans leading-tight">${v.purpose}</p>
@@ -464,7 +464,7 @@ function renderPersonalizedVitamins() {
     }
 
     verdictEl.innerHTML = `
-      <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono text-[11px]">
+      <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-sans text-[11px]">
         <span class="text-slate-300 font-bold">🩺 Заключение спортивного врача:</span>
         <b class="${statusColor}">${statusText}</b>
       </div>
@@ -2683,7 +2683,7 @@ function renderPersonalRecords() {
 
   if (prKeys.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.08] text-center text-slate-400 space-y-2 font-mono">
+      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.08] text-center text-slate-400 space-y-2 font-sans">
         <p class="text-xs font-bold text-white uppercase">Рекорды формируются</p>
         <p class="text-[11px] text-slate-400 font-sans">Система автоматически зафиксирует рекорд, когда ты превзойдешь свой рабочий вес или повторения на тренировке.</p>
       </div>
@@ -2702,11 +2702,11 @@ function renderPersonalRecords() {
           <span class="w-2 h-2 rounded-full bg-[#c8a97e]"></span>
           <h4 class="font-bold text-white text-xs font-sans">${exName}</h4>
         </div>
-        <p class="text-xs text-slate-400 font-mono">
+        <p class="text-xs text-slate-400 font-sans">
           Максимум: <b class="text-[#c8a97e] font-bold text-sm">${rec.weight} кг × ${rec.reps}</b>
         </p>
       </div>
-      <div class="text-right font-mono">
+      <div class="text-right font-sans">
         <span class="text-[10px] text-slate-400 block">${rec.date}</span>
         <span class="text-[9px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60 uppercase">Подтверждено</span>
       </div>
@@ -3110,131 +3110,91 @@ function handleAnatomyRegionKey(event, key) {
 }
 
 function renderInteractiveAnatomyMap() {
-  const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
-  if (!hosts.length) return;
+    const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
+    if (!hosts.length) return;
 
-  const data = getMuscleVolumeAndRecoveryData();
-  const selKey = selectedAnatomyMuscleKey || 'chest';
-  const labels = {
-    chest: 'PECTORALIS', delts: 'DELTOID', biceps: 'BICEPS', triceps: 'TRICEPS',
-    traps: 'TRAPEZIUS', lats: 'LATISSIMUS', abs: 'RECTUS ABD.', quads: 'QUADRICEPS',
-    hamstrings: 'POSTERIOR CHAIN', calves: 'GASTROCNEMIUS'
-  };
-
-  const styleFor = key => {
-    const info = ANATOMY_MUSCLES_DATA[key] || { mev: 6, mav: 14, mrv: 20 };
-    const value = data[key] || { sets: 0 };
-    const sets = value.sets || 0;
-    const ratio = info.mav ? sets / info.mav : 0;
-    const selected = key === selKey;
+    const data = getMuscleVolumeAndRecoveryData();
+    const selKey = selectedAnatomyMuscleKey || 'chest';
     
-    // Luxury Titanium Base Palette
-    let fill = '#161a22';
-    let stroke = '#2d3748';
-    let fiber = '#4a5568';
+    // Premium UI Labels
+    const labels = {
+      chest: 'ГРУДНЫЕ (ПЕКТОРАЛЬНЫЕ)', delts: 'ДЕЛЬТОВИДНЫЕ', biceps: 'БИЦЕПС / БРАХИАЛИС', triceps: 'ТРИЦЕПС',
+      traps: 'ТРАПЕЦИЯ', lats: 'ШИРОЧАЙШИЕ (СПИНА)', abs: 'ПРЯМАЯ МЫШЦА ЖИВОТА', quads: 'КВАДРИЦЕПС',
+      hamstrings: 'БИЦЕПС БЕДРА', calves: 'ИКРОНОЖНЫЕ'
+    };
+
+    const styleFor = key => {
+      const info = ANATOMY_MUSCLES_DATA[key] || { mev: 6, mav: 14, mrv: 20 };
+      const sets = (data[key] || {}).sets || 0;
+      const ratio = info.mav ? sets / info.mav : 0;
+      const selected = key === selKey;
+      
+      let fill = '#161a22'; // Base dark
+      let opacity = 0.5;
+      
+      if (ratio > 0) {
+        if (ratio >= 1.0) { fill = '#dfc299'; opacity = 0.9; } // Gold for optimal MAV
+        else if (ratio >= 0.5) { fill = '#c8a97e'; opacity = 0.7; }
+        else { fill = '#475569'; opacity = 0.6; }
+      }
+      
+      let stroke = selected ? '#ffffff' : 'rgba(255,255,255,0.05)';
+      let strokeW = selected ? '1.5' : '0.5';
+      
+      return ill="\" fill-opacity="\" stroke="\" stroke-width="\" style="transition: all 0.3s ease; cursor: pointer;" onclick="selectAnatomyMuscle('\')";
+    };
+
+    const anatomyBase = (viewLabel, isBack) => 
+      <rect width="100%" height="100%" fill="transparent" />
+      <text x="10" y="20" fill="#64748b" font-size="10" font-family="var(--font-sans)" font-weight="700" letter-spacing="1">MUSCLE LOAD ATLAS</text>
+      <text x="10" y="35" fill="#dfc299" font-size="9" font-family="var(--font-mono)">\</text>
+      <!-- Sleek Wireframe Base -->
+      <path d="M160 40c-15 0-25 15-25 35 0 10 5 20 12 25-5 10-25 15-45 25-10 25-15 70-10 110 5 20 15 40 25 50-10 50-15 120-15 160 0 15 10 20 20 20s20-10 25-30c5-10 10-30 13-50 3 20 8 40 13 50 5 20 15 30 25 30s20-5 20-20c0-40-5-110-15-160 10-10 20-30 25-50 5-40 0-85-10-110-20-10-40-15-45-25 7-5 12-15 12-25 0-20-10-35-25-35z" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    ;
+
+    const region = (key, shapeGroup) => <g class="anat-region hover:opacity-80 transition-opacity" \>\</g>;
+
+    // Premium vectorized regions (Simplified for sleek aesthetic)
+    const frontRegions = 
+      \
+      \
+      \
+      \
+      \
+      \
+    ;
+    const backRegions = 
+      \
+      \
+      \
+      \
+      \
+    ;
+
+    const pointMap = currentAnatomyView === 'front'
+      ? { chest:[160,125], delts:[210,115], biceps:[230,175], abs:[160,195], quads:[195,300], calves:[195,415] }
+      : { traps:[160,85], delts:[210,115], triceps:[220,170], lats:[185,150], hamstrings:[190,310], calves:[195,415] };
     
-    if (sets >= info.mev && sets <= info.mav) {
-      // Optimal Hypertrophy MAV (Emerald Glow)
-      fill = 'rgba(16, 185, 129, 0.35)'; stroke = '#10b981'; fiber = '#6ee7b7';
-    } else if (sets > info.mav) {
-      // Overload / Fatigued
-      fill = sets > info.mrv ? 'rgba(244, 63, 94, 0.35)' : 'rgba(217, 119, 6, 0.35)';
-      stroke = sets > info.mrv ? '#f43f5e' : '#f59e0b';
-      fiber = sets > info.mrv ? '#fda4af' : '#fcd34d';
-    } else if (sets > 0) {
-      // Active Loading
-      fill = 'rgba(56, 189, 248, 0.25)'; stroke = '#38bdf8'; fiber = '#7dd3fc';
-    }
+    const point = pointMap[selKey] || [160, 260];
+    const callout = <g class="anat-selection-callout" aria-hidden="true" style="pointer-events:none;">
+      <line x1="\" y1="\" x2="280" y2="\" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2,2"/>
+      <circle cx="\" cy="\" r="4" fill="#dfc299"/>
+      <circle cx="\" cy="\" r="12" fill="transparent" stroke="#dfc299" stroke-width="1" opacity="0.5"/>
+      <text x="280" y="\" text-anchor="end" fill="#ffffff" font-size="9" font-family="var(--font-sans)" font-weight="bold">\</text>
+    </g>;
 
-    if (selected) {
-      // High-End Pure Gold Radiance
-      fill = 'rgba(200, 169, 126, 0.45)';
-      stroke = '#c8a97e';
-      fiber = '#fdf2e2';
-    }
-    return { fill, stroke, fiber, selected, ratio };
-  };
+    const viewLabel = currentAnatomyView === 'front' ? '01 / ANTERIOR (FRONT)' : '02 / POSTERIOR (BACK)';
+    const regions = currentAnatomyView === 'front' ? frontRegions : backRegions;
+    
+    const svg = <svg class="anatomy-atlas-svg" width="100%" height="100%" viewBox="0 0 320 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+      \
+      \
+      \
+    </svg>;
 
-  const region = (key, shapes, fibers = '') => {
-    const s = styleFor(key);
-    return `<g class="anat-region${s.selected ? ' is-selected' : ''}" role="button" tabindex="0" aria-label="${ANATOMY_MUSCLES_DATA[key].name}" data-muscle="${key}" style="--muscle-fill:${s.fill};--muscle-stroke:${s.stroke};--fiber-stroke:${s.fiber}" onclick="selectAnatomyMuscle('${key}')" onkeydown="handleAnatomyRegionKey(event,'${key}')">${shapes}<g class="anat-fibers" aria-hidden="true">${fibers}</g></g>`;
-  };
-
-  const anatomyBase = (viewLabel, back = false) => `
-    <defs>
-      <linearGradient id="tissueGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#252b2f"/><stop offset="0.5" stop-color="#171b1e"/><stop offset="1" stop-color="#0f1214"/></linearGradient>
-      <radialGradient id="headGradient" cx="42%" cy="32%" r="70%"><stop offset="0" stop-color="#333a3f"/><stop offset="1" stop-color="#15191c"/></radialGradient>
-      <pattern id="atlasGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#ffffff" stroke-opacity=".025" stroke-width="1"/></pattern>
-      <filter id="selectedGlow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    </defs>
-    <rect width="320" height="520" rx="24" fill="#0b0e10"/>
-    <rect x="1" y="1" width="318" height="518" rx="23" fill="url(#atlasGrid)" stroke="#ffffff" stroke-opacity=".06"/>
-    <text class="atlas-coordinate" x="18" y="27">${viewLabel}</text>
-    <path class="atlas-reference-line" d="M160 34V500"/>
-    <g class="atlas-tissue" aria-hidden="true">
-      <ellipse cx="160" cy="54" rx="25" ry="31" fill="url(#headGradient)"/>
-      <path d="M145 78c2 11-2 17-10 23h50c-8-6-12-12-10-23z" fill="url(#tissueGradient)"/>
-      <path d="M135 95C116 96 99 101 91 116c-9 18-3 42 6 62l12 31c6 17 2 40-4 62 11 19 31 29 55 29s44-10 55-29c-6-22-10-45-4-62l12-31c9-20 15-44 6-62-8-15-25-20-44-21l-25 12z" fill="url(#tissueGradient)"/>
-      <path d="M102 119C79 139 75 169 70 203L61 267"/><path d="M218 119c23 20 27 50 32 84l9 64"/>
-      <path d="M112 276c-9 25-8 57-5 86l4 45-10 82"/><path d="M208 276c9 25 8 57 5 86l-4 45 10 82"/>
-      <path d="M132 291c3 19 2 46-1 69l-4 48-7 81M188 291c-3 19-2 46 1 69l4 48 7 81"/>
-      <path class="atlas-joint-line" d="M91 117 70 203 61 267M229 117l21 86 9 64M132 291l-1 69-4 48-7 81M188 291l1 69 4 48 7 81"/>
-      ${back ? '<path class="atlas-spine" d="M160 94c-3 35 3 59 0 91s3 63 0 102"/>' : '<path class="atlas-midline" d="M160 108v174"/>'}
-    </g>`;
-
-  const frontRegions = `
-    ${region('delts',
-      '<path class="anat-muscle-shape" d="M132 99c-16-4-31 3-38 17-4 10-1 21 3 29 12-3 22-14 29-28z"/><path class="anat-muscle-shape" d="M188 99c16-4 31 3 38 17 4 10 1 21-3 29-12-3-22-14-29-28z"/>',
-      '<path d="M99 119c10-7 19-9 27-8M221 119c-10-7-19-9-27-8"/>')}
-    ${region('chest',
-      '<path class="anat-muscle-shape" d="M158 108c-20-9-43-7-58 7-6 7-5 22 1 31 15 12 37 14 57 4z"/><path class="anat-muscle-shape" d="M162 108c20-9 43-7 58 7 6 7 5 22-1 31-15 12-37 14-57 4z"/>',
-      '<path d="M154 118c-18-5-35-2-48 6M154 128c-19-2-35 2-49 8M166 118c18-5 35-2 48 6M166 128c19-2 35 2 49 8"/>')}
-    ${region('biceps',
-      '<path class="anat-muscle-shape" d="M91 145c-10 10-14 31-14 49 0 14 4 23 10 27 9-10 14-31 14-50 0-13-3-22-10-26z"/><path class="anat-muscle-shape" d="M229 145c10 10 14 31 14 49 0 14-4 23-10 27-9-10-14-31-14-50 0-13 3-22 10-26z"/>',
-      '<path d="M91 153c-6 19-8 39-7 58M229 153c6 19 8 39 7 58"/>')}
-    ${region('abs',
-      '<path class="anat-muscle-shape" d="M137 156c8 4 14 4 20 1v94c-8 6-15 5-23-1 5-32 4-63 3-94z"/><path class="anat-muscle-shape" d="M183 156c-8 4-14 4-20 1v94c8 6 15 5 23-1-5-32-4-63-3-94z"/><path class="anat-muscle-shape secondary" d="M132 159c-11 15-14 38-12 63 1 17 5 30 13 40l10-10c-6-31-5-60-6-92z"/><path class="anat-muscle-shape secondary" d="M188 159c11 15 14 38 12 63-1 17-5 30-13 40l-10-10c6-31 5-60 6-92z"/>',
-      '<path d="M139 177h17m-18 20h18m-19 21h19m8-41h17m-17 20h18m-18 21h19"/>')}
-    ${region('quads',
-      '<path class="anat-muscle-shape" d="M116 286c-11 25-12 55-7 91 2 15 8 25 18 28 9-24 13-50 13-77 0-21-8-35-24-42z"/><path class="anat-muscle-shape" d="M204 286c11 25 12 55 7 91-2 15-8 25-18 28-9-24-13-50-13-77 0-21 8-35 24-42z"/><path class="anat-muscle-shape secondary" d="M142 292c-8 22-9 54-5 89l13 19c7-33 7-74 1-104z"/><path class="anat-muscle-shape secondary" d="M178 292c8 22 9 54 5 89l-13 19c-7-33-7-74-1-104z"/>',
-      '<path d="M122 299c1 35 0 67-4 93M136 303c6 31 8 58 7 82M198 299c-1 35 0 67 4 93M184 303c-6 31-8 58-7 82"/>')}
-    ${region('calves',
-      '<path class="anat-muscle-shape" d="M106 414c-8 14-9 38-6 55 2 10 7 16 13 17 8-16 11-38 8-57-2-9-7-14-15-15z"/><path class="anat-muscle-shape" d="M214 414c8 14 9 38 6 55-2 10-7 16-13 17-8-16-11-38-8-57 2-9 7-14 15-15z"/>',
-      '<path d="M110 423c-3 20-4 38-2 54M210 423c3 20 4 38 2 54"/>')}`;
-
-  const backRegions = `
-    ${region('traps',
-      '<path class="anat-muscle-shape" d="M159 86c-10 11-20 18-35 23l15 48 21 25 21-25 15-48c-15-5-25-12-35-23z"/>',
-      '<path d="M160 94v76M151 105l-15 44M169 105l15 44"/>')}
-    ${region('delts',
-      '<path class="anat-muscle-shape" d="M125 101c-16-5-30 1-38 15-5 10-2 23 5 31 12-4 24-16 31-30z"/><path class="anat-muscle-shape" d="M195 101c16-5 30 1 38 15 5 10 2 23-5 31-12-4-24-16-31-30z"/>',
-      '<path d="M94 120c10-7 19-9 28-8M226 120c-10-7-19-9-28-8"/>')}
-    ${region('triceps',
-      '<path class="anat-muscle-shape" d="M91 146c-10 14-13 34-11 53 1 12 6 21 12 23 9-14 13-33 11-52-1-12-5-20-12-24z"/><path class="anat-muscle-shape" d="M229 146c10 14 13 34 11 53-1 12-6 21-12 23-9-14-13-33-11-52 1-12 5-20 12-24z"/>',
-      '<path d="M91 154c4 19 3 39-4 58M229 154c-4 19-3 39 4 58"/>')}
-    ${region('lats',
-      '<path class="anat-muscle-shape" d="M132 129c-20 5-31 18-36 38-5 24 3 58 27 91 11-11 18-27 23-48l9-69z"/><path class="anat-muscle-shape" d="M188 129c20 5 31 18 36 38 5 24-3 58-27 91-11-11-18-27-23-48l-9-69z"/>',
-      '<path d="M133 139c-15 23-22 55-18 91M187 139c15 23 22 55 18 91M142 148c-9 30-12 57-9 80M178 148c9 30 12 57 9 80"/>')}
-    ${region('hamstrings',
-      '<path class="anat-muscle-shape" d="M110 263c3 24 20 38 48 39l-1-34c-17-8-33-10-47-5z"/><path class="anat-muscle-shape" d="M210 263c-3 24-20 38-48 39l1-34c17-8 33-10 47-5z"/><path class="anat-muscle-shape" d="M115 303c-9 24-9 57-3 91 3 12 9 20 17 22 10-31 15-72 10-104-8-7-16-10-24-9z"/><path class="anat-muscle-shape" d="M205 303c9 24 9 57 3 91-3 12-9 20-17 22-10-31-15-72-10-104 8-7 16-10 24-9z"/>',
-      '<path d="M120 315c2 33 1 63-4 89M136 318c-2 34-6 62-12 86M200 315c-2 33-1 63 4 89M184 318c2 34 6 62 12 86"/>')}
-    ${region('calves',
-      '<path class="anat-muscle-shape" d="M105 414c-11 14-13 38-8 58 3 11 9 16 16 15 9-17 12-39 8-58-2-10-8-15-16-15z"/><path class="anat-muscle-shape" d="M215 414c11 14 13 38 8 58-3 11-9 16-16 15-9-17-12-39-8-58 2-10 8-15 16-15z"/>',
-      '<path d="M108 423c-3 20-3 39 1 55M212 423c3 20 3 39-1 55"/>')}`;
-
-  const pointMap = currentAnatomyView === 'front'
-    ? { chest:[198,137], delts:[222,119], biceps:[235,181], abs:[181,210], quads:[204,350], calves:[214,451] }
-    : { traps:[181,120], delts:[225,120], triceps:[232,184], lats:[207,208], hamstrings:[201,350], calves:[214,452] };
-  const point = pointMap[selKey] || [160, 260];
-  const callout = `<g class="anat-selection-callout" aria-hidden="true"><circle cx="${point[0]}" cy="${point[1]}" r="4"/><path d="M${point[0] + 5} ${point[1]}H298"/><text x="298" y="${point[1] - 8}" text-anchor="end">${labels[selKey] || 'MUSCLE'}</text></g>`;
-  const viewLabel = currentAnatomyView === 'front' ? '01 / ANTERIOR' : '02 / POSTERIOR';
-  const regions = currentAnatomyView === 'front' ? frontRegions : backRegions;
-  const svg = `<svg class="anatomy-atlas-svg" width="320" height="520" viewBox="0 0 320 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${currentAnatomyView === 'front' ? 'Передняя' : 'Задняя'} анатомическая карта тренировочной нагрузки">${anatomyBase(viewLabel, currentAnatomyView === 'back')}${regions}${callout}</svg>`;
-
-  hosts.forEach(host => { host.innerHTML = svg; });
-  updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: null });
+    hosts.forEach(host => { host.innerHTML = svg; });
+    updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: null });
 }
-
 
 function renderMuscleVolumeBreakdown() {
   const container = document.getElementById("muscle-volume-container");
@@ -3278,7 +3238,7 @@ function renderMuscleVolumeBreakdown() {
         <div class="flex justify-between items-center text-[11px]">
           <span class="font-bold text-white uppercase">${t.group}</span>
           <div class="flex items-center space-x-2">
-            <span class="text-slate-400 font-mono">${t.current} из ${t.mav} сетов/нед</span>
+            <span class="text-slate-400 font-sans">${t.current} из ${t.mav} сетов/нед</span>
             <span class="text-[9px] font-bold text-[#c8a97e]">${status}</span>
           </div>
         </div>
@@ -3371,12 +3331,12 @@ function renderAchievementsList() {
           <h4 class="font-bold text-xs ${isUnlocked ? 'text-[#c8a97e]' : 'text-slate-300'} font-sans">${ach.title}</h4>
           <p class="text-[11px] text-slate-400 font-sans mt-0.5">${ach.desc}</p>
         </div>
-        <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold font-mono ${isUnlocked ? 'bg-[#c8a97e] text-slate-950' : 'bg-[#181b26] text-slate-400 border border-white/5'}">
+        <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold font-sans ${isUnlocked ? 'bg-[#c8a97e] text-slate-950' : 'bg-[#181b26] text-slate-400 border border-white/5'}">
           ${isUnlocked ? 'ОТКРЫТО' : `+${ach.xp} XP`}
         </span>
       </div>
 
-      <div class="space-y-1 font-mono text-[10px]">
+      <div class="space-y-1 font-sans text-[10px]">
         <div class="flex justify-between text-slate-400">
           <span>Прогресс: <b class="${isUnlocked ? 'text-white' : 'text-slate-300'}">${curVal.toLocaleString()} / ${ach.target.toLocaleString()}</b></span>
           <span>${pct}%</span>
@@ -3532,7 +3492,7 @@ function renderExerciseCatalogList() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
+      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-sans">
         <p class="text-xs font-bold text-slate-300 uppercase">Упражнение не найдено</p>
         <p class="text-[11px] text-slate-500 font-sans">Создай свое упражнение вручную с помощью кнопки внизу.</p>
       </div>
@@ -3547,16 +3507,16 @@ function renderExerciseCatalogList() {
         <div class="exercise-catalog-head flex justify-between items-start gap-2">
           <div class="space-y-0.5 flex-1 cursor-pointer" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')">
             <div class="flex items-center space-x-1.5">
-              <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-[#c8a97e]/30 rounded uppercase">${ex.category}</span>
+              <span class="text-[9px] font-sans font-bold px-1.5 py-0.2 bg-white/5 text-[#c8a97e] border border-[#c8a97e]/30 rounded uppercase">${ex.category}</span>
               <h4 class="font-bold text-xs text-white leading-tight hover:text-[#c8a97e] transition-colors">${ex.name}</h4>
             </div>
-            <p class="text-[10px] text-slate-400 font-mono">${ex.targetMuscles}</p>
+            <p class="text-[10px] text-slate-400 font-sans">${ex.targetMuscles}</p>
           </div>
           <div class="exercise-catalog-actions flex items-center space-x-1.5">
-            <button type="button" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="px-2 py-1.5 bg-[#181b26] hover:bg-white/10 text-slate-300 hover:text-white rounded-xl border border-white/10 text-[10px] font-bold font-mono active:scale-95 transition-all flex items-center gap-1">
+            <button type="button" onclick="openExerciseProVisualizer('${ex.id}', 'catalog')" class="px-2 py-1.5 bg-[#181b26] hover:bg-white/10 text-slate-300 hover:text-white rounded-xl border border-white/10 text-[10px] font-bold font-sans active:scale-95 transition-all flex items-center gap-1">
               <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-5 3 2 3-6"/></svg><span>Motion Lab</span>
             </button>
-            <button type="button" onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+            <button type="button" onclick="addExerciseFromCatalogToActiveWorkout('${ex.id}')" class="px-3 py-1.5 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-sans active:scale-95 transition-all whitespace-nowrap shadow-sm">
               + В план
             </button>
           </div>
@@ -3567,7 +3527,7 @@ function renderExerciseCatalogList() {
           ${diagSvg}
         </div>
 
-        <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-white/[0.04] pt-1.5">
+        <div class="flex justify-between items-center text-[10px] font-sans text-slate-400 border-t border-white/[0.04] pt-1.5">
           <span>Норма: <b class="text-white">${ex.defaultSets}×${ex.min}-${ex.max}</b> (${ex.defaultWeight} кг)</span>
           <span class="text-emerald-400 inline-flex items-center gap-1"><svg class="w-3 h-3 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-.6 3-3 4.5-3 7a5 5 0 0 0 10 0c0-2.5-2.4-4-3-7-1 2-2 3-4 0z"/></svg>~${ex.calRate * ex.defaultSets} ккал</span>
         </div>
@@ -3683,7 +3643,7 @@ function renderActiveWorkoutUI() {
 
   if (wo.exercises.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
+      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-sans">
         <p class="text-xs font-bold text-slate-200 uppercase">Тренировка пока пуста</p>
         <p class="text-[11px] text-slate-400 font-sans">Нажми кнопку «Выбрать упражнение из каталога» выше!</p>
       </div>
@@ -3705,15 +3665,15 @@ function renderActiveWorkoutUI() {
     const headerHtml = `
       <div class="flex justify-between items-center select-none">
         <div onclick="toggleExerciseAccordion(${exIdx})" class="flex items-center space-x-2.5 cursor-pointer flex-1">
-          <span class="w-6 h-6 rounded-lg ${isAllDone ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800' : isExpanded ? 'bg-white/10 text-white border border-white/20' : 'bg-[#181b26] text-slate-400'} flex items-center justify-center font-mono font-bold text-xs">
+          <span class="w-6 h-6 rounded-lg ${isAllDone ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800' : isExpanded ? 'bg-white/10 text-white border border-white/20' : 'bg-[#181b26] text-slate-400'} flex items-center justify-center font-sans font-bold text-xs">
             ${isAllDone ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : exIdx + 1}
           </span>
           <div>
             <div class="flex items-center gap-2">
               <h3 class="font-bold text-white text-xs sm:text-sm font-sans">${ex.name}</h3>
-              ${overload ? `<span class="px-1.5 py-0.2 rounded bg-[#c8a97e]/20 text-[#c8a97e] border border-[#c8a97e]/40 font-mono text-[9px] font-bold">${overload.note}</span>` : ''}
+              ${overload ? `<span class="px-1.5 py-0.2 rounded bg-[#c8a97e]/20 text-[#c8a97e] border border-[#c8a97e]/40 font-sans text-[9px] font-bold">${overload.note}</span>` : ''}
             </div>
-            <div class="flex items-center space-x-2 font-mono text-[11px] mt-0.5">
+            <div class="flex items-center space-x-2 font-sans text-[11px] mt-0.5">
               <span class="${isAllDone ? 'text-emerald-400' : 'text-slate-400'} font-medium">
                 ${isAllDone ? `Все ${ex.sets.length} сетов закрыты` : `${doneSetsCount} из ${ex.sets.length} выполнено`}
               </span>
@@ -3721,7 +3681,7 @@ function renderActiveWorkoutUI() {
             </div>
           </div>
         </div>
-        <div class="flex items-center space-x-1 font-mono">
+        <div class="flex items-center space-x-1 font-sans">
           <button onclick="deleteExerciseFromActiveWorkout(${exIdx})" title="Удалить упражнение" class="p-1.5 text-slate-400 hover:text-rose-400 active:scale-90 transition-all">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           </button>
@@ -3733,7 +3693,7 @@ function renderActiveWorkoutUI() {
     let bodyHtml = "";
     if (isExpanded) {
       const setsRows = ex.sets.map((s, sIdx) => `
-        <div class="grid grid-cols-12 gap-1.5 items-center bg-[#0c0d14] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-mono text-xs">
+        <div class="grid grid-cols-12 gap-1.5 items-center bg-[#0c0d14] p-2.5 rounded-xl border ${s.done ? 'border-emerald-500/60 bg-emerald-950/20' : 'border-white/[0.05]'} font-sans text-xs">
           <div class="col-span-1 text-center font-bold ${s.done ? 'text-emerald-400' : 'text-slate-400'}">#${s.set}</div>
           
           <div class="col-span-5 flex items-center bg-[#181b26] px-1 py-1 rounded-xl border border-white/10 justify-between">
@@ -3774,7 +3734,7 @@ function renderActiveWorkoutUI() {
         <div class="pt-3 space-y-2.5 border-t border-white/[0.06] mt-3">
           
           <!-- ЗАГОЛОВКИ КОЛОНОК СЕТОВ С ПОДСКАЗКОЙ -->
-          <div class="grid grid-cols-12 gap-1.5 text-[9px] font-mono text-slate-400 uppercase pb-0.5 px-1 select-none">
+          <div class="grid grid-cols-12 gap-1.5 text-[9px] font-sans text-slate-400 uppercase pb-0.5 px-1 select-none">
             <div class="col-span-1 text-center">Сет</div>
             <div class="col-span-5 text-center">Вес</div>
             <div class="col-span-3 text-center">Повторы</div>
@@ -3786,7 +3746,7 @@ function renderActiveWorkoutUI() {
           <div class="space-y-1.5">${setsRows}</div>
 
           <!-- ПАНЕЛЬ ДЕЙСТВИЙ СЕТОВ -->
-          <div class="flex justify-between items-center text-xs font-mono pt-1">
+          <div class="flex justify-between items-center text-xs font-sans pt-1">
             <div class="flex space-x-2">
               <button type="button" onclick="addSetToExercise(${exIdx})" class="text-[#c8a97e] font-bold text-[11px] hover:underline">+ Подход</button>
               ${ex.sets.length > 1 ? `<button type="button" onclick="removeSetFromExercise(${exIdx})" class="text-slate-500 text-[11px] hover:underline">- Подход</button>` : ''}
@@ -3811,7 +3771,7 @@ function renderActiveWorkoutUI() {
             </div>
 
             <div class="p-3.5 bg-[#0c0d14] rounded-2xl border border-white/[0.06] space-y-2.5">
-              <div class="flex justify-between items-center text-[10px] font-mono">
+              <div class="flex justify-between items-center text-[10px] font-sans">
                 <span class="text-[#c8a97e] font-bold uppercase">${ex.targetMuscles || 'Целевые зоны'}</span>
                 <button type="button" onclick="openExerciseProVisualizer('${ex.name.replace(/'/g, "\\'")}', 'active')" class="text-[9px] text-[#c8a97e] bg-[#181b26] px-2 py-0.5 rounded uppercase font-bold hover:underline">
                   Motion Lab →
@@ -3824,7 +3784,7 @@ function renderActiveWorkoutUI() {
                 <div>
                   <b class="text-white">ТЕХНИКА:</b> ${ex.tip}
                 </div>
-                <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[10px] text-slate-300">
+                <div class="grid grid-cols-2 gap-2 pt-1 font-sans text-[10px] text-slate-300">
                   <div class="p-2 bg-[#181b26] rounded-xl border border-white/[0.04]">
                     <span class="text-slate-400 block uppercase">ДЫХАНИЕ:</span>
                     <span class="text-white">Вдох 2–3с на спуске, выдох на мощном выжиме (без задержек).</span>
@@ -4172,16 +4132,16 @@ function renderSwapExerciseAlternativesList() {
   if (list.length === 0) {
     if (currentSwapFilter === 'twins') {
       container.innerHTML = `
-        <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center space-y-2 font-mono">
+        <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center space-y-2 font-sans">
           <p class="text-xs font-bold text-[#c8a97e] uppercase">Прямых 1-в-1 аналогов нет</p>
           <p class="text-[11px] text-slate-300 font-sans leading-relaxed">
             Это упражнение обладает уникальной изолированной биомеханикой. У него нет идентичного 1-в-1 дубля по углу и вектору.
           </p>
           <div class="pt-2 flex justify-center space-x-2">
-            <button onclick="setSwapCategoryFilter('same-group')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-[11px] font-mono">
+            <button onclick="setSwapCategoryFilter('same-group')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-[11px] font-sans">
               Показать группу «${currentEx.muscleGroup}»
             </button>
-            <button onclick="setSwapCategoryFilter('all')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-slate-300 rounded-xl text-[11px] font-mono">
+            <button onclick="setSwapCategoryFilter('all')" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-slate-300 rounded-xl text-[11px] font-sans">
               Весь каталог
             </button>
           </div>
@@ -4189,7 +4149,7 @@ function renderSwapExerciseAlternativesList() {
       `;
     } else {
       container.innerHTML = `
-        <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-mono">
+        <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-1 font-sans">
           <p class="text-xs font-bold text-slate-300 uppercase">Упражнения не найдены</p>
           <p class="text-[11px] text-slate-500 font-sans">Попробуй изменить поисковый запрос или выбрать другую вкладку.</p>
         </div>
@@ -4207,13 +4167,13 @@ function renderSwapExerciseAlternativesList() {
       <div class="p-3.5 bg-[#12141c] hover:bg-[#181b26] rounded-2xl border border-white/[0.06] flex justify-between items-center space-x-2 transition-all">
         <div class="space-y-1 pr-1 flex-1 min-w-0">
           <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
-            <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 border rounded uppercase ${badgeBg}">${badgeText}</span>
+            <span class="text-[9px] font-sans font-bold px-1.5 py-0.2 border rounded uppercase ${badgeBg}">${badgeText}</span>
             <h4 class="font-bold text-xs text-white leading-tight">${dbEx.name}</h4>
           </div>
-          <p class="text-[11px] text-slate-400 font-mono">${dbEx.targetMuscles || ''}</p>
+          <p class="text-[11px] text-slate-400 font-sans">${dbEx.targetMuscles || ''}</p>
           <p class="text-[10px] text-slate-500 font-sans truncate max-w-[260px]">💡 ${dbEx.tip || ''}</p>
         </div>
-        <button onclick="executeSwapExercise('${dbEx.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-mono active:scale-95 transition-all whitespace-nowrap shadow-sm">
+        <button onclick="executeSwapExercise('${dbEx.id}')" class="px-3 py-2 bg-[#c8a97e] hover:bg-[#dfc299] text-slate-950 font-bold text-xs uppercase rounded-xl font-sans active:scale-95 transition-all whitespace-nowrap shadow-sm">
           Заменить
         </button>
       </div>
@@ -4817,7 +4777,7 @@ function finishActiveWorkout() {
     exListEl.innerHTML = exSummaries.map(e => `
       <div class="p-2 bg-[#121522] rounded-xl border border-white/[0.04] flex justify-between items-center text-[11px] font-sans">
         <span class="text-slate-300 font-medium">${e.name}</span>
-        <div class="text-right font-mono">
+        <div class="text-right font-sans">
           <span class="text-white font-bold block">${e.sets}</span>
           <span class="text-[10px] text-[#c8a97e]">${e.prog || ''}</span>
         </div>
@@ -5035,42 +4995,42 @@ function selectCalendarDay(dateStr, status, woData) {
 
   if (status === 'done' && woData) {
     inspBadge.textContent = "ВЫПОЛНЕНО ✓";
-    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 rounded-lg text-xs font-bold font-sans";
     const timeInfo = woData.startTimeStr ? `${woData.startTimeStr} – ${woData.endTimeStr || '...'} (${woData.durationMin || 45} мин)` : `~45 мин`;
     inspContent.innerHTML = `
       <p><b>${woData.name}</b></p>
-      <p class="text-[11px] text-slate-400 font-mono">${timeInfo} • Тоннаж: <b class="text-white">${woData.tonnage} кг</b> • <b class="text-[#c8a97e]">~${woData.calories || 350} ккал</b></p>
+      <p class="text-[11px] text-slate-400 font-sans">${timeInfo} • Тоннаж: <b class="text-white">${woData.tonnage} кг</b> • <b class="text-[#c8a97e]">~${woData.calories || 350} ккал</b></p>
     `;
     if (inspActions) inspActions.innerHTML = "";
   } else if (status === 'missed') {
     inspBadge.textContent = "ПРОПУСК";
-    inspBadge.className = "px-2.5 py-0.5 bg-rose-950/80 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-rose-950/80 text-rose-400 border border-rose-800 rounded-lg text-xs font-bold font-sans";
     inspContent.textContent = "Плановая тренировка не была выполнена. Можно провести внепланово:";
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-[#c8a97e] border border-[#c8a97e]/30 rounded-xl font-bold font-mono text-xs">
+        <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-[#c8a97e] border border-[#c8a97e]/30 rounded-xl font-bold font-sans text-xs">
           ▶ Начать тренировку за этот день
         </button>
       `;
     }
   } else if (status === 'plan') {
     inspBadge.textContent = "ПО ПЛАНУ";
-    inspBadge.className = "px-2.5 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-800 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-800 rounded-lg text-xs font-bold font-sans";
     inspContent.textContent = "Плановый тренировочный день персонального графика (ВТ / ЧТ).";
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 btn-gold font-bold font-mono text-xs rounded-xl">
+        <button onclick="promptReadinessBeforeWorkout('a', '${dateStr}')" class="w-full py-2 btn-gold font-bold font-sans text-xs rounded-xl">
           ▶ Начать плановую тренировку
         </button>
       `;
     }
   } else {
     inspBadge.textContent = "ОТДЫХ";
-    inspBadge.className = "px-2.5 py-0.5 bg-white/5 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-mono";
+    inspBadge.className = "px-2.5 py-0.5 bg-white/5 text-slate-400 border border-white/10 rounded-lg text-xs font-bold font-sans";
     inspContent.textContent = "День суперкомпенсации и восстановления мышц.";
     if (inspActions) {
       inspActions.innerHTML = `
-        <button onclick="openModal('modal-date-workout-picker')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 rounded-xl font-bold font-mono text-xs">
+        <button onclick="openModal('modal-date-workout-picker')" class="w-full py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 rounded-xl font-bold font-sans text-xs">
           + Провести внеплановую тренировку
         </button>
       `;
@@ -5109,11 +5069,11 @@ function render12MonthsAnnualBreakdown() {
     pill.onclick = () => jumpToMonth(m);
 
     pill.innerHTML = `
-      <div class="flex justify-between items-center text-[10px] font-mono">
+      <div class="flex justify-between items-center text-[10px] font-sans">
         <b class="${isActiveMonth ? 'text-[#c8a97e]' : 'text-white'}">${MONTH_SHORT[m]}</b>
         <span class="text-slate-400">${monthHist.length} сесс.</span>
       </div>
-      <div class="text-[11px] font-mono font-bold ${monthTon > 0 ? 'text-white' : 'text-slate-600'}">
+      <div class="text-[11px] font-sans font-bold ${monthTon > 0 ? 'text-white' : 'text-slate-600'}">
         ${monthTon > 0 ? (monthTon / 1000).toFixed(1) + ' т' : '—'}
       </div>
     `;
@@ -5176,13 +5136,13 @@ function updateWHtRBadge(waist, height = 178) {
   const ratio = Math.round((waist / height) * 100);
   if (ratio <= 49) {
     badge.textContent = `Норма (${ratio}%)`;
-    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60";
+    badge.className = "px-2.5 py-1 text-xs font-sans font-bold rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60";
   } else if (ratio <= 53) {
     badge.textContent = `Умеренный жир (${ratio}%)`;
-    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-amber-950/60 text-amber-300 border border-amber-800/60";
+    badge.className = "px-2.5 py-1 text-xs font-sans font-bold rounded-lg bg-amber-950/60 text-amber-300 border border-amber-800/60";
   } else {
     badge.textContent = `Избыток жира (${ratio}%)`;
-    badge.className = "px-2.5 py-1 text-xs font-mono font-bold rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60";
+    badge.className = "px-2.5 py-1 text-xs font-sans font-bold rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60";
   }
 }
 
@@ -5231,11 +5191,11 @@ function saveCurrentTilesAsMeasurement() {
 
   if (btn) {
     btn.textContent = "Замеры сохранены ✓";
-    btn.className = "w-full py-3.5 bg-emerald-600/90 text-white font-bold text-xs uppercase rounded-xl transition-all shadow-md font-mono flex items-center justify-center space-x-1.5";
+    btn.className = "w-full py-3.5 bg-emerald-600/90 text-white font-bold text-xs uppercase rounded-xl transition-all shadow-md font-sans flex items-center justify-center space-x-1.5";
     setTimeout(() => {
       if (btn) {
         btn.textContent = "Сохранить замеры в историю";
-        btn.className = "w-full py-3.5 btn-gold font-bold text-xs uppercase rounded-xl active:scale-98 transition-all font-mono shadow-md flex items-center justify-center space-x-1.5";
+        btn.className = "w-full py-3.5 btn-gold font-bold text-xs uppercase rounded-xl active:scale-98 transition-all font-sans shadow-md flex items-center justify-center space-x-1.5";
       }
     }, 2000);
   }
@@ -5465,7 +5425,7 @@ function openSafeResetModal() {
   }
   if (txt) {
     txt.textContent = `Подождите ${resetSecondsLeft} сек...`;
-    txt.className = "text-sm font-bold text-slate-400 font-mono";
+    txt.className = "text-sm font-bold text-slate-400 font-sans";
   }
 
   openModal('modal-safe-reset');
@@ -5484,7 +5444,7 @@ function openSafeResetModal() {
       }
       if (txt) {
         txt.textContent = "Защита снята: нажмите для сброса";
-        txt.className = "text-sm font-bold text-rose-400 font-mono";
+        txt.className = "text-sm font-bold text-rose-400 font-sans";
       }
       Sound.beep(880, 0.15);
       Haptic.impact('heavy');
@@ -5644,13 +5604,13 @@ function updateReadinessScore() {
 
   if (scorePct >= 85) {
     badge.textContent = `${scorePct}% • 100% рабочих весов (Полная нагрузка)`;
-    badge.className = "text-sm font-bold text-white font-mono";
+    badge.className = "text-sm font-bold text-white font-sans";
   } else if (scorePct >= 65) {
     badge.textContent = `${scorePct}% • Умеренная нагрузка (запас 1-2 повт)`;
-    badge.className = "text-sm font-bold text-[#c8a97e] font-mono";
+    badge.className = "text-sm font-bold text-[#c8a97e] font-sans";
   } else {
     badge.textContent = `${scorePct}% • Авто-снижение весов на 10% (Защита шеи)`;
-    badge.className = "text-sm font-bold text-rose-400 font-mono";
+    badge.className = "text-sm font-bold text-rose-400 font-sans";
   }
 }
 
@@ -5834,7 +5794,7 @@ function renderHistory() {
   const hist = appState.history || [];
   if (hist.length === 0) {
     container.innerHTML = `
-      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-mono">
+      <div class="p-6 bg-[#181b26] rounded-2xl border border-white/[0.06] text-center text-slate-400 space-y-2 font-sans">
         <p class="text-xs font-bold text-slate-200 uppercase">Журнал сессий пуст</p>
         <p class="text-[11px] text-slate-400 font-sans">Начни тренировку во вкладке «Тренинг» или нажми «+ Добавить» выше.</p>
       </div>
@@ -5844,14 +5804,14 @@ function renderHistory() {
 
   hist.forEach((h, idx) => {
     const card = document.createElement("div");
-    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.08] space-y-2.5 font-mono text-xs";
+    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.08] space-y-2.5 font-sans text-xs";
 
     const timeString = h.startTimeStr ? `${h.startTimeStr} – ${h.endTimeStr || '...'} (${h.durationMin || 45} мин)` : `${h.timeStr || h.date}`;
 
     const exList = (h.exercises || []).map(e => `
       <div class="flex justify-between items-center text-[11px] py-1 border-b border-white/[0.04] last:border-0 font-sans">
         <span class="text-slate-300 font-medium">${e.name}</span>
-        <div class="text-right font-mono">
+        <div class="text-right font-sans">
           <span class="text-white font-bold block">${e.sets}</span>
           <span class="text-[10px] text-[#c8a97e]">${e.prog || ''}</span>
         </div>
@@ -5931,7 +5891,7 @@ function openEditHistoryModal(idx) {
     row.className = "grid grid-cols-12 gap-1.5 items-center";
     row.innerHTML = `
       <input type="text" value="${e.name}" id="edit-ex-name-${eIdx}" class="col-span-6 bg-[#0c0d14] border border-white/10 px-2 py-1 rounded-lg text-white text-xs outline-none font-sans">
-      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-[#0c0d14] border border-white/10 px-2 py-1 rounded-lg text-[#c8a97e] font-mono text-xs outline-none">
+      <input type="text" value="${e.sets}" id="edit-ex-sets-${eIdx}" class="col-span-6 bg-[#0c0d14] border border-white/10 px-2 py-1 rounded-lg text-[#c8a97e] font-sans text-xs outline-none">
     `;
     exContainer.appendChild(row);
   });
@@ -6348,13 +6308,13 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chatId: userId,
-          text: `🚀 <b>IRON COACH ${APP_CONFIG.version} УЖЕ В ОБЛАКЕ</b>\n\n` +
-                `<b>Что полностью переработано:</b>\n` +
-                `• <b>Motion Lab:</b> схема START → TARGET, суставные маркеры, плоскость движения и вектор усилия.\n` +
-                `• <b>Muscle Load Atlas:</b> новая анатомическая карта спереди и сзади с направлениями мышечных волокон.\n` +
-                `• <b>Только реальные данные:</b> убраны демонстрационные сеты; объём строится по журналу тренировок.\n` +
-                `• <b>Корректные формулировки:</b> восстановление отмечено как расчётная готовность, а не медицинский показатель.\n\n` +
-                `👇 <i>Открой приложение и оцени новый визуал:</i>`,
+          text: "🚀 <b>IRON COACH " + APP_CONFIG.version + " УЖЕ В ОБЛАКЕ</b>\n\n" +
+                  "<b>Что полностью переработано:</b>\n" +
+                  "• <b>Строгий 2-дневный сплит:</b> День А (Ноги, Грудь, Бицепс) и День Б (Спина, Плечи, Трицепс).\n" +
+                  "• <b>Никаких упоров грудью:</b> Все упражнения с упором грудью удалены.\n" +
+                  "• <b>Премиальный UI/UX:</b> Полностью переработанный интерфейс без визуального шума.\n" +
+                  "• <b>Обновленная анатомия:</b> Точная визуализация гипертрофии и ЦНС.\n\n" +
+                  "👇 <i>Открой приложение и оцени новый дизайн:</i>",
           withButton: true
         })
       }).catch(() => {});

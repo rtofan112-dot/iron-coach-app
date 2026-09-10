@@ -210,7 +210,7 @@ function Handle-Message($msg) {
     $st = Get-State
 
     if ($text -eq "/start" -or $text -eq "/menu") {
-        $welcome = "🦾 <b>Приветствую, коллега!</b>`n`nЭто твой персональный бот <b>ASU-TP Iron Coach</b> с точной фиксацией весов и повторов.`n`nВыбирай нужный раздел на клавиатуре ниже:"
+        $welcome = "<b>ASU-TP IRON COACH</b>`n`nСинхронизация активна. Выбирай раздел:"
         Send-TelegramMessage $chatId $welcome $mainReplyKeyboard
         return
     }
@@ -218,9 +218,9 @@ function Handle-Message($msg) {
     if ($text -eq "🏋️ Тренировка") {
         $kb = @{
             inline_keyboard = @(
-                @( @{ text = "🟢 Вторник: День А (Квадры/Жимы)"; callback_data = "wo_init_a" } ),
-                @( @{ text = "🔵 Четверг: День Б (Спина/Задняя цепь)"; callback_data = "wo_init_b" } ),
-                @( @{ text = "🟣 Воскресенье: День В (Recharge/Осанка)"; callback_data = "wo_init_c" } )
+                @( @{ text = "🟢 День А (Ноги, Грудь, Бицепс)"; callback_data = "wo_init_a" } ),
+                @( @{ text = "🔵 День Б (Спина, Плечи, Трицепс)"; callback_data = "wo_init_b" } ),
+                
             )
         }
         Send-TelegramMessage $chatId "🏋️ <b>Выбери тренировку для старта:</b>" $kb

@@ -10,6 +10,19 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Обработка CORS Preflight
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Max-Age": "86400"
+        }
+      });
+    }
+
     // Сохранение состояния атлета в облаке Cloudflare
     if (url.pathname === "/api/save-state" && request.method === "POST") {
       try {
@@ -112,9 +125,9 @@ export default {
         });
       } catch (err) {
         return new Response(JSON.stringify({ ok: false, error: err.message }), {
-          status: 500,
-          headers: { "Content-Type": "application/json; charset=utf-8" }
-        });
+            status: 500,
+            headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+          });
       }
     }
 
@@ -161,14 +174,14 @@ export default {
           }
         }
         return new Response(JSON.stringify({ ok: true }), {
-          status: 200,
-          headers: { "Content-Type": "application/json; charset=utf-8" }
-        });
+            status: 200,
+            headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+          });
       } catch (err) {
         return new Response(JSON.stringify({ ok: false, error: err.message }), {
-          status: 500,
-          headers: { "Content-Type": "application/json; charset=utf-8" }
-        });
+            status: 500,
+            headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+          });
       }
     }
 
