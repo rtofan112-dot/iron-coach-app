@@ -137,7 +137,7 @@ $workoutData = @{
     b = @{
         name = "Четверг: Спина, Плечи, Трицепс"
         exercises = @(
-            @{ id = "ex1"; name = "Тяга верхнего блока к груди"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
+            @{ id = "ex1"; name = "Тяга верхнего блока нейтр. хватом"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
             @{ id = "ex2"; name = "Тяга штанги в наклоне"; sets = 4; minReps = 8; maxReps = 10; weight = 50; tip = "Без участия поясницы." },
             @{ id = "ex3"; name = "Горизонтальная тяга блока"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "V-рукоять, тяга к пупку." },
             @{ id = "ex4"; name = "Жим Арнольда"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Плавный разворот кистей." },
@@ -163,7 +163,7 @@ $workoutData = @{
     b = @{
         name = "Четверг: Спина, Плечи, Трицепс"
         exercises = @(
-            @{ id = "ex1"; name = "Тяга верхнего блока к груди"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
+            @{ id = "ex1"; name = "Тяга верхнего блока нейтр. хватом"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
             @{ id = "ex2"; name = "Тяга штанги в наклоне"; sets = 4; minReps = 8; maxReps = 10; weight = 50; tip = "Без участия поясницы." },
             @{ id = "ex3"; name = "Горизонтальная тяга блока"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "V-рукоять, тяга к пупку." },
             @{ id = "ex4"; name = "Шраги с гантелями"; sets = 4; minReps = 12; maxReps = 15; weight = 24; tip = "Строго вверх, без вращений." },
