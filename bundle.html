@@ -5769,7 +5769,6 @@ function renderInteractiveAnatomyMap() {
     const data = getMuscleVolumeAndRecoveryData();
     const selKey = selectedAnatomyMuscleKey || 'chest';
     
-    // Premium UI Labels
     const labels = {
       chest: 'ГРУДНЫЕ (ПЕКТОРАЛЬНЫЕ)', delts: 'ДЕЛЬТОВИДНЫЕ', biceps: 'БИЦЕПС / БРАХИАЛИС', triceps: 'ТРИЦЕПС',
       traps: 'ТРАПЕЦИЯ', lats: 'ШИРОЧАЙШИЕ (СПИНА)', abs: 'ПРЯМАЯ МЫШЦА ЖИВОТА', quads: 'КВАДРИЦЕПС',
@@ -5782,11 +5781,11 @@ function renderInteractiveAnatomyMap() {
       const ratio = info.mav ? sets / info.mav : 0;
       const selected = key === selKey;
       
-      let fill = '#161a22'; // Base dark
+      let fill = '#161a22';
       let opacity = 0.5;
       
       if (ratio > 0) {
-        if (ratio >= 1.0) { fill = '#dfc299'; opacity = 0.9; } // Gold for optimal MAV
+        if (ratio >= 1.0) { fill = '#dfc299'; opacity = 0.9; }
         else if (ratio >= 0.5) { fill = '#c8a97e'; opacity = 0.7; }
         else { fill = '#475569'; opacity = 0.6; }
       }
@@ -5794,56 +5793,55 @@ function renderInteractiveAnatomyMap() {
       let stroke = selected ? '#ffffff' : 'rgba(255,255,255,0.05)';
       let strokeW = selected ? '1.5' : '0.5';
       
-      return ill="\" fill-opacity="\" stroke="\" stroke-width="\" style="transition: all 0.3s ease; cursor: pointer;" onclick="selectAnatomyMuscle('\')";
+      return `fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-width="${strokeW}" style="transition: all 0.3s ease; cursor: pointer;" onclick="selectAnatomyMuscle('${key}')"`;
     };
 
-    const anatomyBase = (viewLabel, isBack) => 
+    const anatomyBase = (viewLabel, isBack) => `
       <rect width="100%" height="100%" fill="transparent" />
       <text x="10" y="20" fill="#64748b" font-size="10" font-family="var(--font-sans)" font-weight="700" letter-spacing="1">MUSCLE LOAD ATLAS</text>
-      <text x="10" y="35" fill="#dfc299" font-size="9" font-family="var(--font-mono)">\</text>
+      <text x="10" y="35" fill="#dfc299" font-size="9" font-family="var(--font-sans)">${viewLabel}</text>
       <!-- Sleek Wireframe Base -->
       <path d="M160 40c-15 0-25 15-25 35 0 10 5 20 12 25-5 10-25 15-45 25-10 25-15 70-10 110 5 20 15 40 25 50-10 50-15 120-15 160 0 15 10 20 20 20s20-10 25-30c5-10 10-30 13-50 3 20 8 40 13 50 5 20 15 30 25 30s20-5 20-20c0-40-5-110-15-160 10-10 20-30 25-50 5-40 0-85-10-110-20-10-40-15-45-25 7-5 12-15 12-25 0-20-10-35-25-35z" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-    ;
+    `;
 
-    const region = (key, shapeGroup) => <g class="anat-region hover:opacity-80 transition-opacity" \>\</g>;
+    const region = (key, shapeGroup) => `<g class="anat-region hover:opacity-80 transition-opacity" ${styleFor(key)}>${shapeGroup}</g>`;
 
-    // Premium vectorized regions (Simplified for sleek aesthetic)
-    const frontRegions = 
-      \
-      \
-      \
-      \
-      \
-      \
-    ;
-    const backRegions = 
-      \
-      \
-      \
-      \
-      \
-    ;
+    const frontRegions = `
+      ${region('chest', '<path d="M125 100c25-5 45-5 70 0 5 15 5 35 0 50-25 5-45 5-70 0-5-15-5-35 0-50z"/>')}
+      ${region('abs', '<path d="M135 155c15-2 35-2 50 0 5 25 5 60 0 85-15 5-35 5-50 0-5-25-5-60 0-85z"/>')}
+      ${region('delts', '<path d="M102 90c-10 15-15 35-10 55 10-5 20-15 25-25-5-10-10-20-15-30z"/><path d="M218 90c10 15 15 35 10 55-10-5-20-15-25-25 5-10 10-20 15-30z"/>')}
+      ${region('biceps', '<path d="M92 150c-5 15-5 35 0 50 10-2 15-10 15-25 0-10-5-20-15-25z"/><path d="M228 150c5 15 5 35 0 50-10-2-15-10-15-25 0-10 5-20 15-25z"/>')}
+      ${region('quads', '<path d="M130 250c-15 30-15 80 0 110 10-10 15-40 10-80-5-15-10-25-10-30z"/><path d="M190 250c15 30 15 80 0 110-10-10-15-40-10-80 5-15 10-25 10-30z"/>')}
+      ${region('calves', '<path d="M125 380c-10 20-10 50 0 70 5-15 5-40 0-70z"/><path d="M195 380c10 20 10 50 0 70-5-15-5-40 0-70z"/>')}
+    `;
+    const backRegions = `
+      ${region('traps', '<path d="M140 70c10-10 30-10 40 0 10 15-10 35-20 35-10 0-30-20-20-35z"/>')}
+      ${region('lats', '<path d="M130 110c-15 30-5 60 10 80 15-30 10-60 20-80-15 0-25 0-30 0z"/><path d="M190 110c15 30 5 60-10 80-15-30-10-60-20-80 15 0 25 0 30 0z"/>')}
+      ${region('triceps', '<path d="M95 140c-10 20-5 45 5 60 5-15 0-40-5-60z"/><path d="M225 140c10 20 5 45-5 60-5-15 0-40 5-60z"/>')}
+      ${region('hamstrings', '<path d="M135 255c-10 35-5 80 5 110 10-30 5-70-5-110z"/><path d="M185 255c10 35 5 80-5 110-10-30-5-70 5-110z"/>')}
+      ${region('calves', '<path d="M125 380c-10 20-10 50 0 70 5-15 5-40 0-70z"/><path d="M195 380c10 20 10 50 0 70-5-15-5-40 0-70z"/>')}
+    `;
 
     const pointMap = currentAnatomyView === 'front'
       ? { chest:[160,125], delts:[210,115], biceps:[230,175], abs:[160,195], quads:[195,300], calves:[195,415] }
       : { traps:[160,85], delts:[210,115], triceps:[220,170], lats:[185,150], hamstrings:[190,310], calves:[195,415] };
     
     const point = pointMap[selKey] || [160, 260];
-    const callout = <g class="anat-selection-callout" aria-hidden="true" style="pointer-events:none;">
-      <line x1="\" y1="\" x2="280" y2="\" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2,2"/>
-      <circle cx="\" cy="\" r="4" fill="#dfc299"/>
-      <circle cx="\" cy="\" r="12" fill="transparent" stroke="#dfc299" stroke-width="1" opacity="0.5"/>
-      <text x="280" y="\" text-anchor="end" fill="#ffffff" font-size="9" font-family="var(--font-sans)" font-weight="bold">\</text>
-    </g>;
+    const callout = `<g class="anat-selection-callout" aria-hidden="true" style="pointer-events:none;">
+      <line x1="${point[0]}" y1="${point[1]}" x2="280" y2="${point[1]}" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2,2"/>
+      <circle cx="${point[0]}" cy="${point[1]}" r="4" fill="#dfc299"/>
+      <circle cx="${point[0]}" cy="${point[1]}" r="12" fill="transparent" stroke="#dfc299" stroke-width="1" opacity="0.5"/>
+      <text x="280" y="${point[1] - 6}" text-anchor="end" fill="#ffffff" font-size="9" font-family="var(--font-sans)" font-weight="bold">${labels[selKey] || 'MUSCLE'}</text>
+    </g>`;
 
     const viewLabel = currentAnatomyView === 'front' ? '01 / ANTERIOR (FRONT)' : '02 / POSTERIOR (BACK)';
     const regions = currentAnatomyView === 'front' ? frontRegions : backRegions;
     
-    const svg = <svg class="anatomy-atlas-svg" width="100%" height="100%" viewBox="0 0 320 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-      \
-      \
-      \
-    </svg>;
+    const svg = `<svg class="anatomy-atlas-svg" width="100%" height="100%" viewBox="0 0 320 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+      ${anatomyBase(viewLabel, currentAnatomyView === 'back')}
+      ${regions}
+      ${callout}
+    </svg>`;
 
     hosts.forEach(host => { host.innerHTML = svg; });
     updateAnatomyHUD(selKey, data[selKey] || { sets: 0, lastHoursAgo: null });
@@ -8961,13 +8959,13 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chatId: userId,
-          text: "🚀 <b>IRON COACH " + APP_CONFIG.version + " УЖЕ В ОБЛАКЕ</b>\n\n" +
-                  "<b>Что полностью переработано:</b>\n" +
-                  "• <b>Строгий 2-дневный сплит:</b> День А (Ноги, Грудь, Бицепс) и День Б (Спина, Плечи, Трицепс).\n" +
-                  "• <b>Никаких упоров грудью:</b> Все упражнения с упором грудью удалены.\n" +
-                  "• <b>Премиальный UI/UX:</b> Полностью переработанный интерфейс без визуального шума.\n" +
-                  "• <b>Обновленная анатомия:</b> Точная визуализация гипертрофии и ЦНС.\n\n" +
-                  "👇 <i>Открой приложение и оцени новый дизайн:</i>",
+          text: `🚀 <b>IRON COACH ${APP_CONFIG.version} УЖЕ В ОБЛАКЕ</b>\n\n` +
+                  `<b>Что полностью переработано:</b>\n` +
+                  `• <b>Строгий 2-дневный сплит:</b> День А (Ноги, Грудь, Бицепс) и День Б (Спина, Плечи, Трицепс).\n` +
+                  `• <b>Никаких упоров грудью:</b> Все упражнения с упором грудью удалены.\n` +
+                  `• <b>Премиальный UI/UX:</b> Полностью переработанный интерфейс без визуального шума.\n` +
+                  `• <b>Обновленная анатомия:</b> Точная визуализация гипертрофии и ЦНС.\n\n` +
+                  `👇 <i>Открой приложение и оцени новый дизайн:</i>`,
           withButton: true
         })
       }).catch(() => {});
