@@ -1,4 +1,4 @@
-# ASU-TP Iron Coach - Telegram Bot Daemon with Interactive Set Logger
+﻿# ASU-TP Iron Coach - Telegram Bot Daemon with Interactive Set Logger
 $botToken = "8582243470:AAERh_CDG__0aB1YLZQ_n5KN2MggwoWtYuY"
 $apiUrl = "https://api.telegram.org/bot$botToken"
 $appDir = "C:\Users\r.tofan\.gemini\antigravity\scratch\asutp-fitness-app"
@@ -120,9 +120,35 @@ $mainReplyKeyboard = @{
 
 $workoutData = @{
     a = @{
-        name = "День А (ВТ): Ноги, Грудь, Бицепс"
+        name = "Вторник: Ноги, Грудь, Бицепс"
         exercises = @(
-            @{ id = "ex1"; name = "Жим ногами под углом 45° в тренажере"; sets = 4; minReps = 10; maxReps = 12; weight = 90; tip = "Упор в середину стопы и пятки." },
+            @{ id = "ex1"; name = "Гакк-присед"; sets = 3; minReps = 10; maxReps = 12; weight = 35; tip = "Плавное движение." },
+            @{ id = "ex2"; name = "Разгибания ног сидя"; sets = 3; minReps = 12; maxReps = 15; weight = 30; tip = "Тяни носки на себя. Изоляция прямой мышцы." },
+            @{ id = "ex3"; name = "Румынская тяга"; sets = 3; minReps = 10; maxReps = 12; weight = 22; tip = "Держи спину прямой." },
+            @{ id = "ex4"; name = "Сгибания ног лёжа"; sets = 3; minReps = 12; maxReps = 15; weight = 35; tip = "Не отрывай таз от скамьи." },
+            @{ id = "ex5"; name = "Жим на наклонной 30°"; sets = 4; minReps = 8; maxReps = 10; weight = 22; tip = "Локти под 60° к телу." },
+            @{ id = "ex6"; name = "Отжимания на брусьях"; sets = 4; minReps = 8; maxReps = 10; weight = 0; tip = "Глубокая растяжка, 83кг BW." },
+            @{ id = "ex7"; name = "Бабочка (Сведение рук)"; sets = 4; minReps = 10; maxReps = 12; weight = 25; tip = "Фокус на растяжении и пиковом сокращении." },
+            @{ id = "ex8"; name = "Подъём EZ-грифа"; sets = 3; minReps = 10; maxReps = 12; weight = 12; tip = "Без заброса спиной." },
+            @{ id = "ex9"; name = "Молотковые сгибания"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Контроль амплитуды." },
+            @{ id = "ex10"; name = "Сгибания на наклонной скамье"; sets = 3; minReps = 10; maxReps = 12; weight = 10; tip = "Максимальное растяжение бицепса в нижней точке." }
+        )
+    }
+    b = @{
+        name = "Четверг: Спина, Плечи, Трицепс"
+        exercises = @(
+            @{ id = "ex1"; name = "Тяга верхнего блока к груди"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
+            @{ id = "ex2"; name = "Тяга штанги в наклоне"; sets = 4; minReps = 8; maxReps = 10; weight = 50; tip = "Без участия поясницы." },
+            @{ id = "ex3"; name = "Горизонтальная тяга блока"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "V-рукоять, тяга к пупку." },
+            @{ id = "ex4"; name = "Шраги с гантелями"; sets = 4; minReps = 12; maxReps = 15; weight = 24; tip = "Строго вверх, без вращений." },
+            @{ id = "ex5"; name = "Жим Арнольда"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Плавный разворот кистей." },
+            @{ id = "ex6"; name = "Обратная бабочка"; sets = 3; minReps = 12; maxReps = 15; weight = 15; tip = "Локти параллельно полу." },
+            @{ id = "ex7"; name = "Махи в кроссовере"; sets = 3; minReps = 12; maxReps = 15; weight = 10; tip = "Постоянное натяжение." },
+            @{ id = "ex8"; name = "Французский жим"; sets = 3; minReps = 10; maxReps = 12; weight = 10; tip = "Локти не разводить." },
+            @{ id = "ex9"; name = "Разгибания на блоке"; sets = 3; minReps = 12; maxReps = 15; weight = 20; tip = "Жесткая фиксация локтя." }
+        )
+    }
+},
             @{ id = "ex2"; name = "Разгибания ног в тренажере сидя"; sets = 3; minReps = 12; maxReps = 15; weight = 40; tip = "Изоляция прямой мышцы бедра. Без рывков." },
             @{ id = "ex3"; name = "Сгибания ног сидя или лежа"; sets = 3; minReps = 12; maxReps = 15; weight = 35; tip = "Медленное опускание 2–3 сек." },
             @{ id = "ex4"; name = "Жим гантелей на наклонной скамье 30°"; sets = 4; minReps = 8; maxReps = 10; weight = 22; tip = "Локти 60-70° к корпусу, лопатки сведены и опущены." },
@@ -131,6 +157,21 @@ $workoutData = @{
         )
     }
     b = @{
+        name = "День Б (ЧТ): Спина, Плечи, Трицепс"
+        exercises = @(
+            @{ id = "ex1"; name = "Тяга верхнего блока нейтральным хватом к груди"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Симметричная тяга к верху груди, лопатки вниз." },
+            @{ id = "ex2"; name = "Тяга горизонтального блока к поясу (нейтральный хват)"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "Локти скользят вдоль ребер назад, плечи зафиксированы." },
+            @{ id = "ex3"; name = "Жим гантелей сидя на плечи (скамья 75°)"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Плавный жим над головой без резкого прогиба." },
+            @{ id = "ex4"; name = "Махи гантелями через стороны стоя"; sets = 4; minReps = 12; maxReps = 15; weight = 8; tip = "Подъем через стороны локтями, кисть не выше локтя." },
+            @{ id = "ex5"; name = "Отжимания на брусьях (с акцентом на грудь)"; sets = 4; minReps = 8; maxReps = 10; weight = 0; tip = "Корпус прямо, акцент на трицепс." },
+            @{ id = "ex6"; name = "Разгибания рук на верхнем блоке с канатом"; sets = 3; minReps = 12; maxReps = 15; weight = 20; tip = "Локти прижаты к корпусу, разводи канат внизу." }
+        )
+    }
+}
+
+# Live Active User Sessions (Memory cache)
+$userSessions = @{}
+
 function Render-WorkoutCard($chatId, $msgId = $null) {
     $sess = $userSessions[$chatId]
     if (-not $sess) { return }
