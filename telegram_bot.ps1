@@ -140,6 +140,32 @@ $workoutData = @{
             @{ id = "ex1"; name = "Тяга верхнего блока к груди"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
             @{ id = "ex2"; name = "Тяга штанги в наклоне"; sets = 4; minReps = 8; maxReps = 10; weight = 50; tip = "Без участия поясницы." },
             @{ id = "ex3"; name = "Горизонтальная тяга блока"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "V-рукоять, тяга к пупку." },
+            @{ id = "ex4"; name = "Жим Арнольда"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Плавный разворот кистей." },
+            @{ id = "ex5"; name = "Обратная бабочка"; sets = 3; minReps = 12; maxReps = 15; weight = 15; tip = "Локти параллельно полу." },
+            @{ id = "ex6"; name = "Махи в кроссовере"; sets = 3; minReps = 12; maxReps = 15; weight = 10; tip = "Постоянное натяжение." },
+            @{ id = "ex7"; name = "Шраги с гантелями"; sets = 4; minReps = 12; maxReps = 15; weight = 24; tip = "Строго вверх, без вращений." },
+            @{ id = "ex8"; name = "Французский жим"; sets = 3; minReps = 10; maxReps = 12; weight = 10; tip = "Локти не разводить." },
+            @{ id = "ex9"; name = "Разгибания на блоке"; sets = 3; minReps = 12; maxReps = 15; weight = 20; tip = "Жесткая фиксация локтя." }
+        )
+    }
+},
+            @{ id = "ex2"; name = "Разгибания ног сидя"; sets = 3; minReps = 12; maxReps = 15; weight = 30; tip = "Тяни носки на себя. Изоляция прямой мышцы." },
+            @{ id = "ex3"; name = "Румынская тяга"; sets = 3; minReps = 10; maxReps = 12; weight = 22; tip = "Держи спину прямой." },
+            @{ id = "ex4"; name = "Сгибания ног лёжа"; sets = 3; minReps = 12; maxReps = 15; weight = 35; tip = "Не отрывай таз от скамьи." },
+            @{ id = "ex5"; name = "Жим на наклонной 30°"; sets = 4; minReps = 8; maxReps = 10; weight = 22; tip = "Локти под 60° к телу." },
+            @{ id = "ex6"; name = "Отжимания на брусьях"; sets = 4; minReps = 8; maxReps = 10; weight = 0; tip = "Глубокая растяжка, 83кг BW." },
+            @{ id = "ex7"; name = "Бабочка (Сведение рук)"; sets = 4; minReps = 10; maxReps = 12; weight = 25; tip = "Фокус на растяжении и пиковом сокращении." },
+            @{ id = "ex8"; name = "Подъём EZ-грифа"; sets = 3; minReps = 10; maxReps = 12; weight = 12; tip = "Без заброса спиной." },
+            @{ id = "ex9"; name = "Молотковые сгибания"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Контроль амплитуды." },
+            @{ id = "ex10"; name = "Сгибания на наклонной скамье"; sets = 3; minReps = 10; maxReps = 12; weight = 10; tip = "Максимальное растяжение бицепса в нижней точке." }
+        )
+    }
+    b = @{
+        name = "Четверг: Спина, Плечи, Трицепс"
+        exercises = @(
+            @{ id = "ex1"; name = "Тяга верхнего блока к груди"; sets = 4; minReps = 10; maxReps = 12; weight = 50; tip = "Нейтральный хват, отсев назад." },
+            @{ id = "ex2"; name = "Тяга штанги в наклоне"; sets = 4; minReps = 8; maxReps = 10; weight = 50; tip = "Без участия поясницы." },
+            @{ id = "ex3"; name = "Горизонтальная тяга блока"; sets = 4; minReps = 10; maxReps = 12; weight = 45; tip = "V-рукоять, тяга к пупку." },
             @{ id = "ex4"; name = "Шраги с гантелями"; sets = 4; minReps = 12; maxReps = 15; weight = 24; tip = "Строго вверх, без вращений." },
             @{ id = "ex5"; name = "Жим Арнольда"; sets = 3; minReps = 10; maxReps = 12; weight = 14; tip = "Плавный разворот кистей." },
             @{ id = "ex6"; name = "Обратная бабочка"; sets = 3; minReps = 12; maxReps = 15; weight = 15; tip = "Локти параллельно полу." },
