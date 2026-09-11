@@ -501,8 +501,37 @@ function toggleVitaminTaken(vitId) {
 // 100% УНИКАЛЬНАЯ АНАТОМИЧЕСКАЯ И ОБОРУДОВАНИЯ ГРАФИКА ДЛЯ ВСЕХ 48+ УПРАЖНЕНИЙ
 // ========================================================
 
+
+const EXERCISE_MEDIA_3D = {
+  'гакк': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0046-5VCj6iH.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0046-5VCj6iH.jpg' },
+  'разгибан': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0585.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0585.jpg' },
+  'румынск': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0085-Kq8Xq3K.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0085-Kq8Xq3K.jpg' },
+  'сгибан': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0584.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0584.jpg' },
+  '30°': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0314.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0314.jpg' },
+  'брусь': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0251.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0251.jpg' },
+  'бабочк': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0025.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0025.jpg' },
+  'ez': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0447.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0447.jpg' },
+  'молот': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0313.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0313.jpg' },
+  'скамье 45°': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0315.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0315.jpg' },
+  'верхнего блока': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0150.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0150.jpg' },
+  'штанги в наклоне': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0027.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0027.jpg' },
+  'горизонтального блока': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0198.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0198.jpg' },
+  'арнольд': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0011.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0011.jpg' },
+  'обратная бабочка': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0703.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0703.jpg' },
+  'кроссовер': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0166.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0166.jpg' },
+  'шраг': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0292.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0292.jpg' },
+  'французск': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0052.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0052.jpg' },
+  'канатом': { gif: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0241.gif', img: 'https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0241.jpg' }
+};
+
 function getExerciseDiagramSVG(exName, muscleGroup) {
   const n = (exName || "").toLowerCase().trim();
+  for (const key of Object.keys(EXERCISE_MEDIA_3D)) {
+    if (n.includes(key)) {
+      const m = EXERCISE_MEDIA_3D[key];
+      return `<div class="media-container w-full h-full flex justify-center items-center bg-[#09090b] p-1 rounded-xl"><img src="${m.gif}" onerror="this.onerror=null; this.src='${m.img}'" class="w-full h-full object-contain rounded-lg shadow-inner" style="max-height: 120px;" loading="lazy"></div>`;
+    }
+  }
 
   // ----------------------------------------------------
   // ГРУДЬ
@@ -2227,405 +2256,965 @@ function renderHealthTabCalculations() {
 // БАЗА УПРАЖНЕНИЙ (EXERCISE DATABASE - 30+ УПРАЖНЕНИЙ)
 // ========================================================
 const EXERCISE_DATABASE = [
-  {
-    "id": "ex_m_1",
-    "name": "Гакк-присед",
-    "category": "Ноги",
-    "muscleGroup": "Ноги",
-    "targetMuscles": "Квадрицепс",
-    "phases": [
-      "Спина к опоре",
-      "Сед 90°",
-      "Выжим"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Плавное движение.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0046-5VCj6iH.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0046-5VCj6iH.jpg"
-  },
-  {
-    "id": "ex_m_2",
-    "name": "Разгибания ног сидя",
-    "category": "Ноги",
-    "muscleGroup": "Ноги",
-    "targetMuscles": "Квадрицепс (Прямая мышца)",
-    "phases": [
-      "Спинка 90°",
-      "Разгибание",
-      "Прожатие 1с"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Тяни носки на себя. Идеально для прямой мышцы бедра.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0585.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/0585.jpg"
-  },
-  {
-    "id": "ex_m_3",
-    "name": "Румынская тяга",
-    "category": "Ноги",
-    "muscleGroup": "Ноги",
-    "targetMuscles": "Бицепс бедра",
-    "phases": [
-      "Отвод таза",
-      "Растяжение",
-      "Сокращение"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Держи спину прямой, растягивай заднюю поверхность.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0085-wQ2c4XD.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0085-wQ2c4XD.jpg"
-  },
-  {
-    "id": "ex_m_4",
-    "name": "Сгибания ног лёжа",
-    "category": "Ноги",
-    "muscleGroup": "Ноги",
-    "targetMuscles": "Бицепс бедра",
-    "phases": [
-      "Фиксация таза",
-      "Сгибание",
-      "Пауза"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Не отрывай таз от скамьи.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0586-17lJ1kr.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0586-17lJ1kr.jpg"
-  },
-  {
-    "id": "ex_m_5",
-    "name": "Жим на наклонной 30°",
-    "category": "Грудь",
-    "muscleGroup": "Грудь",
-    "targetMuscles": "Верх грудных",
-    "phases": [
-      "Угол 30°",
-      "Вниз к груди",
-      "Выжим"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Локти под 60° к телу.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/3545-TVdivgY.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/3545-TVdivgY.jpg"
-  },
-  {
-    "id": "ex_m_6",
-    "name": "Отжимания на брусьях",
-    "category": "Грудь",
-    "muscleGroup": "Грудь",
-    "targetMuscles": "Низ грудных",
-    "phases": [
-      "Наклон",
-      "Опускание",
-      "Подъем"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Глубокая растяжка, 83кг BW.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/3287-LkoAWAE.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/3287-LkoAWAE.jpg"
-  },
-  {
-    "id": "ex_m_7",
-    "name": "Бабочка (Сведение рук)",
-    "category": "Грудь",
-    "muscleGroup": "Грудь",
-    "targetMuscles": "Изоляция груди",
-    "phases": [
-      "Растяжка",
-      "Сведение",
-      "Пауза 2с"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Фокус на растяжении и пиковом сокращении.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/1494-bWlZvXh.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/1494-bWlZvXh.jpg"
-  },
-  {
-    "id": "ex_m_8",
-    "name": "Подъём EZ-грифа",
-    "category": "Бицепс",
-    "muscleGroup": "Бицепс",
-    "targetMuscles": "Бицепс",
-    "phases": [
-      "Локти у ребер",
-      "Подъем",
-      "Сжатие"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Без заброса спиной.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/2404-tJ5nYqo.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/2404-tJ5nYqo.jpg"
-  },
-  {
-    "id": "ex_m_9",
-    "name": "Молотковые сгибания",
-    "category": "Бицепс",
-    "muscleGroup": "Бицепс",
-    "targetMuscles": "Брахиалис",
-    "phases": [
-      "Нейтральный хват",
-      "Подъем",
-      "Спуск"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Контроль амплитуды.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0165-HPlPoQA.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0165-HPlPoQA.jpg"
-  },
-  {
-    "id": "ex_m_10",
-    "name": "Сгибания на наклонной скамье",
-    "category": "Бицепс",
-    "muscleGroup": "Бицепс",
-    "targetMuscles": "Пик бицепса (Растяжка)",
-    "phases": [
-      "Скамья 45°",
-      "Растяжка",
-      "Подъем"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Максимальное растяжение бицепса в нижней точке.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0315-F3xgbjF.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0315-F3xgbjF.jpg"
-  },
-  {
-    "id": "ex_m_11",
-    "name": "Тяга штанги в наклоне",
-    "category": "Спина",
-    "muscleGroup": "Спина",
-    "targetMuscles": "Толщина спины",
-    "phases": [
-      "Наклон 45°",
-      "К животу",
-      "Пауза"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Без участия поясницы.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0027-eZyBC3j.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0027-eZyBC3j.jpg"
-  },
-  {
-    "id": "ex_m_12",
-    "name": "Горизонтальная тяга блока",
-    "category": "Спина",
-    "muscleGroup": "Спина",
-    "targetMuscles": "Средняя спина",
-    "phases": [
-      "Упор ног",
-      "К поясу",
-      "Растяжка"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Не отклоняй корпус назад.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0159-kesXOpB.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0159-kesXOpB.jpg"
-  },
-  {
-    "id": "ex_m_14",
-    "name": "Жим Арнольда",
-    "category": "Плечи",
-    "muscleGroup": "Плечи",
-    "targetMuscles": "Передняя дельта",
-    "phases": [
-      "Супинация",
-      "Выжим",
-      "Спуск"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Плавный разворот кистей.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/2137-Xy4jlWA.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/2137-Xy4jlWA.jpg"
-  },
-  {
-    "id": "ex_m_15",
-    "name": "Обратная бабочка",
-    "category": "Плечи",
-    "muscleGroup": "Плечи",
-    "targetMuscles": "Задняя дельта",
-    "phases": [
-      "Упор грудью",
-      "Разведение",
-      "Пауза"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Локти параллельно полу.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0993-sTfvVsG.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0993-sTfvVsG.jpg"
-  },
-  {
-    "id": "ex_m_16",
-    "name": "Махи в кроссовере",
-    "category": "Плечи",
-    "muscleGroup": "Плечи",
-    "targetMuscles": "Средняя дельта",
-    "phases": [
-      "Трос снизу",
-      "Мах в сторону",
-      "Контроль"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Постоянное натяжение.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0178-goJ6ezq.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0178-goJ6ezq.jpg"
-  },
-  {
-    "id": "ex_m_17",
-    "name": "Французский жим",
-    "category": "Трицепс",
-    "muscleGroup": "Трицепс",
-    "targetMuscles": "Трицепс",
-    "phases": [
-      "Локти параллельно",
-      "К вискам",
-      "Выжим"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Локти не разводить.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/0061-iZop9xO.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0061-iZop9xO.jpg"
-  },
-  {
-    "id": "ex_m_18",
-    "name": "Разгибания на блоке",
-    "category": "Трицепс",
-    "muscleGroup": "Трицепс",
-    "targetMuscles": "Трицепс",
-    "phases": [
-      "Локти к ребрам",
-      "Разгибание",
-      "Пауза"
-    ],
-    "defaultSets": 3,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 30,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Жесткая фиксация локтя.",
-    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/exercises/gif/2406-ThKP69G.gif",
-    "imageUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/2406-ThKP69G.jpg"
-  },
-  {
-    "id": "ex_m_latpull",
-    "name": "Тяга верхнего блока нейтр. хватом",
-    "category": "Спина",
-    "muscleGroup": "Спина",
-    "targetMuscles": "Ширина спины (Широчайшие)",
-    "phases": [
-      "Отсев назад",
-      "К ключице",
-      "Пауза"
-    ],
-    "defaultSets": 4,
-    "min": 10,
-    "max": 12,
-    "defaultWeight": 50,
-    "calRate": 10,
-    "isTime": false,
-    "tip": "Нейтральный хват (параллельный). Локти прижаты.",
-    "gifUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/0150/0150.gif"
-  },
-  {
-    "id": "ex_m_shrugs",
-    "name": "Шраги с гантелями",
-    "category": "Спина",
-    "muscleGroup": "Спина",
-    "targetMuscles": "Верх трапеций (Капюшон)",
-    "phases": [
-      "Гантели по бокам",
-      "Пожатие плечами",
-      "Пауза 1с"
-    ],
-    "defaultSets": 4,
-    "min": 12,
-    "max": 15,
-    "defaultWeight": 24,
-    "calRate": 8,
-    "isTime": false,
-    "tip": "Строго вверх-вниз, без круговых вращений плечами.",
-    "gifUrl": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/0300/0300.gif"
-  }
+  // ГРУДЬ
+  { id: "db_ch_1", name: "Жим гантелей на наклонной скамье 30°", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта • Трицепс", phases: ["01: Опускание 2–3с", "02: Пауза внизу 1с", "03: Мощный выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 22, calRate: 12, isTime: false, tip: "Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи." },
+  { id: "db_ch_2", name: "Жим гантелей на горизонтальной скамье", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Середина и низ груди • Трицепс", phases: ["01: Сведение лопаток", "02: Растяжка 2с", "03: Выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 24, calRate: 12, isTime: false, tip: "Мощный подконтрольный выжим, пауза 1 сек в нижней точке растяжения груди." },
+  { id: "db_ch_3", name: "Жим штанги лежа на горизонтальной скамье", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Грудные мышцы целиком • Трицепс", phases: ["01: Снятие со стоек", "02: Касание низа груди", "03: Выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 60, calRate: 14, isTime: false, tip: "Сведение лопаток, плотный упор ногами в пол, гриф опускай на линию сосков." },
+  { id: "db_ch_4", name: "Сведения рук в тренажере бабочка (Pec Deck)", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Изоляция грудных мышц • Внутренняя часть", phases: ["01: Глубокая растяжка", "02: Сведение по дуге", "03: Сжатие 2с"], defaultSets: 4, min: 10, max: 12, defaultWeight: 25, calRate: 9, isTime: false, tip: "Глубокая растяжка грудных при опускании и фиксация 2 сек в сведении." },
+  { id: "db_ch_5", name: "Сведения в кроссовере на блоках", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Низ и середина груди", phases: ["01: Наклон вперед", "02: Сведение рук", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 15, calRate: 8, isTime: false, tip: "Локти слегка согнуты и зафиксированы, движение чисто в плечевых суставах." },
+  { id: "db_ch_6", name: "Отжимания на брусьях (с акцентом на грудь)", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Нижняя часть грудных • Трицепс", phases: ["01: Наклон 30°", "02: Опускание до 90°", "03: Выжим вверх"], defaultSets: 4, min: 8, max: 10, defaultWeight: 0, calRate: 11, isTime: false, tip: "Корпус наклонен вперед, локти немного разведены в стороны под 45°." },
+  { id: "db_ch_7", name: "Жим в тренажере Хаммер на грудь", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Изолированная траектория грудных мышц", phases: ["01: Упор в спинку", "02: Плавный выжим", "03: Медленный возврат"], defaultSets: 4, min: 10, max: 12, defaultWeight: 40, calRate: 10, isTime: false, tip: "Безопасная траектория для суставов при максимальном кровенаполнении." },
+  { id: "db_ch_8", name: "Жим штанги на наклонной скамье 30°", category: "Грудь", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта • Трицепс", phases: ["01: Угол скамьи 30°", "02: Опускание к верху груди", "03: Мощный выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 55, calRate: 13, isTime: false, tip: "Гриф опускай на 2-3 см ниже ключиц, локти под 60-70° к телу." },
+
+  // СПИНА
+  { id: "db_bk_1", name: "Тяга горизонтального блока к поясу (нейтральный хват)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы • Ромбовидные • Середина спины", phases: ["01: Локти скользят назад", "02: Сведение лопаток", "03: Растяжка 2с"], defaultSets: 4, min: 10, max: 12, defaultWeight: 45, calRate: 11, isTime: false, tip: "Локти скользят вдоль ребер назад, плечи зафиксированы внизу." },
+  { id: "db_bk_2", name: "Тяга верхнего блока нейтральным хватом к груди", category: "Спина", muscleGroup: "Спина", targetMuscles: "Верх широчайших • Середина спины", phases: ["01: Растяжка вверху", "02: Тяга к ключицам", "03: Опускание лопаток"], defaultSets: 4, min: 10, max: 12, defaultWeight: 50, calRate: 12, isTime: false, tip: "Симметричная тяга к верху груди, лопатки опущены вниз." },
+  { id: "db_bk_3", name: "Тяга каната к лицу (Face Pull — разгрузка шеи)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Задняя дельта • Мышцы лопатки (снятие спазма)", phases: ["01: Канат к глазам", "02: Локти назад и врозь", "03: Пауза 2с"], defaultSets: 4, min: 15, max: 20, defaultWeight: 15, calRate: 8, isTime: false, tip: "Канат к глазам, локти разводи назад, пауза 2 сек (снимает спазм мышцы шеи)." },
+  { id: "db_bk_4", name: "Подтягивания на турнике (или в гравитроне)", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие мышцы • Брахиалис", phases: ["01: Полный вис", "02: Подтягивание к груди", "03: Плавный спуск"], defaultSets: 4, min: 6, max: 10, defaultWeight: 0, calRate: 13, isTime: false, tip: "Грудь тянется к перекладине, плечи опущены, без раскачки." },
+  { id: "db_bk_5", name: "Тяга гантели в наклоне с упором в скамью", category: "Спина", muscleGroup: "Спина", targetMuscles: "Односторонняя проработка широчайшей мышцы", phases: ["01: Упор рукой", "02: Тяга к бедру", "03: Растяжка внизу"], defaultSets: 3, min: 10, max: 12, defaultWeight: 22, calRate: 10, isTime: false, tip: "Тяни гантель строго к тазу по дуге, без скручивания позвоночника." },
+  { id: "db_bk_6", name: "Гиперэкстензия для разгибателей спины", category: "Спина", muscleGroup: "Спина", targetMuscles: "Поясничные разгибатели • Ягодицы", phases: ["01: Опускание до 90°", "02: Подъем в линию", "03: Без переразгиба"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 8, isTime: false, tip: "Не прогибайся сильно назад вверху, держи корпус в прямую линию." },
+  { id: "db_bk_7", name: "Тяга Т-грифа с упором в грудь", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие • Толщина спины • Ромбовидные", phases: ["01: Упор грудью", "02: Тяга локтями назад", "03: Сведение лопаток"], defaultSets: 4, min: 8, max: 10, defaultWeight: 40, calRate: 12, isTime: false, tip: "Упор грудью полностью разгружает поясницу, позволяя акцентированно нагрузить середину спины." },
+  { id: "db_bk_8", name: "Тяга штанги в наклоне", category: "Спина", muscleGroup: "Спина", targetMuscles: "Широчайшие • Толщина спины • Ромбовидные", phases: ["01: Наклон корпуса", "02: Тяга к поясу", "03: Сведение лопаток"], defaultSets: 4, min: 8, max: 10, defaultWeight: 50, calRate: 14, isTime: false, tip: "Держи спину прямой, тяни штангу к низу живота за счет сведения лопаток." },
+
+  // НОГИ
+  { id: "db_lg_1", name: "Жим ногами под углом 45° в тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Упор в пятки", "02: Угол в коленях 90°", "03: Без щелчка суставов"], defaultSets: 4, min: 10, max: 12, defaultWeight: 90, calRate: 16, isTime: false, tip: "Колени вверху не вставляй до щелчка, упор в середину стопы и пятки." },
+  { id: "db_lg_2", name: "Румынская тяга с гантелями", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Ягодичные мышцы", phases: ["01: Отвод таза назад", "02: Прямая спина", "03: Растяжение бедра"], defaultSets: 4, min: 10, max: 12, defaultWeight: 22, calRate: 15, isTime: false, tip: "Таз максимально назад, колени слегка согнуты, спина прямая." },
+  { id: "db_lg_3", name: "Сгибания ног сидя или лежа в тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Подколенные связки", phases: ["01: Плавное сгибание", "02: Фиксация 1с", "03: Медленный спуск 3с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false, tip: "Медленное опускание 2–3 сек, акцент на растяжение бицепса бедра." },
+  { id: "db_lg_4", name: "Разгибания ног в тренажере сидя", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Изоляция квадрицепса", phases: ["01: Плавный подъем", "02: Пиковое сжатие 1с", "03: Медленный спуск"], defaultSets: 3, min: 12, max: 15, defaultWeight: 40, calRate: 8, isTime: false, tip: "Без рывков, задержись на секунду в верхней точке." },
+  { id: "db_lg_5", name: "Приседания в Гакк-тренажере", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Спина к опоре", "02: Плавный сед 90°", "03: Подъем пятками"], defaultSets: 3, min: 10, max: 12, defaultWeight: 35, calRate: 13, isTime: false, tip: "Плавное движение по направлению носков, поясница плотно прижата." },
+  { id: "db_lg_6", name: "Подъем на носки стоя на икроножные", category: "Ноги", muscleGroup: "Ноги", targetMuscles: "Икроножные мышцы • Ахиллово сухожилие", phases: ["01: Глубокий спуск", "02: Выжим на носки", "03: Пауза 2с вверху"], defaultSets: 4, min: 15, max: 20, defaultWeight: 50, calRate: 8, isTime: false, tip: "Полная амплитуда с паузой 2 сек в нижней точке растяжки." },
+
+  // ПЛЕЧИ
+  { id: "db_sh_1", name: "Махи гантелями через стороны стоя", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Средняя дельта (ширина плеч)", phases: ["01: Наклон вперед", "02: Подъем локтями", "03: Кисть ниже локтя"], defaultSets: 4, min: 12, max: 15, defaultWeight: 8, calRate: 7, isTime: false, tip: "Подъем через стороны локтями до уровня плеч, кисть не задирай выше локтя." },
+  { id: "db_sh_2", name: "Жим гантелей сидя на плечи (скамья 75°)", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Передняя и средняя дельта", phases: ["01: Локти перед собой", "02: Выжим над головой", "03: Без прогиба"], defaultSets: 4, min: 8, max: 10, defaultWeight: 16, calRate: 9, isTime: false, tip: "Плавный жим над головой без резкого прогиба в пояснице." },
+  { id: "db_sh_3", name: "Разводка гантелей в наклоне на заднюю дельту", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Задняя дельта • Ромбовидные мышцы", phases: ["01: Наклон 45-60°", "02: Разведение рук", "03: Пауза 1с"], defaultSets: 4, min: 12, max: 15, defaultWeight: 7, calRate: 7, isTime: false, tip: "Движение выполняется локтями назад-вбок, трапецию не зажимай." },
+  { id: "db_sh_4", name: "Протяжка на блоке к подбородку (широкий хват)", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Средняя дельта • Верх спины", phases: ["01: Хват шире плеч", "02: Тяга локтями вверх", "03: До низа груди"], defaultSets: 3, min: 12, max: 15, defaultWeight: 25, calRate: 8, isTime: false, tip: "Широкий хват снижает нагрузку на кистевые и плечевые суставы." },
+
+  // ==========================================
+  // ТРИЦЕПС
+  // ==========================================
+  { id: "db_tr_1", name: "Жим штанги узким хватом лежа", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Трицепс (все 3 головки) • Передняя дельта • Верх груди", phases: ["01: Хват на ширине плеч", "02: Опускание к низу груди", "03: Мощный выжим"], defaultSets: 4, min: 8, max: 10, defaultWeight: 50, calRate: 12, isTime: false, tip: "Хват строго на ширине плеч (не слишком узко), локти держи ближе к корпусу (под 30-45°)." },
+  { id: "db_tr_2", name: "Французский жим с гантелями лежа на скамье", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Длинная и латеральная головка трицепса", phases: ["01: Нейтральный хват", "02: Опускание к вискам", "03: Разгибание"], defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 7, isTime: false, tip: "Независимая работа каждой руки исключает дисбаланс, локти параллельны друг другу." },
+  { id: "db_tr_3", name: "Французский жим со штангой (EZ-гриф) лежа", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Длинная и латеральная головка трицепса", phases: ["01: Наклон плеча 15° назад", "02: Опускание за макушку", "03: Разгибание в локтях"], defaultSets: 4, min: 10, max: 12, defaultWeight: 25, calRate: 9, isTime: false, tip: "Опускай гриф чуть за голову (к макушке), чтобы сохранять постоянное натяжение длинной головки." },
+  { id: "db_tr_4", name: "Разгибание руки с гантелью из-за головы сидя", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Длинная головка трицепса (максимальная растяжка)", phases: ["01: Гантель над головой", "02: Глубокое опускание за шею", "03: Выжим вверх"], defaultSets: 3, min: 10, max: 12, defaultWeight: 18, calRate: 8, isTime: false, tip: "Локти держи направленными вверх и не разводи широко, ощущай мощное растяжение трицепса." },
+  { id: "db_tr_5", name: "Разгибания рук на верхнем блоке с канатом", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Латеральная и медиальная головка трицепса", phases: ["01: Фиксация локтей у ребер", "02: Разведение каната внизу", "03: Пиковое сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 7, isTime: false, tip: "Локти намертво зафиксированы у корпуса, разводи концы каната в стороны в нижней точке." },
+  { id: "db_tr_6", name: "Разгибания рук на блоке с прямой / V-рукоятью", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Латеральная головка трицепса (боковая часть)", phases: ["01: Упор в рукоять", "02: Полное выпрямление вниз", "03: Плавный подъем до 90°"], defaultSets: 3, min: 10, max: 12, defaultWeight: 25, calRate: 8, isTime: false, tip: "Корпус слегка наклонен вперед, жми рукоять вниз основанием ладоней." },
+  { id: "db_tr_7", name: "Отжимания от скамьи сзади (обратные отжимания)", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Трицепс • Передняя дельта", phases: ["01: Упор руками в край скамьи", "02: Опускание до 90°", "03: Выжим"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 9, isTime: false, tip: "Спина скользит вплотную к скамье, плечи не задирай к ушам." },
+  { id: "db_tr_8", name: "Разгибание руки назад с гантелью в наклоне (Кикбэк)", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Пиковая изоляция латеральной головки трицепса", phases: ["01: Локоть поднят выше спины", "02: Разгибание назад", "03: Фиксация 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 8, calRate: 6, isTime: false, tip: "Плечевая кость строго параллельна полу, двигается только предплечье." },
+  { id: "db_tr_9", name: "Разгибания на блоке из-за головы с канатом", category: "Трицепс", muscleGroup: "Трицепс", targetMuscles: "Длинная головка трицепса • Постоянное натяжение троса", phases: ["01: Трос за головой", "02: Разгибание вперед-вверх", "03: Разведение кистей"], defaultSets: 3, min: 12, max: 15, defaultWeight: 18, calRate: 7, isTime: false, tip: "Отличное изолированное упражнение для длинной головки трицепса в растянутой позиции." },
+
+  // ==========================================
+  // БИЦЕПС
+  // ==========================================
+  { id: "db_bi_1", name: "Сгибания рук с гантелями на наклонной скамье 45°", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Длинная головка бицепса (максимальная растяжка)", phases: ["01: Локти отведены назад", "02: Подъем с супинацией", "03: Глубокий спуск 3с"], defaultSets: 3, min: 10, max: 12, defaultWeight: 10, calRate: 8, isTime: false, tip: "Наклон скамьи 45° создает мощнейшее растяжение длинной головки бицепса в стартовой позиции." },
+  { id: "db_bi_2", name: "Подъем гантелей на бицепс стоя с супинацией", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Двуглавая мышца плеча (бицепс) • Пик бицепса", phases: ["01: Нейтральный хват внизу", "02: Разворот кисти наружу", "03: Сжатие вверху 1с"], defaultSets: 3, min: 10, max: 12, defaultWeight: 12, calRate: 8, isTime: false, tip: "В верхней трети амплитуды максимально разворачивай мизинец вверх и наружу." },
+  { id: "db_bi_3", name: "Молотковые сгибания с гантелями (Hammer Curls)", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Брахиалис • Плечелучевая мышца • Длинная головка бицепса", phases: ["01: Нейтральный хват (ладони внутрь)", "02: Подъем локтями вниз", "03: Медленный спуск"], defaultSets: 3, min: 10, max: 12, defaultWeight: 14, calRate: 8, isTime: false, tip: "Развивает брахиалис, который выталкивает бицепс наружу и дает мощную толщину рукам." },
+  { id: "db_bi_4", name: "Молотковые сгибания с гантелями на наклонной скамье", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Брахиалис • Внешняя часть бицепса и предплечья", phases: ["01: Упор в спинку 60°", "02: Нейтральный подъем", "03: Контроль негатива"], defaultSets: 3, min: 10, max: 12, defaultWeight: 12, calRate: 8, isTime: false, tip: "Сочетает мощное растяжение наклонной скамьи и гипертрофию брахиалиса." },
+  { id: "db_bi_5", name: "Сгибания рук на скамье Скотта (со штангой или гантелью)", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Короткая (внутренняя) головка бицепса • Полная изоляция", phases: ["01: Подмышки плотно на упоре", "02: Подъем силой бицепса", "03: Растяжка без переразгиба"], defaultSets: 3, min: 10, max: 12, defaultWeight: 22, calRate: 8, isTime: false, tip: "Полностью исключает помощь плеч и корпуса. Внизу не разгибай локти до хруста в суставах." },
+  { id: "db_bi_6", name: "Концентрированные сгибания с гантелью сидя", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Пик двуглавой мышцы плеча (точечная прорисовка)", phases: ["01: Упор локтем во внутреннюю часть бедра", "02: Подъем к подбородку", "03: Пауза 2с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 10, calRate: 7, isTime: false, tip: "Упри локоть в бедро, корпус неподвижен. Делай акцент на пиковое сокращение в верхней точке." },
+  { id: "db_bi_7", name: "Подъем штанги на бицепс стоя (прямой или EZ-гриф)", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Бицепс (длинная и короткая головка) • Брахиалис", phases: ["01: Локти прижаты к бокам", "02: Подъем до уровня груди", "03: Опускание 2–3с"], defaultSets: 4, min: 8, max: 10, defaultWeight: 30, calRate: 10, isTime: false, tip: "Главная золотая база на бицепс. Не закидывай спиной (без читинга), опускай подконтрольно." },
+  { id: "db_bi_8", name: "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Бицепс • Постоянное натяжение троса", phases: ["01: Локти у ребер", "02: Сгибание по дуге", "03: Пиковое напряжение 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 20, calRate: 7, isTime: false, tip: "Трос дает равномерную нагрузку даже в верхней точке, где со штангой нагрузка падает." },
+  { id: "db_bi_9", name: "Паучьи сгибания с гантелями (Spider Curls на скамье)", category: "Бицепс", muscleGroup: "Бицепс", targetMuscles: "Короткая головка бицепса • Пиковый пампинг", phases: ["01: Грудь на наклонной скамье", "02: Руки вертикально вниз", "03: Сгибание вверх"], defaultSets: 3, min: 12, max: 15, defaultWeight: 10, calRate: 7, isTime: false, tip: "Изолирует верхнюю треть амплитуды и исключает инерцию корпуса." },
+
+  // ПРЕСС
+  { id: "db_abs_1", name: "Скручивания на блоке с канатом на пресс", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Прямая мышца живота", phases: ["01: Вдох вверху", "02: Скручивание на выдохе", "03: Сжатие 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 35, calRate: 8, isTime: false, tip: "Скручивай грудную клетку к тазу силой мышц пресса." },
+  { id: "db_abs_2", name: "Подъем коленей в висе на брусьях на пресс", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Нижняя часть прямой мышцы живота", phases: ["01: Фиксация плеч", "02: Подкручивание таза", "03: Пауза 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 0, calRate: 7, isTime: false, tip: "Подкручивай таз вверх на выдохе для включения низа живота." },
+  { id: "db_abs_3", name: "Планка на локтях (удержание корсета)", category: "Пресс", muscleGroup: "Пресс", targetMuscles: "Поперечная мышца живота • Корсет", phases: ["01: Прямая линия", "02: Сжатие ягодиц", "03: Ровное дыхание"], defaultSets: 3, min: 45, max: 60, defaultWeight: 0, calRate: 6, isTime: true, tip: "Не прогибай поясницу, подкручивай таз вперед." },
+
+  // КАРДИО
+  { id: "db_card_1", name: "Ходьба в горку на дорожке (сжигание жира)", category: "Кардио", muscleGroup: "Кардио", targetMuscles: "Сердечно-сосудистая система • Жиросжигание", phases: ["01: Уклон 8–10%", "02: Скорость 5.5 км/ч", "03: Пульс 115–125"], defaultSets: 1, min: 25, max: 30, defaultWeight: 0, calRate: 200, isTime: true, tip: "Уклон 8-10%, скорость 5.5 км/ч. Пульс 115-125 уд/мин без одышки." },
+  { id: "db_card_2", name: "Эллиптический тренажер", category: "Кардио", muscleGroup: "Кардио", targetMuscles: "Все тело • Щадящий режим для коленных суставов", phases: ["01: Ровный темп", "02: Умеренное усилие", "03: Пульс 120"], defaultSets: 1, min: 20, max: 30, defaultWeight: 0, calRate: 180, isTime: true, tip: "Идеально для разогрева и заминки без ударной нагрузки на суставы." },
+  // ДОПОЛНИТЕЛЬНЫЕ УПРАЖНЕНИЯ
+  { id: "db_sh_arnold", name: "Жим Арнольда с гантелями сидя", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Передняя и средняя дельта", phases: ["01: Гантели перед грудью", "02: Разворот кистей", "03: Выжим вверх"], defaultSets: 3, min: 10, max: 12, defaultWeight: 14, calRate: 9, isTime: false, tip: "Плавный разворот кистей наружу при подъеме. Трапеции зафиксированы." },
+  { id: "db_sh_rear_deck", name: "Обратная бабочка в тренажере (Pec Deck Rear)", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Задняя дельта • Подостная", phases: ["01: Упор руками", "02: Разведение локтями", "03: Пауза 1с"], defaultSets: 3, min: 12, max: 15, defaultWeight: 15, calRate: 7, isTime: false, tip: "Локти параллельно полу. Изоляция задней дельты." },
+  { id: "db_sh_cable_lat", name: "Махи на нижнем блоке кроссовера в стороны", category: "Плечи", muscleGroup: "Плечи", targetMuscles: "Средняя дельта", phases: ["01: Трос снизу", "02: Подъем локтем", "03: Контроль спуска"], defaultSets: 3, min: 12, max: 15, defaultWeight: 8, calRate: 7, isTime: false, tip: "Трос дает постоянное натяжение даже в нижней точке." },
+  { id: "db_bk_shrugs", name: "Шраги с гантелями стоя", category: "Спина", muscleGroup: "Спина", targetMuscles: "Верх трапеций (Капюшон)", phases: ["01: Гантели по бокам", "02: Подъем плеч вверх", "03: Пауза 1с"], defaultSets: 4, min: 12, max: 15, defaultWeight: 24, calRate: 8, isTime: false, tip: "Строго вверх-вниз, без круговых вращений, пауза 1 сек вверху." }
 ];
 
+// ========================================================
+// ТОЧНАЯ БИОМЕХАНИЧЕСКАЯ МАТРИЦА 1-В-1 ЗАМЕН (ТОЛЬКО ИДЕНТИЧНЫЙ ВЕКТОР)
+// ========================================================
+const EXACT_BIOMECHANICAL_TWINS = {
+  // ГРУДЬ: НАКЛОННЫЙ ЖИМ (ВЕРХ ГРУДИ)
+  "Жим гантелей на наклонной скамье 30°": ["Жим штанги на наклонной скамье 30°", "Жим в тренажере Хаммер на грудь"],
+  "Жим штанги на наклонной скамье 30°": ["Жим гантелей на наклонной скамье 30°", "Жим в тренажере Хаммер на грудь"],
+
+  // ГРУДЬ: ГОРИЗОНТАЛЬНЫЙ ЖИМ (СЕРЕДИНА ГРУДИ)
+  "Жим гантелей на горизонтальной скамье": ["Жим штанги лежа на горизонтальной скамье", "Жим в тренажере Хаммер на грудь"],
+  "Жим штанги лежа на горизонтальной скамье": ["Жим гантелей на горизонтальной скамье", "Жим в тренажере Хаммер на грудь"],
+  "Жим в тренажере Хаммер на грудь": ["Жим гантелей на горизонтальной скамье", "Жим штанги лежа на горизонтальной скамье", "Жим гантелей на наклонной скамье 30°"],
+
+  // ГРУДЬ: ИЗОЛИРОВАННЫЕ СВЕДЕНИЯ
+  "Сведения рук в тренажере бабочка (Pec Deck)": ["Сведения в кроссовере на блоках"],
+  "Сведения в кроссовере на блоках": ["Сведения рук в тренажере бабочка (Pec Deck)"],
+
+  // ГРУДЬ: ОТЖИМАНИЯ НА БРУСЬЯХ
+  "Отжимания на брусьях (с акцентом на грудь)": ["Жим в тренажере Хаммер на грудь"],
+
+  // СПИНА: ГОРИЗОНТАЛЬНАЯ ТЯГА (ТОЛЩИНА СПИНЫ)
+  "Тяга горизонтального блока к поясу (нейтральный хват)": ["Тяга штанги в наклоне", "Тяга гантели в наклоне с упором в скамью", "Тяга Т-грифа с упором в грудь"],
+  "Тяга гантели в наклоне с упором в скамью": ["Тяга штанги в наклоне", "Тяга горизонтального блока к поясу (нейтральный хват)", "Тяга Т-грифа с упором в грудь"],
+  "Тяга Т-грифа с упором в грудь": ["Тяга штанги в наклоне", "Тяга горизонтального блока к поясу (нейтральный хват)", "Тяга гантели в наклоне с упором в скамью"],
+  "Тяга штанги в наклоне": ["Тяга Т-грифа с упором в грудь", "Тяга горизонтального блока к поясу (нейтральный хват)", "Тяга гантели в наклоне с упором в скамью"],
+
+  // СПИНА: ВЕРТИКАЛЬНАЯ ТЯГА (ШИРИНА СПИНЫ)
+  "Тяга верхнего блока нейтральным хватом к груди": ["Подтягивания на турнике (или в гравитроне)"],
+  "Подтягивания на турнике (или в гравитроне)": ["Тяга верхнего блока нейтральным хватом к груди"],
+
+  // СПИНА / ПЛЕЧИ: РАЗГРУЗКА ШЕИ И ЗАДНЯЯ ДЕЛЬТА
+  "Тяга каната к лицу (Face Pull — разгрузка шеи)": ["Разводка гантелей в наклоне на заднюю дельту"],
+  "Разводка гантелей в наклоне на заднюю дельту": ["Тяга каната к лицу (Face Pull — разгрузка шеи)"],
+
+  // СПИНА: РАЗГИБАТЕЛИ
+  "Гиперэкстензия для разгибателей спины": ["Румынская тяга с гантелями"],
+
+  // НОГИ: КВАДРИЦЕПС / ЖИМ ПЛАТФОРМЫ
+  "Жим ногами под углом 45° в тренажере": ["Приседания в Гакк-тренажере"],
+  "Приседания в Гакк-тренажере": ["Жим ногами под углом 45° в тренажере"],
+  "Разгибания ног в тренажере сидя": [],
+
+  // НОГИ: БИЦЕПС БЕДРА
+  "Сгибания ног сидя или лежа в тренажере": [],
+  "Румынская тяга с гантелями": ["Гиперэкстензия для разгибателей спины"],
+
+  // НОГИ: ГОЛЕНЬ
+  "Подъем на носки стоя на икроножные": [],
+
+  // ПЛЕЧИ: ИЗОЛЯЦИЯ СРЕДНЕЙ ДЕЛЬТЫ
+  "Махи гантелями через стороны стоя": ["Протяжка на блоке к подбородку (широкий хват)"],
+  "Протяжка на блоке к подбородку (широкий хват)": ["Махи гантелями через стороны стоя"],
+
+  // ПЛЕЧИ: БАЗОВЫЙ ЖИМ
+  "Жим гантелей сидя на плечи (скамья 75°)": [],
+
+  // БИЦЕПС: РАСТЯЖЕНИЕ НА НАКЛОННОЙ СКАМЬЕ (ДЛИННАЯ ГОЛОВКА)
+  "Сгибания рук с гантелями на наклонной скамье 45°": ["Молотковые сгибания с гантелями на наклонной скамье"],
+  "Молотковые сгибания с гантелями на наклонной скамье": ["Сгибания рук с гантелями на наклонной скамье 45°", "Молотковые сгибания с гантелями (Hammer Curls)"],
+
+  // БИЦЕПС: БАЗОВЫЙ ПОДЪЕМ СТОЯ
+  "Подъем гантелей на бицепс стоя с супинацией": ["Подъем штанги на бицепс стоя (прямой или EZ-гриф)", "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)"],
+  "Подъем штанги на бицепс стоя (прямой или EZ-гриф)": ["Подъем гантелей на бицепс стоя с супинацией", "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)"],
+  "Сгибания на нижнем блоке кроссовера (с канатом/ручкой)": ["Подъем гантелей на бицепс стоя с супинацией", "Подъем штанги на бицепс стоя (прямой или EZ-гриф)"],
+
+  // БИЦЕПС: МОЛОТКОВЫЙ ХВАТ (БРАХИАЛИС)
+  "Молотковые сгибания с гантелями (Hammer Curls)": ["Молотковые сгибания с гантелями на наклонной скамье"],
+
+  // БИЦЕПС: ПИКОВОЕ СОКРАЩЕНИЕ / СКАМЬЯ СКОТТА
+  "Сгибания рук на скамье Скотта (со штангой или гантелью)": ["Паучьи сгибания с гантелями (Spider Curls на скамье)", "Концентрированные сгибания с гантелью сидя"],
+  "Паучьи сгибания с гантелями (Spider Curls на скамье)": ["Сгибания рук на скамье Скотта (со штангой или гантелью)", "Концентрированные сгибания с гантелью сидя"],
+  "Концентрированные сгибания с гантелью сидя": ["Сгибания рук на скамье Скотта (со штангой или гантелью)", "Паучьи сгибания с гантелями (Spider Curls на скамье)"],
+
+  // ТРИЦЕПС: РАЗГИБАНИЯ НА БЛОКЕ СТОЯ
+  "Разгибания рук на верхнем блоке с канатом": ["Разгибания рук на блоке с прямой / V-рукоятью"],
+  "Разгибания рук на блоке с прямой / V-рукоятью": ["Разгибания рук на верхнем блоке с канатом"],
+
+  // ТРИЦЕПС: ФРАНЦУЗСКИЙ ЖИМ ЛЕЖА
+  "Французский жим с гантелями лежа на скамье": ["Французский жим со штангой (EZ-гриф) лежа"],
+  "Французский жим со штангой (EZ-гриф) лежа": ["Французский жим с гантелями лежа на скамье"],
+
+  // ТРИЦЕПС: РАЗГИБАНИЯ ИЗ-ЗА ГОЛОВЫ
+  "Разгибание руки с гантелью из-за головы сидя": ["Разгибания на блоке из-за головы с канатом"],
+  "Разгибания на блоке из-за головы с канатом": ["Разгибание руки с гантелью из-за головы сидя"],
+
+  // ТРИЦЕПС: БАЗОВЫЙ ЖИМ
+  "Жим штанги узким хватом лежа": ["Отжимания от скамьи сзади (обратные отжимания)"],
+  "Отжимания от скамьи сзади (обратные отжимания)": ["Жим штанги узким хватом лежа"],
+
+  // ТРИЦЕПС: КИКБЭК
+  "Разгибание руки назад с гантелью в наклоне (Кикбэк)": [],
+
+  // ПРЕСС
+  "Скручивания на блоке с канатом на пресс": ["Подъем коленей в висе на брусьях на пресс"],
+  "Подъем коленей в висе на брусьях на пресс": ["Скручивания на блоке с канатом на пресс"],
+  "Планка на локтях (удержание корсета)": [],
+
+  // КАРДИО
+  "Ходьба в горку на дорожке (сжигание жира)": ["Эллиптический тренажер"],
+  "Эллиптический тренажер": ["Ходьба в горку на дорожке (сжигание жира)"]
+};
+
+const DEFAULT_PROGRAMS = {
+  a: {
+    name: "День А (ВТ): Ноги, Грудь, Бицепс",
+    exercises: [
+      { name: "Приседания в Гакк-тренажере", muscleGroup: "Ноги", targetMuscles: "Квадрицепс • Ягодицы", phases: ["01: Спина к опоре", "02: Плавный сед 90°", "03: Подъем пятками"], sets: 3, min: 10, max: 12, w: 35, calRate: 13, tip: "Плавное движение по направлению носков, поясница прижата.", substitutes: ["Жим ногами под углом 45° в тренажере"] },
+      { name: "Разгибания ног в тренажере сидя", muscleGroup: "Ноги", targetMuscles: "Прямая мышца бедра", phases: ["01: Подъем", "02: Пиковое сжатие 1с", "03: Медленный спуск"], sets: 3, min: 12, max: 15, w: 30, calRate: 8, tip: "Изоляция прямой мышцы бедра (двусоставная головка). Носки на себя.", substitutes: ["Жим ногами под углом 45° в тренажере"] },
+      { name: "Румынская тяга с гантелями", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра • Ягодицы", phases: ["01: Отвод таза", "02: Растяжка бедра", "03: Подъем"], sets: 3, min: 10, max: 12, w: 22, calRate: 14, tip: "Спина строго прямая, таз назад, растяжение задней поверхности.", substitutes: ["Сгибания ног сидя или лежа в тренажере"] },
+      { name: "Сгибания ног сидя или лежа в тренажере", muscleGroup: "Ноги", targetMuscles: "Бицепс бедра", phases: ["01: Сгибание", "02: Фиксация 1с", "03: Спуск 3с"], sets: 3, min: 12, max: 15, w: 35, calRate: 8, tip: "Не отрывай таз от скамьи, медленный спуск 2–3 сек.", substitutes: ["Румынская тяга с гантелями"] },
+      { name: "Жим гантелей на наклонной скамье 30°", muscleGroup: "Грудь", targetMuscles: "Верх грудных • Передняя дельта", phases: ["01: Опускание 2–3с", "02: Пауза 1с", "03: Выжим"], sets: 4, min: 8, max: 10, w: 22, calRate: 12, tip: "Локти 60–70° к корпусу, лопатки сведены и опущены.", substitutes: ["Жим штанги на наклонной скамье 30°"] },
+      { name: "Отжимания на брусьях (с акцентом на грудь)", muscleGroup: "Грудь", targetMuscles: "Низ груди • Трицепс", phases: ["01: Наклон 30°", "02: Угол 90°", "03: Выжим"], sets: 4, min: 8, max: 10, w: 0, calRate: 11, tip: "Корпус наклонен вперед под 30°, глубокая растяжка грудных.", substitutes: ["Жим гантелей на горизонтальной скамье"] },
+      { name: "Сведения рук в тренажере бабочка (Pec Deck)", muscleGroup: "Грудь", targetMuscles: "Изоляция грудных мышц", phases: ["01: Растяжка 2с", "02: Сведение", "03: Пиковое сжатие"], sets: 4, min: 10, max: 12, w: 25, calRate: 9, tip: "Фокус на растяжении и пиковом сокращении 2 сек в сведении.", substitutes: ["Сведения в кроссовере на блоках"] },
+      { name: "Подъем штанги на бицепс стоя (прямой или EZ-гриф)", muscleGroup: "Бицепс", targetMuscles: "Бицепс (обе головки)", phases: ["01: Локти у ребер", "02: Подъем", "03: Опускание"], sets: 3, min: 10, max: 12, w: 12, calRate: 6, tip: "Без читинга спиной, локти зафиксированы у ребер.", substitutes: ["Подъем гантелей на бицепс стоя с супинацией"] },
+      { name: "Молотковые сгибания с гантелями (Hammer Curls)", muscleGroup: "Бицепс", targetMuscles: "Брахиалис • Предплечья", phases: ["01: Нейтральный хват", "02: Подъем", "03: Контроль"], sets: 3, min: 10, max: 12, w: 14, calRate: 7, tip: "Утолщает брахиалис и выталкивает пик бицепса наружу.", substitutes: ["Сгибания на нижнем блоке кроссовера (с канатом/ручкой)"] },
+      { name: "Сгибания рук с гантелями на наклонной скамье 45°", muscleGroup: "Бицепс", targetMuscles: "Длинная головка • Пик бицепса", phases: ["01: Скамья 45°", "02: Растяжение", "03: Подъем"], sets: 3, min: 10, max: 12, w: 10, calRate: 6, tip: "Максимальное растяжение бицепса в нижней точке за счет наклона скамьи.", substitutes: ["Концентрированные сгибания с гантелью сидя"] }
+    ]
+  },
+  b: {
+    name: "День Б (ЧТ): Спина, Плечи, Трицепс",
+    exercises: [
+      { name: "Тяга верхнего блока нейтральным хватом к груди", muscleGroup: "Спина", targetMuscles: "Ширина спины (Широчайшие)", phases: ["01: Отсев назад", "02: Тяга к ключицам", "03: Пауза 1с"], sets: 4, min: 10, max: 12, w: 50, calRate: 12, tip: "Нейтральный (параллельный) хват, отсев чуть назад, тяга строго до ключиц.", substitutes: ["Подтягивания на турнике (или в гравитроне)"] },
+      { name: "Тяга штанги в наклоне", muscleGroup: "Спина", targetMuscles: "Толщина спины • Ромбовидные • Трапеции", phases: ["01: Наклон 45°", "02: Тяга к поясу", "03: Сведение лопаток"], sets: 4, min: 8, max: 10, w: 50, calRate: 14, tip: "Прямой хват сверху, без читинга поясницей, сведение лопаток.", substitutes: ["Тяга гантели в наклоне с упором в скамью"] },
+      { name: "Тяга горизонтального блока к поясу (нейтральный хват)", muscleGroup: "Спина", targetMuscles: "Широчайшие • Низ спины", phases: ["01: V-рукоять к пупку", "02: Сведение лопаток", "03: Растяжка"], sets: 4, min: 10, max: 12, w: 45, calRate: 11, tip: "V-образная рукоять, локти плотно к ребрам, вектор строго к пупку.", substitutes: ["Тяга гантели в наклоне с упором в скамью"] },
+      { name: "Жим Арнольда с гантелями сидя", muscleGroup: "Плечи", targetMuscles: "Передняя и средняя дельта", phases: ["01: Гантели перед грудью", "02: Разворот кистей", "03: Выжим вверх"], sets: 3, min: 10, max: 12, w: 14, calRate: 9, tip: "Плавный разворот кистей, трапеции не задирать к ушам.", substitutes: ["Жим гантелей сидя на плечи (скамья 75°)"] },
+      { name: "Обратная бабочка в тренажере (Pec Deck Rear)", muscleGroup: "Плечи", targetMuscles: "Задняя дельта • Подостная", phases: ["01: Упор руками", "02: Разведение локтями", "03: Пауза 1с"], sets: 3, min: 12, max: 15, w: 15, calRate: 7, tip: "Локти параллельно полу. Изоляция задней дельты.", substitutes: ["Разводка гантелей в наклоне на заднюю дельту"] },
+      { name: "Махи на нижнем блоке кроссовера в стороны", muscleGroup: "Плечи", targetMuscles: "Средняя дельта", phases: ["01: Трос снизу", "02: Подъем локтем", "03: Контроль спуска"], sets: 3, min: 12, max: 15, w: 8, calRate: 7, tip: "Трос дает постоянное натяжение даже в нижней точке.", substitutes: ["Махи гантелями через стороны стоя"] },
+      { name: "Шраги с гантелями стоя", muscleGroup: "Спина", targetMuscles: "Верх трапеций (Капюшон)", phases: ["01: Гантели по бокам", "02: Подъем плеч вверх", "03: Пауза 1с"], sets: 4, min: 12, max: 15, w: 24, calRate: 8, tip: "Строго вверх-вниз, без круговых вращений, пауза 1 сек вверху.", substitutes: ["Тяга штанги к подбородку"] },
+      { name: "Французский жим со штангой (EZ-гриф) лежа", muscleGroup: "Трицепс", targetMuscles: "Трицепс (длинная головка)", phases: ["01: Опускание к вискам", "02: Фиксация локтей", "03: Выжим"], sets: 3, min: 10, max: 12, w: 10, calRate: 6, tip: "Локти зафиксированы и не разъезжаются в стороны.", substitutes: ["Французский жим с гантелями лежа на скамье"] },
+      { name: "Разгибания рук на верхнем блоке с канатом", muscleGroup: "Трицепс", targetMuscles: "Трицепс (латеральная головка)", phases: ["01: Локти к ребрам", "02: Разводка каната", "03: Пиковый памп"], sets: 3, min: 12, max: 15, w: 20, calRate: 6, tip: "Локти прижаты к корпусу, разводи концы каната внизу.", substitutes: ["Разгибания рук на блоке с прямой / V-рукоятью"] }
+    ]
+  }
+};
+
+// ========================================================
+// СОСТОЯНИЕ АККАУНТА
+// ========================================================
+function getInitialAccount() {
+  return {
+    tgId: "asutp_iron_account_default",
+    name: "Роман",
+    age: 32,
+    height: 178,
+    goal: "Рекомпозиция (Сушка жира + Мышечный тонус)",
+    mesocycleWeek: 3,
+    xp: 0,
+    streak: 0,
+    vacDaysCount: 0,
+    soundMode: 'sound',
+    weightProgression: {
+      "Жим гантелей на наклонной скамье 30°": 22.0,
+      "Жим гантелей на горизонтальной скамье": 24.0,
+      "Жим ногами под углом 45° в тренажере": 90.0,
+      "Тяга горизонтального блока к поясу (нейтральный хват)": 45.0
+    },
+    personalRecords: {
+      "Жим гантелей на наклонной скамье 30°": { weight: 22, reps: 10, date: "2026-08-25" },
+      "Жим гантелей на горизонтальной скамье": { weight: 24, reps: 10, date: "2026-08-25" },
+      "Жим ногами под углом 45° в тренажере": { weight: 90, reps: 12, date: "2026-08-25" },
+      "Тяга горизонтального блока к поясу (нейтральный хват)": { weight: 45, reps: 12, date: "2026-08-25" }
+    },
+    targetWeight: 76.5,
+    targetWaist: 82.0,
+    currentMetrics: { weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 },
+    metrics: [
+      { id: "m_init", date: new Date().toISOString().split("T")[0], weight: 83.0, waist: 91.5, biceps: 38.5, chest: 104.0, thigh: 59.0, neck: 39.5 }
+    ],
+    history: [],
+    activeWorkout: null,
+    unlockedAchievements: []
+  };
+}
+
+let appState = getInitialAccount();
+let pendingWorkoutPlanKey = 'a';
+let pendingTargetWorkoutDate = null;
+let currentAchFilter = 'all';
+let currentDbCategory = 'all';
+
+let activeExpandedExerciseIndex = 0;
+
+function getFirstUnfinishedExerciseIndex(workout = appState.activeWorkout) {
+  if (!workout || !workout.exercises || workout.exercises.length === 0) return 0;
+  const idx = workout.exercises.findIndex(ex => ex.sets && ex.sets.some(s => !s.done));
+  return idx !== -1 ? idx : (workout.exercises.length - 1);
+}
+
+let liveWorkoutTimerInterval = null;
+let liveWorkoutSeconds = 0;
+
+let calYear = 2026;
+let calMonth = 7;
+let selectedCalDateStr = "2026-08-27";
+
+const MONTH_NAMES = [
+  "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+  "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+];
+const MONTH_SHORT = [
+  "Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+  "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"
+];
+
+function getTotalTonnage(s) {
+  return (s.history || []).reduce((sum, h) => sum + (h.tonnage || 0), 0);
+}
+
+function loadState() {
+  let tgKey = "asutp_iron_account_default";
+  let tgName = "Роман";
+
+  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+    const u = window.Telegram.WebApp.initDataUnsafe.user;
+    tgKey = "asutp_iron_account_" + u.id;
+    tgName = u.first_name + (u.last_name ? ` ${u.last_name}` : "");
+  }
+
+  const raw = localStorage.getItem(tgKey);
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      Object.assign(appState, parsed);
+    } catch(e) {}
+  }
+
+  appState.tgId = tgKey;
+  if (!raw) {
+    appState.name = tgName;
+  }
+
+  const elName = document.getElementById("tg-user-name");
+  if (elName) elName.textContent = appState.name;
+
+  saveState();
+  checkAchievements();
+  renderPersonalizedVitamins();
+  renderHealthTabCalculations();
+  updateProfileDisplay();
+  renderMonthlyCalendar();
+  render12MonthsAnnualBreakdown();
+  renderPersonalRecords();
+  renderMuscleVolumeBreakdown();
+  renderPersonalizedAIAnalytics();
+  updateSoundModeUI();
+  updateVacuumBadge();
+  if (appState.theme) {
+    document.body.setAttribute("data-theme", appState.theme === "gold" ? "" : appState.theme);
+  }
+  initPushSettings();
+  updateSettingsDisplay();
+}
+
+function saveState() {
+  const json = JSON.stringify(appState);
+  localStorage.setItem(appState.tgId, json);
+  
+  // Tier 2: Cloudflare Edge Persistent Cloud Storage
+  try {
+    const origin = (window.location && window.location.origin && window.location.origin.startsWith('http')) 
+      ? window.location.origin 
+      : "https://iron-coach-bot.r-tofan112.workers.dev";
+    fetch(origin + "/api/save-state", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tgId: appState.tgId, state: appState })
+    }).then(res => {
+      if (res.ok) {
+        const badge = document.getElementById("cloud-sync-status-badge");
+        if (badge) badge.textContent = "РћР±Р»Р°РєРѕ OK вЃпёЏ";
+      }
+    }).catch(() => {});
+  } catch(e) {}
+
+  // Tier 3: Telegram CloudStorage
+  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.CloudStorage) {
+    try {
+      window.Telegram.WebApp.CloudStorage.setItem("iron_coach_" + appState.tgId, json, (err, ok) => {
+        const badge = document.getElementById("cloud-sync-status-badge");
+        if (badge && ok) badge.textContent = "РћР±Р»Р°РєРѕ OK вЃпёЏ";
+      });
+    } catch(e) {}
+  }
+  
+  renderXP();
+  syncUserToLeaderboard();
+}
+
+function exportStateToFile() {
+  const jsonStr = JSON.stringify(appState, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `iron_coach_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  Sound.success();
+  Haptic.success();
+}
+
+function importStateFromFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed && typeof parsed === 'object') {
+        Object.assign(appState, parsed);
+        saveState();
+        Sound.finish();
+        Haptic.success();
+        alert("Данные успешно импортированы!");
+        location.reload();
+      }
+    } catch(err) {
+      alert("Ошибка чтения файла JSON");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function addXP(amount) {
+  appState.xp += amount;
+  saveState();
+  checkAchievements();
+}
+
+function renderXP() {
+  const currentLvl = Math.floor(appState.xp / 500) + 1;
+  const xpInLvl = appState.xp % 500;
+  const xpToNext = 500 - xpInLvl;
+
+  const lvlHeader = document.getElementById("header-level-badge");
+  const xpTxt = document.getElementById("xp-text");
+  const xpNxt = document.getElementById("xp-next");
+  const xpBar = document.getElementById("xp-bar");
+  const strkEl = document.getElementById("streak-count");
+
+  if (lvlHeader) lvlHeader.textContent = `Уровень ${currentLvl}`;
+  if (xpTxt) xpTxt.textContent = appState.xp;
+  if (xpNxt) xpNxt.textContent = `${xpToNext} XP`;
+  if (xpBar) xpBar.style.width = `${(xpInLvl / 500) * 100}%`;
+  if (strkEl) strkEl.textContent = appState.streak;
+}
+
+
+
+// ========================================================
+// ИНТЕЛЛЕКТУАЛЬНЫЙ АВТО-ДЕТЕКТОР РЕКОРДОВ
+// ========================================================
+function checkAndTriggerIntelligentPR(exName, weight, reps) {
+  if (!weight || weight <= 0 || !reps || reps <= 0) return false;
+
+  if (!appState.personalRecords) appState.personalRecords = {};
+  const currentPR = appState.personalRecords[exName];
+
+  let isBreakthrough = false;
+  if (!currentPR) {
+    isBreakthrough = true;
+  } else if (weight > currentPR.weight) {
+    isBreakthrough = true;
+  } else if (weight === currentPR.weight && reps > currentPR.reps) {
+    isBreakthrough = true;
+  }
+
+  if (isBreakthrough) {
+    appState.personalRecords[exName] = {
+      weight: weight,
+      reps: reps,
+      date: new Date().toISOString().split("T")[0]
+    };
+    addXP(75);
+    Sound.record();
+    Haptic.success();
+    renderPersonalRecords();
+    return true;
+  }
+  return false;
+}
+
+function renderPersonalRecords() {
+  const container = document.getElementById("personal-records-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const prs = appState.personalRecords || {};
+  const prKeys = Object.keys(prs);
+
+  if (prKeys.length === 0) {
+    container.innerHTML = `
+      <div class="p-6 bg-[#12141c] rounded-2xl border border-white/[0.08] text-center text-slate-400 space-y-2 font-sans">
+        <p class="text-xs font-bold text-white uppercase">Рекорды формируются</p>
+        <p class="text-[11px] text-slate-400 font-sans">Система автоматически зафиксирует рекорд, когда ты превзойдешь свой рабочий вес или повторения на тренировке.</p>
+      </div>
+    `;
+    return;
+  }
+
+  prKeys.forEach(exName => {
+    const rec = prs[exName];
+    const card = document.createElement("div");
+    card.className = "p-4 bg-[#12141c] rounded-2xl border border-white/[0.08] flex justify-between items-center space-x-3";
+
+    card.innerHTML = `
+      <div class="space-y-1">
+        <div class="flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#c8a97e]"></span>
+          <h4 class="font-bold text-white text-xs font-sans">${exName}</h4>
+        </div>
+        <p class="text-xs text-slate-400 font-sans">
+          Максимум: <b class="text-[#c8a97e] font-bold text-sm">${rec.weight} кг × ${rec.reps}</b>
+        </p>
+      </div>
+      <div class="text-right font-sans">
+        <span class="text-[10px] text-slate-400 block">${rec.date}</span>
+        <span class="text-[9px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60 uppercase">Подтверждено</span>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ========================================================
+// ПЕРСОАНАЛИТИКА И ИИ-СОВЕТНИК
+// ========================================================
+function renderPersonalizedAIAnalytics() {
+  const container = document.getElementById("ai-recommendations-container");
+  const pushPullEl = document.getElementById("ai-pushpull-ratio");
+  const neckSafetyEl = document.getElementById("ai-neck-safety");
+  const weekTonEl = document.getElementById("ai-week-tonnage");
+  if (!container) return;
+
+  const hist = appState.history || [];
+  const weekTonnage = hist.slice(0, 3).reduce((sum, h) => sum + (h.tonnage || 0), 0);
+
+  if (weekTonEl) weekTonEl.textContent = `${weekTonnage.toLocaleString()} кг`;
+
+  let pushSets = 0, pullSets = 0;
+  hist.slice(0, 4).forEach(h => {
+    (h.exercises || []).forEach(e => {
+      const setCount = (e.sets.match(/,/g) || []).length + 1;
+      const n = (e.name || "").toLowerCase();
+      if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("мах")) pushSets += setCount;
+      if (n.includes("тяга") || n.includes("спин") || n.includes("лицу") || n.includes("подтягиван")) pullSets += setCount;
+    });
+  });
+
+  const ratio = (pullSets > 0) ? (pushSets / pullSets).toFixed(1) : "1.0";
+  if (pushPullEl) pushPullEl.textContent = `${ratio} : 1.0`;
+
+  if (neckSafetyEl) {
+    if (pullSets >= pushSets * 0.9) {
+      neckSafetyEl.textContent = "Безопасно";
+      neckSafetyEl.className = "text-sm font-bold text-emerald-400";
+    } else {
+      neckSafetyEl.textContent = "Внимание";
+      neckSafetyEl.className = "text-sm font-bold text-[#c8a97e]";
+    }
+  }
+
+  const tips = [
+    {
+      icon: `<svg class="w-3.5 h-3.5 text-[#c8a97e] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>`,
+      title: "Контроль дыхания и темпа 3-1-1-0",
+      desc: "Полностью исключен маневр Вальсальвы (задержка дыхания при натуживании). Выполняй длинный выдох строго на усилии при выжиме веса. Отдых между базовыми сетами: не менее 90–120 секунд."
+    },
+    {
+      icon: `<svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+      title: "Протокол защиты и стабилизации лопаток",
+      desc: "Исключены жимы штанги из-за головы и шраги. Обязательно сохраняй в программе тягу каната к лицу (Face Pull) 4х15-20 и нейтральный хват в тягах для снятия тонуса трапециевидной мышцы."
+    },
+    {
+      icon: `<svg class="w-3.5 h-3.5 text-[#c8a97e] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
+      title: "Энергетический дефицит (WHtR: 51%)",
+      desc: "Оптимальный суточный дефицит составляет -360 ккал (целевой прием: ~2050 ккал/день). Это обеспечивает сушку висцерального жира со скоростью 400-500г в неделю без потери мышечной массы."
+    }
+  ];
+
+  container.innerHTML = tips.map(t => `
+    <div class="p-3.5 bg-[#181b26] rounded-2xl border border-white/[0.05] space-y-1">
+      <h4 class="font-bold text-white text-xs flex items-center gap-1.5">${t.icon}<span>${t.title}</span></h4>
+      <p class="text-slate-300 text-[11px] leading-relaxed">${t.desc}</p>
+    </div>
+  `).join("");
+
+  renderInteractiveAnatomyMap();
+}
+
+function renderMuscleHeatmap() {
+  renderInteractiveAnatomyMap();
+}
+
+function renderMuscleRecoveryClock() {
+  renderInteractiveAnatomyMap();
+}
+
+// ========================================================
+// ИНТЕРАКТИВНАЯ АНАТОМИЧЕСКАЯ МОДЕЛЬ ЧЕЛОВЕКА & ГИПЕРТРОФИЯ
+// ========================================================
+const ANATOMY_MUSCLES = {
+  chest: {
+    id: "chest",
+    name: "Грудные мышцы (Pectoralis Major)",
+    zone: "Грудь (Верх, Середина, Низ)",
+    mav: 14,
+    mev: 8,
+    recoveryHours: 48,
+    bestExercises: ["Жим гантелей на наклонной 30°", "Бабочка Pec Deck", "Отжимания на брусьях"],
+    tip: "Локти 60–70° к корпусу, лопатки сведены и опущены для разгрузки шеи и плечевых суставов."
+  },
+  delts: {
+    id: "delts",
+    name: "Дельтовидные мышцы (Плечи)",
+    zone: "Передняя, Средняя и Задняя дельта",
+    mav: 16,
+    mev: 8,
+    recoveryHours: 48,
+    bestExercises: ["Махи гантелями через стороны", "Жим гантелей 75°", "Тяга к лицу (Face Pull)"],
+    tip: "Поднимай локтями до горизонтали, кисть не задирай выше локтя. Снижает риск защемления ротаторов."
+  },
+  lats: {
+    id: "lats",
+    name: "Широчайшие мышцы спины (Lats)",
+    zone: "Верх и середина спины (V-образный конус)",
+    mav: 16,
+    mev: 10,
+    recoveryHours: 48,
+    bestExercises: ["Тяга горизонтального блока к поясу", "Тяга верхнего блока", "Подтягивания"],
+    tip: "Тяни локти назад вдоль ребер к тазу, грудь раскрыта, плечи опущены вниз."
+  },
+  traps: {
+    id: "traps",
+    name: "Трапеция & Зона лопаток (Шея)",
+    zone: "Шейно-воротниковая зона и ромбовидные мышцы",
+    mav: 12,
+    mev: 6,
+    recoveryHours: 48,
+    bestExercises: ["Тяга каната к лицу (Face Pull)", "Разводка в наклоне", "Шраги с гантелями"],
+    tip: "Критическая зона безопасности: тяга Face Pull снимает спазм с мышцы шеи и предотвращает компрессию позвонков."
+  },
+  biceps: {
+    id: "biceps",
+    name: "Бицепс & Брахиалис (Руки)",
+    zone: "Двуглавая мышца плеча и предплечья",
+    mav: 12,
+    mev: 6,
+    recoveryHours: 36,
+    bestExercises: ["Подъем гантелей с супинацией", "Молотковые сгибания (Hammer)"],
+    tip: "Супинация (разворот кисти наружу) в верхней трети амплитуды дает максимальный пик бицепса."
+  },
+  triceps: {
+    id: "triceps",
+    name: "Трицепс (Руки)",
+    zone: "Латеральная и длинная головка трицепса",
+    mav: 12,
+    mev: 6,
+    recoveryHours: 36,
+    bestExercises: ["Разгибания на блоке с канатом", "Французский жим с гантелями"],
+    tip: "Локти зафиксированы у корпуса и не расходятся в стороны. Разводи канат в нижней точке."
+  },
+  abs: {
+    id: "abs",
+    name: "Мышцы пресса & Кора (Core)",
+    zone: "Прямая мышца живота, косые и вакуум",
+    mav: 14,
+    mev: 6,
+    recoveryHours: 24,
+    bestExercises: ["Скручивания на блоке", "Подъем коленей в висе", "Утренний вакуум живота"],
+    tip: "Скручивай грудную клетку к тазу на полном выдохе, втягивая пупок к позвоночнику."
+  },
+  quads: {
+    id: "quads",
+    name: "Квадрицепсы (Передняя часть бедра)",
+    zone: "Прямая, латеральная и медиальная головки бедра",
+    mav: 14,
+    mev: 8,
+    recoveryHours: 72,
+    bestExercises: ["Жим ногами под углом 45°", "Гакк-приседания", "Разгибания ног сидя"],
+    tip: "Упор строго в середину стопы и пятку, не вставляй колени до щелчка в верхней точке."
+  },
+  hamstrings: {
+    id: "hamstrings",
+    name: "Бицепс бедра & Ягодичные",
+    zone: "Задняя поверхность бедра и ягодицы",
+    mav: 14,
+    mev: 8,
+    recoveryHours: 72,
+    bestExercises: ["Румынская тяга с гантелями", "Сгибания ног сидя/лежа"],
+    tip: "Отводи таз максимально назад с прямой спиной для глубокого натяжения задней цепи."
+  },
+  calves: {
+    id: "calves",
+    name: "Икроножные мышцы (Голень)",
+    zone: "Икроножная и камбаловидная мышцы",
+    mav: 16,
+    mev: 8,
+    recoveryHours: 36,
+    bestExercises: ["Подъем на носки стоя на возвышении", "Подъем на носки в тренажере"],
+    tip: "Полная амплитуда: опускайся до глубокой растяжки и делай секундную паузу внизу."
+  }
+};
+
+// ========================================================
+// PRO ANATOMICAL MAP & ATHLETIC VECTOR ATLAS 7.0 (LUXURY OBSIDIAN & GOLD)
+// ВЫСОКОДЕТАЛИЗИРОВАННАЯ ВЕКТОРНАЯ МОДЕЛЬ (ПЛАВНЫЕ КРИВЫЕ БЕЗЬЕ)
+// ========================================================
+
+const ANATOMY_MUSCLES_DATA = {
+  chest: {
+    name: "Грудные мышцы",
+    mev: 8,
+    mav: 16,
+    mrv: 22,
+    recomExercises: "Жим гантелей 30°, Бабочка Pec Deck, Отжимания на брусьях",
+    proTip: "Своди лопатки и опускай их вниз. Угол наклона скамьи 30° максимально включает ключичный пучок без боли в плечах."
+  },
+  delts: {
+    name: "Дельтовидные мышцы (Плечи)",
+    mev: 8,
+    mav: 18,
+    mrv: 26,
+    recomExercises: "Махи гантелями в стороны, Жим гантелей сидя, Тяга к лицу (Face Pull)",
+    proTip: "При махах держи кисти чуть ниже локтей и слегка наклоняй корпус вперед на 5°. Не подключай трапецию."
+  },
+  biceps: {
+    name: "Двуглавая мышца (Бицепс & Брахиалис)",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Сгибания на наклонной скамье 45°, Скамья Скотта, Молотковые сгибания",
+    proTip: "Сгибания на наклонной скамье 45° растягивают длинную головку бицепса, ускоряя гипертрофию."
+  },
+  triceps: {
+    name: "Трехглавая мышца (Трицепс)",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Разгибание из-за головы, Французский жим, Разгибания на верхнем блоке",
+    proTip: "Положение руки над головой максимально растягивает длинную головку трицепса."
+  },
+  traps: {
+    name: "Трапециевидные мышцы",
+    mev: 4,
+    mav: 12,
+    mrv: 18,
+    recomExercises: "Тяга каната к лицу (Face Pull), Горизонтальная тяга к поясу, Шраги",
+    proTip: "Делай упор на среднюю и нижнюю порции (Face Pulls) для исправления осанки и защиты шеи."
+  },
+  lats: {
+    name: "Широчайшие мышцы (Спина V-taper)",
+    mev: 8,
+    mav: 16,
+    mrv: 22,
+    recomExercises: "Тяга верхнего блока к груди, Подтягивания, Тяга гантели к поясу",
+    proTip: "Тяни снаряд строго к ключицам, ведя локти вниз и назад к поясу. Корпус не отклоняй больше 15°."
+  },
+  abs: {
+    name: "Пресс и мышцы кора",
+    mev: 4,
+    mav: 12,
+    mrv: 18,
+    recomExercises: "Утренний вакуум живота, Скручивания на наклонной скамье, Планка",
+    proTip: "Утренний вакуум тренирует глубокую поперечную мышцу живота, подтягивая талию."
+  },
+  quads: {
+    name: "Квадрицепсы (Передняя часть бедра)",
+    mev: 8,
+    mav: 16,
+    mrv: 22,
+    recomExercises: "Жим ногами в тренажере 45°, Приседания Гакк, Разгибания ног",
+    proTip: "Опускай платформу до угла 90° в коленях плавно за 3 секунды, не отрывая таз от спинки."
+  },
+  hamstrings: {
+    name: "Бицепс бедра и ягодицы",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Румынская становая тяга с гантелями, Сгибания ног лежа в тренажере",
+    proTip: "Отводи таз назад и чувствуй растяжение задней поверхности бедра при нейтральной пояснице."
+  },
+  calves: {
+    name: "Икроножные мышцы (Голень)",
+    mev: 6,
+    mav: 14,
+    mrv: 20,
+    recomExercises: "Подъемы на носки стоя в тренажере, Подъемы на носки сидя",
+    proTip: "Делай паузу 2 секунды в нижней точке растяжения, чтобы исключить пружинящий эффект сухожилий."
+  }
+};
+
+let currentAnatomyView = 'front';
+let selectedAnatomyMuscleKey = 'chest';
+
+function getMuscleVolumeAndRecoveryData() {
+  const result = {};
+  Object.keys(ANATOMY_MUSCLES_DATA).forEach(k => {
+    result[k] = { sets: 0, lastHoursAgo: null };
+  });
+
+  const hist = appState.history || [];
+  const now = Date.now();
+
+  hist.forEach(h => {
+    const diffHours = Math.max(1, Math.round((now - new Date(h.date).getTime()) / (1000 * 60 * 60)));
+    const isThisWeek = diffHours <= 168;
+
+    (h.exercises || []).forEach(e => {
+      const setCount = Array.isArray(e.sets)
+        ? e.sets.length
+        : (typeof e.sets === 'string'
+            ? e.sets.split(',').filter(Boolean).length
+            : Math.max(0, Number(e.sets) || 0));
+      const n = (e.name || "").toLowerCase();
+
+      let targetKey = null;
+      if (n.includes("носк") || n.includes("икр") || n.includes("голен")) targetKey = "calves";
+      else if (n.includes("пресс") || n.includes("скручиван") || n.includes("вакуум") || n.includes("планк")) targetKey = "abs";
+      else if (n.includes("румын") || n.includes("сгибан ног") || n.includes("ягодиц")) targetKey = "hamstrings";
+      else if (n.includes("жим ногами") || n.includes("присед") || n.includes("гакк") || n.includes("разгибан ног") || n.includes("квадр")) targetKey = "quads";
+      else if (n.includes("лицу") || n.includes("face") || n.includes("трапец") || n.includes("шраг")) targetKey = "traps";
+      else if (n.includes("мах") || n.includes("плеч") || n.includes("дельт") || n.includes("армейск") || n.includes("над головой")) targetKey = "delts";
+      else if (n.includes("бицепс") || n.includes("молот") || n.includes("скотт")) targetKey = "biceps";
+      else if (n.includes("трицепс") || n.includes("разгибан рук") || n.includes("француз")) targetKey = "triceps";
+      else if (n.includes("тяга") || n.includes("спин") || n.includes("подтягиван") || n.includes("верхний блок")) targetKey = "lats";
+      else if (n.includes("жим") || n.includes("бабочк") || n.includes("брусь") || n.includes("груд")) targetKey = "chest";
+
+      if (targetKey && result[targetKey]) {
+        if (isThisWeek) result[targetKey].sets += setCount;
+        if (result[targetKey].lastHoursAgo === null || diffHours < result[targetKey].lastHoursAgo) result[targetKey].lastHoursAgo = diffHours;
+      }
+    });
+  });
+
+  return result;
+}
+
+function setAnatomyView(view) {
+  currentAnatomyView = view;
+  document.querySelectorAll('[data-anatomy-view]').forEach(btn => {
+    const isActive = btn.dataset.anatomyView === view;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
+  Sound.click();
+  Haptic.selection();
+  renderInteractiveAnatomyMap();
+}
+
+function selectAnatomyMuscle(muscleKey) {
+  selectedAnatomyMuscleKey = muscleKey;
+  const info = ANATOMY_MUSCLES_DATA[muscleKey] || ANATOMY_MUSCLES_DATA.chest;
+  const data = getMuscleVolumeAndRecoveryData();
+  const d = data[muscleKey] || { sets: 0, lastHoursAgo: 72 };
+
+  updateAnatomyHUD(muscleKey, d, info);
+  renderInteractiveAnatomyMap();
+  Sound.click();
+  Haptic.selection();
+}
+
+function updateAnatomyHUD(key, d, info) {
+  if (!info) info = ANATOMY_MUSCLES_DATA[key] || ANATOMY_MUSCLES_DATA.chest;
+
+  const fieldEls = name => Array.from(document.querySelectorAll(`[data-anat-field="${name}"]`));
+  const setField = (name, value) => fieldEls(name).forEach(el => { el.textContent = value; });
+
+  const sets = d.sets || 0;
+  const mev = info.mev || 6;
+  const mav = info.mav || 14;
+  const mrv = info.mrv || Math.round(mav * 1.4);
+  const pct = Math.min(150, Math.round((sets / mav) * 100));
+
+  setField('title', info.name);
+  setField('volume', `${sets} ${sets === 1 ? 'сет' : (sets >= 2 && sets <= 4 ? 'сета' : 'сетов')}`);
+  setField('mav', `MEV ${mev} · MAV ${mav} · MRV ${mrv}`);
+  setField('exercises', info.recomExercises);
+  setField('tip', info.proTip);
+
+  let loadState = 'empty';
+  let badgeText = 'НЕТ ОБЪЁМА';
+  if (sets > 0 && sets < mev) { loadState = 'low'; badgeText = `НИЖЕ MEV · ${pct}%`; }
+  else if (sets >= mev && sets <= mav) { loadState = 'work'; badgeText = `РАБОЧИЙ · ${pct}%`; }
+  else if (sets > mav && sets <= mrv) { loadState = 'high'; badgeText = `ВЫСОКИЙ · ${pct}%`; }
+  else if (sets > mrv) { loadState = 'over'; badgeText = `ВЫШЕ MRV · ${pct}%`; }
+  fieldEls('badge').forEach(el => {
+    el.textContent = badgeText;
+    el.className = `anatomy-status-badge ${loadState}`;
+  });
+
+  const hoursAgo = Number.isFinite(d.lastHoursAgo) ? d.lastHoursAgo : null;
+  let recoveryText = 'Нет нагрузки';
+  let timerText = 'Последняя нагрузка не записана';
+  let recoveryState = 'unknown';
+  if (hoursAgo !== null) {
+    timerText = hoursAgo >= 48 ? `Прошло ${hoursAgo} ч` : `${hoursAgo} ч после нагрузки`;
+    if (hoursAgo >= 48) { recoveryText = 'Готовность высокая'; recoveryState = 'ready'; }
+    else if (hoursAgo >= 24) { recoveryText = 'Восстановление'; recoveryState = 'recovering'; }
+    else { recoveryText = 'Недавняя нагрузка'; recoveryState = 'recent'; }
+  }
+  setField('recovery', recoveryText);
+  setField('timer', timerText);
+  fieldEls('recovery').forEach(el => { el.dataset.state = recoveryState; });
+}
+
+
+
+// Anatomical Load Atlas 2.0 — proportionate, data-led replacement for the legacy mannequin.
+// The map visualizes logged training volume only; it does not diagnose tissue recovery.
+function handleAnatomyRegionKey(event, key) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    selectAnatomyMuscle(key);
+  }
+}
+
+function renderInteractiveAnatomyMap() {
+    const hosts = document.querySelectorAll('[data-anatomy-host], #anat-svg-host');
+    if (!hosts.length) return;
+
+    const data = getMuscleVolumeAndRecoveryData();
+    const selKey = selectedAnatomyMuscleKey || 'chest';
+    
+    const labels = {
+      chest: 'ГРУДНЫЕ (ПЕКТОРАЛЬНЫЕ)', delts: 'ДЕЛЬТОВИДНЫЕ', biceps: 'БИЦЕПС / БРАХИАЛИС', triceps: 'ТРИЦЕПС',
+      traps: 'ТРАПЕЦИЯ', lats: 'ШИРОЧАЙШИЕ (СПИНА)', abs: 'ПРЯМАЯ МЫШЦА ЖИВОТА', quads: 'КВАДРИЦЕПС',
+      hamstrings: 'БИЦЕПС БЕДРА', calves: 'ИКРОНОЖНЫЕ'
+    };
+
+    const styleFor = key => {
+      const info = ANATOMY_MUSCLES_DATA[key] || { mev: 6, mav: 14, mrv: 20 };
+      const sets = (data[key] || {}).sets || 0;
+      const ratio = info.mav ? sets / info.mav : 0;
+      const selected = key === selKey;
+      
+      let fill = '#161a22';
+      let opacity = 0.5;
+      
+      if (ratio > 0) {
+        if (ratio >= 1.0) { fill = '#dfc299'; opacity = 0.9; }
+        else if (ratio >= 0.5) { fill = '#c8a97e'; opacity = 0.7; }
+        else { fill = '#475569'; opacity = 0.6; }
+      }
+      
+      let stroke = selected ? '#ffffff' : 'rgba(255,255,255,0.05)';
+      let strokeW = selected ? '1.5' : '0.5';
+      
+      return `fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-width="${strokeW}" style="transition: all 0.3s ease; cursor: pointer;" onclick="selectAnatomyMuscle('${key}')"`;
+    };
+
+    const anatomyBase = (viewLabel, isBack) => `
+      <rect width="100%" height="100%" fill="transparent" />
+      <text x="10" y="20" fill="#64748b" font-size="10" font-family="var(--font-sans)" font-weight="700" letter-spacing="1">MUSCLE LOAD ATLAS</text>
+      <text x="10" y="35" fill="#dfc299" font-size="9" font-family="var(--font-sans)">${viewLabel}</text>
+      <!-- Sleek Wireframe Base -->
+      <path d="M160 40c-15 0-25 15-25 35 0 10 5 20 12 25-5 10-25 15-45 25-10 25-15 70-10 110 5 20 15 40 25 50-10 50-15 120-15 160 0 15 10 20 20 20s20-10 25-30c5-10 10-30 13-50 3 20 8 40 13 50 5 20 15 30 25 30s20-5 20-20c0-40-5-110-15-160 10-10 20-30 25-50 5-40 0-85-10-110-20-10-40-15-45-25 7-5 12-15 12-25 0-20-10-35-25-35z" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    `;
+
+    const region = (key, shapeGroup) => `<g class="anat-region hover:opacity-80 transition-opacity" ${styleFor(key)}>${shapeGroup}</g>`;
+
+    const frontRegions = `
+      ${region('chest', '<path d="M125 100c25-5 45-5 70 0 5 15 5 35 0 50-25 5-45 5-70 0-5-15-5-35 0-50z"/>')}
+      ${region('abs', '<path d="M135 155c15-2 35-2 50 0 5 25 5 60 0 85-15 5-35 5-50 0-5-25-5-60 0-85z"/>')}
+      ${region('delts', '<path d="M102 90c-10 15-15 35-10 55 10-5 20-15 25-25-5-10-10-20-15-30z"/><path d="M218 90c10 15 15 35 10 55-10-5-20-15-25-25 5-10 10-20 15-30z"/>')}
+      ${region('biceps', '<path d="M92 150c-5 15-5 35 0 50 10-2 15-10 15-25 0-10-5-20-15-25z"/><path d="M228 150c5 15 5 35 0 50-10-2-15-10-15-25 0-10 5-20 15-25z"/>')}
+      ${region('quads', '<path d="M130 250c-15 30-15 80 0 110 10-10 15-40 10-80-5-15-10-25-10-30z"/><path d="M190 250c15 30 15 80 0 110-10-10-15-40-10-80 5-15 10-25 10-30z"/>')}
+      ${region('calves', '<path d="M125 380c-10 20-10 50 0 70 5-15 5-40 0-70z"/><path d="M195 380c10 20 10 50 0 70-5-15-5-40 0-70z"/>')}
+    `;
+    const backRegions = `
+      ${region('traps', '<path d="M140 70c10-10 30-10 40 0 10 15-10 35-20 35-10 0-30-20-20-35z"/>')}
+      ${region('lats', '<path d="M130 110c-15 30-5 60 10 80 15-30 10-60 20-80-15 0-25 0-30 0z"/><path d="M190 110c15 30 5 60-10 80-15-30-10-60-20-80 15 0 25 0 30 0z"/>')}
+      ${region('triceps', '<path d="M95 140c-10 20-5 45 5 60 5-15 0-40-5-60z"/><path d="M225 140c10 20 5 45-5 60-5-15 0-40 5-60z"/>')}
+      ${region('hamstrings', '<path d="M135 255c-10 35-5 80 5 110 10-30 5-70-5-110z"/><path d="M185 255c10 35 5 80-5 110-10-30-5-70 5-110z"/>')}
+      ${region('calves', '<path d="M125 380c-10 20-10 50 0 70 5-15 5-40 0-70z"/><path d="M195 380c10 20 10 50 0 70-5-15-5-40 0-70z"/>')}
+    `;
+
+    const pointMap = currentAnatomyView === 'front'
+      ? { chest:[160,125], delts:[210,115], biceps:[230,175], abs:[160,195], quads:[195,300], calves:[195,415] }
+      : { traps:[160,85], delts:[210,115], triceps:[220,170], lats:[185,150], hamstrings:[190,310], calves:[195,415] };
+    
+    const point = pointMap[selKey] || [160, 260];
     const callout = `<g class="anat-selection-callout" aria-hidden="true" style="pointer-events:none;">
       <line x1="${point[0]}" y1="${point[1]}" x2="280" y2="${point[1]}" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2,2"/>
       <circle cx="${point[0]}" cy="${point[1]}" r="4" fill="#dfc299"/>
@@ -5699,7 +6288,7 @@ function compute1RMModal() {
   calculate1RM();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function initializeAppLifecycle() {
   injectAppVersion();
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
@@ -5770,7 +6359,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }).catch(() => {});
     }
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeAppLifecycle);
+} else {
+  initializeAppLifecycle();
+}
 
 
 // ========================================================
